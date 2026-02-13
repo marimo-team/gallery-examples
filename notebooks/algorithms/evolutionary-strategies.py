@@ -4,13 +4,17 @@
 #     "matplotlib==3.10.8",
 #     "numpy==2.3.5",
 #     "marimo",
+#     "nbformat==5.10.4",
+#     "vegafusion==2.0.3",
+#     "vl-convert-python==1.9.0.post1",
+#     "ruff==0.15.1",
 # ]
 # ///
 
 import marimo
 
-__generated_with = "0.18.4"
-app = marimo.App(width="medium")
+__generated_with = "0.19.11"
+app = marimo.App(width="medium", auto_download=["html", "ipynb"])
 
 
 @app.cell
@@ -20,6 +24,7 @@ def _():
     import matplotlib.pyplot as plt
     from matplotlib.patches import Ellipse
     from functools import lru_cache
+
     return Ellipse, lru_cache, mo, np, plt
 
 
@@ -254,6 +259,7 @@ def _(lru_cache, np):
         Z = np.array([[f(np.array([xi, yi])) for xi, yi in zip(xrow, yrow)]
                       for xrow, yrow in zip(X, Y)])
         return X, Y, Z
+
     return FUNCTIONS, compute_landscape
 
 
@@ -342,6 +348,7 @@ def _(np):
             sigma = np.clip(sigma + d_sigma, 0.01, 100.0)
 
         return history
+
     return (es_with_history,)
 
 
