@@ -1,0 +1,89 @@
+.suguru-widget-root {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.suguru-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.suguru-controls label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.suguru-controls input[type="number"] {
+  width: 60px;
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.suguru-button {
+  padding: 6px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  background: #667eea;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.suguru-button:hover {
+  background: #5568d3;
+}
+
+.suguru-button:active {
+  background: #4457c2;
+}
+
+.suguru-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.suguru-grid {
+  display: grid;
+  gap: 2px;
+  background: #ddd;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+.suguru-cell {
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border: 1px solid #999;
+  cursor: crosshair;
+  transition: transform 0.1s, box-shadow 0.1s;
+  user-select: none;
+}
+
+.suguru-cell:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  position: relative;
+}
+
+.suguru-cell:active {
+  transform: scale(0.95);
+}
