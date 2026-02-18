@@ -1,0 +1,197 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.19.11"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "451164810a06adbf7527bf6734f500d5",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "No module named 'anywidget'",
+          "traceback": []
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/rp/pnh9h2pn51x7t7157l_vh14m0000gp/T/marimo_38888/__marimo__cell_Hbol_.py&quot;</span>, line <span class=\"m\">2</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"kn\">import</span><span class=\"w\"> </span><span class=\"nn\">anywidget</span>\n<span class=\"gr\">ModuleNotFoundError</span>: <span class=\"n\">No module named &#39;anywidget&#39;</span>\n</pre></div>\n</span>",
+          "mimetype": "application/vnd.marimo+traceback"
+        }
+      ]
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "7f1f9f4acc41ced648ecfe1c0922f88e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">This notebook is a response to <a href=\"https://www.youtube.com/watch?v=iSNsgj1OCLA\" rel=\"noopener noreferrer\" target=\"_blank\">this popular Veritasium video</a>. It's a great video that's certainly worth a watch, but we felt that an interactive notebook let's you explore the problem in a way that a video never could. So here goes:</span>\n<h1 id=\"the-100-prisoners-riddle\">The 100 Prisoners Riddle</h1>\n<span class=\"paragraph\">Prisoners are numbered 1 to <marimo-tex class=\"arithmatex\">||(N||)</marimo-tex>. In a room, <marimo-tex class=\"arithmatex\">||(N||)</marimo-tex> boxes each contain a slip with a random prisoner's number.\nEach prisoner can open at most <marimo-tex class=\"arithmatex\">||(K||)</marimo-tex> boxes to find their own number. If <strong>all</strong> prisoners succeed, they go free. Otherwise they do not.</span>\n<span class=\"paragraph\">So what strategy could you apply here?</span>\n<span class=\"paragraph\"><strong>The clever strategy:</strong> Prisoner <marimo-tex class=\"arithmatex\">||(i||)</marimo-tex> starts at box <marimo-tex class=\"arithmatex\">||(i||)</marimo-tex>, then follows the chain (if box <marimo-tex class=\"arithmatex\">||(i||)</marimo-tex> contains <marimo-tex class=\"arithmatex\">||(j||)</marimo-tex>, open box <marimo-tex class=\"arithmatex\">||(j||)</marimo-tex> next). This works because permutations form cycles \u2014 a prisoner fails only if they're in a cycle longer than <marimo-tex class=\"arithmatex\">||(K||)</marimo-tex>.</span>\n<span class=\"paragraph\">To highlight this, feel free to toy around with the graph simulation below to convince yourself of this. Each node represents a box. Arrows show where each box points. Cycles are colored \u2014 <strong>red cycles are longer than <marimo-tex class=\"arithmatex\">||(K||)</marimo-tex></strong> (representing failure!).</span>\n<span class=\"paragraph\">You can also change the number of prisoners and the number of boxes to open if you want to play around and get a feel of the influence of these numbers.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "1358d449f2ddfb2215e8eac85b59b968",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "6b14b3c956cb37893c9e183a7a4624c4",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "a84df859627c729a6bd13fb8b4b962ab",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "3f4a9cf783e203dd42e8258879689b15",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "add50d7d9d7fa5d54122f5aa7c8a3b0f",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "a7af5e18cfd4078abee41d454e877174",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "1d35b035a6be84ed506c80af7da08343",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "f63fc32db538f86b8cea67bd1afb445d",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "bca29d938eafa0ee9b15ac30cf687414",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "24f8fc0366622a4672082541848980b1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><hr />\n<h2 id=\"simulation-longest-cycle-distribution\">Simulation: Longest Cycle Distribution</h2>\n<span class=\"paragraph\">The longest cycle is important in this story, and we can simulate the distribution of that.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "eee2cf026b317a717d7081fb848ce3fb",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "fa9469e3ab604bb2e7487ceaf3ff3dee",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"extra-detail\">Extra detail</h2>\n<span class=\"paragraph\">At this point you might think, \"well, that's all very nice\", but what if I am prisoner 42. I would select box 42 and walk along the cycle. What guarantees mee that my number is on the cycle that I am on right now?</span>\n<span class=\"paragraph\">For any position to be part of a cycle, something must point to it \u2014 that's what makes it a cycle rather than a dead end.</span>\n<span class=\"paragraph\"><marimo-tex class=\"arithmatex\">||(... \\Rightarrow a \\Rightarrow 42 \\Rightarrow b \\Rightarrow ...||)</marimo-tex></span>\n<span class=\"paragraph\">The box that points to position 42 is, by definition, the box containing slip 42. Otherwise we would not be in a cycle!</span>\n<span class=\"paragraph\">Therefore, when prisoner 42 traverses their cycle, they must pass through this predecessor box to complete the loop, and that's exactly where their slip is.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

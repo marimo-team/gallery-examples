@@ -1,0 +1,288 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.19.11"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "9a6d615befce8e83be8543c07d261727",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "No module named 'numpy'",
+          "traceback": []
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/rp/pnh9h2pn51x7t7157l_vh14m0000gp/T/marimo_38802/__marimo__cell_Hbol_.py&quot;</span>, line <span class=\"m\">2</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"kn\">import</span><span class=\"w\"> </span><span class=\"nn\">numpy</span><span class=\"w\"> </span><span class=\"k\">as</span><span class=\"w\"> </span><span class=\"nn\">np</span>\n<span class=\"gr\">ModuleNotFoundError</span>: <span class=\"n\">No module named &#39;numpy&#39;</span>\n</pre></div>\n</span>",
+          "mimetype": "application/vnd.marimo+traceback"
+        }
+      ]
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "fa5df38b1a54bde78b1951f659521a61",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"problem-of-hard-functions\">Problem of Hard Functions</h1>\n<span class=\"paragraph\">Sometimes we want to optimise functions that are hard to optimise. Here are two examples:</span>\n<marimo-tex class=\"arithmatex\">||[f(x) = \\text{sinc}(x) \\quad \\text{and} \\quad f(x) = \\lfloor 10 \\cdot \\text{sinc}(x) + 4 \\sin(x) \\rfloor||]</marimo-tex></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "9329c75e9aa34e703209d7bc181d754d",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "28898fa117088bc2b61c2bbb670ee774",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "46fb0778ba02869bb87f7c879f352bf0",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "552047bd9d0fb2eb5deb6e9f22331a0b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Both functions have multiple peaks, making them hard to optimise via gradient descent. The right function is also non-differentiable.</span>\n<span class=\"paragraph\"><strong>Idea:</strong> Add a smoothing parameter <marimo-tex class=\"arithmatex\">||(s||)</marimo-tex> to turn the 1D problem into a 2D problem:</span>\n<marimo-tex class=\"arithmatex\">||[g(x, s) = \\int_{-\\infty}^{\\infty} f(t) \\cdot \\mathcal{N}(t; \\mu=x, \\sigma=s) \\, dt||]</marimo-tex><span class=\"paragraph\">When <marimo-tex class=\"arithmatex\">||(s = 0||)</marimo-tex>: <marimo-tex class=\"arithmatex\">||(g(x, 0) = f(x)||)</marimo-tex>. When <marimo-tex class=\"arithmatex\">||(s \\gg 0||)</marimo-tex>: <marimo-tex class=\"arithmatex\">||(g(x, s)||)</marimo-tex> becomes a smooth average.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "1ceb7f4d0e9f435552a096e1b85b4595",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "b813537f350a154f6422624186538e61",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "d0321ab4cfac6a3172518aef64ee598e",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "43a2bce9a690a5c7822b8c128406407e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"intuition\">Intuition</h2>\n<span class=\"paragraph\">How does the smoothing work? We convolve <marimo-tex class=\"arithmatex\">||(f(x)||)</marimo-tex> with a Gaussian:</span>\n<marimo-tex class=\"arithmatex\">||[g(x, \\sigma) = \\int_{-\\infty}^{\\infty} f(t) \\cdot \\mathcal{N}(t; x, \\sigma) \\, dt||]</marimo-tex><span class=\"paragraph\">This integral computes a weighted average of <marimo-tex class=\"arithmatex\">||(f||)</marimo-tex>, where points closer to <marimo-tex class=\"arithmatex\">||(x||)</marimo-tex> get higher weight.</span>\n<span class=\"paragraph\"><strong>Use the sliders below to explore how different <marimo-tex class=\"arithmatex\">||((x, \\sigma)||)</marimo-tex> values produce different pixel values.</strong></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "57cc53300b2a01b6d19d56a5d25754a6",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "625dbfd5e41d957502791436d31b04f8",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "69ef059053000df3acf65e2e7f1e9fd0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">The key insight: instead of optimising <marimo-tex class=\"arithmatex\">||(f(x)||)</marimo-tex> directly, we optimise in the <marimo-tex class=\"arithmatex\">||((x, s)||)</marimo-tex> space.\nStarting with high smoothing, the landscape is smooth and gradients point toward the global optimum.\nAs we reduce <marimo-tex class=\"arithmatex\">||(s||)</marimo-tex> toward 0, we converge to the true optimum of <marimo-tex class=\"arithmatex\">||(f(x)||)</marimo-tex>.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "8ba09975b2a543b1848086d594a60df2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"gradient-field-visualization\">Gradient Field Visualization</h2>\n<span class=\"paragraph\">The arrows show the gradient direction at each point. Notice how at high smoothing (top),\ngradients consistently point toward the global maximum at <marimo-tex class=\"arithmatex\">||(x=0||)</marimo-tex>. At low smoothing (bottom),\nthe gradients become chaotic with many local optima.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "iLit",
+      "code_hash": "c4fafb21e92c14a3201b1d2c5576ceb2",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "9e1f51f1279065c412ba2fd15271b545",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"gradient-descent-in-smoothed-space\">Gradient Descent in Smoothed Space</h2>\n<span class=\"paragraph\">Key insight:</span>\n<ul>\n<li>When <marimo-tex class=\"arithmatex\">||(s \\approx 0||)</marimo-tex>: <marimo-tex class=\"arithmatex\">||(g(x, s) \\approx f(x)||)</marimo-tex> (original function)</li>\n<li>When <marimo-tex class=\"arithmatex\">||(s \\gg 0||)</marimo-tex>: <marimo-tex class=\"arithmatex\">||(g(x, s)||)</marimo-tex> is smooth, gradients point toward global optimum region</li>\n<li>Starting at high <marimo-tex class=\"arithmatex\">||(s||)</marimo-tex> and descending toward <marimo-tex class=\"arithmatex\">||(s \\approx 0||)</marimo-tex> helps escape local optima</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ROlb",
+      "code_hash": "dc4933e84e59bc8e04772c1a59270893",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qnkX",
+      "code_hash": "fa2e62486807639f5246ac7fb5f217be",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TqIu",
+      "code_hash": "61b0739ea0e2e8df739480aa300ea8ae",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Vxnm",
+      "code_hash": "9ecfc2e02f26be79dfcfa46a27ea0e42",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "DnEU",
+      "code_hash": "8017a0d49b8e84f91b1820ef7b1e4968",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    }
+  ]
+}

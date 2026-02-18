@@ -1,0 +1,256 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.19.11"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "3a5771fd61911ad2dd453d4231e88ce0",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "No module named 'polars'",
+          "traceback": []
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/rp/pnh9h2pn51x7t7157l_vh14m0000gp/T/marimo_38907/__marimo__cell_Hbol_.py&quot;</span>, line <span class=\"m\">2</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"kn\">import</span><span class=\"w\"> </span><span class=\"nn\">polars</span><span class=\"w\"> </span><span class=\"k\">as</span><span class=\"w\"> </span><span class=\"nn\">pl</span>\n<span class=\"gr\">ModuleNotFoundError</span>: <span class=\"n\">No module named &#39;polars&#39;</span>\n</pre></div>\n</span>",
+          "mimetype": "application/vnd.marimo+traceback"
+        }
+      ]
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "ddb30525301d3395d664af4099573986",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"updating-matplotlib-charts\">Updating <code>matplotlib</code> charts</h2>\n<span class=\"paragraph\">The easiest way to update matplotlib charts is to first write a function that can generate a chart. The most common way to use matplotlib is to use syntax like <code>plt.plot(...)</code> followed by a <code>plt.show(...)</code> and the best way to capture all of these layers is to wrap them all ina single function. Once you have such a function, you can use the <code>@refresh_matplotlib</code> decorator to turn this function into something that we can use in a refreshable-chart.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "aa85dbc1285b99631f4001aa193c5fb1",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "c06229668702fbc26fddcdec7a50613a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">The decorator takes the matplotlib image and turns it into a base64 encoded string that can be plotted by <code>&lt;img&gt;</code> tags in html. You can see this for yourself in the example below. The <code>img(src=...)</code> function call in <code>mohtml</code> is effectively a bit of syntactic sugar around <code>&lt;img src=\"...\"&gt;</code>.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "8b17da21c1f1ce6b51c47900be3ca7a4",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "662c4c9688d7a9d38af476b7874229dd",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Having a static image is great, but we want dynamic images! That's where our <code>ImageRefreshWidget</code> comes in. It allows you to trigger a streaming update to an image by running code from another cell. Try it out below!</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "0fcc997a7cd24b0ca6e8e39f52a24a11",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "026d7b5c443c024bfa93f0ee8deef15f",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "9e5903dc68975cafaff23acaba484b73",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">When you re-run the cell below you should see that the widget updates. This works because the widget knows how to respond to a change to the <code>widget.src</code> property. You only need to make sure that you pass along a base64 string that html images can handle, which is covered by the decorator that we applied earlier.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "2921b4ffb3c7929c09a3d7c4e16a8fd7",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"updating-altair-charts\">Updating <code>altair</code> charts</h2>\n<span class=\"paragraph\">This library can also deal with altair charts. This works by turning the chart into an SVG. This is a static representation that does not require any javascript to run, which means that we can apply a similar pattern as before!</span>\n<blockquote>\n<span class=\"paragraph\">Due to a required dependency to convert the altair chart to SVG we cannot run the altair demo in WASM. This code will run just fine locally on your machine but currently breaks on the Github pages deployment.</span>\n</blockquote>\n<div class=\"language-python codehilite\"><pre><span></span><code><span class=\"kn\">import</span><span class=\"w\"> </span><span class=\"nn\">altair</span><span class=\"w\"> </span><span class=\"k\">as</span><span class=\"w\"> </span><span class=\"nn\">alt</span>\n<span class=\"kn\">from</span><span class=\"w\"> </span><span class=\"nn\">wigglystuff</span><span class=\"w\"> </span><span class=\"kn\">import</span> <span class=\"n\">HTMLRefreshWidget</span>\n<span class=\"kn\">from</span><span class=\"w\"> </span><span class=\"nn\">wigglystuff.utils</span><span class=\"w\"> </span><span class=\"kn\">import</span> <span class=\"n\">refresh_altair</span><span class=\"p\">,</span> <span class=\"n\">altair2svg</span>\n\n<span class=\"nd\">@refresh_altair</span>\n<span class=\"k\">def</span><span class=\"w\"> </span><span class=\"nf\">altair_cumsum_chart</span><span class=\"p\">(</span><span class=\"n\">data</span><span class=\"p\">):</span>\n    <span class=\"n\">df</span> <span class=\"o\">=</span> <span class=\"n\">pl</span><span class=\"o\">.</span><span class=\"n\">DataFrame</span><span class=\"p\">({</span>\n        <span class=\"s2\">&quot;x&quot;</span><span class=\"p\">:</span> <span class=\"nb\">range</span><span class=\"p\">(</span><span class=\"nb\">len</span><span class=\"p\">(</span><span class=\"n\">data</span><span class=\"p\">)),</span> <span class=\"s2\">&quot;y&quot;</span><span class=\"p\">:</span> <span class=\"n\">np</span><span class=\"o\">.</span><span class=\"n\">array</span><span class=\"p\">(</span><span class=\"n\">data</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">cumsum</span><span class=\"p\">()</span>\n    <span class=\"p\">})</span>\n    <span class=\"k\">return</span> <span class=\"n\">alt</span><span class=\"o\">.</span><span class=\"n\">Chart</span><span class=\"p\">(</span><span class=\"n\">df</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">mark_line</span><span class=\"p\">()</span><span class=\"o\">.</span><span class=\"n\">encode</span><span class=\"p\">(</span><span class=\"n\">x</span><span class=\"o\">=</span><span class=\"s2\">&quot;x&quot;</span><span class=\"p\">,</span> <span class=\"n\">y</span><span class=\"o\">=</span><span class=\"s2\">&quot;y&quot;</span><span class=\"p\">)</span>\n\n<span class=\"n\">svg_widget</span> <span class=\"o\">=</span> <span class=\"n\">HTMLRefreshWidget</span><span class=\"p\">(</span><span class=\"n\">html</span><span class=\"o\">=</span><span class=\"n\">altair_cumsum_chart</span><span class=\"p\">([</span><span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"mi\">2</span><span class=\"p\">]))</span>\n\n<span class=\"n\">more_data</span> <span class=\"o\">=</span> <span class=\"p\">[</span><span class=\"n\">random</span><span class=\"o\">.</span><span class=\"n\">random</span><span class=\"p\">()</span> <span class=\"o\">-</span> <span class=\"mf\">0.5</span> <span class=\"k\">for</span> <span class=\"n\">_</span> <span class=\"ow\">in</span> <span class=\"nb\">range</span><span class=\"p\">(</span><span class=\"mi\">10</span><span class=\"p\">)]</span>\n\n<span class=\"k\">for</span> <span class=\"n\">_i</span> <span class=\"ow\">in</span> <span class=\"nb\">range</span><span class=\"p\">(</span><span class=\"mi\">10</span><span class=\"p\">):</span>\n    <span class=\"n\">more_data</span> <span class=\"o\">+=</span> <span class=\"p\">[</span><span class=\"n\">random</span><span class=\"o\">.</span><span class=\"n\">random</span><span class=\"p\">()</span> <span class=\"o\">-</span> <span class=\"mf\">0.5</span><span class=\"p\">]</span>\n    <span class=\"n\">svg_widget</span><span class=\"o\">.</span><span class=\"n\">html</span> <span class=\"o\">=</span> <span class=\"n\">altair_cumsum_chart</span><span class=\"p\">(</span><span class=\"n\">more_data</span><span class=\"p\">)</span>\n    <span class=\"n\">time</span><span class=\"o\">.</span><span class=\"n\">sleep</span><span class=\"p\">(</span><span class=\"mf\">0.1</span><span class=\"p\">)</span>\n\n<span class=\"k\">for</span> <span class=\"n\">_i</span> <span class=\"ow\">in</span> <span class=\"nb\">range</span><span class=\"p\">(</span><span class=\"mi\">10</span><span class=\"p\">):</span>\n    <span class=\"n\">more_data</span> <span class=\"o\">+=</span> <span class=\"p\">[</span><span class=\"n\">random</span><span class=\"o\">.</span><span class=\"n\">random</span><span class=\"p\">()</span> <span class=\"o\">-</span> <span class=\"mf\">0.5</span><span class=\"p\">]</span>\n    <span class=\"n\">svg_widget</span><span class=\"o\">.</span><span class=\"n\">html</span> <span class=\"o\">=</span> <span class=\"n\">altair_cumsum_chart</span><span class=\"p\">(</span><span class=\"n\">more_data</span><span class=\"p\">)</span>\n    <span class=\"n\">time</span><span class=\"o\">.</span><span class=\"n\">sleep</span><span class=\"p\">(</span><span class=\"mf\">0.1</span><span class=\"p\">)</span>\n</code></pre></div></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "e90d75082178956cf09554f40dbe697d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Unlike matplotlib charts though, altair is actually designed to give you objects back. That means that you don't need to use a decorated function for the update, you can also just convert the altair chart to SVG directly. This library supports utilities for both patterns.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "b3ca2e49fba540a8b78e210cb767610f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"oh-one-more-thing-about-that-htmlrefreshwidget\">Oh ... one more thing about that <code>HTMLRefreshWidget</code></h2>\n<span class=\"paragraph\">We are injecting html now into that widget to allow us to draw altair charts. But why stop there? We can put in any HTML that we like!</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "765e7190e6e9fc7e30b2ebec6947eb07",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "d61931dd0f0e2a657513929fd8d3a31b",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "iLit",
+      "code_hash": "7a1fc0ca6f935353bb908c5044560433",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"progress-bars\">Progress bars</h2>\n<span class=\"paragraph\">We also provide progress bars that can update inplace without needing any 3rd party ipywidget tools. These should still work across all notebooks. These progress bars can also be updated from another cell in marimo, which the base progress bar does not allow.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "7b758934f1b4feb90621c484ea8909be",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "No module named 'wigglystuff'",
+          "traceback": []
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/rp/pnh9h2pn51x7t7157l_vh14m0000gp/T/marimo_38907/__marimo__cell_ZHCJ_.py&quot;</span>, line <span class=\"m\">1</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"kn\">from</span><span class=\"w\"> </span><span class=\"nn\">wigglystuff</span><span class=\"w\"> </span><span class=\"kn\">import</span> <span class=\"n\">ProgressBar</span>\n<span class=\"gr\">ModuleNotFoundError</span>: <span class=\"n\">No module named &#39;wigglystuff&#39;</span>\n</pre></div>\n</span>",
+          "mimetype": "application/vnd.marimo+traceback"
+        }
+      ]
+    },
+    {
+      "id": "ROlb",
+      "code_hash": "608abac42a3f1d60986b5058b3c7fa58",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qnkX",
+      "code_hash": "b72807cfd1618925ba5794261d8e775e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

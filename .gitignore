@@ -1,6 +1,3 @@
-# Marimo HTML exports
-__marimo__/
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

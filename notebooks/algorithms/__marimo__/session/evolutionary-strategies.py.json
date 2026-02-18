@@ -1,0 +1,249 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.19.11"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "8e8ad446038c2465c96e6883a0a9f71b",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "No module named 'numpy'",
+          "traceback": []
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/rp/pnh9h2pn51x7t7157l_vh14m0000gp/T/marimo_38801/__marimo__cell_Hbol_.py&quot;</span>, line <span class=\"m\">2</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"kn\">import</span><span class=\"w\"> </span><span class=\"nn\">numpy</span><span class=\"w\"> </span><span class=\"k\">as</span><span class=\"w\"> </span><span class=\"nn\">np</span>\n<span class=\"gr\">ModuleNotFoundError</span>: <span class=\"n\">No module named &#39;numpy&#39;</span>\n</pre></div>\n</span>",
+          "mimetype": "application/vnd.marimo+traceback"
+        }
+      ]
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "66d79c7a47f52c224719d796057d59fa",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"evolutionary-strategies-watching-the-search-space-adapt\">Evolutionary Strategies: Watching the Search Space Adapt</h1>\n<span class=\"paragraph\">Evolutionary Strategies (ES) don't just find good solutions - they learn <strong>how to search</strong>.</span>\n<span class=\"paragraph\">The key insight: ES maintains both a <strong>mean</strong> <marimo-tex class=\"arithmatex\">||(\\mu||)</marimo-tex> (where to search) and a <strong>standard deviation</strong> <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> (how wide to search). Both parameters adapt based on what the algorithm discovers.</span>\n<span class=\"paragraph\">This notebook lets you watch <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> adapt in real-time across different challenging optimization landscapes.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "e14ab64edc89f93f9d6d083435177b2b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"the-two-learnable-parameters\">The Two Learnable Parameters</h2>\n<span class=\"paragraph\">In ES, we sample <marimo-tex class=\"arithmatex\">||(N||)</marimo-tex> candidate solutions from a Gaussian distribution:</span>\n<marimo-tex class=\"arithmatex\">||[x_i \\sim \\mathcal{N}(\\mu, \\sigma) \\quad \\text{for } i = 1, 2, \\ldots, N||]</marimo-tex><span class=\"paragraph\"><strong>Dimensionality in this notebook:</strong></span>\n<ul>\n<li><marimo-tex class=\"arithmatex\">||(\\mu \\in \\mathbb{R}^2||)</marimo-tex> \u2014 a 2D vector representing the center of our search</li>\n<li><marimo-tex class=\"arithmatex\">||(\\sigma \\in \\mathbb{R}||)</marimo-tex> \u2014 a scalar (same in all directions, \"isotropic\")</li>\n<li><marimo-tex class=\"arithmatex\">||(x_i \\in \\mathbb{R}^2||)</marimo-tex> \u2014 each sample is a 2D point</li>\n<li><marimo-tex class=\"arithmatex\">||(f(x_i) \\in \\mathbb{R}||)</marimo-tex> \u2014 the function value (fitness) at that point</li>\n</ul>\n<span class=\"paragraph\">The magic of ES is that <strong>both <marimo-tex class=\"arithmatex\">||(\\mu||)</marimo-tex> and <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> adapt based on what we find</strong>:</span>\n<ul>\n<li>If good solutions come from <strong>far away</strong> \u2192 increase <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> (explore more)</li>\n<li>If good solutions come from <strong>nearby</strong> \u2192 decrease <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> (exploit locally)</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "dbc51e43d593544d8eb003e07d79dd8f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"the-sigma-update-rule\">The <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> Update Rule</h2>\n<span class=\"paragraph\">After sampling <marimo-tex class=\"arithmatex\">||(N||)</marimo-tex> candidates and evaluating their fitness, we update <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex>:</span>\n<marimo-tex class=\"arithmatex\">||[\\Delta\\sigma = \\alpha_\\sigma \\cdot \\frac{1}{N} \\sum_{i=1}^{N} \\left[ \\tilde{f}_i \\cdot \\left( \\frac{\\|x_i - \\mu\\|^2}{\\sigma^2} - 1 \\right) \\right]||]</marimo-tex><span class=\"paragraph\"><strong>Every term explained:</strong></span>\n<table>\n<thead>\n<tr>\n<th>Symbol</th>\n<th>Meaning</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(\\Delta\\sigma||)</marimo-tex></td>\n<td>The change to apply to <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> this iteration</td>\n</tr>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(\\alpha_\\sigma||)</marimo-tex></td>\n<td>Learning rate for <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> (typically 0.01\u20130.1). Controls how fast <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> adapts</td>\n</tr>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(N||)</marimo-tex></td>\n<td>Population size \u2014 number of samples per iteration</td>\n</tr>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(x_i||)</marimo-tex></td>\n<td>The <marimo-tex class=\"arithmatex\">||(i||)</marimo-tex>-th sampled candidate (a 2D point in this notebook)</td>\n</tr>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(\\mu||)</marimo-tex></td>\n<td>Current mean of the search distribution (2D vector)</td>\n</tr>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(\\|x_i - \\mu\\|^2||)</marimo-tex></td>\n<td>Squared Euclidean distance from sample to mean</td>\n</tr>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex></td>\n<td>Current standard deviation (scalar)</td>\n</tr>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(\\tilde{f}_i||)</marimo-tex></td>\n<td><strong>Normalized fitness</strong> of sample <marimo-tex class=\"arithmatex\">||(i||)</marimo-tex> (see below)</td>\n</tr>\n</tbody>\n</table>\n<span class=\"paragraph\"><strong>What is <marimo-tex class=\"arithmatex\">||(\\tilde{f}_i||)</marimo-tex> (normalized fitness)?</strong></span>\n<span class=\"paragraph\">We normalize the raw fitness values to have zero mean and unit variance:</span>\n<marimo-tex class=\"arithmatex\">||[\\tilde{f}_i = \\frac{f(x_i) - \\bar{f}}{\\text{std}(f)}||]</marimo-tex><span class=\"paragraph\">where <marimo-tex class=\"arithmatex\">||(\\bar{f} = \\frac{1}{N}\\sum_j f(x_j)||)</marimo-tex> is the mean fitness across all samples.</span>\n<span class=\"paragraph\">For <strong>minimization</strong>, we flip the sign: <marimo-tex class=\"arithmatex\">||(\\tilde{f}_i = -\\frac{f(x_i) - \\bar{f}}{\\text{std}(f)}||)</marimo-tex>, so lower <marimo-tex class=\"arithmatex\">||(f||)</marimo-tex> \u2192 higher <marimo-tex class=\"arithmatex\">||(\\tilde{f}||)</marimo-tex>.</span>\n<span class=\"paragraph\"><strong>Why does this work?</strong></span>\n<span class=\"paragraph\">The term <marimo-tex class=\"arithmatex\">||(\\frac{\\|x_i - \\mu\\|^2}{\\sigma^2} - 1||)</marimo-tex> measures how \"far\" a sample is relative to the current <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex>:</span>\n<ul>\n<li><strong>Positive</strong> when <marimo-tex class=\"arithmatex\">||(\\|x_i - \\mu\\| &gt; \\sigma||)</marimo-tex> (sample is far from center)</li>\n<li><strong>Negative</strong> when <marimo-tex class=\"arithmatex\">||(\\|x_i - \\mu\\| &lt; \\sigma||)</marimo-tex> (sample is close to center)</li>\n<li><strong>Zero</strong> when <marimo-tex class=\"arithmatex\">||(\\|x_i - \\mu\\| = \\sigma||)</marimo-tex> (exactly one standard deviation away)</li>\n</ul>\n<span class=\"paragraph\">Multiplying by <marimo-tex class=\"arithmatex\">||(\\tilde{f}_i||)</marimo-tex> creates a <strong>correlation signal</strong>:</span>\n<ul>\n<li>Good solutions far away \u2192 positive contribution \u2192 <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> grows</li>\n<li>Good solutions nearby \u2192 negative contribution \u2192 <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> shrinks</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "2412ded155857c983a25ac1be7a990e3",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"the-mu-update-rule\">The <marimo-tex class=\"arithmatex\">||(\\mu||)</marimo-tex> Update Rule</h2>\n<span class=\"paragraph\">The mean <marimo-tex class=\"arithmatex\">||(\\mu||)</marimo-tex> moves toward regions where good solutions were found:</span>\n<marimo-tex class=\"arithmatex\">||[\\Delta\\mu = \\alpha_\\mu \\cdot \\frac{1}{N} \\sum_{i=1}^{N} \\left[ \\tilde{f}_i \\cdot \\frac{(x_i - \\mu)}{\\sigma} \\right]||]</marimo-tex><span class=\"paragraph\"><strong>Every term explained:</strong></span>\n<table>\n<thead>\n<tr>\n<th>Symbol</th>\n<th>Meaning</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(\\Delta\\mu||)</marimo-tex></td>\n<td>The change to apply to <marimo-tex class=\"arithmatex\">||(\\mu||)</marimo-tex> this iteration (a 2D vector)</td>\n</tr>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(\\alpha_\\mu||)</marimo-tex></td>\n<td>Learning rate for <marimo-tex class=\"arithmatex\">||(\\mu||)</marimo-tex> (typically 0.1\u20131.0). Controls step size</td>\n</tr>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(N||)</marimo-tex></td>\n<td>Population size</td>\n</tr>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(\\tilde{f}_i||)</marimo-tex></td>\n<td>Normalized fitness of sample <marimo-tex class=\"arithmatex\">||(i||)</marimo-tex> (same as in <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> update)</td>\n</tr>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(x_i - \\mu||)</marimo-tex></td>\n<td>Direction vector from current mean to sample <marimo-tex class=\"arithmatex\">||(i||)</marimo-tex></td>\n</tr>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex></td>\n<td>Current standard deviation (normalizes the step)</td>\n</tr>\n</tbody>\n</table>\n<span class=\"paragraph\"><strong>How it works:</strong></span>\n<span class=\"paragraph\">Each sample <marimo-tex class=\"arithmatex\">||(x_i||)</marimo-tex> \"votes\" for the direction <marimo-tex class=\"arithmatex\">||((x_i - \\mu)||)</marimo-tex> with weight <marimo-tex class=\"arithmatex\">||(\\tilde{f}_i||)</marimo-tex>:</span>\n<ul>\n<li><strong>Good samples</strong> (<marimo-tex class=\"arithmatex\">||(\\tilde{f}_i &gt; 0||)</marimo-tex>) pull <marimo-tex class=\"arithmatex\">||(\\mu||)</marimo-tex> toward them</li>\n<li><strong>Bad samples</strong> (<marimo-tex class=\"arithmatex\">||(\\tilde{f}_i &lt; 0||)</marimo-tex>) push <marimo-tex class=\"arithmatex\">||(\\mu||)</marimo-tex> away from them</li>\n</ul>\n<span class=\"paragraph\">The averaging over <marimo-tex class=\"arithmatex\">||(N||)</marimo-tex> samples creates a <strong>gradient-like signal</strong> pointing toward better regions \u2014 but computed entirely from function evaluations, no actual gradients needed!</span>\n<span class=\"paragraph\">Dividing by <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> normalizes the step size relative to the current search radius.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "427a1b010bbfbeaa8f5611e47da30292",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "71e8ce309357e5e5e16d8b02678f0e29",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "e7078f9460bcbd14ff243e03abe767ee",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "769e427121ef091ea712f4c23d04a2d1",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "3ea509132b6903463a1369359fdf42da",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "8237c884874fac5f858e82350c97e4e3",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "fd295db5bbcbe54c3b81241c200e2144",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "48f3eb448e7e86d8905957fc1fae51aa",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "3ffd6f748d17183c74a742f53f5ac19f",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "iLit",
+      "code_hash": "7d404fb9ba3ccf9206d03455acec9fab",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"per-sample-contributions\">Per-Sample Contributions</h2>\n<span class=\"paragraph\">The charts above show <strong>how each sample contributes</strong> to the <marimo-tex class=\"arithmatex\">||(\\mu||)</marimo-tex> and <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> updates. All arrows have the <strong>same length</strong> \u2014 color encodes the magnitude of influence.</span>\n<ul>\n<li><strong>Left (<marimo-tex class=\"arithmatex\">||(\\mu||)</marimo-tex> contributions)</strong>: Arrow <strong>direction</strong> shows where each sample pulls <marimo-tex class=\"arithmatex\">||(\\mu||)</marimo-tex>. Arrow <strong>color</strong> (plasma colormap) shows influence strength: yellow = strong influence, purple = weak. The orange arrow shows the net update direction.</li>\n<li><strong>Right (<marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> contributions)</strong>: Arrows point <strong>outward</strong> (expand <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex>) or <strong>inward</strong> (contract <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex>). Color encodes both direction and strength: <strong>dark red</strong> = strong expand, <strong>dark blue</strong> = strong contract, lighter colors = weaker influence. The dashed circle shows the current 1-<marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> radius.</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "3ad76c9f2a1c9c93d0d9b7f34bfec1cf",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"what-to-notice\">What to Notice</h2>\n<span class=\"paragraph\">As you scrub through the iterations, watch for these patterns:</span>\n<ol>\n<li><strong>Early iterations</strong>: Large <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> allows broad exploration of the landscape</li>\n<li><strong>Finding the basin</strong>: When ES finds a promising region, <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> starts shrinking</li>\n<li><strong>Fine-tuning</strong>: Small <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> enables precise convergence to the optimum</li>\n<li><strong>Getting stuck</strong>: On deceptive functions (try Schwefel!), watch if <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> can re-expand to escape local traps</li>\n</ol>\n<span class=\"paragraph\">The <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> plot on the right tells the story: descending curves mean exploitation, rising curves mean the algorithm is searching for better regions.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ROlb",
+      "code_hash": "b0920c2d524155cd35f465f129770ab8",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qnkX",
+      "code_hash": "1c385088ea9c3b9a90941fb3d9930511",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"key-takeaways\">Key Takeaways</h2>\n<ol>\n<li><strong><marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> is learned exploration/exploitation balance</strong>: Unlike fixed cooling schedules in simulated annealing, ES learns when to explore vs exploit based on feedback.</li>\n<li><strong>The adaptation is local and reactive</strong>: <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> responds to what worked <em>recently</em>, not a predetermined schedule.</li>\n<li><strong>Starting <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> matters</strong>: Too small \u2192 trapped in local optima. Too large \u2192 slow convergence. But adaptive <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> can recover from poor initialization.</li>\n<li>\n<span class=\"paragraph\"><strong>Different landscapes, different <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> dynamics</strong>:</span>\n<ul>\n<li>Rastrigin: gradual shrinking as ES narrows onto the global basin</li>\n<li>Ackley: may need large <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> to escape flat outer regions</li>\n<li>Schwefel: tests whether adaptation can escape deceptive gradients</li>\n<li>Himmelblau: may converge to different optima from different starts</li>\n</ul>\n</li>\n</ol>\n<h2 id=\"whats-next\">What's Next?</h2>\n<span class=\"paragraph\">This notebook showed <strong>isotropic ES</strong> (same <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> in all directions). Real-world problems often benefit from <strong>direction-dependent</strong> search:</span>\n<ul>\n<li><strong>CMA-ES</strong>: Learns a full covariance matrix (ellipses that rotate and stretch)</li>\n<li><strong>Natural Evolution Strategies</strong>: Uses natural gradients for more stable updates</li>\n<li><strong>Separable ES</strong>: Independent <marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex> per dimension</li>\n</ul>\n<span class=\"paragraph\">The core insight remains: <strong>let the search space adapt to the problem</strong>.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}
