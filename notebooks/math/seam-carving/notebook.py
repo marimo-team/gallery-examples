@@ -43,7 +43,15 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _():
+    import urllib.request
+    from pathlib import Path
+
     input_image = "The_Persistence_of_Memory.jpg"
+    if not Path(input_image).exists():
+        urllib.request.urlretrieve(
+            "https://raw.githubusercontent.com/marimo-team/gallery-examples/main/notebooks/math/seam-carving/The_Persistence_of_Memory.jpg",
+            input_image,
+        )
     return (input_image,)
 
 
