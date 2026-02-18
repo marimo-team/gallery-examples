@@ -9,7 +9,7 @@
 #     "plotly",
 #     "scikit-learn",
 #     "scipy",
-#     "sig-decomp==0.0.2",
+#     "sig-decomp==0.3.2",
 # ]
 # ///
 
