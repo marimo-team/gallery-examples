@@ -906,6 +906,38 @@ def _():
 
 @app.cell
 def _():
+    import os
+    import urllib.request
+
+    _base_url = "https://raw.githubusercontent.com/marimo-team/gallery-examples/main/notebooks/education/inputs"
+    _files = [
+        "__init__.py",
+        "components.py",
+        "dataloaders.py",
+        "explainer.py",
+        "intro_problem.py",
+        "layout.py",
+        "problems.py",
+        "solutions.py",
+    ]
+    _asset_files = [
+        "solar_power_soiling_reference.png",
+    ]
+
+    os.makedirs("inputs/assets", exist_ok=True)
+    for _f in _files:
+        _path = os.path.join("inputs", _f)
+        if not os.path.exists(_path):
+            urllib.request.urlretrieve(f"{_base_url}/{_f}", _path)
+    for _f in _asset_files:
+        _path = os.path.join("inputs", "assets", _f)
+        if not os.path.exists(_path):
+            urllib.request.urlretrieve(f"{_base_url}/assets/{_f}", _path)
+    return
+
+
+@app.cell
+def _():
     import importlib
     import inputs.components as complib
     import inputs.intro_problem as intro_problem
