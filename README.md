@@ -25,8 +25,11 @@ uvx marimo edit --sandbox <notebook>
 | Embedding Visualiser | Select points in embedded space to understand UMAP clusters better. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/visualizing-embeddings.py) |
 | Evolutionary Strategies | Interactive exploration of evolutionary optimization algorithms. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/evolutionary-strategies.py) |
 | Smoothed Gradient Descent | Visualize gradient descent with momentum and smoothing techniques. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/smoothed-gradient-descent.py) |
+| Federated Learning | Interactive simulation of federated learning with hospitals training local models and FedAvg aggregation. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/federated.py) |
+| Sklearn Classification | Bootstrap scikit-learn classification models with automatic preprocessing and cross-validation. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/sklearn-clf.py) |
+| FastAPI + GliNER | GliNER v2 for zero-shot entity extraction, runnable as webapp, API, or CLI. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/fastapi-gliner.py) |
 
-## AlphaXiv
+## Research papers
 
 | Notebook | Description | |
 | -------- | ----------- | - |
@@ -40,7 +43,7 @@ uvx marimo edit --sandbox <notebook>
 | Lanchester's Law | Interactive simulation of Lanchester's Laws of combat. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/analysis/lanchesters-law/notebook.py) |
 | Suguru | Interactive Suguru puzzle solver and generator. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/analysis/suguru/notebook.py) |
 
-## CAD
+## 3D
 
 | Notebook | Description | |
 | -------- | ----------- | - |
@@ -56,18 +59,7 @@ uvx marimo edit --sandbox <notebook>
 | Movies Dashboard | Explore movie data interactively with a dashboard constructed with marimo UI elements. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/movies.py) |
 | Portfolio Calculator | An interactive tool for portfolio analysis and investment calculations. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/portfolio.py) |
 | World of Warcraft Bot Detection | Interactive visualization for detecting bots in WoW player data using session length analysis. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/world-of-warcraft.py) |
-
-## Drawdata
-
-| Notebook | Description | |
-| -------- | ----------- | - |
-| Drawdata Scatter | Draw scatter data interactively and visualize it with Altair histograms. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/drawdata/scatter-demo.py) |
-
-## Education
-
-| Notebook | Description | |
-| -------- | ----------- | - |
-| Signal Decomposition | Breaking a complex signal into the sum of simpler interpretable components. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/education/signal_decomposition.py) |
+| Altair Reactive Plots | Interactive Altair charts with brush selection and reactive filtering. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/altair-demo.py) |
 
 ## External
 
@@ -85,26 +77,18 @@ uvx marimo edit --sandbox <notebook>
 | Drag and Drop | Drag and drop GPX, GeoJSON, KML or TopoJSON files on to the map. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/geo/drag-drop.py) |
 | Earthquakes | Highlight all known earthquakes on the OpenLayers map. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/geo/earthquake.py) |
 
-## Library
-
-| Notebook | Description | |
-| -------- | ----------- | - |
-| Altair Reactive Plots | Interactive Altair charts with brush selection and reactive filtering. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/altair-demo.py) |
-| FastAPI + GliNER | GliNER v2 for zero-shot entity extraction, runnable as webapp, API, or CLI. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/fastapi-gliner.py) |
-| Federated Learning | Interactive simulation of federated learning with hospitals training local models and FedAvg aggregation. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/federated.py) |
-| Sklearn Classification | Bootstrap scikit-learn classification models with automatic preprocessing and cross-validation. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/sklearn-clf.py) |
-
 ## Math
 
 | Notebook | Description | |
 | -------- | ----------- | - |
+| Signal Decomposition | Breaking a complex signal into the sum of simpler interpretable components. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/education/signal_decomposition.py) |
 | 100 Prisoners Puzzle | An interactive simulation of the famous 100 prisoners probability puzzle. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/100-prisoners.py) |
 | Attractor | Interactive strange attractor visualization with scatter plots. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/attractor.py) |
 | Matrix Decomposition | An interactive exploration of matrix decomposition techniques. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/matrix-decompositions.py) |
 | Seam Carving | Content-aware image resizing that preserves important features using dynamic programming. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/seam-carving/notebook.py) |
 | Vector Puck | Explore vector arithmetic with pucks over matplotlib. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/vector-puck.py) |
 
-## Wigglystuff
+## Custom UI elements with Anywidget
 
 | Notebook | Description | |
 | -------- | ----------- | - |
@@ -130,4 +114,5 @@ uvx marimo edit --sandbox <notebook>
 | Tangle | Interactive number manipulation with draggable values in text. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/tangle.py) |
 | TextCompare | Side-by-side text comparison with highlighted matching passages. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/textcompare.py) |
 | ThreeWidget | 3D visualization widget using Three.js. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/threewidget.py) |
+| Drawdata Scatter | Draw scatter data interactively and visualize it with Altair histograms. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/drawdata/scatter-demo.py) |
 | WebcamCapture | Capture images from the webcam. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/webcam_capture.py) |
