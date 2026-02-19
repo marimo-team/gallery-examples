@@ -1,3 +1,11 @@
+# /// script
+# requires-python = ">=3.14"
+# dependencies = [
+#     "marimo",
+#     "openlayers==0.1.6",
+# ]
+# ///
+
 import marimo
 
 __generated_with = "0.14.13"
