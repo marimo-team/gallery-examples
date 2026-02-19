@@ -1,21 +1,18 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies = [
-#     "altair==6.0.0",
+#     "altair",
 #     "marimo",
-#     "matplotlib==3.10.8",
-#     "pandas==3.0.0",
-#     "torch==2.10.0",
+#     "matplotlib",
+#     "pandas",
+#     "torch",
 # ]
 # ///
 
 import marimo
 
 __generated_with = "0.18.4"
-app = marimo.App(
-    css_file="/usr/local/_marimo/custom.css",
-    auto_download=["html"],
-)
+app = marimo.App()
 
 
 @app.cell(hide_code=True)
@@ -72,6 +69,7 @@ def _():
     import matplotlib.pyplot as plt
     import altair as alt
     import pandas as pd
+
     return alt, mo, nn, pd, plt, torch
 
 
@@ -89,22 +87,23 @@ def _(mo, nn):
                 nn.Linear(32, 16),
                 nn.ReLU(),
                 nn.Linear(16, 1),
-                nn.Sigmoid()
+                nn.Sigmoid(),
             )
 
         def forward(self, x):
             return self.net(x)
 
-
     # Persistent state that keeps models and metrics across button clicks
-    get_state, set_state = mo.state({
-        "global_model": HospitalNet(),
-        "hospital_models": [HospitalNet() for _ in range(4)],
-        "round": 0,
-        "history": [],
-        "version": 0,
-        "last_action": None
-    })
+    get_state, set_state = mo.state(
+        {
+            "global_model": HospitalNet(),
+            "hospital_models": [HospitalNet() for _ in range(4)],
+            "round": 0,
+            "history": [],
+            "version": 0,
+            "last_action": None,
+        }
+    )
     return HospitalNet, get_state, set_state
 
 
@@ -143,13 +142,15 @@ def _(
         for m in h:
             m.load_state_dict(g.state_dict())
 
-        set_state({
-            "global_model": g,
-            "hospital_models": h,
-            "round": 0,
-            "history": [],
-            "version": _v + 1,
-        })
+        set_state(
+            {
+                "global_model": g,
+                "hospital_models": h,
+                "round": 0,
+                "history": [],
+                "version": _v + 1,
+            }
+        )
 
     # Perform one step of local training at each hospital
     elif train_btn.value:
@@ -165,10 +166,9 @@ def _(
             torch.manual_seed(_v + i)
 
             x = torch.randn(60, 2)
-            w = torch.tensor([
-                torch.cos(torch.tensor(angles[i])),
-                torch.sin(torch.tensor(angles[i]))
-            ])
+            w = torch.tensor(
+                [torch.cos(torch.tensor(angles[i])), torch.sin(torch.tensor(angles[i]))]
+            )
             y = (x @ w > 0).float().unsqueeze(1)
 
             for _ in range(5):
@@ -200,14 +200,16 @@ def _(
         new_round = _s["round"] + 1
         acc = 0.5 + (0.45 * (1 - torch.exp(torch.tensor(-new_round / 3)).item()))
 
-        set_state({
-            "global_model": new_global,
-            "hospital_models": new_hospitals,
-            "round": new_round,
-            "history": _s["history"] + [[new_round, acc]],
-            "version": _s["version"] + 1,
-            "last_action": "merge"
-        })
+        set_state(
+            {
+                "global_model": new_global,
+                "hospital_models": new_hospitals,
+                "round": new_round,
+                "history": _s["history"] + [[new_round, acc]],
+                "version": _s["version"] + 1,
+                "last_action": "merge",
+            }
+        )
     return
 
 
@@ -231,7 +233,6 @@ def _(alt, get_state, mo, pd, plt, torch):
             "📥 **Local model updates aggregated on the server (FedAvg).** "
             "A new global model is formed and shared back."
         )
-
 
     # Render a 2D heatmap showing a model’s decision surface
     def plot_model(model, title):
@@ -263,11 +264,13 @@ def _(alt, get_state, mo, pd, plt, torch):
 
         angles = [0.0, 0.6, 1.2, 1.8]
         x = torch.randn(60, 2)
-        w = torch.tensor([
-            torch.cos(torch.tensor(angles[hospital_id])),
-            torch.sin(torch.tensor(angles[hospital_id]))
-        ])
-        y = (x @ w > 0)
+        w = torch.tensor(
+            [
+                torch.cos(torch.tensor(angles[hospital_id])),
+                torch.sin(torch.tensor(angles[hospital_id])),
+            ]
+        )
+        y = x @ w > 0
 
         fig, ax = plt.subplots(figsize=(2.2, 2.2))
         ax.scatter(x[:, 0], x[:, 1], c=y, cmap="coolwarm", s=15)
@@ -278,53 +281,53 @@ def _(alt, get_state, mo, pd, plt, torch):
         plt.close(fig)
         return html
 
-
     # Visualize each hospital’s local model
     h_plots = [plot_model(_s["hospital_models"][i], f"Hospital {i}") for i in range(4)]
 
     # Visualize the aggregated global model
     g_plot = plot_model(_s["global_model"], "Global Model")
 
-
     # Plot accuracy over federated rounds
     chart = mo.md("merge models to track progress")
     if _s["history"]:
-        df = pd.DataFrame(
-            _s["history"],
-            columns=["Local Steps", "Accuracy"]
+        df = pd.DataFrame(_s["history"], columns=["Local Steps", "Accuracy"])
+
+        chart = (
+            alt.Chart(df)
+            .mark_line(point=True)
+            .encode(
+                x=alt.X("Local Steps:Q", title="Local Steps"),
+                y=alt.Y(
+                    "Accuracy:Q", title="Accuracy", scale=alt.Scale(domain=[0.4, 1.0])
+                ),
+                tooltip=["Local Steps", "Accuracy"],
+            )
+            .interactive()
         )
 
-        chart = alt.Chart(df).mark_line(point=True).encode(
-            x=alt.X("Local Steps:Q", title="Local Steps"),
-            y=alt.Y("Accuracy:Q", title="Accuracy", scale=alt.Scale(domain=[0.4, 1.0])),
-            tooltip=["Local Steps", "Accuracy"]
-        ).interactive()
-
     data_plots = [plot_local_data(i) for i in range(4)]
-
 
     # Layout the full dashboard
     mo.vstack(
         [
             mo.md(f"## Federated Round: **{_s['round']}**"),
             broadcast_msg if broadcast_msg else mo.md(""),
-
             # Main dashboard
             mo.hstack(
                 [
-                    mo.vstack([
-                        mo.hstack(h_plots[:2]),
-                        mo.hstack(h_plots[2:]),
-                    ]),
+                    mo.vstack(
+                        [
+                            mo.hstack(h_plots[:2]),
+                            mo.hstack(h_plots[2:]),
+                        ]
+                    ),
                     mo.md("# ➔"),
                     mo.vstack([g_plot, chart], align="center"),
                 ],
                 justify="space-around",
                 align="center",
             ),
-
             mo.md("---"),
-
             # Local data section
             mo.md("### 🧪 What does each hospital’s local data look like?"),
             mo.md(
@@ -332,7 +335,6 @@ def _(alt, get_state, mo, pd, plt, torch):
                 "The data is private to each hospital and is never shared. "
                 "Only model updates are sent during federated learning."
             ),
-
             mo.hstack(data_plots, justify="space-around"),
         ]
     )
