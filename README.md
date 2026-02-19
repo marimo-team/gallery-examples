@@ -1,7 +1,11 @@
 # gallery-examples
 
-A collection of [marimo](https://marimo.io) notebooks showcasing interactive visualizations,
-dashboards, widgets, and more.
+A collection of [marimo](https://marimo.io) notebooks showcasing algorithms,
+research paper implementations, interactive visualizations, dashboards,
+widgets, and more.
+
+**View on our gallery webpage.** Interactively explore these notebooks
+at our [online gallery](https://molab.marimo.io/gallery).
 
 **Running notebooks online.**
 The easiest way to run the notebooks is with [molab](https://molab.marimo.io);
