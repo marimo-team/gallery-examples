@@ -1,3 +1,11 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "marimo",
+#     "wigglystuff",
+# ]
+# ///
+
 import marimo
 
 __generated_with = "0.18.4"

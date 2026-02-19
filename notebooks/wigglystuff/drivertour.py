@@ -1,9 +1,8 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies = [
-#     "anywidget==0.9.21",
 #     "marimo",
-#     "numpy==2.3.5",
+#     "wigglystuff",
 # ]
 # ///
 

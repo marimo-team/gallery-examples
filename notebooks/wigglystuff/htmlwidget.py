@@ -1,12 +1,13 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies = [
-#     "altair==5.5.0",
+#     "altair",
 #     "marimo",
-#     "matplotlib==3.10.1",
-#     "mohtml==0.1.7",
-#     "numpy==2.2.5",
-#     "polars==1.29.0",
+#     "matplotlib",
+#     "mohtml",
+#     "numpy",
+#     "polars",
+#     "wigglystuff",
 # ]
 # ///
 

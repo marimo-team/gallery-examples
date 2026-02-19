@@ -1,3 +1,14 @@
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "altair",
+#     "marimo",
+#     "numpy",
+#     "pandas",
+#     "wigglystuff",
+# ]
+# ///
+
 import marimo
 
 __generated_with = "0.18.2"

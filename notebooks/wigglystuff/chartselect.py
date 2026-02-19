@@ -4,13 +4,13 @@
 #     "marimo",
 #     "matplotlib",
 #     "numpy",
-#     "wigglystuff==0.2.18",
+#     "wigglystuff==0.2.30",
 # ]
 # ///
 
 import marimo
 
-__generated_with = "0.19.6"
+__generated_with = "0.19.11"
 app = marimo.App()
 
 
@@ -20,7 +20,8 @@ def _():
     import matplotlib.pyplot as plt
     import numpy as np
     from wigglystuff import ChartSelect
-    return ChartSelect, mo, np, plt
+
+    return ChartSelect, mo, np
 
 
 @app.cell(hide_code=True)
