@@ -203,3 +203,4 @@ cython_debug/
 
 **/.DS_Store
 *.parquet
+inputs/
