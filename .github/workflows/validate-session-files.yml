@@ -55,9 +55,13 @@ jobs:
           error_patterns="ModuleNotFoundError"
 
           while IFS= read -r json_file; do
+            # Derive the notebook path from the session JSON path
+            # e.g. notebooks/foo/__marimo__/session/bar.py.json -> notebooks/foo/bar.py
+            notebook=$(echo "$json_file" | sed 's|/__marimo__/session/|/|; s|\.json$||')
+
             for pattern in $error_patterns; do
               if grep -q "$pattern" "$json_file"; then
-                echo "::error file=${json_file}::Found '${pattern}' in session JSON"
+                echo "::error file=${notebook}::Notebook '${notebook}' has '${pattern}' in its session JSON (${json_file})"
                 exit_code=1
               fi
             done
