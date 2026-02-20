@@ -104,7 +104,7 @@
         {
           "type": "stream",
           "name": "stderr",
-          "text": "wandb: setting up run y51tuohl\nwandb: Tracking run with wandb version 0.25.0\nwandb: Run data is saved locally in /Users/aagrawal/src/marimo-team/gallery-examples/wandb/run-20260219_181458-y51tuohl\nwandb: Run `wandb offline` to turn off syncing.\nwandb: Syncing run baseline\nwandb: \u2b50\ufe0f View project at https://wandb.ai/marimo-io/jupyter-projo\nwandb: \ud83d\ude80 View run at https://wandb.ai/marimo-io/jupyter-projo/runs/y51tuohl\nwandb: updating run metadata; uploading summary\nwandb: updating run metadata\nwandb: uploading wandb-metadata.json; uploading requirements.txt; uploading wandb-summary.json; uploading config.yaml\nwandb: \nwandb: Run history:\nwandb:  acc \u2581\u2582\u2583\u2583\u2583\u2584\u2585\u2583\u2584\u2584\u2585\u2585\u2586\u2585\u2584\u2584\u2586\u2586\u2586\u2585\u2585\u2585\u2585\u2586\u2586\u2586\u2586\u2585\u2585\u2586\u2585\u2588\u2587\u2587\u2586\u2588\u2586\u2585\u2586\u2587\nwandb: loss \u2586\u2587\u2587\u2587\u2588\u2586\u2588\u2586\u2585\u2586\u2585\u2587\u2584\u2585\u2583\u2586\u2585\u2583\u2584\u2583\u2584\u2583\u2583\u2584\u2584\u2584\u2583\u2582\u2583\u2582\u2585\u2585\u2582\u2584\u2583\u2584\u2584\u2583\u2581\u2583\nwandb: \nwandb: Run summary:\nwandb:  acc 1.02551\nwandb: loss 0.34618\nwandb: \nwandb: \ud83d\ude80 View run baseline at: https://wandb.ai/marimo-io/jupyter-projo/runs/y51tuohl\nwandb: \u2b50\ufe0f View project at: https://wandb.ai/marimo-io/jupyter-projo\nwandb: Synced 4 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)\nwandb: Find logs at: ./wandb/run-20260219_181458-y51tuohl/logs\nwandb: WARNING Using a boolean value for 'reinit' is deprecated. Use 'return_previous' or 'finish_previous' instead.\nwandb: setting up run 979666yi\nwandb: Tracking run with wandb version 0.25.0\nwandb: Run data is saved locally in /Users/aagrawal/src/marimo-team/gallery-examples/wandb/run-20260219_181503-979666yi\nwandb: Run `wandb offline` to turn off syncing.\nwandb: Syncing run fast-lr\nwandb: \u2b50\ufe0f View project at https://wandb.ai/marimo-io/jupyter-projo\nwandb: \ud83d\ude80 View run at https://wandb.ai/marimo-io/jupyter-projo/runs/979666yi\n",
+          "text": "wandb: setting up run xh9u26gz\nwandb: Tracking run with wandb version 0.25.0\nwandb: Run data is saved locally in /Users/aagrawal/src/marimo-team/gallery-examples/wandb/run-20260219_182122-xh9u26gz\nwandb: Run `wandb offline` to turn off syncing.\nwandb: Syncing run baseline\nwandb: \u2b50\ufe0f View project at https://wandb.ai/marimo-io/jupyter-projo\nwandb: \ud83d\ude80 View run at https://wandb.ai/marimo-io/jupyter-projo/runs/xh9u26gz\nwandb: updating run metadata; uploading summary\nwandb: uploading config.yaml; uploading wandb-metadata.json; uploading requirements.txt; uploading wandb-summary.json\nwandb: \nwandb: Run history:\nwandb:  acc \u2583\u2581\u2582\u2584\u2581\u2582\u2582\u2584\u2584\u2581\u2585\u2585\u2584\u2585\u2584\u2585\u2583\u2585\u2585\u2585\u2587\u2585\u2586\u2585\u2587\u2587\u2585\u2586\u2585\u2588\u2588\u2587\u2586\u2587\u2585\u2587\u2587\u2585\u2587\u2587\nwandb: loss \u2588\u2586\u2587\u2588\u2587\u2585\u2587\u2586\u2585\u2586\u2585\u2586\u2585\u2584\u2585\u2583\u2584\u2584\u2583\u2583\u2583\u2583\u2584\u2584\u2582\u2582\u2584\u2582\u2584\u2584\u2583\u2582\u2582\u2583\u2581\u2583\u2583\u2581\u2582\u2582\nwandb: \nwandb: Run summary:\nwandb:  acc 0.81834\nwandb: loss 0.13901\nwandb: \nwandb: \ud83d\ude80 View run baseline at: https://wandb.ai/marimo-io/jupyter-projo/runs/xh9u26gz\nwandb: \u2b50\ufe0f View project at: https://wandb.ai/marimo-io/jupyter-projo\nwandb: Synced 4 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)\nwandb: Find logs at: ./wandb/run-20260219_182122-xh9u26gz/logs\nwandb: WARNING Using a boolean value for 'reinit' is deprecated. Use 'return_previous' or 'finish_previous' instead.\nwandb: setting up run 2ljeauhb\nwandb: Tracking run with wandb version 0.25.0\nwandb: Run data is saved locally in /Users/aagrawal/src/marimo-team/gallery-examples/wandb/run-20260219_182126-2ljeauhb\nwandb: Run `wandb offline` to turn off syncing.\nwandb: Syncing run fast-lr\nwandb: \u2b50\ufe0f View project at https://wandb.ai/marimo-io/jupyter-projo\nwandb: \ud83d\ude80 View run at https://wandb.ai/marimo-io/jupyter-projo/runs/2ljeauhb\n",
           "mimetype": "text/plain"
         }
       ]
@@ -142,7 +142,7 @@
         {
           "type": "data",
           "data": {
-            "text/html": "<div style='display: flex;flex: 1;flex-direction: row;justify-content: space-between;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><marimo-ui-element object-id='BYtC-0' random-id='eb50a1eb-f5fa-8044-cce7-f6d91cc74ab8'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;3d05d1b0dadc4fac8771baa1e5358293&quot;}' data-label='null' data-js-url='&quot;./@file/19500-2310802-KR8DdE8e.js&quot;' data-js-hash='&quot;6bf497d560e197c82199b98a4a6c8c42&quot;'></marimo-anywidget></marimo-ui-element><marimo-ui-element object-id='BYtC-1' random-id='5b3625a4-1e5f-752e-5e29-2460509f1db0'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;cd137a21de634434bb241cc38fb10220&quot;}' data-label='null' data-js-url='&quot;./@file/19500-2310802-5sEI3taZ.js&quot;' data-js-hash='&quot;6bf497d560e197c82199b98a4a6c8c42&quot;'></marimo-anywidget></marimo-ui-element></div>"
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: row;justify-content: space-between;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><marimo-ui-element object-id='BYtC-0' random-id='9032e4c5-f727-69ee-4d30-62ff17cf0837'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;4df5aa42694b493caaf2e2a449d61a6e&quot;}' data-label='null' data-js-url='&quot;./@file/19500-2322388-ei6Tgjee.js&quot;' data-js-hash='&quot;6bf497d560e197c82199b98a4a6c8c42&quot;'></marimo-anywidget></marimo-ui-element><marimo-ui-element object-id='BYtC-1' random-id='ea6cdcb4-ff28-6d8c-768c-1593005f7f8a'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;d7e79ea0712649c3af1135352416936c&quot;}' data-label='null' data-js-url='&quot;./@file/19500-2322388-2WDuPbiV.js&quot;' data-js-hash='&quot;6bf497d560e197c82199b98a4a6c8c42&quot;'></marimo-anywidget></marimo-ui-element></div>"
           }
         }
       ],
@@ -168,7 +168,7 @@
         {
           "type": "data",
           "data": {
-            "text/html": "<marimo-ui-element object-id='Kclp-0' random-id='24c68bf3-70a1-e973-b88b-d1e2058b2c4e'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;0c30d79af38244ecb97dd3aaf55f7d60&quot;}' data-label='null' data-js-url='&quot;./@file/19500-2310802-rJvI8b4H.js&quot;' data-js-hash='&quot;6bf497d560e197c82199b98a4a6c8c42&quot;'></marimo-anywidget></marimo-ui-element>"
+            "text/html": "<marimo-ui-element object-id='Kclp-0' random-id='0b7a1b93-7823-9d10-0ce2-7bacbbe10192'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;7355fa64da7043cbb022ce15cce652e5&quot;}' data-label='null' data-js-url='&quot;./@file/19500-2322388-XOX83JWI.js&quot;' data-js-hash='&quot;6bf497d560e197c82199b98a4a6c8c42&quot;'></marimo-anywidget></marimo-ui-element>"
           }
         }
       ],
@@ -179,13 +179,20 @@
       "code_hash": "04dc560a872a787910b85d316c1d22ad",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
-          "traceback": []
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
-      "console": []
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "wandb: updating run metadata\nwandb: uploading config.yaml\nwandb: \nwandb: Run history:\nwandb:  acc \u2581\u2581\u2582\u2582\u2582\u2584\u2584\u2585\u2586\u2584\u2584\u2584\u2584\u2585\u2584\u2588\u2585\u2586\u2585\u2584\u2586\u2584\u2584\u2585\u2584\u2585\u2584\u2586\u2585\u2584\u2587\u2585\u2582\u2587\u2586\u2584\u2586\u2587\u2585\u2585\nwandb: loss \u2588\u2587\u2586\u2587\u2586\u2585\u2587\u2585\u2586\u2585\u2586\u2584\u2584\u2583\u2583\u2583\u2584\u2584\u2584\u2584\u2584\u2584\u2584\u2583\u2582\u2583\u2583\u2582\u2584\u2582\u2583\u2582\u2582\u2584\u2583\u2583\u2581\u2583\u2585\u2582\nwandb: \nwandb: Run summary:\nwandb:  acc 0.89247\nwandb: loss -0.08405\nwandb: \nwandb: \ud83d\ude80 View run fast-lr at: https://wandb.ai/marimo-io/jupyter-projo/runs/2ljeauhb\nwandb: \u2b50\ufe0f View project at: https://wandb.ai/marimo-io/jupyter-projo\nwandb: Synced 4 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)\nwandb: Find logs at: ./wandb/run-20260219_182126-2ljeauhb/logs\n",
+          "mimetype": "text/plain"
+        }
+      ]
     }
   ]
 }

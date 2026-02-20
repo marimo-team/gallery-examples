@@ -1,4 +1,4 @@
-name: CI
+name: Validate session files
 
 on:
   pull_request:
@@ -12,62 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          # Fetch enough history to diff against the base branch
-          fetch-depth: 0
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Check every notebook has a session JSON
-        run: |
-          exit_code=0
-
-          # Find all marimo notebook .py files (contain "marimo.App"),
-          # excluding helper modules in inputs/ dirs, __init__.py, and widget files.
-          while IFS= read -r nb; do
-            # Skip non-marimo files
-            if ! grep -q "marimo.App" "$nb"; then
-              continue
-            fi
-
-            dir=$(dirname "$nb")
-            base=$(basename "$nb")
-            expected="${dir}/__marimo__/session/${base}.json"
-
-            if [ ! -f "$expected" ]; then
-              echo "::error file=${nb}::Missing session JSON: ${expected}"
-              exit_code=1
-            fi
-          done < <(find notebooks -name '*.py' \
-            -not -path '*/inputs/*' \
-            -not -name '__init__.py')
-
-          if [ "$exit_code" -eq 0 ]; then
-            echo "All notebooks have session JSON files."
-          fi
-          exit $exit_code
-
-      - name: Check session JSONs for errors
-        run: |
-          exit_code=0
-          error_patterns="ModuleNotFoundError"
-
-          while IFS= read -r json_file; do
-            # Derive the notebook path from the session JSON path
-            # e.g. notebooks/foo/__marimo__/session/bar.py.json -> notebooks/foo/bar.py
-            notebook=$(echo "$json_file" | sed 's|/__marimo__/session/|/|; s|\.json$||')
-
-            for pattern in $error_patterns; do
-              if grep -q "$pattern" "$json_file"; then
-                echo "::error file=${notebook}::Notebook '${notebook}' has '${pattern}' in its session JSON (${json_file})"
-                exit_code=1
-              fi
-            done
-          done < <(find notebooks -name '*.json' -path '*/__marimo__/session/*')
-
-          if [ "$exit_code" -eq 0 ]; then
-            echo "All session JSON files are clean."
-          fi
-          exit $exit_code
+      - name: Validate session files
+        run: scripts/validate-sessions.sh
