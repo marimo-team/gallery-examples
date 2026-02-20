@@ -37,7 +37,7 @@
         {
           "type": "data",
           "data": {
-            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"data-upload-and-configuration\">Data Upload and Configuration</h2></span><marimo-ui-element object-id='MJUe-0' random-id='66ea4097-db92-e590-e20d-ec0a28fc8cdd'><marimo-file data-initial-value='[]' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Upload CSV file&lt;/span&gt;&lt;/span&gt;&quot;' data-filetypes='[&quot;.csv&quot;]' data-multiple='false' data-kind='&quot;area&quot;' data-max_size='100000000'></marimo-file></marimo-ui-element><span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">We will assume a default dataset if none is provided.</span></span></div>"
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"data-upload-and-configuration\">Data Upload and Configuration</h2></span><marimo-ui-element object-id='MJUe-0' random-id='48a8eeee-989e-a88e-e80f-0b66add04970'><marimo-file data-initial-value='[]' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Upload CSV file&lt;/span&gt;&lt;/span&gt;&quot;' data-filetypes='[&quot;.csv&quot;]' data-multiple='false' data-kind='&quot;area&quot;' data-max_size='100000000'></marimo-file></marimo-ui-element><span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">We will assume a default dataset if none is provided.</span></span></div>"
           }
         }
       ],
@@ -89,7 +89,7 @@
         {
           "type": "data",
           "data": {
-            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"configuration\">\u2699\ufe0f Configuration</h3></span><marimo-ui-element object-id='lEQa-0' random-id='e436ab22-b5bd-c99e-6332-e8e90d6117dd'><marimo-dropdown data-initial-value='[&quot;target&quot;]' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;\ud83c\udfaf Select Target Column (variable to predict)&lt;/span&gt;&lt;/span&gt;&quot;' data-options='[&quot;feature_1&quot;,&quot;feature_2&quot;,&quot;feature_3&quot;,&quot;feature_4&quot;,&quot;feature_5&quot;,&quot;target&quot;]' data-allow-select-none='false' data-searchable='false' data-full-width='true'></marimo-dropdown></marimo-ui-element><marimo-ui-element object-id='Xref-0' random-id='1ee3d8bb-97d1-0ecb-bd98-f6c7853147c4'><marimo-slider data-initial-value='5' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Number of cross-validation folds&lt;/span&gt;&lt;/span&gt;&quot;' data-start='3' data-stop='10' data-step='1' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><marimo-ui-element object-id='Xref-1' random-id='9202e8ab-d103-8a11-0015-dcbc987dce9f'><marimo-slider data-initial-value='10' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Number of random searches to perform&lt;/span&gt;&lt;/span&gt;&quot;' data-start='1' data-stop='100' data-step='1' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><marimo-ui-element object-id='bkHC-0' random-id='34c14f24-618b-9912-60d4-92a2a14b5bcb'><marimo-button data-initial-value='0' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Run Analysis&lt;/span&gt;&lt;/span&gt;&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element></div>"
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"configuration\">\u2699\ufe0f Configuration</h3></span><marimo-ui-element object-id='lEQa-0' random-id='42b17608-441c-e14d-cb42-50c7742aeb88'><marimo-dropdown data-initial-value='[&quot;target&quot;]' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;\ud83c\udfaf Select Target Column (variable to predict)&lt;/span&gt;&lt;/span&gt;&quot;' data-options='[&quot;feature_1&quot;,&quot;feature_2&quot;,&quot;feature_3&quot;,&quot;feature_4&quot;,&quot;feature_5&quot;,&quot;target&quot;]' data-allow-select-none='false' data-searchable='false' data-full-width='true'></marimo-dropdown></marimo-ui-element><marimo-ui-element object-id='Xref-0' random-id='5a6a47cd-8fc9-0e37-fb4f-887562fe0948'><marimo-slider data-initial-value='5' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Number of cross-validation folds&lt;/span&gt;&lt;/span&gt;&quot;' data-start='3' data-stop='10' data-step='1' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><marimo-ui-element object-id='Xref-1' random-id='c9dd1fa6-6f54-68ad-b012-9c584a5bc33b'><marimo-slider data-initial-value='10' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Number of random searches to perform&lt;/span&gt;&lt;/span&gt;&quot;' data-start='1' data-stop='100' data-step='1' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><marimo-ui-element object-id='bkHC-0' random-id='2992d63f-17fd-24fa-41c7-d3563129f8d3'><marimo-button data-initial-value='0' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Run Analysis&lt;/span&gt;&lt;/span&gt;&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element></div>"
           }
         }
       ],
@@ -149,7 +149,20 @@
     },
     {
       "id": "Kclp",
-      "code_hash": "a2fae77c1868ff4c39f15ae893a95a7c",
+      "code_hash": "8cb1d1afce3e250bd8b0d12234a4bca4",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "ab2e4462e6e4e63a5fe00956502ac0cb",
       "outputs": [
         {
           "type": "error",

@@ -1,36 +1,51 @@
 #!/usr/bin/env bash
-# Run create-sessions.py in parallel for all notebooks with uncommitted git changes.
+# Run create-sessions.py in parallel for marimo notebooks.
 #
 # Usage:
-#   bash scripts/create-sessions-changed.sh          # default 4 parallel jobs
-#   bash scripts/create-sessions-changed.sh -j 8     # 8 parallel jobs
+#   bash scripts/create-sessions-changed.sh              # only git-changed notebooks
+#   bash scripts/create-sessions-changed.sh -a            # all notebooks
+#   bash scripts/create-sessions-changed.sh -a -j 8       # all notebooks, 8 parallel jobs
 
 set -eo pipefail
 
 MAX_JOBS=4
+ALL=false
 
-while getopts "j:" opt; do
+while getopts "aj:" opt; do
     case $opt in
+        a) ALL=true ;;
         j) MAX_JOBS=$OPTARG ;;
-        *) echo "Usage: $0 [-j max_parallel_jobs]" >&2; exit 1 ;;
+        *) echo "Usage: $0 [-a] [-j max_parallel_jobs]" >&2; exit 1 ;;
     esac
 done
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 SCRIPT="$REPO_ROOT/scripts/create-sessions.py"
 
-# Collect notebooks with uncommitted changes (staged + unstaged), deduplicated
 changed_files=()
-while IFS= read -r f; do
-    changed_files+=("$f")
-done < <({ git diff --name-only -- '*.py'; git diff --cached --name-only -- '*.py'; } | sort -u)
+if [ "$ALL" = true ]; then
+    # Find all marimo notebooks (py files containing "import marimo"), excluding scripts/
+    while IFS= read -r f; do
+        changed_files+=("$f")
+    done < <(grep -rl "import marimo" --include='*.py' "$REPO_ROOT/notebooks" | sed "s|^$REPO_ROOT/||" | sort)
+else
+    # Collect notebooks with uncommitted changes (staged + unstaged), deduplicated
+    while IFS= read -r f; do
+        changed_files+=("$f")
+    done < <({ git diff --name-only -- '*.py'; git diff --cached --name-only -- '*.py'; } | sort -u)
+fi
 
 if [ ${#changed_files[@]} -eq 0 ]; then
-    echo "No uncommitted .py files found."
+    if [ "$ALL" = true ]; then
+        echo "No marimo notebooks found."
+    else
+        echo "No uncommitted .py files found."
+    fi
     exit 0
 fi
 
-echo "Found ${#changed_files[@]} changed notebook(s), running up to $MAX_JOBS in parallel"
+label=$( [ "$ALL" = true ] && echo "total" || echo "changed" )
+echo "Found ${#changed_files[@]} $label notebook(s), running up to $MAX_JOBS in parallel"
 echo ""
 
 LOGDIR=$(mktemp -d)

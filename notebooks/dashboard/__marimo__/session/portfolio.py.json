@@ -37,7 +37,7 @@
         {
           "type": "data",
           "data": {
-            "text/html": "<marimo-ui-element object-id='MJUe-0' random-id='bb86f0ac-0570-24e2-1f26-b04f33358c7b'><marimo-data-editor data-initial-value='{&quot;edits&quot;:[]}' data-label='null' data-data='&quot;data:text/csv;base64,RGF0ZSxUaWNrZXIsSW52ZXN0bWVudAoyMDIxLTAyLTAxLG1zZnQsNTAwCjIwMjMtMDItMDEsYWFwbCw4MDAKMjAyNC0wMi0wMSxhYXBsLDIwMAo=&quot;' data-field-types='[[&quot;Date&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;Ticker&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;Investment&quot;,[&quot;integer&quot;,&quot;int64&quot;]]]' data-editable-columns='&quot;all&quot;' data-column-sizing-mode='&quot;auto&quot;'></marimo-data-editor></marimo-ui-element>"
+            "text/html": "<marimo-ui-element object-id='MJUe-0' random-id='dc5dc1fa-be84-014a-b6be-5cc31ab766da'><marimo-data-editor data-initial-value='{&quot;edits&quot;:[]}' data-label='null' data-data='&quot;data:text/csv;base64,RGF0ZSxUaWNrZXIsSW52ZXN0bWVudAoyMDIxLTAyLTAxLG1zZnQsNTAwCjIwMjMtMDItMDEsYWFwbCw4MDAKMjAyNC0wMi0wMSxhYXBsLDIwMAo=&quot;' data-field-types='[[&quot;Date&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;Ticker&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;Investment&quot;,[&quot;integer&quot;,&quot;int64&quot;]]]' data-editable-columns='&quot;all&quot;' data-column-sizing-mode='&quot;auto&quot;'></marimo-data-editor></marimo-ui-element>"
           }
         }
       ],
@@ -71,7 +71,7 @@
     },
     {
       "id": "lEQa",
-      "code_hash": "e2c7a52967c5e13559afca8fb537450c",
+      "code_hash": "98194537699951c1ed16a5af61cde477",
       "outputs": [
         {
           "type": "data",
@@ -84,6 +84,58 @@
     },
     {
       "id": "PKri",
+      "code_hash": "f3f498801481202ceb0c7277d805e362",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "aaa15ad8d4798396192f00285f5a9807",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "bd970eda8dcdce3f48bfd37284ab2ee8",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "a9be8c5e7cdfab27b312bd1a7b1de15e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
       "code_hash": "a4dfedec111575f8766ccd5f15d89b01",
       "outputs": [
         {
@@ -96,7 +148,7 @@
       "console": []
     },
     {
-      "id": "Xref",
+      "id": "Kclp",
       "code_hash": "2ce061254eb7af5f2604a901b29d7352",
       "outputs": [
         {
@@ -109,7 +161,7 @@
       "console": []
     },
     {
-      "id": "SFPL",
+      "id": "emfo",
       "code_hash": "ff850c51ddaa540e965897970f2d5c73",
       "outputs": [
         {
@@ -122,7 +174,7 @@
       "console": []
     },
     {
-      "id": "BYtC",
+      "id": "Hstk",
       "code_hash": "c0461212c6a234752fe4c41cfcb4c3b5",
       "outputs": [
         {
@@ -135,7 +187,7 @@
       "console": []
     },
     {
-      "id": "RGSE",
+      "id": "nWHF",
       "code_hash": "556180613add265795061c416e73b471",
       "outputs": [
         {
@@ -148,7 +200,7 @@
       "console": []
     },
     {
-      "id": "Kclp",
+      "id": "iLit",
       "code_hash": "981150b98902f3b4c053760c267c05d6",
       "outputs": [
         {
@@ -161,7 +213,7 @@
       "console": []
     },
     {
-      "id": "emfo",
+      "id": "ZHCJ",
       "code_hash": "5c00f5ec331aa2667dd370cccb771c1d",
       "outputs": [
         {
@@ -174,13 +226,13 @@
       "console": []
     },
     {
-      "id": "Hstk",
+      "id": "ROlb",
       "code_hash": "1fb1a060534164a18a99494122825190",
       "outputs": [
         {
           "type": "data",
           "data": {
-            "text/html": "<marimo-ui-element object-id='Hstk-0' random-id='4aee61a3-1f91-1d36-f3da-6b2e88dadaae'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-01&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:500.0,&#92;&quot;TotalPnL&#92;&quot;:0.0,&#92;&quot;ReturnPct&#92;&quot;:0.0},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-02&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:499.70780173675985,&#92;&quot;TotalPnL&#92;&quot;:-0.2921982632401523,&#92;&quot;ReturnPct&#92;&quot;:-0.058439652648034635},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-03&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:506.98933468044686,&#92;&quot;TotalPnL&#92;&quot;:6.989334680446859,&#92;&quot;ReturnPct&#92;&quot;:1.3978669360893647},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-04&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:504.92384099610314,&#92;&quot;TotalPnL&#92;&quot;:4.923840996103138,&#92;&quot;ReturnPct&#92;&quot;:0.9847681992206203},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-05&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:505.32021804287615,&#92;&quot;TotalPnL&#92;&quot;:5.320218042876149,&#92;&quot;ReturnPct&#92;&quot;:1.064043608575238},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-08&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:505.8835797449106,&#92;&quot;TotalPnL&#92;&quot;:5.883579744910605,&#92;&quot;ReturnPct&#92;&quot;:1.176715948982121},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-09&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:508.59587769198475,&#92;&quot;TotalPnL&#92;&quot;:8.595877691984754,&#92;&quot;ReturnPct&#92;&quot;:1.7191755383969554},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-10&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:506.6137933903804,&#92;&quot;TotalPnL&#92;&quot;:6.613793390380408,&#92;&quot;ReturnPct&#92;&quot;:1.3227586780760747},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-11&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:510.0980760302071,&#92;&quot;TotalPnL&#92;&quot;:10.098076030207096,&#92;&quot;ReturnPct&#92;&quot;:2.019615206041414},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-12&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:511.14122416175394,&#92;&quot;TotalPnL&#92;&quot;:11.14122416175394,&#92;&quot;ReturnPct&#92;&quot;:2.2282448323507786}]&quot;' data-total-rows='1269' data-total-columns='5' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;Date&quot;,[&quot;date&quot;,&quot;date&quot;]],[&quot;TotalInvested&quot;,[&quot;integer&quot;,&quot;i64&quot;]],[&quot;TotalValue&quot;,[&quot;number&quot;,&quot;f64&quot;]],[&quot;TotalPnL&quot;,[&quot;number&quot;,&quot;f64&quot;]],[&quot;ReturnPct&quot;,[&quot;number&quot;,&quot;f64&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='true' data-show-data-types='true' data-show-page-size-selector='true' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element>"
+            "text/html": "<marimo-ui-element object-id='ROlb-0' random-id='3fd43940-038f-9c1c-3ced-b73da68214b4'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-01&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:500.0,&#92;&quot;TotalPnL&#92;&quot;:0.0,&#92;&quot;ReturnPct&#92;&quot;:0.0},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-02&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:499.70780173675985,&#92;&quot;TotalPnL&#92;&quot;:-0.2921982632401523,&#92;&quot;ReturnPct&#92;&quot;:-0.058439652648034635},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-03&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:506.98933468044686,&#92;&quot;TotalPnL&#92;&quot;:6.989334680446859,&#92;&quot;ReturnPct&#92;&quot;:1.3978669360893647},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-04&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:504.92384099610314,&#92;&quot;TotalPnL&#92;&quot;:4.923840996103138,&#92;&quot;ReturnPct&#92;&quot;:0.9847681992206203},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-05&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:505.32021804287615,&#92;&quot;TotalPnL&#92;&quot;:5.320218042876149,&#92;&quot;ReturnPct&#92;&quot;:1.064043608575238},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-08&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:505.8835797449106,&#92;&quot;TotalPnL&#92;&quot;:5.883579744910605,&#92;&quot;ReturnPct&#92;&quot;:1.176715948982121},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-09&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:508.59587769198475,&#92;&quot;TotalPnL&#92;&quot;:8.595877691984754,&#92;&quot;ReturnPct&#92;&quot;:1.7191755383969554},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-10&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:506.6137933903804,&#92;&quot;TotalPnL&#92;&quot;:6.613793390380408,&#92;&quot;ReturnPct&#92;&quot;:1.3227586780760747},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-11&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:510.0980760302071,&#92;&quot;TotalPnL&#92;&quot;:10.098076030207096,&#92;&quot;ReturnPct&#92;&quot;:2.019615206041414},{&#92;&quot;Date&#92;&quot;:&#92;&quot;2021-02-12&#92;&quot;,&#92;&quot;TotalInvested&#92;&quot;:500,&#92;&quot;TotalValue&#92;&quot;:511.14122416175394,&#92;&quot;TotalPnL&#92;&quot;:11.14122416175394,&#92;&quot;ReturnPct&#92;&quot;:2.2282448323507786}]&quot;' data-total-rows='1269' data-total-columns='5' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;Date&quot;,[&quot;date&quot;,&quot;date&quot;]],[&quot;TotalInvested&quot;,[&quot;integer&quot;,&quot;i64&quot;]],[&quot;TotalValue&quot;,[&quot;number&quot;,&quot;f64&quot;]],[&quot;TotalPnL&quot;,[&quot;number&quot;,&quot;f64&quot;]],[&quot;ReturnPct&quot;,[&quot;number&quot;,&quot;f64&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='true' data-show-data-types='true' data-show-page-size-selector='true' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element>"
           }
         }
       ],
