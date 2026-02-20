@@ -53,7 +53,7 @@ uvx marimo edit --sandbox <notebook>
 
 | Notebook | Description | |
 | -------- | ----------- | - |
-| Lego Price Explorer | Explore Lego price differences and price-per-piece patterns. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/lego/notebook.py) |
+| Lego Price Explorer | Explore Lego price-per-piece patterns. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/lego/notebook.py) |
 | Movies Dashboard | Explore movie data with a dashboard. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/movies.py) |
 | Portfolio Calculator | An interactive tool for portfolio analysis. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/portfolio.py) |
 | World of Warcraft Bot Detection | Detect bots in WoW using session length analysis. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/world-of-warcraft.py) |
