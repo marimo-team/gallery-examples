@@ -13,5 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: astral-sh/setup-uv@v5
+
       - name: Validate session files
-        run: scripts/validate-sessions.sh
+        run: uv run scripts/validate-sessions.py
