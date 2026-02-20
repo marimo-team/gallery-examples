@@ -61,7 +61,14 @@
           }
         }
       ],
-      "console": []
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Feb 19 03:41:23 PM: Computing 15-nearest neighbors, with max_distance=None\nThu Feb 19 15:41:41 2026 Building RP forest with 10 trees\nThu Feb 19 15:41:43 2026 NN descent for 16 iterations\n\t 1  /  16\n\t 2  /  16\n\t 3  /  16\n\t 4  /  16\n\tStopping threshold met -- exiting after 4 iterations\nFeb 19 03:41:47 PM: Computing quadratic initialization.\nFeb 19 03:41:50 PM: Fitting a standardized embedding into R^2, for a graph with 70000 items and 1164478 edges.\nFeb 19 03:41:50 PM: `embed` method parameters: eps=1.0e-05, max_iter=300, memory_size=10\nFeb 19 03:41:50 PM: iteration 000 | distortion 0.201327 | residual norm 0.00412106 | step length 5.505 | percent change 0.00606321\nFeb 19 03:41:51 PM: iteration 030 | distortion 0.148902 | residual norm 0.00019891 | step length 1 | percent change 1.04737\nFeb 19 03:41:52 PM: iteration 060 | distortion 0.145845 | residual norm 0.000133504 | step length 1 | percent change 0.979433\nFeb 19 03:41:52 PM: iteration 090 | distortion 0.144439 | residual norm 9.18004e-05 | step length 1 | percent change 1.4892\nFeb 19 03:41:53 PM: iteration 120 | distortion 0.143553 | residual norm 4.39412e-05 | step length 1 | percent change 0.384984\nFeb 19 03:41:54 PM: iteration 150 | distortion 0.143398 | residual norm 4.14568e-05 | step length 1 | percent change 0.125921\nFeb 19 03:41:54 PM: iteration 180 | distortion 0.143279 | residual norm 1.73862e-05 | step length 1 | percent change 0.116638\nFeb 19 03:41:55 PM: Converged in 205 iterations, with residual norm 9.81481e-06\nFeb 19 03:41:55 PM: Finished fitting in 4.575 seconds and 205 iterations.\nFeb 19 03:41:55 PM: average distortion 0.143 | residual norm 9.8e-06\n",
+          "mimetype": "text/plain"
+        }
+      ]
     },
     {
       "id": "bkHC",
@@ -74,7 +81,14 @@
           }
         }
       ],
-      "console": []
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "[W 260219 15:41:55 altair_transformer:79] Failed to convert data to arrow format, falling back to CSV: `Import pyarrow` failed.  Use pip or conda to install the pyarrow package.\n",
+          "mimetype": "text/plain"
+        }
+      ]
     },
     {
       "id": "lEQa",

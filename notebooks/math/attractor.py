@@ -1,20 +1,18 @@
 # /// script
+# requires-python = "==3.10"
 # dependencies = [
-#     "jupyter-scatter==0.22.2",
+#     "jupyter-scatter",
 #     "marimo",
-#     "numpy==2.3.5",
+#     "numpy",
+#     "geoindex_rs>=0.2.1",
 # ]
 # requires-python = ">=3.11"
 # ///
 
 import marimo
 
-__generated_with = "0.19.8"
-app = marimo.App(
-    width="medium",
-    css_file="/usr/local/_marimo/custom.css",
-    auto_download=["html"],
-)
+__generated_with = "0.19.11"
+app = marimo.App(width="medium")
 
 with app.setup:
     import marimo as mo
@@ -48,7 +46,6 @@ def _(points, widget):
 
 @app.function(hide_code=True)
 def roessler_attractor(num: int) -> np.array:
-
     points = []
 
     xn = 2.644838333129883

@@ -165,7 +165,20 @@
           "traceback": []
         }
       ],
-      "console": []
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Baseline model device: cpu\nReinforced model device: cpu\n",
+          "mimetype": "text/plain"
+        },
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "`loss_type=None` was set in the config but it is unrecognized. Using the default loss: `ForCausalLMLoss`.\n",
+          "mimetype": "text/plain"
+        }
+      ]
     },
     {
       "id": "Kclp",

@@ -48,10 +48,10 @@
       "code_hash": "73ce1da3e9a955cc2dc32bcbf0cb0c03",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
-          "traceback": []
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>True</pre>"
+          }
         }
       ],
       "console": []
@@ -87,13 +87,20 @@
       "code_hash": "16b70cba99ed0130c62aa0f9a2afb60a",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
-          "traceback": []
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
-      "console": []
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "wandb: setting up run v1yfj6h4\nwandb: Tracking run with wandb version 0.25.0\nwandb: Run data is saved locally in /Users/aagrawal/src/marimo-team/gallery-examples/wandb/run-20260219_154605-v1yfj6h4\nwandb: Run `wandb offline` to turn off syncing.\nwandb: Syncing run baseline\nwandb: \u2b50\ufe0f View project at https://wandb.ai/marimo-io/jupyter-projo\nwandb: \ud83d\ude80 View run at https://wandb.ai/marimo-io/jupyter-projo/runs/v1yfj6h4\nwandb: updating run metadata; uploading history steps 0-0, summary\nwandb: uploading wandb-metadata.json; uploading requirements.txt; uploading wandb-summary.json; uploading config.yaml\nwandb: \nwandb: Run history:\nwandb:  acc \u2582\u2581\u2584\u2581\u2582\u2582\u2583\u2585\u2583\u2583\u2584\u2584\u2584\u2585\u2585\u2585\u2584\u2586\u2585\u2584\u2586\u2586\u2586\u2586\u2586\u2587\u2587\u2587\u2587\u2587\u2587\u2586\u2587\u2586\u2586\u2585\u2586\u2587\u2586\u2588\nwandb: loss \u2588\u2586\u2588\u2586\u2585\u2586\u2586\u2585\u2585\u2586\u2584\u2584\u2585\u2584\u2583\u2583\u2585\u2583\u2583\u2584\u2583\u2583\u2584\u2583\u2583\u2583\u2583\u2583\u2583\u2583\u2583\u2582\u2582\u2583\u2582\u2583\u2581\u2582\u2583\u2583\nwandb: \nwandb: Run summary:\nwandb:  acc 0.97003\nwandb: loss 0.2907\nwandb: \nwandb: \ud83d\ude80 View run baseline at: https://wandb.ai/marimo-io/jupyter-projo/runs/v1yfj6h4\nwandb: \u2b50\ufe0f View project at: https://wandb.ai/marimo-io/jupyter-projo\nwandb: Synced 4 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)\nwandb: Find logs at: ./wandb/run-20260219_154605-v1yfj6h4/logs\nwandb: WARNING Using a boolean value for 'reinit' is deprecated. Use 'return_previous' or 'finish_previous' instead.\nwandb: setting up run nayo6dvd\nwandb: Tracking run with wandb version 0.25.0\nwandb: Run data is saved locally in /Users/aagrawal/src/marimo-team/gallery-examples/wandb/run-20260219_154608-nayo6dvd\nwandb: Run `wandb offline` to turn off syncing.\nwandb: Syncing run fast-lr\nwandb: \u2b50\ufe0f View project at https://wandb.ai/marimo-io/jupyter-projo\nwandb: \ud83d\ude80 View run at https://wandb.ai/marimo-io/jupyter-projo/runs/nayo6dvd\n",
+          "mimetype": "text/plain"
+        }
+      ]
     },
     {
       "id": "Xref",

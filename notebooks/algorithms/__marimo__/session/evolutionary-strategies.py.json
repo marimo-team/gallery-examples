@@ -191,7 +191,14 @@
           }
         }
       ],
-      "console": []
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "/var/folders/w2/5g3ht4h93vqb3l6zf_5hv6w40000gp/T/marimo_14684/__marimo__cell_Hstk_.py:24: UserWarning: Setting the 'color' property will override the edgecolor or facecolor properties.\n  _ellipse = Ellipse(\n",
+          "mimetype": "text/plain"
+        }
+      ]
     },
     {
       "id": "nWHF",
