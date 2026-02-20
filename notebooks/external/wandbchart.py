@@ -5,6 +5,7 @@
 #     "wandb",
 #     "marimo",
 #     "python-dotenv",
+#     "wigglystuff==0.2.30",
 # ]
 # ///
 
