@@ -1,4 +1,4 @@
-# gallery-examples
+# marimo gallery
 
 A collection of [marimo](https://marimo.io) notebooks showcasing algorithms,
 research paper implementations, interactive visualizations, dashboards,
