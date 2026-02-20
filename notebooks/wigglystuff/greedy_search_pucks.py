@@ -10,21 +10,18 @@
 
 import marimo
 
-__generated_with = "0.19.5"
+__generated_with = "0.19.11"
 app = marimo.App(width="full")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
-    import numpy as np
     import matplotlib.pyplot as plt
+    import numpy as np
     from wigglystuff import ChartPuck
-    return ChartPuck, mo, np
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     # Greedy Sampled Search with Pucks
 
@@ -35,7 +32,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _():
     # Loss function selection dropdown
     loss_functions = {
         "Rastrigin": "rastrigin",
@@ -60,7 +57,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _():
     # Greedy search controls
     step_size_slider = mo.ui.slider(
         start=0.01,
@@ -89,7 +86,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(np):
+def _():
     # Define loss functions with multiple local optima
 
     def rastrigin(x, y):
@@ -149,6 +146,7 @@ def _(np):
     def cross_in_tray(x, y):
         """Cross-in-tray function - cross-shaped pattern with multiple minima"""
         return -0.0001 * (np.abs(np.sin(x) * np.sin(y) * np.exp(np.abs(100 - np.sqrt(x**2 + y**2)/np.pi))) + 1)**0.1
+
     return (
         ackley,
         beale,
@@ -166,7 +164,6 @@ def _(np):
 
 @app.cell(hide_code=True)
 def _(
-    ChartPuck,
     ackley,
     beale,
     camel_back,
@@ -176,9 +173,7 @@ def _(
     levi,
     loss_dropdown,
     loss_functions,
-    mo,
     multiple_peaks,
-    np,
     num_generations_slider,
     population_size_slider,
     rastrigin,
@@ -358,7 +353,6 @@ def _(
             puck_color="#e63946",
         )
     )
-
     return (puck,)
 
 
@@ -369,7 +363,7 @@ def _(puck):
 
 
 @app.cell
-def _(mo, puck):
+def _(puck):
     # Display puck coordinates
     mo.md(f"**Puck Position:** ({puck.x[0]:.2f}, {puck.y[0]:.2f})")
     return

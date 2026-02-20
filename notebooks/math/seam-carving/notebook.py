@@ -13,9 +13,18 @@ import marimo
 __generated_with = "0.19.7"
 app = marimo.App(width="medium")
 
+with app.setup:
+    import marimo as mo
+    import time
+    import urllib.request
+    import numpy as np
+    from numba import jit
+    from pathlib import Path
+    from skimage import io, filters, transform
+
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     # Seam Carving
 
@@ -43,9 +52,6 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _():
-    import urllib.request
-    from pathlib import Path
-
     input_image = "The_Persistence_of_Memory.jpg"
     if not Path(input_image).exists():
         urllib.request.urlretrieve(
@@ -56,7 +62,7 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Try it!
     """)
@@ -65,8 +71,6 @@ def _(mo):
 
 @app.cell
 def _():
-    import marimo as mo
-
     slider = mo.ui.slider(
         0.7,
         1.0,
@@ -76,11 +80,11 @@ def _():
         show_value=True,
     )
     slider
-    return mo, slider
+    return (slider,)
 
 
 @app.cell
-def _(efficient_seam_carve, input_image, mo, slider):
+def _(efficient_seam_carve, input_image, slider):
     scale_factor = slider.value
     result = efficient_seam_carve(input_image, scale_factor)
 
@@ -89,13 +93,7 @@ def _(efficient_seam_carve, input_image, mo, slider):
 
 
 @app.cell
-def _(mo):
-    import numpy as np
-    from numba import jit
-    from skimage import io, filters, transform
-    import time
-
-
+def _():
     def rgb2gray(rgb):
         return np.dot(rgb[..., :3], [0.2989, 0.5870, 0.1140])
 

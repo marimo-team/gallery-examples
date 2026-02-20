@@ -5,6 +5,26 @@
   },
   "cells": [
     {
+      "id": "setup",
+      "code_hash": "f97948166849a201acd37ca92f1bd8a4",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "No module named 'altair'",
+          "traceback": []
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/w2/5g3ht4h93vqb3l6zf_5hv6w40000gp/T/marimo_54764/__marimo__cell_setup_.py&quot;</span>, line <span class=\"m\">3</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"kn\">import</span><span class=\"w\"> </span><span class=\"nn\">altair</span><span class=\"w\"> </span><span class=\"k\">as</span><span class=\"w\"> </span><span class=\"nn\">alt</span>\n<span class=\"gr\">ModuleNotFoundError</span>: <span class=\"n\">No module named &#39;altair&#39;</span>\n</pre></div>\n</span>",
+          "mimetype": "application/vnd.marimo+traceback"
+        }
+      ]
+    },
+    {
       "id": "Hbol",
       "code_hash": "99097374b318d1a2886c4dceb22b92cc",
       "outputs": [
@@ -19,7 +39,7 @@
     },
     {
       "id": "MJUe",
-      "code_hash": "82486eab9b060076b50219f12a5f5da6",
+      "code_hash": "80024e612da85784ed038f867c7dc7b0",
       "outputs": [
         {
           "type": "data",
@@ -32,27 +52,7 @@
     },
     {
       "id": "vblA",
-      "code_hash": "d490165f5af91ca51acc442e0176b560",
-      "outputs": [
-        {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "No module named 'polars'",
-          "traceback": []
-        }
-      ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stderr",
-          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/rp/pnh9h2pn51x7t7157l_vh14m0000gp/T/marimo_10307/__marimo__cell_vblA_.py&quot;</span>, line <span class=\"m\">2</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"kn\">import</span><span class=\"w\"> </span><span class=\"nn\">polars</span><span class=\"w\"> </span><span class=\"k\">as</span><span class=\"w\"> </span><span class=\"nn\">pl</span>\n<span class=\"gr\">ModuleNotFoundError</span>: <span class=\"n\">No module named &#39;polars&#39;</span>\n</pre></div>\n</span>",
-          "mimetype": "application/vnd.marimo+traceback"
-        }
-      ]
-    },
-    {
-      "id": "bkHC",
-      "code_hash": "d298664a811d4a27f723847a7f94b45a",
+      "code_hash": "d905c69f218b9fb9e4156c65b2e31bc0",
       "outputs": [
         {
           "type": "data",
@@ -64,21 +64,21 @@
       "console": []
     },
     {
-      "id": "lEQa",
-      "code_hash": "f7723e4e1b7d946a18c71eaf12a3ea60",
+      "id": "bkHC",
+      "code_hash": "bef3a9f7d074785c84fedda304ebf86c",
       "outputs": [
         {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
+          "type": "error",
+          "ename": "exception",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
+          "traceback": []
         }
       ],
       "console": []
     },
     {
-      "id": "PKri",
-      "code_hash": "b697b971202940fd074097bafc93568c",
+      "id": "lEQa",
+      "code_hash": "ec2b2fb30454a3ba950b82a19422a147",
       "outputs": [
         {
           "type": "data",
@@ -90,7 +90,7 @@
       "console": []
     },
     {
-      "id": "Xref",
+      "id": "PKri",
       "code_hash": "4dba41e558fcca70b015590a2b214bb3",
       "outputs": [
         {
@@ -103,7 +103,7 @@
       "console": []
     },
     {
-      "id": "SFPL",
+      "id": "Xref",
       "code_hash": "eff7d5dba32b4da32d9a67a519434d3f",
       "outputs": [
         {
@@ -116,7 +116,7 @@
       "console": []
     },
     {
-      "id": "BYtC",
+      "id": "SFPL",
       "code_hash": "5b5fa1e52d6bbc082ec95acdb78e1cf7",
       "outputs": [
         {
@@ -129,8 +129,8 @@
       "console": []
     },
     {
-      "id": "RGSE",
-      "code_hash": "3f5505f2ca2ac18d66e513f816743575",
+      "id": "BYtC",
+      "code_hash": "75b0f7e23dead76b4a4dc4c62c5aac0e",
       "outputs": [
         {
           "type": "data",
@@ -142,7 +142,7 @@
       "console": []
     },
     {
-      "id": "Kclp",
+      "id": "RGSE",
       "code_hash": "3f1cd3d9749ba1acb7d0a307910f20f9",
       "outputs": [
         {
@@ -155,7 +155,7 @@
       "console": []
     },
     {
-      "id": "emfo",
+      "id": "Kclp",
       "code_hash": "c66e54ee411f0780faae8bc979575c7a",
       "outputs": [
         {
@@ -168,8 +168,8 @@
       "console": []
     },
     {
-      "id": "Hstk",
-      "code_hash": "1d7d4d80ae0818ee7b8c18411690a9bd",
+      "id": "emfo",
+      "code_hash": "3b7adcf700216240bbb2ceb7fd2e77b2",
       "outputs": [
         {
           "type": "data",
@@ -181,7 +181,7 @@
       "console": []
     },
     {
-      "id": "nWHF",
+      "id": "Hstk",
       "code_hash": "ea18ae6cd8fa0601e8598444f292103c",
       "outputs": [
         {
@@ -194,7 +194,7 @@
       "console": []
     },
     {
-      "id": "iLit",
+      "id": "nWHF",
       "code_hash": "a9f713cda6dc24432b8dbb02104fda15",
       "outputs": [
         {
@@ -207,7 +207,7 @@
       "console": []
     },
     {
-      "id": "ZHCJ",
+      "id": "iLit",
       "code_hash": "707a4a2ea52df171052e93648262d7e5",
       "outputs": [
         {

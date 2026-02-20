@@ -11,15 +11,23 @@
 
 import marimo
 
-__generated_with = "0.18.4"
+__generated_with = "0.19.11"
 app = marimo.App(
     css_file="/usr/local/_marimo/custom.css",
     auto_download=["html"],
 )
 
+with app.setup:
+    import marimo as mo
+    import altair as alt
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    import torch
+    import torch.nn as nn
+
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     # Federated Learning
 
@@ -29,7 +37,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(rf"""
     ---
     ### 🧠 The 5 Steps of Federated Learning
@@ -43,7 +51,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ---
 
@@ -66,17 +74,6 @@ def _(mo):
 
 @app.cell
 def _():
-    import marimo as mo
-    import torch
-    import torch.nn as nn
-    import matplotlib.pyplot as plt
-    import altair as alt
-    import pandas as pd
-    return alt, mo, nn, pd, plt, torch
-
-
-@app.cell
-def _(mo, nn):
     # Neural network used by clients and the central server
     class HospitalNet(nn.Module):
         def __init__(self):
@@ -109,7 +106,7 @@ def _(mo, nn):
 
 
 @app.cell
-def _(mo):
+def _():
     # Defining buttons
     train_btn = mo.ui.run_button(label="🏥 Local Training", kind="success")
     merge_btn = mo.ui.run_button(label="🤝 Merge Models (FedAvg)", kind="warn")
@@ -121,16 +118,7 @@ def _(mo):
 
 
 @app.cell
-def _(
-    HospitalNet,
-    get_state,
-    merge_btn,
-    nn,
-    reset_btn,
-    set_state,
-    torch,
-    train_btn,
-):
+def _(HospitalNet, get_state, merge_btn, reset_btn, set_state, train_btn):
     # Federated Learning Control Logic (Train, Merge, Reset)
     # Read the current federated state and version counter
     _s = get_state()
@@ -212,7 +200,7 @@ def _(
 
 
 @app.cell
-def _(alt, get_state, mo, pd, plt, torch):
+def _(get_state):
     # Federated Learning Dashboard
 
     # Read the latest federated state for visualization
@@ -336,21 +324,6 @@ def _(alt, get_state, mo, pd, plt, torch):
             mo.hstack(data_plots, justify="space-around"),
         ]
     )
-    return
-
-
-@app.cell
-def _():
-    return
-
-
-@app.cell
-def _():
-    return
-
-
-@app.cell
-def _():
     return
 
 

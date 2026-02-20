@@ -20,11 +20,12 @@ app = marimo.App(
 )
 
 with app.setup:
+    import marimo as mo
+    import altair as alt
     import matplotlib.pyplot as plt
+    import pandas as pd
     import pymde
     import torch
-
-    import marimo as mo
 
 
 @app.cell(hide_code=True)
@@ -54,7 +55,7 @@ def _(compute_embedding, constraint, embedding_dimension):
 
 
 @app.cell
-def _(alt, df):
+def _(df):
     chart = mo.ui.altair_chart(
         alt.Chart(df)
         .mark_circle(size=4)
@@ -112,7 +113,7 @@ def _():
 
 
 @app.cell
-def _(embedding, mnist, pd):
+def _(embedding, mnist):
     indices = torch.randperm(mnist.data.shape[0])[:20000].numpy()
     embedding_sampled = embedding.numpy()[indices]
 
@@ -174,20 +175,6 @@ def _(mnist):
         return fig
 
     return (show_images,)
-
-
-@app.cell
-def _():
-    import altair as alt
-
-    return (alt,)
-
-
-@app.cell
-def _():
-    import pandas as pd
-
-    return (pd,)
 
 
 if __name__ == "__main__":

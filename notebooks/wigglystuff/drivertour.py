@@ -11,17 +11,9 @@ import marimo
 __generated_with = "0.18.4"
 app = marimo.App(width="columns", sql_output="polars")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
-    return (mo,)
-
-
-@app.cell
-def _():
     from wigglystuff import DriverTour
-    return (DriverTour,)
 
 
 @app.cell
@@ -31,7 +23,7 @@ def _(tour):
 
 
 @app.cell(hide_code=True)
-def _(DriverTour, mo):
+def _():
     tour = mo.ui.anywidget(
         DriverTour(steps=[
             {

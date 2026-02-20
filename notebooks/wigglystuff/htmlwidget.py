@@ -13,20 +13,25 @@
 
 import marimo
 
-__generated_with = "0.18.4"
+__generated_with = "0.19.11"
 app = marimo.App()
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
-    import polars as pl
+    import random
+    import time
+    import matplotlib.pylab as plt
     import numpy as np
-    return mo, np
+    import polars as pl
+    from mohtml import img
+    from wigglystuff import HTMLRefreshWidget
+    from wigglystuff import ImageRefreshWidget
+    from wigglystuff import ProgressBar
+    from wigglystuff.utils import refresh_matplotlib
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Updating `matplotlib` charts
 
@@ -35,20 +40,15 @@ def _(mo):
     return
 
 
-@app.cell
-def _(np):
-    import matplotlib.pylab as plt
-    from wigglystuff.utils import refresh_matplotlib
-
-    @refresh_matplotlib
-    def cumsum_linechart(data):
-        y = np.cumsum(data)
-        plt.plot(np.arange(len(y)), y)
-    return (cumsum_linechart,)
+@app.function
+@refresh_matplotlib
+def cumsum_linechart(data):
+    y = np.cumsum(data)
+    plt.plot(np.arange(len(y)), y)
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     The decorator takes the matplotlib image and turns it into a base64 encoded string that can be plotted by `<img>` tags in html. You can see this for yourself in the example below. The `img(src=...)` function call in `mohtml` is effectively a bit of syntactic sugar around `<img src="...">`.
     """)
@@ -56,15 +56,13 @@ def _(mo):
 
 
 @app.cell
-def _(cumsum_linechart):
-    from mohtml import img 
-
+def _():
     img(src=cumsum_linechart([1, 2, 3, 2]))
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     Having a static image is great, but we want dynamic images! That's where our `ImageRefreshWidget` comes in. It allows you to trigger a streaming update to an image by running code from another cell. Try it out below!
     """)
@@ -72,9 +70,7 @@ def _(mo):
 
 
 @app.cell
-def _(cumsum_linechart):
-    from wigglystuff import ImageRefreshWidget
-
+def _():
     widget = ImageRefreshWidget(
         src=cumsum_linechart([1,2,3,4])
     )
@@ -83,7 +79,7 @@ def _(cumsum_linechart):
 
 
 @app.cell
-def _(cumsum_linechart, random, time, widget):
+def _(widget):
     data = [random.random() - 0.5]
 
     for i in range(20):
@@ -95,7 +91,7 @@ def _(cumsum_linechart, random, time, widget):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     When you re-run the cell below you should see that the widget updates. This works because the widget knows how to respond to a change to the `widget.src` property. You only need to make sure that you pass along a base64 string that html images can handle, which is covered by the decorator that we applied earlier.
     """)
@@ -103,7 +99,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Updating `altair` charts
 
@@ -142,7 +138,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     Unlike matplotlib charts though, altair is actually designed to give you objects back. That means that you don't need to use a decorated function for the update, you can also just convert the altair chart to SVG directly. This library supports utilities for both patterns.
     """)
@@ -150,7 +146,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Oh ... one more thing about that `HTMLRefreshWidget`
 
@@ -160,16 +156,14 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
-    from wigglystuff import HTMLRefreshWidget
-
+def _():
     html_widget = mo.ui.anywidget(HTMLRefreshWidget())
     html_widget
     return (html_widget,)
 
 
 @app.cell
-def _(html_widget, time):
+def _(html_widget):
     for _i in range(10):
         html_widget.html = f"<p>Counting {_i}</p>"
         time.sleep(0.1)
@@ -177,7 +171,7 @@ def _(html_widget, time):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Progress bars
 
@@ -188,15 +182,13 @@ def _(mo):
 
 @app.cell
 def _():
-    from wigglystuff import ProgressBar
-
     progress = ProgressBar(value=0, max_value=100)
     progress
     return (progress,)
 
 
 @app.cell
-def _(progress, random, time):
+def _(progress):
     def slow_task():
         """Simulated task that takes time"""
         time.sleep(random.random() / 10)
@@ -206,13 +198,6 @@ def _(progress, random, time):
         slow_task()
         progress.value += 1
     return
-
-
-@app.cell
-def _():
-    import random 
-    import time 
-    return random, time
 
 
 if __name__ == "__main__":

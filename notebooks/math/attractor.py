@@ -4,7 +4,7 @@
 #     "marimo",
 #     "numpy==2.3.5",
 # ]
-# requires-python = ">=3.13"
+# requires-python = ">=3.11"
 # ///
 
 import marimo
@@ -17,9 +17,9 @@ app = marimo.App(
 )
 
 with app.setup:
+    import marimo as mo
     import jscatter
     import numpy as np
-    import marimo as mo
     from math import inf
 
 

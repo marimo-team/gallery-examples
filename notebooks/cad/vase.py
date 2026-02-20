@@ -6,53 +6,23 @@
 #     "marimo-cad==0.1.0",
 # ]
 # ///
+
 import marimo
 
-__generated_with = "0.19.6"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
+
+with app.setup:
+    from marimo_cad import export_stl
+    import marimo as mo
+    import marimo_cad as cad
+    import tempfile
+    from build123d import ( Axis, BuildLine, BuildPart, BuildSketch, Line, Plane, Spline, make_face, revolve, )
+    from pathlib import Path
 
 
 @app.cell
 def _():
-    import tempfile
-    from pathlib import Path
-
-    import marimo as mo
-    from build123d import (
-        Axis,
-        BuildLine,
-        BuildPart,
-        BuildSketch,
-        Line,
-        Plane,
-        Spline,
-        make_face,
-        revolve,
-    )
-
-    import marimo_cad as cad
-    from marimo_cad import export_stl
-
-    return (
-        Axis,
-        BuildLine,
-        BuildPart,
-        BuildSketch,
-        Line,
-        Path,
-        Plane,
-        Spline,
-        cad,
-        export_stl,
-        make_face,
-        mo,
-        revolve,
-        tempfile,
-    )
-
-
-@app.cell
-def _(mo):
     mo.md(r"""
     # Parametric Vase
 
@@ -63,7 +33,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _():
     # Shape parameters
     height = mo.ui.slider(80, 200, value=120, step=10, label="Height (mm)")
     base_radius = mo.ui.slider(20, 50, value=30, step=5, label="Base Radius (mm)")
@@ -90,7 +60,7 @@ def _(mo):
 
 
 @app.cell
-def _(cad):
+def _():
     # Create viewer once - it persists across slider changes
     viewer = cad.Viewer()
     return (viewer,)
@@ -98,21 +68,12 @@ def _(cad):
 
 @app.cell
 def _(
-    Axis,
-    BuildLine,
-    BuildPart,
-    BuildSketch,
-    Line,
-    Plane,
-    Spline,
     base_radius,
     belly_height,
     belly_radius,
     height,
-    make_face,
     neck_height,
     neck_radius,
-    revolve,
     top_radius,
     wall,
 ):
@@ -173,21 +134,17 @@ def _(
         neck_pct=neck_height.value,
         thickness=wall.value,
     )
-    return build_vase, vase_parts, vase_shape
+    return vase_parts, vase_shape
 
 
 @app.cell
 def _(
-    Path,
     base_radius,
     belly_height,
     belly_radius,
-    export_stl,
     height,
-    mo,
     neck_height,
     neck_radius,
-    tempfile,
     top_radius,
     vase_parts,
     vase_shape,
@@ -225,7 +182,7 @@ def _(
             viewer,
         ]
     )
-    return (download_btn,)
+    return
 
 
 if __name__ == "__main__":

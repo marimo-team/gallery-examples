@@ -18,9 +18,23 @@ import marimo
 __generated_with = "0.19.11"
 app = marimo.App()
 
+with app.setup:
+    import marimo as mo
+    import importlib
+    import os
+    import urllib.request
+    import gfosd
+    import gfosd.components as gfc
+    import inputs.components as complib
+    import inputs.explainer as explainer
+    import inputs.intro_problem as intro_problem
+    import inputs.problems as problems
+    import matplotlib.pyplot as plt
+    import numpy as np
+
 
 @app.cell
-def _(mo):
+def _():
     mo.image(
         src="https://bmeyers.github.io/assets/gismo-cropped.png",
     ).center()
@@ -28,7 +42,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     # Signal Decomposition
     """)
@@ -36,7 +50,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     This app is a hands-on introduction to _signal decomposition_, an
     age-old problem about breaking down a complex signal, also known as a
@@ -46,7 +60,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     The simpler signals that come out of a decomposition are called
     _components_. When doing a signal decomposition, we have to specify
@@ -59,7 +73,7 @@ def _(mo):
 
 
 @app.cell
-def _(complib, mo):
+def _():
     component_options = [
         complib.Components.TREND_LINE,
         complib.Components.PERIODIC,
@@ -102,7 +116,7 @@ def _(component_radio, other_component_radio):
 
 
 @app.cell
-def _(intro_problem, mo):
+def _():
     intro = intro_problem.IntroProblem()
 
     mo.md(
@@ -118,7 +132,7 @@ def _(intro_problem, mo):
 
 
 @app.cell
-def _(get_show_third_component, mo):
+def _(get_show_third_component):
     _n_components = "2" if not get_show_third_component() else "3"
     _three_component_text = " and third " if get_show_third_component() else ""
 
@@ -145,7 +159,7 @@ def _(get_show_third_component, mo):
 
 
 @app.cell
-def _(get_show_third_component, intro, mo, radios):
+def _(get_show_third_component, intro, radios):
     # Show radios
     (
         mo.hstack(
@@ -168,7 +182,7 @@ def _(get_show_third_component, intro, mo, radios):
 
 
 @app.cell
-def _(get_show_third_component, intro, mo, radios):
+def _(get_show_third_component, intro, radios):
     # Plot 3-component decomposition
     (
         None
@@ -188,7 +202,7 @@ def _(get_show_third_component, intro, mo, radios):
 
 
 @app.cell
-def _(explainer, get_show_third_component, mo, radios):
+def _(get_show_third_component, radios):
     # Component explainer callout
     (
         mo.md(explainer.explainer(radios[0].value)).callout(kind="neutral")
@@ -199,7 +213,7 @@ def _(explainer, get_show_third_component, mo, radios):
 
 
 @app.cell
-def _(mo):
+def _():
     get_show_third_component, set_show_third_component = mo.state(False)
 
     add_component_button = mo.ui.button(
@@ -221,7 +235,6 @@ def _(mo):
 def _(
     add_component_button,
     get_show_third_component,
-    mo,
     solved,
     user_tried_all_components,
 ):
@@ -262,7 +275,7 @@ def _():
 
 
 @app.cell
-def _(complib, radios, solved_ever):
+def _(radios, solved_ever):
     _chosen_components = set([r.value for r in radios])
 
     class Solved:
@@ -280,7 +293,7 @@ def _(complib, radios, solved_ever):
 
 
 @app.cell
-def _(get_show_third_component, mo, solved):
+def _(get_show_third_component, solved):
     # Solved callout
     (
         mo.md(
@@ -311,7 +324,7 @@ def _(get_show_third_component, mo, solved):
 
 
 @app.cell
-def _(mo, solved):
+def _(solved):
     (
         mo.md(
             """**Heads up!**
@@ -334,7 +347,6 @@ def _(mo, solved):
 @app.cell
 def _(
     get_show_third_component,
-    mo,
     remove_component_button,
     solved,
     user_tried_all_components,
@@ -361,7 +373,7 @@ def _(
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Part 2: More Decompositions
     """)
@@ -369,7 +381,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo, problems):
+def _():
     selected_problem = mo.ui.dropdown(
         {
             problems.MaunaLoa.name(): problems.MaunaLoa,
@@ -384,7 +396,7 @@ def _(mo, problems):
 
 
 @app.cell
-def _(mo, selected_problem, solved):
+def _(selected_problem, solved):
     # Solve part 1 callout
     (
         mo.md(
@@ -413,14 +425,14 @@ def _(mo, selected_problem, solved):
 
 
 @app.cell
-def _(mo):
+def _():
     data_uploader = mo.ui.file(filetypes=[".csv"], kind="area")
     csv_has_header = mo.ui.checkbox(value=True)
     return csv_has_header, data_uploader
 
 
 @app.cell
-def _(csv_has_header, data_uploader, mo):
+def _(csv_has_header, data_uploader):
     CSV_READ_ERROR = False
 
     def read_uploaded_csv():
@@ -464,7 +476,7 @@ def _(csv_has_header, data_uploader, mo):
 
 
 @app.cell
-def _(data_uploader, mo, problems, selected_problem, show_csv_parameters):
+def _(data_uploader, selected_problem, show_csv_parameters):
     mo.stop(selected_problem.value != problems.CustomDataProblem)
 
     mo.md(
@@ -483,7 +495,7 @@ def _(data_uploader, mo, problems, selected_problem, show_csv_parameters):
 
 
 @app.cell
-def _(CSV_READ_ERROR, mo):
+def _(CSV_READ_ERROR):
     mo.stop(not CSV_READ_ERROR)
 
     mo.md("There was a problem reading your CSV!").callout(kind="alert")
@@ -495,8 +507,6 @@ def _(
     CSV_READ_ERROR,
     column_name,
     data_uploader,
-    mo,
-    problems,
     read_uploaded_csv,
     selected_problem,
 ):
@@ -550,7 +560,7 @@ def _(
 
 
 @app.cell
-def _(mo, set_k):
+def _(set_k):
     add_button = mo.ui.button(
         on_change=lambda _: set_k(lambda v: v + 1),
         label="Add a component",
@@ -564,7 +574,7 @@ def _(mo, set_k):
 
 
 @app.cell
-def _(complib, get_k, get_selected_components, mo, set_selected_components):
+def _(get_k, get_selected_components, set_selected_components):
     def _get_default_component_value(index):
         if index >= len(get_selected_components()):
             return None
@@ -588,7 +598,7 @@ def _(complib, get_k, get_selected_components, mo, set_selected_components):
 
 
 @app.cell
-def _(complib, component_array, get_selected_params, mo, set_selected_params):
+def _(component_array, get_selected_params, set_selected_params):
     component_params = mo.ui.dictionary(
         {
             f"{i}": complib.parameter_controls(
@@ -604,7 +614,7 @@ def _(complib, component_array, get_selected_params, mo, set_selected_params):
 
 
 @app.cell
-def _(mo, problem):
+def _(problem):
     mo.stop(problem is None)
 
     mo.md(f"### {problem.name()}")
@@ -612,7 +622,7 @@ def _(mo, problem):
 
 
 @app.cell
-def _(mo, problem):
+def _(problem):
     mo.stop(problem is None)
 
     problem.description()
@@ -620,7 +630,7 @@ def _(mo, problem):
 
 
 @app.cell
-def _(add_button, mo, problem, remove_button):
+def _(add_button, problem, remove_button):
     mo.stop(problem is None)
 
     mo.md(
@@ -632,7 +642,7 @@ def _(add_button, mo, problem, remove_button):
 
 
 @app.cell
-def _(component_array, component_params, mo, problem):
+def _(component_array, component_params, problem):
     mo.stop(problem is None)
 
     mo.hstack([component_array, component_params])
@@ -641,11 +651,9 @@ def _(component_array, component_params, mo, problem):
 
 @app.cell
 def _(
-    complib,
     component_array,
     component_params,
     get_selected_aggregate_components,
-    mo,
     set_selected_aggregate_components,
 ):
     _aggregates = {}
@@ -683,9 +691,7 @@ def _(
 @app.cell
 def _(
     aggregates,
-    complib,
     get_selected_aggregate_params,
-    mo,
     set_selected_aggregate_params,
 ):
     _aggregate_params = {}
@@ -748,7 +754,6 @@ def _(component_array, noise_component_selected, problem):
 @app.cell
 def _(
     component_array,
-    mo,
     noise_component_selected,
     problem,
     rolled_up_params,
@@ -783,7 +788,7 @@ def _(
 
 
 @app.cell
-def _(complib, problem, problems):
+def _(problem):
     def construct_components(names, parameters):
         center_periodic = isinstance(problem, problems.MaunaLoa)
         return list(
@@ -816,8 +821,6 @@ def _(construct_components):
 def _(
     component_array,
     decompose,
-    mo,
-    plt,
     problem,
     rolled_up_params,
     should_compute_decomposition,
@@ -840,13 +843,13 @@ def _(
 
 
 @app.cell
-def _(complib, mo):
+def _():
     explainer_choice = mo.ui.dropdown(complib.COMPONENT_LIBRARY)
     return (explainer_choice,)
 
 
 @app.cell
-def _(explainer_choice, mo, solved):
+def _(explainer_choice, solved):
     mo.stop(not solved.ever)
 
     mo.md(
@@ -860,7 +863,7 @@ def _(explainer_choice, mo, solved):
 
 
 @app.cell
-def _(explainer, explainer_choice, mo):
+def _(explainer_choice):
     mo.md(
         explainer.explainer(explainer_choice.value)
     ).callout() if explainer_choice.value is not None else ""
@@ -868,7 +871,7 @@ def _(explainer, explainer_choice, mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## More about Signal Decomposition
 
@@ -884,7 +887,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     This material is based upon work supported by the U.S. Department of
             Energy's Office of Energy Efficiency and Renewable Energy (EERE)
@@ -895,20 +898,6 @@ def _(mo):
 
 @app.cell
 def _():
-    import gfosd
-    import gfosd.components as gfc
-    import numpy as np
-    import marimo as mo
-    import matplotlib.pyplot as plt
-
-    return mo, plt
-
-
-@app.cell
-def _():
-    import os
-    import urllib.request
-
     _base_url = "https://raw.githubusercontent.com/marimo-team/gallery-examples/main/notebooks/education/inputs"
     _files = [
         "__init__.py",
@@ -938,18 +927,12 @@ def _():
 
 @app.cell
 def _():
-    import importlib
-    import inputs.components as complib
-    import inputs.intro_problem as intro_problem
-    import inputs.problems as problems
-    import inputs.explainer as explainer
-
     problems.configure_matplotlib()
     _ = importlib.reload(complib)
     _ = importlib.reload(explainer)
     _ = importlib.reload(problems)
     _ = importlib.reload(intro_problem)
-    return complib, explainer, intro_problem, problems
+    return
 
 
 if __name__ == "__main__":

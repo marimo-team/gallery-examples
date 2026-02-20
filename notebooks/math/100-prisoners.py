@@ -12,22 +12,21 @@
 
 import marimo
 
-__generated_with = "0.18.4"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
-    import anywidget
-    import traitlets
-    import numpy as np
     import json
-    return anywidget, json, mo, np, traitlets
+    import altair as alt
+    import anywidget
+    import numpy as np
+    import pandas as pd
+    import traitlets
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     This notebook is a response to [this popular Veritasium video](https://www.youtube.com/watch?v=iSNsgj1OCLA). It's a great video that's certainly worth a watch, but we felt that an interactive notebook let's you explore the problem in a way that a video never could. So here goes:
 
@@ -48,7 +47,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     n_prisoners_input = mo.ui.number(
         value=100, start=10, stop=200, step=10, label="Number of prisoners"
     )
@@ -58,7 +57,7 @@ def _(mo):
 
 
 @app.cell
-def _(np):
+def _():
     def find_cycles(permutation):
         """Find all cycles in a permutation. Returns list of cycles, each cycle is a list of indices."""
         n = len(permutation)
@@ -112,11 +111,12 @@ def _(np):
         perms = np.array([np.random.permutation(n_prisoners) for _ in range(n_simulations)])
         # Compute max cycle length for each
         return np.array([max_cycle_length(p) for p in perms])
+
     return find_cycles, generate_permutation
 
 
 @app.cell
-def _(mo):
+def _():
     regenerate_button = mo.ui.button(label="🎲 New Random Arrangement")
     return (regenerate_button,)
 
@@ -153,160 +153,158 @@ def _(
     return cycle_lengths, cycles, max_cycle, permutation, success
 
 
-@app.cell
-def _(anywidget, traitlets):
-    class CycleGraphWidget(anywidget.AnyWidget):
-        _esm = """
-        import * as d3 from "https://esm.sh/d3@7";
+@app.class_definition
+class CycleGraphWidget(anywidget.AnyWidget):
+    _esm = """
+    import * as d3 from "https://esm.sh/d3@7";
 
-        function render({ model, el }) {
-            const width = 800;
-            const height = 600;
+    function render({ model, el }) {
+        const width = 800;
+        const height = 600;
 
-            // Create SVG
-            const svg = d3.select(el)
-                .append("svg")
-                .attr("width", width)
-                .attr("height", height)
-                .attr("viewBox", [0, 0, width, height]);
+        // Create SVG
+        const svg = d3.select(el)
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("viewBox", [0, 0, width, height]);
 
-            // Add arrow marker definition
-            svg.append("defs").append("marker")
-                .attr("id", "arrowhead")
-                .attr("viewBox", "-0 -5 10 10")
-                .attr("refX", 20)
-                .attr("refY", 0)
-                .attr("orient", "auto")
-                .attr("markerWidth", 6)
-                .attr("markerHeight", 6)
-                .append("path")
-                .attr("d", "M 0,-5 L 10,0 L 0,5")
-                .attr("fill", "#999");
+        // Add arrow marker definition
+        svg.append("defs").append("marker")
+            .attr("id", "arrowhead")
+            .attr("viewBox", "-0 -5 10 10")
+            .attr("refX", 20)
+            .attr("refY", 0)
+            .attr("orient", "auto")
+            .attr("markerWidth", 6)
+            .attr("markerHeight", 6)
+            .append("path")
+            .attr("d", "M 0,-5 L 10,0 L 0,5")
+            .attr("fill", "#999");
 
-            // Container for zoomable content
-            const g = svg.append("g");
+        // Container for zoomable content
+        const g = svg.append("g");
 
-            // Add zoom behavior
-            const zoom = d3.zoom()
-                .scaleExtent([0.3, 3])
-                .on("zoom", (event) => {
-                    g.attr("transform", event.transform);
-                });
-            svg.call(zoom);
+        // Add zoom behavior
+        const zoom = d3.zoom()
+            .scaleExtent([0.3, 3])
+            .on("zoom", (event) => {
+                g.attr("transform", event.transform);
+            });
+        svg.call(zoom);
 
-            function update() {
-                const graphData = JSON.parse(model.get("graph_data"));
-                const nodes = graphData.nodes;
-                const links = graphData.links;
-                const cycleColors = graphData.cycle_colors;
-                const maxBoxes = graphData.max_boxes || 50;
+        function update() {
+            const graphData = JSON.parse(model.get("graph_data"));
+            const nodes = graphData.nodes;
+            const links = graphData.links;
+            const cycleColors = graphData.cycle_colors;
+            const maxBoxes = graphData.max_boxes || 50;
 
-                // Clear previous content
-                g.selectAll("*").remove();
+            // Clear previous content
+            g.selectAll("*").remove();
 
-                // Color scale for cycles
-                const colorScale = d3.scaleOrdinal(d3.schemeTableau10);
+            // Color scale for cycles
+            const colorScale = d3.scaleOrdinal(d3.schemeTableau10);
 
-                // Create links
-                const link = g.append("g")
-                    .selectAll("line")
-                    .data(links)
-                    .join("line")
-                    .attr("stroke", d => {
-                        const cycleIdx = cycleColors[String(d.source)];
-                        const cycleLen = graphData.cycle_lengths[String(cycleIdx)];
-                        return cycleLen > maxBoxes ? "#e41a1c" : colorScale(cycleIdx);
-                    })
-                    .attr("stroke-opacity", 0.6)
-                    .attr("stroke-width", 1.5)
-                    .attr("marker-end", "url(#arrowhead)");
+            // Create links
+            const link = g.append("g")
+                .selectAll("line")
+                .data(links)
+                .join("line")
+                .attr("stroke", d => {
+                    const cycleIdx = cycleColors[String(d.source)];
+                    const cycleLen = graphData.cycle_lengths[String(cycleIdx)];
+                    return cycleLen > maxBoxes ? "#e41a1c" : colorScale(cycleIdx);
+                })
+                .attr("stroke-opacity", 0.6)
+                .attr("stroke-width", 1.5)
+                .attr("marker-end", "url(#arrowhead)");
 
-                // Create nodes
-                const node = g.append("g")
-                    .selectAll("g")
-                    .data(nodes)
-                    .join("g")
-                    .call(d3.drag()
-                        .on("start", dragstarted)
-                        .on("drag", dragged)
-                        .on("end", dragended));
+            // Create nodes
+            const node = g.append("g")
+                .selectAll("g")
+                .data(nodes)
+                .join("g")
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
 
-                node.append("circle")
-                    .attr("r", 12)
-                    .attr("fill", d => {
-                        const cycleIdx = cycleColors[String(d.id)];
-                        const cycleLen = graphData.cycle_lengths[String(cycleIdx)];
-                        return cycleLen > maxBoxes ? "#e41a1c" : colorScale(cycleIdx);
-                    })
-                    .attr("stroke", "#fff")
-                    .attr("stroke-width", 1.5);
+            node.append("circle")
+                .attr("r", 12)
+                .attr("fill", d => {
+                    const cycleIdx = cycleColors[String(d.id)];
+                    const cycleLen = graphData.cycle_lengths[String(cycleIdx)];
+                    return cycleLen > maxBoxes ? "#e41a1c" : colorScale(cycleIdx);
+                })
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 1.5);
 
-                node.append("text")
-                    .text(d => d.id + 1)
-                    .attr("text-anchor", "middle")
-                    .attr("dy", "0.35em")
-                    .attr("font-size", "8px")
-                    .attr("fill", "white")
-                    .attr("pointer-events", "none");
+            node.append("text")
+                .text(d => d.id + 1)
+                .attr("text-anchor", "middle")
+                .attr("dy", "0.35em")
+                .attr("font-size", "8px")
+                .attr("fill", "white")
+                .attr("pointer-events", "none");
 
-                // Force simulation — middle ground settings
-                const padding = 40;
-                const simulation = d3.forceSimulation(nodes)
-                    .force("link", d3.forceLink(links).id(d => d.id).distance(35).strength(1.5))
-                    .force("charge", d3.forceManyBody().strength(-80))
-                    .force("center", d3.forceCenter(width / 2, height / 2))
-                    .force("collision", d3.forceCollide().radius(16))
-                    .force("x", d3.forceX(width / 2).strength(0.05))
-                    .force("y", d3.forceY(height / 2).strength(0.05));
+            // Force simulation — middle ground settings
+            const padding = 40;
+            const simulation = d3.forceSimulation(nodes)
+                .force("link", d3.forceLink(links).id(d => d.id).distance(35).strength(1.5))
+                .force("charge", d3.forceManyBody().strength(-80))
+                .force("center", d3.forceCenter(width / 2, height / 2))
+                .force("collision", d3.forceCollide().radius(16))
+                .force("x", d3.forceX(width / 2).strength(0.05))
+                .force("y", d3.forceY(height / 2).strength(0.05));
 
-                simulation.on("tick", () => {
-                    // Soft bounds
-                    nodes.forEach(d => {
-                        if (d.x < padding) d.x += (padding - d.x) * 0.15;
-                        if (d.x > width - padding) d.x -= (d.x - (width - padding)) * 0.15;
-                        if (d.y < padding) d.y += (padding - d.y) * 0.15;
-                        if (d.y > height - padding) d.y -= (d.y - (height - padding)) * 0.15;
-                    });
-
-                    link
-                        .attr("x1", d => d.source.x)
-                        .attr("y1", d => d.source.y)
-                        .attr("x2", d => d.target.x)
-                        .attr("y2", d => d.target.y);
-
-                    node.attr("transform", d => `translate(${d.x},${d.y})`);
+            simulation.on("tick", () => {
+                // Soft bounds
+                nodes.forEach(d => {
+                    if (d.x < padding) d.x += (padding - d.x) * 0.15;
+                    if (d.x > width - padding) d.x -= (d.x - (width - padding)) * 0.15;
+                    if (d.y < padding) d.y += (padding - d.y) * 0.15;
+                    if (d.y > height - padding) d.y -= (d.y - (height - padding)) * 0.15;
                 });
 
-                function dragstarted(event, d) {
-                    if (!event.active) simulation.alphaTarget(0.3).restart();
-                    d.fx = d.x;
-                    d.fy = d.y;
-                }
+                link
+                    .attr("x1", d => d.source.x)
+                    .attr("y1", d => d.source.y)
+                    .attr("x2", d => d.target.x)
+                    .attr("y2", d => d.target.y);
 
-                function dragged(event, d) {
-                    d.fx = event.x;
-                    d.fy = event.y;
-                }
+                node.attr("transform", d => `translate(${d.x},${d.y})`);
+            });
 
-                function dragended(event, d) {
-                    if (!event.active) simulation.alphaTarget(0);
-                    d.fx = null;
-                    d.fy = null;
-                }
+            function dragstarted(event, d) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
             }
 
-            model.on("change:graph_data", update);
-            update();
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+
+            function dragended(event, d) {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
         }
 
-        export default { render };
-        """
-        graph_data = traitlets.Unicode("{}").tag(sync=True)
-    return (CycleGraphWidget,)
+        model.on("change:graph_data", update);
+        update();
+    }
+
+    export default { render };
+    """
+    graph_data = traitlets.Unicode("{}").tag(sync=True)
 
 
 @app.cell
-def _(CycleGraphWidget, cycles, json, max_boxes, permutation):
+def _(cycles, max_boxes, permutation):
     # Build graph data for D3
     nodes = [{"id": i} for i in range(len(permutation))]
     links = [{"source": i, "target": int(permutation[i])} for i in range(len(permutation))]
@@ -333,7 +331,7 @@ def _(CycleGraphWidget, cycles, json, max_boxes, permutation):
 
 
 @app.cell
-def _(cycle_lengths, max_cycle, mo, success):
+def _(cycle_lengths, max_cycle, success):
     status_color = "green" if success else "red"
     status_text = (
         "✅ All prisoners can find their number!" if success else "❌ One cycle is too long!"
@@ -350,7 +348,7 @@ def _(cycle_lengths, max_cycle, mo, success):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ---
     ## Simulation: Longest Cycle Distribution
@@ -361,10 +359,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo, n_prisoners, np):
-    import altair as alt
-    import pandas as pd
-
+def _(n_prisoners):
     # Run 100k simulations
     n_sims = 100_000
 
@@ -408,7 +403,7 @@ def _(mo, n_prisoners, np):
 
 
 @app.cell
-def _(mo):
+def _():
     mo.md(r"""
     ## Extra detail
 
@@ -423,7 +418,6 @@ def _(mo):
     Therefore, when prisoner 42 traverses their cycle, they must pass through this predecessor box to complete the loop, and that's exactly where their slip is.
     """)
     return
-
 
 
 if __name__ == "__main__":

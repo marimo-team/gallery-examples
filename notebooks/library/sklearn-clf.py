@@ -1,5 +1,5 @@
 # /// script
-# requires-python = ">=3.12"
+# requires-python = ">=3.11"
 # dependencies = [
 #     "altair==5.5.0",
 #     "anthropic==0.69.0",
@@ -18,30 +18,39 @@
 
 import marimo
 
-__generated_with = "0.16.5"
+__generated_with = "0.19.11"
 app = marimo.App(auto_download=["html"])
+
+with app.setup:
+    import marimo as mo
+    import altair as alt
+    import numpy as np
+    import pandas as pd
+    import polars as pl
+    import scipy.stats as stats
+    from sklearn.ensemble import HistGradientBoostingClassifier
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.metrics import classification_report, roc_auc_score, confusion_matrix
+    from sklearn.model_selection import RandomizedSearchCV, StratifiedKFold
+    from sklearn.model_selection import cross_val_score
+    from sklearn.pipeline import Pipeline
+    from skrub import TableVectorizer
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
+def _():
+    mo.md(r"""
     # Scikit-Learn classification workbook
 
     This notebook let's you bootstrap a model for scikit-learn quickly. The main point here is to get started quickly and to be able to iterate from. It's likely that you will need to dive deeper for the best model for each specific use-case.
 
     You can start by uploading a .csv file for classification. Alternatively you may also use a simulated dataset as a demo.
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _():
-    import marimo as mo
-    import polars as pl
-    import numpy as np
-
     # Create UI elements
     file_upload = mo.ui.file(
         label="Upload CSV file", kind="area", filetypes=[".csv"], multiple=False
@@ -55,11 +64,11 @@ def _():
             mo.md("We will assume a default dataset if none is provided."),
         ]
     )
-    return file_upload, mo, pl
+    return (file_upload,)
 
 
 @app.cell
-def _(file_upload, mo, pl):
+def _(file_upload):
     # Load data - either from upload or use default
     if file_upload.value:
         # Read uploaded CSV file
@@ -97,13 +106,13 @@ def _(file_upload, mo, pl):
 
 
 @app.cell
-def _(mo):
+def _():
     run_button = mo.ui.run_button(label="Run Analysis")
     return (run_button,)
 
 
 @app.cell
-def _(df, mo):
+def _(df):
     target_selector = mo.ui.dropdown(
         options=df.columns,
         label="🎯 Select Target Column (variable to predict)",
@@ -114,13 +123,13 @@ def _(df, mo):
 
 
 @app.cell
-def _(cv_folds, cv_iters, mo, run_button, target_selector):
+def _(cv_folds, cv_iters, run_button, target_selector):
     mo.vstack([mo.md("### ⚙️ Configuration"), target_selector, cv_folds, cv_iters, run_button])
     return
 
 
 @app.cell
-def _(mo):
+def _():
     # Add slider for cross-validation folds
     cv_folds = mo.ui.slider(
         start=3, stop=10, value=5, step=1, label="Number of cross-validation folds"
@@ -132,18 +141,9 @@ def _(mo):
 
 
 @app.cell
-def _(df, mo, run_button, target_selector):
+def _(df, run_button, target_selector):
     mo.stop(not run_button.value)
-
     # Prepare data for modeling
-    from skrub import TableVectorizer
-    from sklearn.model_selection import RandomizedSearchCV, StratifiedKFold
-    from sklearn.linear_model import LogisticRegression
-    from sklearn.ensemble import HistGradientBoostingClassifier
-    from sklearn.pipeline import Pipeline
-    from sklearn.metrics import classification_report, roc_auc_score, confusion_matrix
-    import scipy.stats as stats
-
     # Separate features and target
     X = df.drop(target_selector.value)
     y = df[target_selector.value]
@@ -151,27 +151,11 @@ def _(df, mo, run_button, target_selector):
     # Convert to pandas for skrub compatibility
     X_pd = X.to_pandas()
     y_pd = y.to_pandas()
-    return (
-        HistGradientBoostingClassifier,
-        LogisticRegression,
-        Pipeline,
-        RandomizedSearchCV,
-        StratifiedKFold,
-        TableVectorizer,
-        X_pd,
-        stats,
-        y_pd,
-    )
+    return X_pd, y_pd
 
 
 @app.cell
-def _(
-    HistGradientBoostingClassifier,
-    LogisticRegression,
-    Pipeline,
-    TableVectorizer,
-    stats,
-):
+def _():
     # Define pipelines with TableVectorizer
     # TableVectorizer automatically handles mixed types (numeric, categorical, text)
 
@@ -208,8 +192,6 @@ def _(
 
 @app.cell
 def _(
-    RandomizedSearchCV,
-    StratifiedKFold,
     X_pd,
     cv_folds,
     cv_iters,
@@ -220,9 +202,6 @@ def _(
     y_pd,
 ):
     # Perform randomized search with cross-validation
-    from sklearn.model_selection import cross_val_score
-    import pandas as pd
-
     # Set up stratified k-fold
     skf = StratifiedKFold(n_splits=cv_folds.value, shuffle=True, random_state=42)
 
@@ -268,10 +247,7 @@ def _(
 
 
 @app.cell
-def _(hist_search, logistic_search, mo, pl):
-    import altair as alt
-
-
+def _(hist_search, logistic_search):
     # Extract CV results for best models
     def get_cv_metrics(search_obj, model_name):
         """Extract cross-validation metrics for the best model"""

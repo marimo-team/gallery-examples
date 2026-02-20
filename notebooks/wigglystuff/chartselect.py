@@ -13,19 +13,15 @@ import marimo
 __generated_with = "0.19.11"
 app = marimo.App()
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
     import matplotlib.pyplot as plt
     import numpy as np
     from wigglystuff import ChartSelect
 
-    return ChartSelect, mo, np
-
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     # ChartSelect Demo
 
@@ -39,7 +35,7 @@ def _(mo):
 
 
 @app.cell
-def _(np):
+def _():
     np.random.seed(42)
     x_data = np.random.randn(300)
     y_data = np.random.randn(300)
@@ -47,7 +43,7 @@ def _(np):
 
 
 @app.cell
-def _(ChartSelect, x_data, y_data):
+def _(x_data, y_data):
     def draw_chart(ax, widget):
         if widget.has_selection:
             mask = widget.get_mask(x_data, y_data)
@@ -79,7 +75,7 @@ def _(ChartSelect, x_data, y_data):
 
 
 @app.cell
-def _(mo, select):
+def _(select):
     widget = mo.ui.anywidget(select)
     return (widget,)
 
@@ -91,7 +87,7 @@ def _(widget):
 
 
 @app.cell
-def _(mo, widget, x_data, y_data):
+def _(widget, x_data, y_data):
     _msg = "No selection yet"
     if widget.has_selection:
         _mask = widget.get_mask(x_data, y_data)
@@ -105,7 +101,7 @@ def _(mo, widget, x_data, y_data):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Single-Mode Widgets
 
@@ -116,7 +112,7 @@ def _(mo):
 
 
 @app.cell
-def _(ChartSelect, np):
+def _():
     np.random.seed(123)
     _x = np.random.randn(150)
     _y = np.random.randn(150)
@@ -160,7 +156,7 @@ def _(ChartSelect, np):
 
 
 @app.cell
-def _(box_only, lasso_only, mo):
+def _(box_only, lasso_only):
     _box_widget = mo.ui.anywidget(box_only)
     _lasso_widget = mo.ui.anywidget(lasso_only)
     mo.hstack([_box_widget, _lasso_widget], justify="start", gap=1)

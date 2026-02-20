@@ -19,16 +19,17 @@ app = marimo.App(
     auto_download=["html"],
 )
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
+    import altair as alt
     import pandas as pd
-    return mo, pd
+    import polars as pl
+    import yfinance as yf
+    from pathlib import Path
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     # Portfolio tracker
 
@@ -38,7 +39,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo, pd):
+def _():
     investments = mo.ui.data_editor(
         pd.DataFrame(
             [
@@ -59,17 +60,13 @@ def _(investments):
 
 
 @app.cell
-def _(parent_folder, pl):
+def _(parent_folder):
     df = pl.read_csv(f"{parent_folder}/*", glob=True)
     return
 
 
 @app.cell(hide_code=True)
 def _(parent_folder, records):
-    import altair as alt
-    import polars as pl
-
-
     def clean_data(dataf, investment_records):
         # Convert investment records to polars DataFrame with uppercase ticker
         investments_df = pl.DataFrame(investment_records)
@@ -155,11 +152,11 @@ def _(parent_folder, records):
         .pipe(calculate_portfolio_value)
         .pipe(calculate_performance)
     )
-    return cached, make_chart, pl
+    return cached, make_chart
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Investment value over time
     """)
@@ -173,7 +170,7 @@ def _(cached, make_chart):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Returns over time
     """)
@@ -197,9 +194,6 @@ def _(investments):
 
 @app.cell
 def _(records):
-    import yfinance as yf
-    from pathlib import Path
-
     parent_folder = Path("invest-data")
     parent_folder.mkdir(exist_ok=True)
 
@@ -222,7 +216,7 @@ def _(records):
 
 
 @app.cell
-def _(mo):
+def _():
     mo.md(r"""
     ## Data for download
     """)

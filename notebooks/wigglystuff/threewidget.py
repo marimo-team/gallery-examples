@@ -8,22 +8,17 @@
 
 import marimo
 
-__generated_with = "0.18.4"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
+
+with app.setup:
+    import marimo as mo
+    import random
+    from wigglystuff import ThreeWidget
 
 
 @app.cell
 def _():
-    import marimo as mo
-    return (mo,)
-
-
-@app.cell
-def _(mo):
-    import random
-
-    from wigglystuff import ThreeWidget
-
     random.seed(42)
     data = []
     for _ in range(900):
@@ -50,11 +45,11 @@ def _(mo):
         # axis_labels=["R", "G", "B"],
     )
     widget = mo.ui.anywidget(three)
-    return data, random, three, widget
+    return data, three, widget
 
 
 @app.cell
-def _(mo, reset, shuffle):
+def _(reset, shuffle):
     btn_reset = mo.ui.button(on_click=reset, label="reset")
     btn_shuffle = mo.ui.button(on_click=shuffle, label="make some noise")
     [btn_reset, btn_shuffle]
@@ -68,7 +63,7 @@ def _(widget):
 
 
 @app.cell(hide_code=True)
-def _(data, random, three):
+def _(data, three):
     def shuffle(_):
         updates = []
         for _point in three.data:
@@ -83,17 +78,13 @@ def _(data, random, three):
 
     def reset(_):
         three.update_points(data, animate=True, duration_ms=650)
+
     return reset, shuffle
 
 
 @app.cell
 def _(widget):
     widget.start_rotate(speed=10.0)
-    return
-
-
-@app.cell
-def _():
     return
 
 

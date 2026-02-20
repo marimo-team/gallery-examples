@@ -4,14 +4,21 @@
 #     "marimo>=0.19.7",
 # ]
 # ///
+
 import marimo
 
-__generated_with = "0.14.12"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium", auto_download=["html"])
+
+with app.setup:
+    import marimo as mo
+    import urllib.request
+    import altair as alt
+    import polars as pl
 
 
 @app.cell(hide_code=True)
-def _(chart, max_session_threshold, mo):
+def _(chart, max_session_threshold):
     mo.vstack([
         mo.md(f"""
         ## Bot detection 
@@ -28,29 +35,23 @@ def _(chart, max_session_threshold, mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""## Code appendix""")
-    return
-
-
-@app.cell
 def _():
-    import marimo as mo
-    import polars as pl
-    import altair as alt
-    return mo, pl
+    mo.md(r"""
+    ## Code appendix
+    """)
+    return
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""Let's download the dataset first.""")
+def _():
+    mo.md(r"""
+    Let's download the dataset first.
+    """)
     return
 
 
 @app.cell
 def _():
-    import urllib.request
-
     path, _ = urllib.request.urlretrieve(
         "https://github.com/koaning/wow-avatar-datasets/raw/refs/heads/main/wow-full.parquet", 
         "wow-full.parquet"
@@ -59,13 +60,15 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""Next, we read it into polars so that we may apply a pipeline.""")
+def _():
+    mo.md(r"""
+    Next, we read it into polars so that we may apply a pipeline.
+    """)
     return
 
 
 @app.cell
-def _(path, pl):
+def _(path):
     df = pl.read_parquet(path)
     return (df,)
 
@@ -77,7 +80,7 @@ def _(df):
 
 
 @app.cell(hide_code=True)
-def _(pl):
+def _():
     def set_types(dataf):
         return (dataf.with_columns([
                     pl.col("guild").is_not_null(),
@@ -121,12 +124,15 @@ def _(pl):
         n_rows = max_session_hours * 6
         return (dataf
                 .filter(pl.col("session_length").max().over("player_id") < n_rows))
+
     return add_features, clean_data, remove_bots, sessionize, set_types
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""Part of the pipeline is "cached". This is the part of the pipeline that does not change if we change the slider value.""")
+def _():
+    mo.md(r"""
+    Part of the pipeline is "cached". This is the part of the pipeline that does not change if we change the slider value.
+    """)
     return
 
 
@@ -143,14 +149,16 @@ def _(add_features, clean_data, df, sessionize, set_types):
 
 
 @app.cell
-def _(mo):
+def _():
     max_session_threshold = mo.ui.slider(2, 24, 1, value=24, label="Max session length (hours)")
     return (max_session_threshold,)
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""This way, only this function runs when we need it.""")
+def _():
+    mo.md(r"""
+    This way, only this function runs when we need it.
+    """)
     return
 
 
@@ -161,7 +169,7 @@ def _(max_session_threshold, plot_per_date):
 
 
 @app.cell(hide_code=True)
-def _(cached, df, max_session_threshold, mo, pl, remove_bots):
+def _(cached, df, max_session_threshold, remove_bots):
     @mo.cache
     def plot_per_date(threshold):
         df_out = (
@@ -186,6 +194,7 @@ def _(cached, df, max_session_threshold, mo, pl, remove_bots):
             .plot
             .line(x="date", y="len", color="set")
         )
+
     return (plot_per_date,)
 
 

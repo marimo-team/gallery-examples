@@ -11,23 +11,19 @@
 
 import marimo
 
-__generated_with = "0.19.4"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
 
-
-@app.cell
-def _():
-    import altair as alt
+with app.setup:
     import marimo as mo
+    import altair as alt
     import numpy as np
     import pandas as pd
-
     from wigglystuff import TangleSlider, TangleChoice, TangleSelect
-    return TangleChoice, TangleSelect, TangleSlider, alt, mo, np, pd
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## TangleSlider
     """)
@@ -35,7 +31,7 @@ def _(mo):
 
 
 @app.cell
-def _(TangleSlider, mo):
+def _():
     coffees = mo.ui.anywidget(TangleSlider(amount=10, min_value=0, step=1, suffix=" coffees", digits=0))
     price = mo.ui.anywidget(TangleSlider(amount=3.50, min_value=0.01, max_value=10, step=0.01, prefix="$", digits=2))
     return coffees, price
@@ -48,7 +44,7 @@ def _(coffees, price):
 
 
 @app.cell(hide_code=True)
-def _(coffees, mo, price, total):
+def _(coffees, price, total):
     mo.md(f"""
     Suppose that you have {coffees} and they each cost {price} then in total you would need to spend ${total:.2f}.
     """)
@@ -56,14 +52,14 @@ def _(coffees, mo, price, total):
 
 
 @app.cell
-def _(TangleSlider, mo):
+def _():
     prob1 = mo.ui.anywidget(TangleSlider(min_value=0, max_value=20, step=0.1, suffix="% of the time", amount=5))
     prob2 = mo.ui.anywidget(TangleSlider(min_value=0, max_value=20, step=0.1, suffix="% of the time", amount=0))
     return prob1, prob2
 
 
 @app.cell
-def _(alt, np, pd, prob1, prob2):
+def _(prob1, prob2):
     cores = np.arange(1, 64 + 1)
     p1, p2 = prob1.amount/100, prob2.amount/100
     eff1 = 1/(p1 + (1-p1)/cores)
@@ -89,7 +85,7 @@ def _(alt, np, pd, prob1, prob2):
 
 
 @app.cell(hide_code=True)
-def _(c, mo, prob1, prob2):
+def _(c, prob1, prob2):
     mo.vstack([
         mo.md(f"""
     You cannot always get a speedup by throwing more compute at a problem. Let's compare two scenarios.
@@ -103,7 +99,7 @@ def _(c, mo, prob1, prob2):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## TangleChoice
     """)
@@ -111,14 +107,14 @@ def _(mo):
 
 
 @app.cell
-def _(TangleChoice, TangleSlider, mo):
+def _():
     saying = mo.ui.anywidget(TangleChoice(["🙂", "🎉", "💥"]))
     times = mo.ui.anywidget(TangleSlider(min_value=1, max_value=20, step=1, suffix=" times", amount=3))
     return saying, times
 
 
 @app.cell
-def _(mo, saying, times):
+def _(saying, times):
     mo.md(f"""
     As a quick demo, let's repeat {saying} {times}.
 
@@ -128,7 +124,7 @@ def _(mo, saying, times):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## TangleSelect
     """)
@@ -136,14 +132,14 @@ def _(mo):
 
 
 @app.cell
-def _(TangleSelect, mo):
+def _():
     shouting = mo.ui.anywidget(TangleSelect(["🥔", "🥕", "🍎"]))
     times2 = mo.ui.anywidget(TangleSlider(min_value=1, max_value=20, step=1, suffix=" times", amount=3))    
     return shouting, times2
 
 
 @app.cell
-def _(mo, shouting, times):
+def _(shouting, times2):
     mo.md(f"""
     As a quick demo, let's repeat {shouting} {times2}.
 

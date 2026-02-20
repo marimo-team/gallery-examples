@@ -10,22 +10,19 @@
 
 import marimo
 
-__generated_with = "0.18.4"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
-    import numpy as np
     import matplotlib.pyplot as plt
-    from scipy.stats import norm
+    import numpy as np
     from scipy.integrate import quad
-    return mo, norm, np, plt
+    from scipy.stats import norm
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     # Problem of Hard Functions
 
@@ -37,7 +34,7 @@ def _(mo):
 
 
 @app.cell
-def _(np):
+def _():
     # Shared x values for all plots
     x_vals = np.linspace(-15, 15, 1000)
     s_vals = np.linspace(0.01, 6.0, 40)
@@ -45,7 +42,7 @@ def _(np):
 
 
 @app.cell
-def _(np):
+def _():
     def sinc_func(x):
         """Standard sinc function: sin(x)/x with sinc(0)=1"""
         return np.sinc(x / np.pi)
@@ -53,11 +50,12 @@ def _(np):
     def hard_func(x):
         """Non-differentiable function with many local optima"""
         return np.floor(10 * np.sinc(x / np.pi) + 4 * np.sin(x))
+
     return hard_func, sinc_func
 
 
 @app.cell
-def _(hard_func, plt, sinc_func, x_vals):
+def _(hard_func, sinc_func, x_vals):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
 
     ax1.plot(x_vals, sinc_func(x_vals), color='#1f77b4')
@@ -75,7 +73,7 @@ def _(hard_func, plt, sinc_func, x_vals):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     Both functions have multiple peaks, making them hard to optimise via gradient descent. The right function is also non-differentiable.
 
@@ -89,7 +87,7 @@ def _(mo):
 
 
 @app.cell
-def _(norm, np):
+def _():
     def smoothed_value(f, x, sigma, n_points=500):
         """Compute Gaussian-smoothed value of f at x with smoothing sigma."""
         if sigma < 0.01:
@@ -107,6 +105,7 @@ def _(norm, np):
             for j, x in enumerate(x_arr):
                 Z[i, j] = smoothed_value(f, x, s)
         return Z
+
     return compute_landscape, smoothed_value
 
 
@@ -119,7 +118,7 @@ def _(compute_landscape, hard_func, s_vals, sinc_func, x_vals):
 
 
 @app.cell
-def _(Z_hard, Z_sinc, np, plt, s_vals, x_vals):
+def _(Z_hard, Z_sinc, s_vals, x_vals):
     fig2, (ax3, ax4) = plt.subplots(1, 2, figsize=(10, 4))
 
     X, S = np.meshgrid(x_vals, s_vals)
@@ -142,7 +141,7 @@ def _(Z_hard, Z_sinc, np, plt, s_vals, x_vals):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Intuition
 
@@ -158,7 +157,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _():
     x_slider = mo.ui.slider(start=-14.0, stop=14.0, step=0.1, value=0.0, label="x")
     sigma_slider = mo.ui.slider(start=0.1, stop=3.0, step=0.1, value=1.0, label="σ")
     mo.hstack([x_slider, sigma_slider], justify="start")
@@ -169,10 +168,6 @@ def _(mo):
 def _(
     Z_hard,
     hard_func,
-    mo,
-    norm,
-    np,
-    plt,
     s_vals,
     sigma_slider,
     smoothed_value,
@@ -225,7 +220,7 @@ def _(
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     The key insight: instead of optimising $f(x)$ directly, we optimise in the $(x, s)$ space.
     Starting with high smoothing, the landscape is smooth and gradients point toward the global optimum.
@@ -235,7 +230,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Gradient Field Visualization
 
@@ -247,7 +242,7 @@ def _(mo):
 
 
 @app.cell
-def _(Z_sinc, np, plt, s_vals, sinc_func, smoothed_value, x_vals):
+def _(Z_sinc, s_vals, sinc_func, smoothed_value, x_vals):
     # Compute gradient field for visualization
     # Use a coarser grid for the arrows, derived from x_vals and s_vals
     x_arrow = np.linspace(x_vals.min() + 1, x_vals.max() - 1, 20)
@@ -289,7 +284,7 @@ def _(Z_sinc, np, plt, s_vals, sinc_func, smoothed_value, x_vals):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Gradient Descent in Smoothed Space
 
@@ -302,7 +297,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(np, smoothed_value):
+def _(smoothed_value):
     def gradient_descent_smoothed(f, x0, s0, lr_x=0.5, lr_s=0.1, steps=100, eps=1e-4, s_bias=-0.01):
         """
         Gradient descent on the smoothed landscape g(x, s).
@@ -338,42 +333,41 @@ def _(np, smoothed_value):
             trajectory.append((x, s))
 
         return np.array(trajectory)
+
     return (gradient_descent_smoothed,)
 
 
-@app.cell(hide_code=True)
-def _(np):
-    def es_on_f(f, mu0, sigma0, alpha_mu=0.3, alpha_sigma=0.05, n_samples=100, steps=100, seed=42):
-        """
-        ES on f(x) - Original blogpost style.
+@app.function(hide_code=True)
+def es_on_f(f, mu0, sigma0, alpha_mu=0.3, alpha_sigma=0.05, n_samples=100, steps=100, seed=42):
+    """
+    ES on f(x) - Original blogpost style.
 
-        σ is the search distribution width, not a dimension being optimized.
-        Samples x ~ N(μ, σ), evaluates raw f(x), with normalization.
-        """
-        np.random.seed(seed)
-        trajectory = [(mu0, sigma0)]
-        mu, sigma = mu0, sigma0
+    σ is the search distribution width, not a dimension being optimized.
+    Samples x ~ N(μ, σ), evaluates raw f(x), with normalization.
+    """
+    np.random.seed(seed)
+    trajectory = [(mu0, sigma0)]
+    mu, sigma = mu0, sigma0
 
-        for _ in range(steps):
-            samples = np.random.normal(mu, sigma, n_samples)
-            f_vals = f(samples)
+    for _ in range(steps):
+        samples = np.random.normal(mu, sigma, n_samples)
+        f_vals = f(samples)
 
-            # Normalize rewards (baseline subtraction + scaling)
-            f_norm = (f_vals - np.mean(f_vals)) / (np.std(f_vals) + 1e-8)
+        # Normalize rewards (baseline subtraction + scaling)
+        f_norm = (f_vals - np.mean(f_vals)) / (np.std(f_vals) + 1e-8)
 
-            d_mu = alpha_mu * np.mean(f_norm * (samples - mu)) / sigma
-            d_sigma = alpha_sigma * np.mean(f_norm * ((samples - mu)**2 / sigma**2 - 1)) - 0.01
+        d_mu = alpha_mu * np.mean(f_norm * (samples - mu)) / sigma
+        d_sigma = alpha_sigma * np.mean(f_norm * ((samples - mu)**2 / sigma**2 - 1)) - 0.01
 
-            mu = mu + d_mu
-            sigma = np.clip(sigma + d_sigma, 0.1, 6.0)
-            trajectory.append((mu, sigma))
+        mu = mu + d_mu
+        sigma = np.clip(sigma + d_sigma, 0.1, 6.0)
+        trajectory.append((mu, sigma))
 
-        return np.array(trajectory)
-    return (es_on_f,)
+    return np.array(trajectory)
 
 
 @app.cell(hide_code=True)
-def _(np, smoothed_value):
+def _(smoothed_value):
     def es_on_g(f, x0, s0, eps_x=0.5, eps_s=0.2, alpha=0.3, n_samples=50, steps=100, seed=42):
         """
         ES on g(x,σ) - True 2D optimization.
@@ -404,11 +398,12 @@ def _(np, smoothed_value):
             trajectory.append((x, s))
 
         return np.array(trajectory)
+
     return (es_on_g,)
 
 
 @app.cell
-def _(mo):
+def _():
     # Configuration: ONE place to set all trajectory parameters
     traj_x0_slider = mo.ui.slider(start=-12.0, stop=12.0, step=0.5, value=-8.0, label="Start x₀")
     traj_s0_slider = mo.ui.slider(start=0.5, stop=5.0, step=0.1, value=3.0, label="Start σ₀")
@@ -427,12 +422,9 @@ def _(mo):
 def _(
     Z_hard,
     Z_sinc,
-    es_on_f,
     es_on_g,
     gradient_descent_smoothed,
     hard_func,
-    np,
-    plt,
     s_vals,
     sinc_func,
     traj_func_dropdown,

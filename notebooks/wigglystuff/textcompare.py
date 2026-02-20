@@ -8,18 +8,16 @@
 
 import marimo
 
-__generated_with = "0.19.2"
+__generated_with = "0.19.11"
 app = marimo.App()
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
-    return (mo,)
+    from wigglystuff import TextCompare
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## TextCompare
 
@@ -29,9 +27,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
-    from wigglystuff import TextCompare
-
+def _():
     text_a = """The quick brown fox jumps over the lazy dog.
     This is a unique sentence in text A.
     Both texts share this common passage here.
@@ -44,11 +40,11 @@ def _(mo):
 
     widget = mo.ui.anywidget(TextCompare(text_a=text_a, text_b=text_b, min_match_words=3))
     widget
-    return TextCompare, widget
+    return (widget,)
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     Hover over highlighted matches in one panel to see the corresponding match highlighted in the other panel. The widget automatically scrolls to show the matching passage.
     """)
@@ -56,7 +52,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Accessing Match Data
 
@@ -72,7 +68,7 @@ def _(widget):
 
 
 @app.cell(hide_code=True)
-def _(mo, widget):
+def _(widget):
     mo.md(f"""
     **Found {len(widget.matches)} matching passages**
     """)
@@ -80,7 +76,7 @@ def _(mo, widget):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Adjusting Sensitivity
 
@@ -90,7 +86,7 @@ def _(mo):
 
 
 @app.cell
-def _(TextCompare, mo):
+def _():
     # More sensitive - catches smaller matches
     sensitive = mo.ui.anywidget(TextCompare(
         text_a="one two three four five 1 2 3 4",
@@ -104,11 +100,6 @@ def _(TextCompare, mo):
 @app.cell
 def _(sensitive):
     sensitive.matches
-    return
-
-
-@app.cell(hide_code=True)
-def _():
     return
 
 

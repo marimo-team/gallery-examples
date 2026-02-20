@@ -17,9 +17,16 @@ app = marimo.App(
     auto_download=["html"],
 )
 
+with app.setup:
+    import marimo as mo
+    import matplotlib.pyplot as plt
+    import numpy as _np
+    import numpy as np
+    from widget import GrpoGdpoWidget
+
 
 @app.cell
-def _(mo):
+def _():
     mo.md(r"""
  
     """)
@@ -27,7 +34,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## GRPO vs GDPO Advantage Comparison
 
@@ -65,19 +72,12 @@ def _(mo):
 
 @app.cell
 def _():
-    import marimo as mo
-    from widget import GrpoGdpoWidget
-    return GrpoGdpoWidget, mo
-
-
-@app.cell
-def _(GrpoGdpoWidget):
     widget = GrpoGdpoWidget()
     return (widget,)
 
 
 @app.cell
-def _(mo, widget):
+def _(widget):
     widget_view = mo.ui.anywidget(widget)
     return (widget_view,)
 
@@ -96,8 +96,6 @@ def _(fig):
 
 @app.cell(hide_code=True)
 def _():
-    import numpy as np
-
     def normalize(arr):
         """Normalize array to zero mean and unit variance."""
         arr = np.array(arr, dtype=np.float64)
@@ -163,7 +161,7 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     reuse_toggle = mo.ui.switch(label="Train on widget data (instead of fresh samples each epoch)")
     reuse_toggle
     return (reuse_toggle,)
@@ -171,8 +169,6 @@ def _(mo):
 
 @app.cell
 def _():
-    import numpy as _np
-
     def widget_rewards_to_array(rewards_list):
         """Convert widget rewards list to numpy array."""
         return _np.array([
@@ -195,8 +191,6 @@ def _(reuse_toggle, train_policy, widget_rewards_to_array, widget_view):
 
 @app.cell
 def _(gdpo_history, grpo_history):
-    import matplotlib.pyplot as plt
-
     fig, ax = plt.subplots(figsize=(10, 6))
 
     colors = ['#1f77b4', '#ff7f0e', '#2ca02c']  # blue, orange, green

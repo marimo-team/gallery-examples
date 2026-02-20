@@ -8,19 +8,22 @@
 #     "wigglystuff==0.2.11",
 # ]
 # ///
+
 import marimo
 
-__generated_with = "0.18.4"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
+
+with app.setup:
+    import marimo as mo
+    import matplotlib.pyplot as plt
+    import numpy as np
+    import pandas as pd
+    from wigglystuff import PulsarChart
 
 
 @app.cell
 def _():
-    import marimo as mo
-    import pandas as pd
-    import numpy as np
-    from wigglystuff import PulsarChart
-
     # Generate Joy Division-style pulsar data
     # The original is radio pulses from pulsar CP 1919 (PSR B1919+21)
     np.random.seed(42)
@@ -65,17 +68,11 @@ def _():
             y_label="Pulse Number", 
         )
     )
-    return mo, widget
+    return (widget,)
 
 
 @app.cell
-def _():
-    # widget
-    return
-
-
-@app.cell
-def _(mo, widget):
+def _(widget):
     mo.callout(
         f"Selected Index: {widget.selected_index}, Row Length: {len(widget.selected_row) if widget.selected_row else 0}"
     )
@@ -84,8 +81,6 @@ def _(mo, widget):
 
 @app.cell
 def _(widget):
-    import matplotlib.pyplot as plt
-
     def make_plot(selected_row):
         if not selected_row:
             return None
@@ -103,16 +98,11 @@ def _(widget):
 
 
 @app.cell
-def _(mo, plot, widget):
+def _(plot, widget):
     mo.hstack([
         widget, 
         plot
     ], align="start")
-    return
-
-
-@app.cell
-def _():
     return
 
 

@@ -11,15 +11,13 @@ import marimo
 __generated_with = "0.17.8"
 app = marimo.App(width="columns")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
-    return (mo,)
+    from wigglystuff import WebkitSpeechToTextWidget
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Speech to Text
 
@@ -29,9 +27,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
-    from wigglystuff import WebkitSpeechToTextWidget
-
+def _():
     speech_widget = mo.ui.anywidget(WebkitSpeechToTextWidget())
     speech_widget
     return (speech_widget,)
@@ -44,7 +40,7 @@ def _(speech_widget):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     You can also choose to trigger the recording from Python. Use the following two buttons.
     """)
@@ -52,7 +48,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo, speech_widget):
+def _(speech_widget):
     def record(boolean):
         def inner(_):
             speech_widget.listening = boolean

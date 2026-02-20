@@ -8,18 +8,16 @@
 
 import marimo
 
-__generated_with = "0.18.4"
+__generated_with = "0.19.11"
 app = marimo.App()
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
-    return (mo,)
+    from wigglystuff import EdgeDraw
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## EdgeDraw
 
@@ -29,16 +27,14 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
-    from wigglystuff import EdgeDraw
-
+def _():
     widget = mo.ui.anywidget(EdgeDraw(["a", "b", "c", "d"], directed=True))
     widget
     return (widget,)
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     The widget has all sorts of useful attributes and properties that you can retreive. These update as you interact with the widget.
     """)
@@ -70,7 +66,7 @@ def _(widget):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Cycle Detection
 
@@ -82,11 +78,6 @@ def _(mo):
 @app.cell
 def _(widget):
     widget.has_cycle(directed=False), widget.has_cycle(directed=True)
-    return
-
-
-@app.cell
-def _():
     return
 
 

@@ -12,19 +12,20 @@ import marimo
 __generated_with = "0.17.8"
 app = marimo.App(width="medium", sql_output="polars")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
     from mohtml import div, img, tailwind_css
     from wigglystuff import WebcamCapture
 
+
+@app.cell
+def _():
     tailwind_css()
-    return WebcamCapture, div, img, mo
+    return
 
 
 @app.cell
-def _(WebcamCapture, mo):
+def _():
     widget = mo.ui.anywidget(WebcamCapture(interval_ms=1000))
     return (widget,)
 
@@ -36,7 +37,7 @@ def _(widget):
 
 
 @app.cell
-def _(div, img, widget):
+def _(widget):
     div(
         img(src=widget.image_base64),
         klass="bg-slate-100 border border-slate-200 rounded-2xl p-4",

@@ -5,8 +5,8 @@
   },
   "cells": [
     {
-      "id": "Hbol",
-      "code_hash": "649c18db3f11fe49473150a9e77049af",
+      "id": "setup",
+      "code_hash": "fe6af2c01f111c79cf67d6363e093c69",
       "outputs": [
         {
           "type": "error",
@@ -19,13 +19,13 @@
         {
           "type": "stream",
           "name": "stderr",
-          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/rp/pnh9h2pn51x7t7157l_vh14m0000gp/T/marimo_13755/__marimo__cell_Hbol_.py&quot;</span>, line <span class=\"m\">2</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"kn\">from</span><span class=\"w\"> </span><span class=\"nn\">wigglystuff</span><span class=\"w\"> </span><span class=\"kn\">import</span> <span class=\"n\">EnvConfig</span><span class=\"p\">,</span> <span class=\"n\">WandbChart</span>\n<span class=\"gr\">ModuleNotFoundError</span>: <span class=\"n\">No module named &#39;wigglystuff&#39;</span>\n</pre></div>\n</span>",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/w2/5g3ht4h93vqb3l6zf_5hv6w40000gp/T/marimo_54956/__marimo__cell_setup_.py&quot;</span>, line <span class=\"m\">7</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"kn\">from</span><span class=\"w\"> </span><span class=\"nn\">wigglystuff</span><span class=\"w\"> </span><span class=\"kn\">import</span> <span class=\"n\">EnvConfig</span><span class=\"p\">,</span> <span class=\"n\">WandbChart</span>\n<span class=\"gr\">ModuleNotFoundError</span>: <span class=\"n\">No module named &#39;wigglystuff&#39;</span>\n</pre></div>\n</span>",
           "mimetype": "application/vnd.marimo+traceback"
         }
       ]
     },
     {
-      "id": "MJUe",
+      "id": "Hbol",
       "code_hash": "2dd0c1d049333e652e5095fb9c23467e",
       "outputs": [
         {
@@ -38,27 +38,20 @@
       "console": []
     },
     {
-      "id": "vblA",
-      "code_hash": "a2d0fa0c69059a26a9d59af313b70cd4",
+      "id": "MJUe",
+      "code_hash": "0045d1d709715d6ca2db266f0e5c49d5",
       "outputs": [
         {
           "type": "error",
           "ename": "exception",
-          "evalue": "No module named 'dotenv'",
+          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
           "traceback": []
         }
       ],
-      "console": [
-        {
-          "type": "stream",
-          "name": "stderr",
-          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/rp/pnh9h2pn51x7t7157l_vh14m0000gp/T/marimo_13755/__marimo__cell_vblA_.py&quot;</span>, line <span class=\"m\">1</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"kn\">from</span><span class=\"w\"> </span><span class=\"nn\">dotenv</span><span class=\"w\"> </span><span class=\"kn\">import</span> <span class=\"n\">load_dotenv</span>\n<span class=\"gr\">ModuleNotFoundError</span>: <span class=\"n\">No module named &#39;dotenv&#39;</span>\n</pre></div>\n</span>",
-          "mimetype": "application/vnd.marimo+traceback"
-        }
-      ]
+      "console": []
     },
     {
-      "id": "bkHC",
+      "id": "vblA",
       "code_hash": "73ce1da3e9a955cc2dc32bcbf0cb0c03",
       "outputs": [
         {
@@ -71,7 +64,7 @@
       "console": []
     },
     {
-      "id": "lEQa",
+      "id": "bkHC",
       "code_hash": "0526c6b0775d8c1b3a4389c292edd2be",
       "outputs": [
         {
@@ -84,7 +77,7 @@
       "console": []
     },
     {
-      "id": "PKri",
+      "id": "lEQa",
       "code_hash": "652688ada7f29b3f0e2b75240cfe7e70",
       "outputs": [
         {
@@ -97,8 +90,8 @@
       "console": []
     },
     {
-      "id": "Xref",
-      "code_hash": "f35a289060590e725e533a779bb78c2e",
+      "id": "PKri",
+      "code_hash": "16b70cba99ed0130c62aa0f9a2afb60a",
       "outputs": [
         {
           "type": "error",
@@ -110,7 +103,7 @@
       "console": []
     },
     {
-      "id": "SFPL",
+      "id": "Xref",
       "code_hash": "8a0f683669034d7db5add58de2c476b7",
       "outputs": [
         {
@@ -123,7 +116,7 @@
       "console": []
     },
     {
-      "id": "BYtC",
+      "id": "SFPL",
       "code_hash": "8330174a103ff34fcaf40896e95ce18e",
       "outputs": [
         {
@@ -136,7 +129,7 @@
       "console": []
     },
     {
-      "id": "RGSE",
+      "id": "BYtC",
       "code_hash": "b892862351145727d0973600a6e6ded4",
       "outputs": [
         {
@@ -149,7 +142,7 @@
       "console": []
     },
     {
-      "id": "Kclp",
+      "id": "RGSE",
       "code_hash": "29899d3d4b6cb71f9b7616011fa8e960",
       "outputs": [
         {
@@ -162,7 +155,7 @@
       "console": []
     },
     {
-      "id": "emfo",
+      "id": "Kclp",
       "code_hash": "f3f83cbec230ba42ffaf510e56440df0",
       "outputs": [
         {
@@ -175,27 +168,14 @@
       "console": []
     },
     {
-      "id": "Hstk",
-      "code_hash": "10ba0252f2e6ce0f8d284866bd81974c",
+      "id": "emfo",
+      "code_hash": "04dc560a872a787910b85d316c1d22ad",
       "outputs": [
         {
           "type": "error",
           "ename": "exception",
           "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
           "traceback": []
-        }
-      ],
-      "console": []
-    },
-    {
-      "id": "nWHF",
-      "code_hash": null,
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
         }
       ],
       "console": []

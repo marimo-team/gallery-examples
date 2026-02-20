@@ -5,8 +5,8 @@
   },
   "cells": [
     {
-      "id": "Hbol",
-      "code_hash": "563110dc0101f1995efbb97416c28068",
+      "id": "setup",
+      "code_hash": "125337ec59d6899ea8eac6999647206c",
       "outputs": [
         {
           "type": "data",
@@ -18,7 +18,7 @@
       "console": []
     },
     {
-      "id": "MJUe",
+      "id": "Hbol",
       "code_hash": "059d273b7593534db56ba2fd0c375c76",
       "outputs": [
         {
@@ -31,7 +31,7 @@
       "console": []
     },
     {
-      "id": "vblA",
+      "id": "MJUe",
       "code_hash": "c1be19190aa5327b9cbb93565699742f",
       "outputs": [
         {
@@ -44,20 +44,20 @@
       "console": []
     },
     {
-      "id": "bkHC",
+      "id": "vblA",
       "code_hash": "422d4e0de8a141d1e97532cf5ffdc317",
       "outputs": [
         {
           "type": "data",
           "data": {
-            "text/html": "<marimo-ui-element object-id='vblA-0' random-id='6a4659a6-2df1-6e9d-812e-f25ae0261898'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;976a68741eab4812a90ebce3b63c1bb7&quot;}' data-label='null' data-js-url='&quot;data:text/javascript;base64,ZnVuY3Rpb24gcmVuZGVyKHsgbW9kZWwsIGVsIH0pIHsKICBlbC5jbGFzc0xpc3QuYWRkKCJlbnYtY29uZmlnLXdpZGdldCIpOwoKICBjb25zdCBjb250YWluZXIgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCJkaXYiKTsKICBjb250YWluZXIuY2xhc3NOYW1lID0gImVudi1jb25maWctY29udGFpbmVyIjsKCiAgLy8gU3RvcmUgcmVmZXJlbmNlcyB0byB1cGRhdGUgaW4gcGxhY2UgKG5vIERPTSByZWJ1aWxkKQogIGNvbnN0IHJvd3MgPSBbXTsKICBjb25zdCBpbnB1dHMgPSBbXTsKICBjb25zdCBzdGF0dXNFbHMgPSBbXTsKICBsZXQgZm9vdGVyOwoKICBmdW5jdGlvbiBidWlsZEluaXRpYWxET00oKSB7CiAgICBjb25zdCB2YXJpYWJsZXMgPSBtb2RlbC5nZXQoInZhcmlhYmxlcyIpOwoKICAgIHZhcmlhYmxlcy5mb3JFYWNoKCh2YXJpYWJsZSwgaW5kZXgpID0+IHsKICAgICAgY29uc3Qgcm93ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgiZGl2Iik7CiAgICAgIHJvdy5jbGFzc05hbWUgPSAiZW52LWNvbmZpZy1yb3ciOwogICAgICByb3cuZGF0YXNldC5zdGF0dXMgPSB2YXJpYWJsZS5zdGF0dXM7CiAgICAgIHJvd3MucHVzaChyb3cpOwoKICAgICAgLy8gVmFyaWFibGUgbmFtZQogICAgICBjb25zdCBuYW1lRWwgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCJkaXYiKTsKICAgICAgbmFtZUVsLmNsYXNzTmFtZSA9ICJlbnYtdmFyLW5hbWUiOwogICAgICBuYW1lRWwudGV4dENvbnRlbnQgPSB2YXJpYWJsZS5uYW1lOwogICAgICByb3cuYXBwZW5kQ2hpbGQobmFtZUVsKTsKCiAgICAgIC8vIElucHV0IGZpZWxkCiAgICAgIGNvbnN0IGZpZWxkRWwgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCJkaXYiKTsKICAgICAgZmllbGRFbC5jbGFzc05hbWUgPSAiZW52LXZhci1maWVsZCI7CgogICAgICBjb25zdCBpbnB1dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoImlucHV0Iik7CiAgICAgIGlucHV0LnR5cGUgPSAicGFzc3dvcmQiOwogICAgICBpbnB1dC5jbGFzc05hbWUgPSAiZW52LWlucHV0IjsKICAgICAgaW5wdXQuYXV0b2NvbXBsZXRlID0gIm9mZiI7CiAgICAgIGlucHV0cy5wdXNoKGlucHV0KTsKCiAgICAgIC8vIFNldCBpbml0aWFsIHZhbHVlL3BsYWNlaG9sZGVyIC0gc2hvdyB2YWx1ZSBldmVuIGZvciBpbnZhbGlkIHN0YXR1cwogICAgICBpZiAodmFyaWFibGUuc3RhdHVzID09PSAidmFsaWQiIHx8IHZhcmlhYmxlLnN0YXR1cyA9PT0gImludmFsaWQiKSB7CiAgICAgICAgaW5wdXQudmFsdWUgPSB2YXJpYWJsZS52YWx1ZSB8fCAiIjsKICAgICAgfQogICAgICBpZiAodmFyaWFibGUuc3RhdHVzID09PSAibWlzc2luZyIpIHsKICAgICAgICBpbnB1dC5wbGFjZWhvbGRlciA9ICJFbnRlciB2YWx1ZS4uLiI7CiAgICAgIH0KCiAgICAgIC8vIFN1Ym1pdCBvbiBFbnRlciBvbmx5IC0gbGV0IFRhYiB3b3JrIG5hdHVyYWxseQogICAgICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCJrZXlkb3duIiwgKGUpID0+IHsKICAgICAgICBpZiAoZS5rZXkgPT09ICJFbnRlciIpIHsKICAgICAgICAgIGUucHJldmVudERlZmF1bHQoKTsKICAgICAgICAgIGNvbnN0IHZhbHVlID0gaW5wdXQudmFsdWUudHJpbSgpOwogICAgICAgICAgaWYgKCF2YWx1ZSkgcmV0dXJuOwoKICAgICAgICAgIG1vZGVsLnNldCgiX3BlbmRpbmdfdmFsdWUiLCB7CiAgICAgICAgICAgIG5hbWU6IHZhcmlhYmxlLm5hbWUsCiAgICAgICAgICAgIHZhbHVlOiB2YWx1ZSwKICAgICAgICAgIH0pOwogICAgICAgICAgbW9kZWwuc2F2ZV9jaGFuZ2VzKCk7CiAgICAgICAgfQogICAgICB9KTsKCiAgICAgIGZpZWxkRWwuYXBwZW5kQ2hpbGQoaW5wdXQpOwogICAgICByb3cuYXBwZW5kQ2hpbGQoZmllbGRFbCk7CgogICAgICAvLyBTdGF0dXMgaW5kaWNhdG9yCiAgICAgIGNvbnN0IHN0YXR1c0VsID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgiZGl2Iik7CiAgICAgIHN0YXR1c0VsLmNsYXNzTmFtZSA9ICJlbnYtdmFyLXN0YXR1cyI7CiAgICAgIHN0YXR1c0Vscy5wdXNoKHN0YXR1c0VsKTsKICAgICAgdXBkYXRlU3RhdHVzSWNvbihzdGF0dXNFbCwgdmFyaWFibGUpOwoKICAgICAgcm93LmFwcGVuZENoaWxkKHN0YXR1c0VsKTsKICAgICAgY29udGFpbmVyLmFwcGVuZENoaWxkKHJvdyk7CiAgICB9KTsKCiAgICAvLyBGb290ZXIKICAgIGZvb3RlciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoImRpdiIpOwogICAgdXBkYXRlRm9vdGVyKCk7CiAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQoZm9vdGVyKTsKCiAgICBlbC5hcHBlbmRDaGlsZChjb250YWluZXIpOwogIH0KCiAgZnVuY3Rpb24gdXBkYXRlU3RhdHVzSWNvbihzdGF0dXNFbCwgdmFyaWFibGUpIHsKICAgIGlmICh2YXJpYWJsZS5zdGF0dXMgPT09ICJ2YWxpZCIpIHsKICAgICAgc3RhdHVzRWwuaW5uZXJIVE1MID0gYAogICAgICAgIDxzdmcgY2xhc3M9ImVudi1jaGVjayIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiPgogICAgICAgICAgPHBhdGggZD0iTTkgMTYuMTdMNC44MyAxMmwtMS40MiAxLjQxTDkgMTkgMjEgN2wtMS40MS0xLjQxeiIgZmlsbD0iY3VycmVudENvbG9yIi8+CiAgICAgICAgPC9zdmc+CiAgICAgIGA7CiAgICB9IGVsc2UgaWYgKHZhcmlhYmxlLnN0YXR1cyA9PT0gImludmFsaWQiKSB7CiAgICAgIHN0YXR1c0VsLmlubmVySFRNTCA9IGAKICAgICAgICA8c3BhbiBjbGFzcz0iZW52LWVycm9yLXRleHQiIHRpdGxlPSIke3ZhcmlhYmxlLmVycm9yIHx8ICJJbnZhbGlkIn0iPgogICAgICAgICAgPHN2ZyBjbGFzcz0iZW52LWVycm9yLWljb24iIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjE4Ij4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTEgMTVoLTJ2LTJoMnYyem0wLTRoLTJWN2gydjZ6IiBmaWxsPSJjdXJyZW50Q29sb3IiLz4KICAgICAgICAgIDwvc3ZnPgogICAgICAgIDwvc3Bhbj4KICAgICAgYDsKICAgIH0gZWxzZSB7CiAgICAgIHN0YXR1c0VsLmlubmVySFRNTCA9ICIiOwogICAgfQogIH0KCiAgZnVuY3Rpb24gdXBkYXRlRm9vdGVyKCkgewogICAgY29uc3QgYWxsVmFsaWQgPSBtb2RlbC5nZXQoImFsbF92YWxpZCIpOwogICAgZm9vdGVyLmNsYXNzTmFtZSA9ICJlbnYtY29uZmlnLWZvb3RlciI7CiAgICBmb290ZXIudGV4dENvbnRlbnQgPSBhbGxWYWxpZAogICAgICA/ICJBbGwgdmFyaWFibGVzIGNvbmZpZ3VyZWQiCiAgICAgIDogIlByZXNzIEVudGVyIHRvIHNldCBlYWNoIHZhcmlhYmxlIjsKICB9CgogIGZ1bmN0aW9uIHVwZGF0ZUluUGxhY2UoKSB7CiAgICBjb25zdCB2YXJpYWJsZXMgPSBtb2RlbC5nZXQoInZhcmlhYmxlcyIpOwoKICAgIHZhcmlhYmxlcy5mb3JFYWNoKCh2YXJpYWJsZSwgaW5kZXgpID0+IHsKICAgICAgY29uc3Qgcm93ID0gcm93c1tpbmRleF07CiAgICAgIGNvbnN0IGlucHV0ID0gaW5wdXRzW2luZGV4XTsKICAgICAgY29uc3Qgc3RhdHVzRWwgPSBzdGF0dXNFbHNbaW5kZXhdOwoKICAgICAgLy8gVXBkYXRlIHJvdyBzdGF0dXMgKGZvciBiYWNrZ3JvdW5kIGNvbG9yKQogICAgICByb3cuZGF0YXNldC5zdGF0dXMgPSB2YXJpYWJsZS5zdGF0dXM7CgogICAgICAvLyBVcGRhdGUgaW5wdXQgYmFzZWQgb24gc3RhdHVzIC0gc2hvdyB2YWx1ZSBldmVuIGZvciBpbnZhbGlkIHN0YXR1cwogICAgICBpZiAodmFyaWFibGUuc3RhdHVzID09PSAidmFsaWQiIHx8IHZhcmlhYmxlLnN0YXR1cyA9PT0gImludmFsaWQiKSB7CiAgICAgICAgLy8gT25seSB1cGRhdGUgdmFsdWUgaWYgaXQgY2hhbmdlZCAoYXZvaWQgb3ZlcndyaXRpbmcgd2hpbGUgdXNlciB0eXBlcykKICAgICAgICBpZiAoaW5wdXQudmFsdWUgIT09IHZhcmlhYmxlLnZhbHVlKSB7CiAgICAgICAgICBpbnB1dC52YWx1ZSA9IHZhcmlhYmxlLnZhbHVlIHx8ICIiOwogICAgICAgIH0KICAgICAgICBpbnB1dC5wbGFjZWhvbGRlciA9ICIiOwogICAgICB9IGVsc2UgewogICAgICAgIGlucHV0LnBsYWNlaG9sZGVyID0gIkVudGVyIHZhbHVlLi4uIjsKICAgICAgfQoKICAgICAgLy8gVXBkYXRlIHN0YXR1cyBpY29uCiAgICAgIHVwZGF0ZVN0YXR1c0ljb24oc3RhdHVzRWwsIHZhcmlhYmxlKTsKICAgIH0pOwoKICAgIHVwZGF0ZUZvb3RlcigpOwogIH0KCiAgYnVpbGRJbml0aWFsRE9NKCk7CiAgbW9kZWwub24oImNoYW5nZTp2YXJpYWJsZXMiLCB1cGRhdGVJblBsYWNlKTsKfQoKZXhwb3J0IGRlZmF1bHQgeyByZW5kZXIgfTsK&quot;' data-js-hash='&quot;39ca73dc82f163ebbaaa0cc702aab9d5&quot;'></marimo-anywidget></marimo-ui-element>"
+            "text/html": "<marimo-ui-element object-id='MJUe-0' random-id='152a5b7a-bf85-e817-07b3-bbdf7cda975e'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;dd75f85395064b9c992d61ccac899212&quot;}' data-label='null' data-js-url='&quot;data:text/javascript;base64,ZnVuY3Rpb24gcmVuZGVyKHsgbW9kZWwsIGVsIH0pIHsKICBlbC5jbGFzc0xpc3QuYWRkKCJlbnYtY29uZmlnLXdpZGdldCIpOwoKICBjb25zdCBjb250YWluZXIgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCJkaXYiKTsKICBjb250YWluZXIuY2xhc3NOYW1lID0gImVudi1jb25maWctY29udGFpbmVyIjsKCiAgLy8gU3RvcmUgcmVmZXJlbmNlcyB0byB1cGRhdGUgaW4gcGxhY2UgKG5vIERPTSByZWJ1aWxkKQogIGNvbnN0IHJvd3MgPSBbXTsKICBjb25zdCBpbnB1dHMgPSBbXTsKICBjb25zdCBzdGF0dXNFbHMgPSBbXTsKICBsZXQgZm9vdGVyOwoKICBmdW5jdGlvbiBidWlsZEluaXRpYWxET00oKSB7CiAgICBjb25zdCB2YXJpYWJsZXMgPSBtb2RlbC5nZXQoInZhcmlhYmxlcyIpOwoKICAgIHZhcmlhYmxlcy5mb3JFYWNoKCh2YXJpYWJsZSwgaW5kZXgpID0+IHsKICAgICAgY29uc3Qgcm93ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgiZGl2Iik7CiAgICAgIHJvdy5jbGFzc05hbWUgPSAiZW52LWNvbmZpZy1yb3ciOwogICAgICByb3cuZGF0YXNldC5zdGF0dXMgPSB2YXJpYWJsZS5zdGF0dXM7CiAgICAgIHJvd3MucHVzaChyb3cpOwoKICAgICAgLy8gVmFyaWFibGUgbmFtZQogICAgICBjb25zdCBuYW1lRWwgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCJkaXYiKTsKICAgICAgbmFtZUVsLmNsYXNzTmFtZSA9ICJlbnYtdmFyLW5hbWUiOwogICAgICBuYW1lRWwudGV4dENvbnRlbnQgPSB2YXJpYWJsZS5uYW1lOwogICAgICByb3cuYXBwZW5kQ2hpbGQobmFtZUVsKTsKCiAgICAgIC8vIElucHV0IGZpZWxkCiAgICAgIGNvbnN0IGZpZWxkRWwgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCJkaXYiKTsKICAgICAgZmllbGRFbC5jbGFzc05hbWUgPSAiZW52LXZhci1maWVsZCI7CgogICAgICBjb25zdCBpbnB1dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoImlucHV0Iik7CiAgICAgIGlucHV0LnR5cGUgPSAicGFzc3dvcmQiOwogICAgICBpbnB1dC5jbGFzc05hbWUgPSAiZW52LWlucHV0IjsKICAgICAgaW5wdXQuYXV0b2NvbXBsZXRlID0gIm9mZiI7CiAgICAgIGlucHV0cy5wdXNoKGlucHV0KTsKCiAgICAgIC8vIFNldCBpbml0aWFsIHZhbHVlL3BsYWNlaG9sZGVyIC0gc2hvdyB2YWx1ZSBldmVuIGZvciBpbnZhbGlkIHN0YXR1cwogICAgICBpZiAodmFyaWFibGUuc3RhdHVzID09PSAidmFsaWQiIHx8IHZhcmlhYmxlLnN0YXR1cyA9PT0gImludmFsaWQiKSB7CiAgICAgICAgaW5wdXQudmFsdWUgPSB2YXJpYWJsZS52YWx1ZSB8fCAiIjsKICAgICAgfQogICAgICBpZiAodmFyaWFibGUuc3RhdHVzID09PSAibWlzc2luZyIpIHsKICAgICAgICBpbnB1dC5wbGFjZWhvbGRlciA9ICJFbnRlciB2YWx1ZS4uLiI7CiAgICAgIH0KCiAgICAgIC8vIFN1Ym1pdCBvbiBFbnRlciBvbmx5IC0gbGV0IFRhYiB3b3JrIG5hdHVyYWxseQogICAgICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCJrZXlkb3duIiwgKGUpID0+IHsKICAgICAgICBpZiAoZS5rZXkgPT09ICJFbnRlciIpIHsKICAgICAgICAgIGUucHJldmVudERlZmF1bHQoKTsKICAgICAgICAgIGNvbnN0IHZhbHVlID0gaW5wdXQudmFsdWUudHJpbSgpOwogICAgICAgICAgaWYgKCF2YWx1ZSkgcmV0dXJuOwoKICAgICAgICAgIG1vZGVsLnNldCgiX3BlbmRpbmdfdmFsdWUiLCB7CiAgICAgICAgICAgIG5hbWU6IHZhcmlhYmxlLm5hbWUsCiAgICAgICAgICAgIHZhbHVlOiB2YWx1ZSwKICAgICAgICAgIH0pOwogICAgICAgICAgbW9kZWwuc2F2ZV9jaGFuZ2VzKCk7CiAgICAgICAgfQogICAgICB9KTsKCiAgICAgIGZpZWxkRWwuYXBwZW5kQ2hpbGQoaW5wdXQpOwogICAgICByb3cuYXBwZW5kQ2hpbGQoZmllbGRFbCk7CgogICAgICAvLyBTdGF0dXMgaW5kaWNhdG9yCiAgICAgIGNvbnN0IHN0YXR1c0VsID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgiZGl2Iik7CiAgICAgIHN0YXR1c0VsLmNsYXNzTmFtZSA9ICJlbnYtdmFyLXN0YXR1cyI7CiAgICAgIHN0YXR1c0Vscy5wdXNoKHN0YXR1c0VsKTsKICAgICAgdXBkYXRlU3RhdHVzSWNvbihzdGF0dXNFbCwgdmFyaWFibGUpOwoKICAgICAgcm93LmFwcGVuZENoaWxkKHN0YXR1c0VsKTsKICAgICAgY29udGFpbmVyLmFwcGVuZENoaWxkKHJvdyk7CiAgICB9KTsKCiAgICAvLyBGb290ZXIKICAgIGZvb3RlciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoImRpdiIpOwogICAgdXBkYXRlRm9vdGVyKCk7CiAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQoZm9vdGVyKTsKCiAgICBlbC5hcHBlbmRDaGlsZChjb250YWluZXIpOwogIH0KCiAgZnVuY3Rpb24gdXBkYXRlU3RhdHVzSWNvbihzdGF0dXNFbCwgdmFyaWFibGUpIHsKICAgIGlmICh2YXJpYWJsZS5zdGF0dXMgPT09ICJ2YWxpZCIpIHsKICAgICAgc3RhdHVzRWwuaW5uZXJIVE1MID0gYAogICAgICAgIDxzdmcgY2xhc3M9ImVudi1jaGVjayIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiPgogICAgICAgICAgPHBhdGggZD0iTTkgMTYuMTdMNC44MyAxMmwtMS40MiAxLjQxTDkgMTkgMjEgN2wtMS40MS0xLjQxeiIgZmlsbD0iY3VycmVudENvbG9yIi8+CiAgICAgICAgPC9zdmc+CiAgICAgIGA7CiAgICB9IGVsc2UgaWYgKHZhcmlhYmxlLnN0YXR1cyA9PT0gImludmFsaWQiKSB7CiAgICAgIHN0YXR1c0VsLmlubmVySFRNTCA9IGAKICAgICAgICA8c3BhbiBjbGFzcz0iZW52LWVycm9yLXRleHQiIHRpdGxlPSIke3ZhcmlhYmxlLmVycm9yIHx8ICJJbnZhbGlkIn0iPgogICAgICAgICAgPHN2ZyBjbGFzcz0iZW52LWVycm9yLWljb24iIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjE4Ij4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTEgMTVoLTJ2LTJoMnYyem0wLTRoLTJWN2gydjZ6IiBmaWxsPSJjdXJyZW50Q29sb3IiLz4KICAgICAgICAgIDwvc3ZnPgogICAgICAgIDwvc3Bhbj4KICAgICAgYDsKICAgIH0gZWxzZSB7CiAgICAgIHN0YXR1c0VsLmlubmVySFRNTCA9ICIiOwogICAgfQogIH0KCiAgZnVuY3Rpb24gdXBkYXRlRm9vdGVyKCkgewogICAgY29uc3QgYWxsVmFsaWQgPSBtb2RlbC5nZXQoImFsbF92YWxpZCIpOwogICAgZm9vdGVyLmNsYXNzTmFtZSA9ICJlbnYtY29uZmlnLWZvb3RlciI7CiAgICBmb290ZXIudGV4dENvbnRlbnQgPSBhbGxWYWxpZAogICAgICA/ICJBbGwgdmFyaWFibGVzIGNvbmZpZ3VyZWQiCiAgICAgIDogIlByZXNzIEVudGVyIHRvIHNldCBlYWNoIHZhcmlhYmxlIjsKICB9CgogIGZ1bmN0aW9uIHVwZGF0ZUluUGxhY2UoKSB7CiAgICBjb25zdCB2YXJpYWJsZXMgPSBtb2RlbC5nZXQoInZhcmlhYmxlcyIpOwoKICAgIHZhcmlhYmxlcy5mb3JFYWNoKCh2YXJpYWJsZSwgaW5kZXgpID0+IHsKICAgICAgY29uc3Qgcm93ID0gcm93c1tpbmRleF07CiAgICAgIGNvbnN0IGlucHV0ID0gaW5wdXRzW2luZGV4XTsKICAgICAgY29uc3Qgc3RhdHVzRWwgPSBzdGF0dXNFbHNbaW5kZXhdOwoKICAgICAgLy8gVXBkYXRlIHJvdyBzdGF0dXMgKGZvciBiYWNrZ3JvdW5kIGNvbG9yKQogICAgICByb3cuZGF0YXNldC5zdGF0dXMgPSB2YXJpYWJsZS5zdGF0dXM7CgogICAgICAvLyBVcGRhdGUgaW5wdXQgYmFzZWQgb24gc3RhdHVzIC0gc2hvdyB2YWx1ZSBldmVuIGZvciBpbnZhbGlkIHN0YXR1cwogICAgICBpZiAodmFyaWFibGUuc3RhdHVzID09PSAidmFsaWQiIHx8IHZhcmlhYmxlLnN0YXR1cyA9PT0gImludmFsaWQiKSB7CiAgICAgICAgLy8gT25seSB1cGRhdGUgdmFsdWUgaWYgaXQgY2hhbmdlZCAoYXZvaWQgb3ZlcndyaXRpbmcgd2hpbGUgdXNlciB0eXBlcykKICAgICAgICBpZiAoaW5wdXQudmFsdWUgIT09IHZhcmlhYmxlLnZhbHVlKSB7CiAgICAgICAgICBpbnB1dC52YWx1ZSA9IHZhcmlhYmxlLnZhbHVlIHx8ICIiOwogICAgICAgIH0KICAgICAgICBpbnB1dC5wbGFjZWhvbGRlciA9ICIiOwogICAgICB9IGVsc2UgewogICAgICAgIGlucHV0LnBsYWNlaG9sZGVyID0gIkVudGVyIHZhbHVlLi4uIjsKICAgICAgfQoKICAgICAgLy8gVXBkYXRlIHN0YXR1cyBpY29uCiAgICAgIHVwZGF0ZVN0YXR1c0ljb24oc3RhdHVzRWwsIHZhcmlhYmxlKTsKICAgIH0pOwoKICAgIHVwZGF0ZUZvb3RlcigpOwogIH0KCiAgYnVpbGRJbml0aWFsRE9NKCk7CiAgbW9kZWwub24oImNoYW5nZTp2YXJpYWJsZXMiLCB1cGRhdGVJblBsYWNlKTsKfQoKZXhwb3J0IGRlZmF1bHQgeyByZW5kZXIgfTsK&quot;' data-js-hash='&quot;39ca73dc82f163ebbaaa0cc702aab9d5&quot;'></marimo-anywidget></marimo-ui-element>"
           }
         }
       ],
       "console": []
     },
     {
-      "id": "lEQa",
+      "id": "bkHC",
       "code_hash": "8b38a1b242ea71dc466078511ace7aa5",
       "outputs": [
         {
@@ -70,7 +70,7 @@
       "console": []
     },
     {
-      "id": "PKri",
+      "id": "lEQa",
       "code_hash": "3a6d005044d003515557a0c63d007e53",
       "outputs": [
         {
@@ -84,13 +84,13 @@
         {
           "type": "stream",
           "name": "stderr",
-          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/w2/5g3ht4h93vqb3l6zf_5hv6w40000gp/T/marimo_3158/__marimo__cell_PKri_.py&quot;</span>, line <span class=\"m\">1</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">config_validated</span><span class=\"p\">[</span><span class=\"s2\">&quot;MY_API_KEY&quot;</span><span class=\"p\">]</span>\n<span class=\"w\">    </span><span class=\"pm\">~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/Users/aagrawal/.cache/uv/archive-v0/ntBJROHolgobuL_B9WHMb/lib/python3.14/site-packages/marimo/_plugins/ui/_impl/from_anywidget.py&quot;</span>, line <span class=\"m\">255</span>, in <span class=\"n\">__getitem__</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">widget</span><span class=\"p\">[</span><span class=\"n\">key</span><span class=\"p\">]</span>\n<span class=\"w\">           </span><span class=\"pm\">~~~~~~~~~~~^^^^^</span>\n  File <span class=\"nb\">&quot;/Users/aagrawal/.cache/uv/archive-v0/ntBJROHolgobuL_B9WHMb/lib/python3.14/site-packages/wigglystuff/env_config.py&quot;</span>, line <span class=\"m\">211</span>, in <span class=\"n\">__getitem__</span>\n<span class=\"w\">    </span><span class=\"k\">raise</span> <span class=\"ne\">KeyError</span><span class=\"p\">(</span><span class=\"sa\">f</span><span class=\"s2\">&quot;</span><span class=\"si\">{</span><span class=\"n\">name</span><span class=\"si\">!r}</span><span class=\"s2\"> is not set&quot;</span><span class=\"p\">)</span>\n<span class=\"gr\">KeyError</span>: <span class=\"n\">&quot;&#39;MY_API_KEY&#39; is not set&quot;</span>\n</pre></div>\n</span>",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/w2/5g3ht4h93vqb3l6zf_5hv6w40000gp/T/marimo_56685/__marimo__cell_lEQa_.py&quot;</span>, line <span class=\"m\">1</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">config_validated</span><span class=\"p\">[</span><span class=\"s2\">&quot;MY_API_KEY&quot;</span><span class=\"p\">]</span>\n<span class=\"w\">    </span><span class=\"pm\">~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/Users/aagrawal/.cache/uv/archive-v0/hnQpfX0a-f7RczDhayuMP/lib/python3.12/site-packages/marimo/_plugins/ui/_impl/from_anywidget.py&quot;</span>, line <span class=\"m\">255</span>, in <span class=\"n\">__getitem__</span>\n<span class=\"w\">    </span><span class=\"k\">return</span> <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">widget</span><span class=\"p\">[</span><span class=\"n\">key</span><span class=\"p\">]</span>\n<span class=\"w\">           </span><span class=\"pm\">~~~~~~~~~~~^^^^^</span>\n  File <span class=\"nb\">&quot;/Users/aagrawal/.cache/uv/archive-v0/hnQpfX0a-f7RczDhayuMP/lib/python3.12/site-packages/wigglystuff/env_config.py&quot;</span>, line <span class=\"m\">211</span>, in <span class=\"n\">__getitem__</span>\n<span class=\"w\">    </span><span class=\"k\">raise</span> <span class=\"ne\">KeyError</span><span class=\"p\">(</span><span class=\"sa\">f</span><span class=\"s2\">&quot;</span><span class=\"si\">{</span><span class=\"n\">name</span><span class=\"si\">!r}</span><span class=\"s2\"> is not set&quot;</span><span class=\"p\">)</span>\n<span class=\"gr\">KeyError</span>: <span class=\"n\">&quot;&#39;MY_API_KEY&#39; is not set&quot;</span>\n</pre></div>\n</span>",
           "mimetype": "application/vnd.marimo+traceback"
         }
       ]
     },
     {
-      "id": "Xref",
+      "id": "PKri",
       "code_hash": "03259c0b0c60cf7b80c3f139bfd01d0d",
       "outputs": [
         {
@@ -103,7 +103,7 @@
       "console": []
     },
     {
-      "id": "SFPL",
+      "id": "Xref",
       "code_hash": "9b173f85878c6c1c2b90b412da15c932",
       "outputs": [
         {
@@ -116,7 +116,7 @@
       "console": []
     },
     {
-      "id": "BYtC",
+      "id": "SFPL",
       "code_hash": "d26cf9c779fa32fc9a5b4a1ad2c39f76",
       "outputs": [
         {
@@ -129,7 +129,7 @@
       "console": []
     },
     {
-      "id": "RGSE",
+      "id": "BYtC",
       "code_hash": "09f25b401a29eb3dfe12f18d3878ce69",
       "outputs": [
         {
@@ -143,23 +143,10 @@
         {
           "type": "stream",
           "name": "stderr",
-          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/w2/5g3ht4h93vqb3l6zf_5hv6w40000gp/T/marimo_3158/__marimo__cell_RGSE_.py&quot;</span>, line <span class=\"m\">1</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">config_validated</span><span class=\"o\">.</span><span class=\"n\">require_valid</span><span class=\"p\">()</span>\n<span class=\"w\">    </span><span class=\"pm\">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^</span>\n  File <span class=\"nb\">&quot;/Users/aagrawal/.cache/uv/archive-v0/ntBJROHolgobuL_B9WHMb/lib/python3.14/site-packages/wigglystuff/env_config.py&quot;</span>, line <span class=\"m\">191</span>, in <span class=\"n\">require_valid</span>\n<span class=\"w\">    </span><span class=\"k\">raise</span> <span class=\"ne\">EnvironmentError</span><span class=\"p\">(</span>\n<span class=\"w\">    </span><span class=\"o\">...&lt;</span><span class=\"mi\">2</span> <span class=\"n\">lines</span><span class=\"o\">&gt;...</span>\n<span class=\"w\">    </span><span class=\"p\">)</span>\n<span class=\"gr\">OSError</span>: <span class=\"n\">Environment configuration incomplete. Missing: MY_API_KEY, SIMPLE_KEY; Invalid: VALIDATED_KEY (Key must be at least 5 characters). Please set all required variables using the widget above.</span>\n</pre></div>\n</span>",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/w2/5g3ht4h93vqb3l6zf_5hv6w40000gp/T/marimo_56685/__marimo__cell_BYtC_.py&quot;</span>, line <span class=\"m\">1</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">config_validated</span><span class=\"o\">.</span><span class=\"n\">require_valid</span><span class=\"p\">()</span>\n  File <span class=\"nb\">&quot;/Users/aagrawal/.cache/uv/archive-v0/hnQpfX0a-f7RczDhayuMP/lib/python3.12/site-packages/wigglystuff/env_config.py&quot;</span>, line <span class=\"m\">191</span>, in <span class=\"n\">require_valid</span>\n<span class=\"w\">    </span><span class=\"k\">raise</span> <span class=\"ne\">EnvironmentError</span><span class=\"p\">(</span>\n<span class=\"gr\">OSError</span>: <span class=\"n\">Environment configuration incomplete. Missing: MY_API_KEY, SIMPLE_KEY; Invalid: VALIDATED_KEY (Key must be at least 5 characters). Please set all required variables using the widget above.</span>\n</pre></div>\n</span>",
           "mimetype": "application/vnd.marimo+traceback"
         }
       ]
-    },
-    {
-      "id": "Kclp",
-      "code_hash": null,
-      "outputs": [
-        {
-          "type": "data",
-          "data": {
-            "text/plain": ""
-          }
-        }
-      ],
-      "console": []
     }
   ]
 }

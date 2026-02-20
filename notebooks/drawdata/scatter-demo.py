@@ -8,34 +8,29 @@
 # ]
 # ///
 
-
 import marimo
 
-__generated_with = "0.13.3"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
+    import altair as alt
     from drawdata import ScatterWidget
-    return ScatterWidget, mo
 
 
 @app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-        # Drawing a `ScatterChart`
+def _():
+    mo.md(r"""
+    # Drawing a `ScatterChart`
 
-        This notebook contains a demo of the `ScatterWidget` inside of the [drawdata](https://github.com/koaning/drawdata) library.
-        """
-    )
+    This notebook contains a demo of the `ScatterWidget` inside of the [drawdata](https://github.com/koaning/drawdata) library.
+    """)
     return
 
 
 @app.cell(hide_code=True)
-def _(ScatterWidget, mo):
+def _():
     widget = mo.ui.anywidget(ScatterWidget(height=400))
     widget
     return (widget,)
@@ -43,9 +38,6 @@ def _(ScatterWidget, mo):
 
 @app.cell(hide_code=True)
 def _(widget):
-    import altair as alt
-
-
     base = alt.Chart(widget.data_as_pandas)
     base_bar = base.mark_bar(opacity=0.3, binSpacing=0)
     color_domain = widget.data_as_pandas["color"].unique()
@@ -88,11 +80,6 @@ def _(widget):
     )
 
     top_hist & (points | right_hist)
-    return
-
-
-@app.cell
-def _():
     return
 
 

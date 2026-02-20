@@ -10,27 +10,17 @@
 
 import marimo
 
-__generated_with = "0.19.6"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
 
-
-@app.cell
-def _():
-    return
-
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
+    import marimo_cad as cad
     from build123d import Box, Pos
 
-    import marimo_cad as cad
-
-    return Box, Pos, cad, mo
-
 
 @app.cell
-def _(mo):
+def _():
     mo.md("""
     # Parametric Bookshelf
 
@@ -40,20 +30,20 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _():
     shelf_slider = mo.ui.slider(2, 8, value=4, label="Shelves")
     height_slider = mo.ui.slider(60, 200, value=120, label="Height (cm)")
     return height_slider, shelf_slider
 
 
 @app.cell
-def _(cad):
+def _():
     viewer = cad.Viewer()
     return (viewer,)
 
 
 @app.cell
-def _(Box, Pos, height_slider, mo, shelf_slider, viewer):
+def _(height_slider, shelf_slider, viewer):
     # Fixed dimensions (cm)
     WIDTH = 80
     DEPTH = 30

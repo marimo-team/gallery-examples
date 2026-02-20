@@ -10,24 +10,25 @@
 
 import marimo
 
-__generated_with = "0.19.9"
+__generated_with = "0.19.11"
 app = marimo.App(width="full")
+
+with app.setup:
+    import marimo as mo
+    import matplotlib
+    import matplotlib.pyplot as plt
+    import numpy as np
+    from wigglystuff import ChartPuck
 
 
 @app.cell
 def _():
-    import marimo as mo
-    import numpy as np
-    import matplotlib
     matplotlib.rcParams["figure.dpi"] = 72
-    import matplotlib.pyplot as plt
-    from wigglystuff import ChartPuck
-
-    return ChartPuck, mo, np
+    return
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     # Vector Operations Explorer
 
@@ -38,7 +39,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _():
     operation_dropdown = mo.ui.dropdown(
         options={
             "Addition": "addition",
@@ -53,7 +54,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(ChartPuck, mo, operation_dropdown):
+def _(operation_dropdown):
     x_bounds = (-5, 5)
     y_bounds = (-5, 5)
 
@@ -134,7 +135,7 @@ def _(puck):
 
 
 @app.cell
-def _(mo, np, operation_dropdown, puck):
+def _(operation_dropdown, puck):
     ax_val, ay_val = puck.x[0], puck.y[0]
     bx_val, by_val = puck.x[1], puck.y[1]
 

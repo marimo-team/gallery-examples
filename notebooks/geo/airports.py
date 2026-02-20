@@ -8,15 +8,12 @@
 
 import marimo
 
-__generated_with = "0.14.13"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
     import openlayers as ol
-    return (ol,)
 
 
 @app.cell
@@ -32,7 +29,7 @@ def _():
 
 
 @app.cell
-def _(icon, ol):
+def _(icon):
     style = ol.FlatStyle(
         icon_src=icon,
         icon_scale=["match", ["get", "type"], "major", 0.05, 0.03],
@@ -43,13 +40,13 @@ def _(icon, ol):
 
 
 @app.cell
-def _(data, ol, style):
+def _(data, style):
     vector = ol.VectorLayer(source=ol.VectorSource(url=data), style=style)
     return (vector,)
 
 
 @app.cell
-def _(ol, vector):
+def _(vector):
     m = ol.MapWidget(
         ol.View(center=(16.62662018, 49.2125578), zoom=5),
         layers=[ol.BasemapLayer(), vector],
@@ -61,11 +58,6 @@ def _(ol, vector):
 @app.cell
 def _(m):
     m
-    return
-
-
-@app.cell
-def _():
     return
 
 
