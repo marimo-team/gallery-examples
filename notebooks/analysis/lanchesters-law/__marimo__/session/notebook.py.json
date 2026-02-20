@@ -1,0 +1,151 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.19.11"
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "3f09aa99b997dc05de307704311d915d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "3d4772b516b1cc02f6ad55dfc233829e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='Hbol-20' random-id='56122a7e-07b7-eed2-09f0-dcec2b49fc4e'><marimo-form data-initial-value='null' data-label='null' data-element-id='&quot;Hbol-19&quot;' data-loading='false' data-bordered='true' data-submit-button-label='&quot;Submit&quot;' data-submit-button-disabled='false' data-clear-on-submit='false' data-show-clear-button='false' data-clear-button-label='&quot;Clear&quot;' data-should-validate='false'><marimo-ui-element object-id='Hbol-19' random-id='120eab4d-299b-f17a-c6d6-ad58d8a3acdb'><marimo-dict data-initial-value='{&quot;hp&quot;:20,&quot;damage&quot;:1,&quot;attack_range&quot;:10,&quot;move_speed&quot;:55,&quot;speed_multiplier&quot;:20,&quot;spawn_mode&quot;:[&quot;sides&quot;]}' data-label='null' data-element-ids='{&quot;Hbol-13&quot;:&quot;hp&quot;,&quot;Hbol-14&quot;:&quot;damage&quot;,&quot;Hbol-15&quot;:&quot;attack_range&quot;,&quot;Hbol-16&quot;:&quot;move_speed&quot;,&quot;Hbol-17&quot;:&quot;speed_multiplier&quot;,&quot;Hbol-18&quot;:&quot;spawn_mode&quot;}'><span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>HP:</strong> <marimo-ui-element object-id='Hbol-13' random-id='2f7ccd13-bc3a-d9ae-ffae-2174ca6d76d5'><marimo-slider data-initial-value='20' data-label='null' data-start='1' data-stop='100' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element></span>\n<span class=\"paragraph\"><strong>Damage:</strong> <marimo-ui-element object-id='Hbol-14' random-id='e531ade2-9416-415b-0236-2fe728016e34'><marimo-slider data-initial-value='1' data-label='null' data-start='1' data-stop='100' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element></span>\n<span class=\"paragraph\"><strong>Attack Range:</strong> <marimo-ui-element object-id='Hbol-15' random-id='c90d5fe3-ae4b-78f1-d818-c5126f89157a'><marimo-slider data-initial-value='10' data-label='null' data-start='1' data-stop='200' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element></span>\n<span class=\"paragraph\"><strong>Move Speed:</strong> <marimo-ui-element object-id='Hbol-16' random-id='b235efdd-1f0e-3edf-c641-1421bb733a8b'><marimo-slider data-initial-value='55' data-label='null' data-start='1' data-stop='500' data-step='5' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element></span>\n<span class=\"paragraph\"><strong>Speed Multiplier:</strong> <marimo-ui-element object-id='Hbol-17' random-id='a901f132-9148-5475-3ed5-dd2ff82f49cc'><marimo-slider data-initial-value='20' data-label='null' data-start='1' data-stop='50' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element></span>\n<span class=\"paragraph\"><strong>Spawn Mode:</strong> <marimo-ui-element object-id='Hbol-18' random-id='fe19e444-9f44-fba0-92b7-9b2228bd0071'><marimo-dropdown data-initial-value='[&quot;sides&quot;]' data-label='null' data-options='[&quot;sides&quot;,&quot;mixed&quot;]' data-allow-select-none='false' data-searchable='false' data-full-width='false'></marimo-dropdown></marimo-ui-element></span></span></marimo-dict></marimo-ui-element></marimo-form></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "caace002b8f3e7b7c966544f39744e1f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Configure settings and submit the form to start the simulation.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "94cc224848ea439a21109aa26f12be15",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "d3e577f21ff25c8e2c987550d7f31930",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "02cf22e23b1c10f4370fd628fed0edc1",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "f22dea2c37db50677b83028dd3f24533",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"lanchesters-laws\">Lanchester's Laws</h2>\n<span class=\"paragraph\">Lanchester's laws are mathematical models that describe the power relationship between opposing forces in combat.\nThe <strong>Square Law</strong> applies to aimed fire combat where each unit can engage any enemy:</span>\n<marimo-tex class=\"arithmatex\">||[\n\\frac{dB}{dt} = -\\alpha R, \\quad \\frac{dR}{dt} = -\\beta B\n||]</marimo-tex><span class=\"paragraph\">Where:</span>\n<ul>\n<li><marimo-tex class=\"arithmatex\">||(B(t)||)</marimo-tex> = number of Blue units at time <marimo-tex class=\"arithmatex\">||(t||)</marimo-tex></li>\n<li><marimo-tex class=\"arithmatex\">||(R(t)||)</marimo-tex> = number of Red units at time <marimo-tex class=\"arithmatex\">||(t||)</marimo-tex></li>\n<li><marimo-tex class=\"arithmatex\">||(\\alpha||)</marimo-tex> = effectiveness of Red forces (kills per unit per time)</li>\n<li><marimo-tex class=\"arithmatex\">||(\\beta||)</marimo-tex> = effectiveness of Blue forces (kills per unit per time)</li>\n</ul>\n<h3 id=\"solving-the-equations\">Solving the Equations</h3>\n<span class=\"paragraph\">Dividing the two equations:</span>\n<marimo-tex class=\"arithmatex\">||[\n\\frac{dB}{dR} = \\frac{\\alpha R}{\\beta B} \\implies \\beta B \\, dB = \\alpha R \\, dR\n||]</marimo-tex><span class=\"paragraph\">Integrating both sides:</span>\n<marimo-tex class=\"arithmatex\">||[\n\\beta B^2 - \\beta B_0^2 = \\alpha R^2 - \\alpha R_0^2\n||]</marimo-tex><span class=\"paragraph\">This gives us <strong>Lanchester's Square Law</strong>:</span>\n<marimo-tex class=\"arithmatex\">||[\n\\beta B^2 - \\alpha R^2 = \\beta B_0^2 - \\alpha R_0^2 = \\text{constant}\n||]</marimo-tex><h3 id=\"equal-strength-case-alpha-beta\">Equal Strength Case (<marimo-tex class=\"arithmatex\">||(\\alpha = \\beta||)</marimo-tex>)</h3>\n<span class=\"paragraph\">When both armies have equal effectiveness, the equation simplifies to:</span>\n<marimo-tex class=\"arithmatex\">||[\nB^2 - R^2 = B_0^2 - R_0^2\n||]</marimo-tex><span class=\"paragraph\">If Blue wins (meaning <marimo-tex class=\"arithmatex\">||(R \\to 0||)</marimo-tex>), the surviving Blue force is:</span>\n<marimo-tex class=\"arithmatex\">||[\nB_{\\text{final}} = \\sqrt{B_0^2 - R_0^2}\n||]</marimo-tex><span class=\"paragraph\">This only has a real solution when <marimo-tex class=\"arithmatex\">||(B_0 &gt; R_0||)</marimo-tex>. The square law explains why <strong>concentration of force</strong> matters:\ndoubling your army doesn't just double your advantage\u2014it <em>quadruples</em> it.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "30d2347ebf0cd05f5bb4f4f3d55b550e",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "4d54f06cfeb963dcd247992e1937d217",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "753faa6c3127f1a980894e03e59e1f58",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "99bddcbe817cc3f7b2503482f93888e4",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    }
+  ]
+}

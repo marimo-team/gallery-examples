@@ -9,10 +9,10 @@
       "code_hash": "fe6af2c01f111c79cf67d6363e093c69",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "No module named 'wigglystuff'",
-          "traceback": []
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
@@ -35,13 +35,20 @@
       "code_hash": "0045d1d709715d6ca2db266f0e5c49d5",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
-          "traceback": []
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
-      "console": []
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /Users/aagrawal/.netrc.\nwandb: Currently logged in as: akagrawal (marimo-io) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin\n",
+          "mimetype": "text/plain"
+        }
+      ]
     },
     {
       "id": "vblA",
@@ -61,10 +68,10 @@
       "code_hash": "0526c6b0775d8c1b3a4389c292edd2be",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
-          "traceback": []
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
@@ -74,10 +81,10 @@
       "code_hash": "652688ada7f29b3f0e2b75240cfe7e70",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
-          "traceback": []
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
@@ -97,7 +104,7 @@
         {
           "type": "stream",
           "name": "stderr",
-          "text": "wandb: setting up run v1yfj6h4\nwandb: Tracking run with wandb version 0.25.0\nwandb: Run data is saved locally in /Users/aagrawal/src/marimo-team/gallery-examples/wandb/run-20260219_154605-v1yfj6h4\nwandb: Run `wandb offline` to turn off syncing.\nwandb: Syncing run baseline\nwandb: \u2b50\ufe0f View project at https://wandb.ai/marimo-io/jupyter-projo\nwandb: \ud83d\ude80 View run at https://wandb.ai/marimo-io/jupyter-projo/runs/v1yfj6h4\nwandb: updating run metadata; uploading history steps 0-0, summary\nwandb: uploading wandb-metadata.json; uploading requirements.txt; uploading wandb-summary.json; uploading config.yaml\nwandb: \nwandb: Run history:\nwandb:  acc \u2582\u2581\u2584\u2581\u2582\u2582\u2583\u2585\u2583\u2583\u2584\u2584\u2584\u2585\u2585\u2585\u2584\u2586\u2585\u2584\u2586\u2586\u2586\u2586\u2586\u2587\u2587\u2587\u2587\u2587\u2587\u2586\u2587\u2586\u2586\u2585\u2586\u2587\u2586\u2588\nwandb: loss \u2588\u2586\u2588\u2586\u2585\u2586\u2586\u2585\u2585\u2586\u2584\u2584\u2585\u2584\u2583\u2583\u2585\u2583\u2583\u2584\u2583\u2583\u2584\u2583\u2583\u2583\u2583\u2583\u2583\u2583\u2583\u2582\u2582\u2583\u2582\u2583\u2581\u2582\u2583\u2583\nwandb: \nwandb: Run summary:\nwandb:  acc 0.97003\nwandb: loss 0.2907\nwandb: \nwandb: \ud83d\ude80 View run baseline at: https://wandb.ai/marimo-io/jupyter-projo/runs/v1yfj6h4\nwandb: \u2b50\ufe0f View project at: https://wandb.ai/marimo-io/jupyter-projo\nwandb: Synced 4 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)\nwandb: Find logs at: ./wandb/run-20260219_154605-v1yfj6h4/logs\nwandb: WARNING Using a boolean value for 'reinit' is deprecated. Use 'return_previous' or 'finish_previous' instead.\nwandb: setting up run nayo6dvd\nwandb: Tracking run with wandb version 0.25.0\nwandb: Run data is saved locally in /Users/aagrawal/src/marimo-team/gallery-examples/wandb/run-20260219_154608-nayo6dvd\nwandb: Run `wandb offline` to turn off syncing.\nwandb: Syncing run fast-lr\nwandb: \u2b50\ufe0f View project at https://wandb.ai/marimo-io/jupyter-projo\nwandb: \ud83d\ude80 View run at https://wandb.ai/marimo-io/jupyter-projo/runs/nayo6dvd\n",
+          "text": "wandb: setting up run xh9u26gz\nwandb: Tracking run with wandb version 0.25.0\nwandb: Run data is saved locally in /Users/aagrawal/src/marimo-team/gallery-examples/wandb/run-20260219_182122-xh9u26gz\nwandb: Run `wandb offline` to turn off syncing.\nwandb: Syncing run baseline\nwandb: \u2b50\ufe0f View project at https://wandb.ai/marimo-io/jupyter-projo\nwandb: \ud83d\ude80 View run at https://wandb.ai/marimo-io/jupyter-projo/runs/xh9u26gz\nwandb: updating run metadata; uploading summary\nwandb: uploading config.yaml; uploading wandb-metadata.json; uploading requirements.txt; uploading wandb-summary.json\nwandb: \nwandb: Run history:\nwandb:  acc \u2583\u2581\u2582\u2584\u2581\u2582\u2582\u2584\u2584\u2581\u2585\u2585\u2584\u2585\u2584\u2585\u2583\u2585\u2585\u2585\u2587\u2585\u2586\u2585\u2587\u2587\u2585\u2586\u2585\u2588\u2588\u2587\u2586\u2587\u2585\u2587\u2587\u2585\u2587\u2587\nwandb: loss \u2588\u2586\u2587\u2588\u2587\u2585\u2587\u2586\u2585\u2586\u2585\u2586\u2585\u2584\u2585\u2583\u2584\u2584\u2583\u2583\u2583\u2583\u2584\u2584\u2582\u2582\u2584\u2582\u2584\u2584\u2583\u2582\u2582\u2583\u2581\u2583\u2583\u2581\u2582\u2582\nwandb: \nwandb: Run summary:\nwandb:  acc 0.81834\nwandb: loss 0.13901\nwandb: \nwandb: \ud83d\ude80 View run baseline at: https://wandb.ai/marimo-io/jupyter-projo/runs/xh9u26gz\nwandb: \u2b50\ufe0f View project at: https://wandb.ai/marimo-io/jupyter-projo\nwandb: Synced 4 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)\nwandb: Find logs at: ./wandb/run-20260219_182122-xh9u26gz/logs\nwandb: WARNING Using a boolean value for 'reinit' is deprecated. Use 'return_previous' or 'finish_previous' instead.\nwandb: setting up run 2ljeauhb\nwandb: Tracking run with wandb version 0.25.0\nwandb: Run data is saved locally in /Users/aagrawal/src/marimo-team/gallery-examples/wandb/run-20260219_182126-2ljeauhb\nwandb: Run `wandb offline` to turn off syncing.\nwandb: Syncing run fast-lr\nwandb: \u2b50\ufe0f View project at https://wandb.ai/marimo-io/jupyter-projo\nwandb: \ud83d\ude80 View run at https://wandb.ai/marimo-io/jupyter-projo/runs/2ljeauhb\n",
           "mimetype": "text/plain"
         }
       ]
@@ -107,10 +114,10 @@
       "code_hash": "8a0f683669034d7db5add58de2c476b7",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
-          "traceback": []
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
@@ -120,10 +127,10 @@
       "code_hash": "8330174a103ff34fcaf40896e95ce18e",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
-          "traceback": []
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
       "console": []
@@ -133,10 +140,10 @@
       "code_hash": "b892862351145727d0973600a6e6ded4",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
-          "traceback": []
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: row;justify-content: space-between;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><marimo-ui-element object-id='BYtC-0' random-id='9032e4c5-f727-69ee-4d30-62ff17cf0837'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;4df5aa42694b493caaf2e2a449d61a6e&quot;}' data-label='null' data-js-url='&quot;./@file/19500-2322388-ei6Tgjee.js&quot;' data-js-hash='&quot;6bf497d560e197c82199b98a4a6c8c42&quot;'></marimo-anywidget></marimo-ui-element><marimo-ui-element object-id='BYtC-1' random-id='ea6cdcb4-ff28-6d8c-768c-1593005f7f8a'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;d7e79ea0712649c3af1135352416936c&quot;}' data-label='null' data-js-url='&quot;./@file/19500-2322388-2WDuPbiV.js&quot;' data-js-hash='&quot;6bf497d560e197c82199b98a4a6c8c42&quot;'></marimo-anywidget></marimo-ui-element></div>"
+          }
         }
       ],
       "console": []
@@ -159,10 +166,10 @@
       "code_hash": "f3f83cbec230ba42ffaf510e56440df0",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
-          "traceback": []
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='Kclp-0' random-id='0b7a1b93-7823-9d10-0ce2-7bacbbe10192'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;7355fa64da7043cbb022ce15cce652e5&quot;}' data-label='null' data-js-url='&quot;./@file/19500-2322388-XOX83JWI.js&quot;' data-js-hash='&quot;6bf497d560e197c82199b98a4a6c8c42&quot;'></marimo-anywidget></marimo-ui-element>"
+          }
         }
       ],
       "console": []
@@ -172,13 +179,20 @@
       "code_hash": "04dc560a872a787910b85d316c1d22ad",
       "outputs": [
         {
-          "type": "error",
-          "ename": "exception",
-          "evalue": "An ancestor raised an exception (ModuleNotFoundError): ",
-          "traceback": []
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
         }
       ],
-      "console": []
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "wandb: updating run metadata\nwandb: uploading config.yaml\nwandb: \nwandb: Run history:\nwandb:  acc \u2581\u2581\u2582\u2582\u2582\u2584\u2584\u2585\u2586\u2584\u2584\u2584\u2584\u2585\u2584\u2588\u2585\u2586\u2585\u2584\u2586\u2584\u2584\u2585\u2584\u2585\u2584\u2586\u2585\u2584\u2587\u2585\u2582\u2587\u2586\u2584\u2586\u2587\u2585\u2585\nwandb: loss \u2588\u2587\u2586\u2587\u2586\u2585\u2587\u2585\u2586\u2585\u2586\u2584\u2584\u2583\u2583\u2583\u2584\u2584\u2584\u2584\u2584\u2584\u2584\u2583\u2582\u2583\u2583\u2582\u2584\u2582\u2583\u2582\u2582\u2584\u2583\u2583\u2581\u2583\u2585\u2582\nwandb: \nwandb: Run summary:\nwandb:  acc 0.89247\nwandb: loss -0.08405\nwandb: \nwandb: \ud83d\ude80 View run fast-lr at: https://wandb.ai/marimo-io/jupyter-projo/runs/2ljeauhb\nwandb: \u2b50\ufe0f View project at: https://wandb.ai/marimo-io/jupyter-projo\nwandb: Synced 4 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)\nwandb: Find logs at: ./wandb/run-20260219_182126-2ljeauhb/logs\n",
+          "mimetype": "text/plain"
+        }
+      ]
     }
   ]
 }

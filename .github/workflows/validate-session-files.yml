@@ -1,0 +1,19 @@
+name: Validate session files
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  check-session-files:
+    name: Validate session JSON files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Validate session files
+        run: uv run scripts/validate-sessions.py

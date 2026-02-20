@@ -1,0 +1,158 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.19.11"
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "455cde83fd755dea15f5372b9da352f7",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "8ac3931f06952535242f5932a1457a43",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"solver\">Solver</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "e9b9d4bd855387bbe85c5ba0bae6853c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "e46e6d56395b57ee635f0de8ab3acf15",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"solver-comparison\">Solver Comparison</h2>\n<span class=\"paragraph\">This notebook implements three different backtracking solvers for Suguru puzzles, each with increasing levels of optimization:</span>\n<h3 id=\"basicsolver\">BasicSolver</h3>\n<span class=\"paragraph\">The simplest backtracking solver. It:</span>\n<ul>\n<li>Selects the cell with the fewest possible values (and most neighbors as tiebreaker)</li>\n<li>Tries each possible value in order</li>\n<li>Uses true backtracking (undoes moves when a branch fails)</li>\n<li>No early pruning - explores all branches until they fail</li>\n</ul>\n<h3 id=\"smartsolver\">SmartSolver</h3>\n<span class=\"paragraph\">An optimized version that adds:</span>\n<ul>\n<li><strong>Early pruning</strong>: After making a move, checks if any cell has zero possible values</li>\n<li>If an impossible cell is detected, immediately backtracks without exploring further</li>\n<li>Values are tried in sorted order for consistency</li>\n<li>Significantly reduces the search space by avoiding dead-end branches</li>\n</ul>\n<h3 id=\"constraintpropsolver\">ConstraintPropSolver</h3>\n<span class=\"paragraph\">The most advanced solver that adds:</span>\n<ul>\n<li><strong>Constraint propagation</strong>: Before backtracking, finds and fills all \"forced moves\" (cells with only one possible value)</li>\n<li>These forced moves are made automatically and can't be undone (they're logically required)</li>\n<li>After propagation, uses the same smart backtracking as SmartSolver</li>\n<li>Often solves puzzles with minimal or no backtracking needed</li>\n<li>Validates moves during propagation to catch invalid states early</li>\n</ul>\n<span class=\"paragraph\">All solvers use true backtracking with a context manager that automatically undoes moves when a branch doesn't lead to a solution.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "192d7b96a743a2fc8a405a94406382f8",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='bkHC-0' random-id='e6725648-8c47-d591-95f1-b70226fd01da'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;76c4da88a3f845439ed2a0f232558716&quot;}' data-label='null' data-js-url='&quot;data:text/javascript;base64,ZnVuY3Rpb24gcmVuZGVyKHsgbW9kZWwsIGVsIH0pIHsKICBlbC5jbGFzc0xpc3QuYWRkKCdzdWd1cnUtd2lkZ2V0LXJvb3QnKTsKICAKICBjb25zdCBjb250YWluZXIgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTsKICBjb250YWluZXIuY2xhc3NOYW1lID0gJ3N1Z3VydS1jb250YWluZXInOwogIGVsLmFwcGVuZENoaWxkKGNvbnRhaW5lcik7CiAgCiAgY29uc3QgY29udHJvbHMgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTsKICBjb250cm9scy5jbGFzc05hbWUgPSAnc3VndXJ1LWNvbnRyb2xzJzsKICAKICBjb25zdCB3aWR0aExhYmVsID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnbGFiZWwnKTsKICB3aWR0aExhYmVsLnRleHRDb250ZW50ID0gJ1dpZHRoOiAnOwogIGNvbnN0IHdpZHRoSW5wdXQgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdpbnB1dCcpOwogIHdpZHRoSW5wdXQudHlwZSA9ICdudW1iZXInOwogIHdpZHRoSW5wdXQubWluID0gJzMnOwogIHdpZHRoSW5wdXQubWF4ID0gJzEwJzsKICB3aWR0aElucHV0LnZhbHVlID0gbW9kZWwuZ2V0KCd3aWR0aCcpIHx8IDU7CiAgd2lkdGhMYWJlbC5hcHBlbmRDaGlsZCh3aWR0aElucHV0KTsKICAKICBjb25zdCBoZWlnaHRMYWJlbCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2xhYmVsJyk7CiAgaGVpZ2h0TGFiZWwudGV4dENvbnRlbnQgPSAnSGVpZ2h0OiAnOwogIGNvbnN0IGhlaWdodElucHV0ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnaW5wdXQnKTsKICBoZWlnaHRJbnB1dC50eXBlID0gJ251bWJlcic7CiAgaGVpZ2h0SW5wdXQubWluID0gJzMnOwogIGhlaWdodElucHV0Lm1heCA9ICcxMCc7CiAgaGVpZ2h0SW5wdXQudmFsdWUgPSBtb2RlbC5nZXQoJ2hlaWdodCcpIHx8IDU7CiAgaGVpZ2h0TGFiZWwuYXBwZW5kQ2hpbGQoaGVpZ2h0SW5wdXQpOwogIAogIGNvbnN0IG5ld1JlZ2lvbkJ1dHRvbiA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2J1dHRvbicpOwogIG5ld1JlZ2lvbkJ1dHRvbi50ZXh0Q29udGVudCA9ICdOZXcgUmVnaW9uJzsKICBuZXdSZWdpb25CdXR0b24uY2xhc3NOYW1lID0gJ3N1Z3VydS1idXR0b24nOwogIAogIGNvbnN0IGNsZWFyQnV0dG9uID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnYnV0dG9uJyk7CiAgY2xlYXJCdXR0b24udGV4dENvbnRlbnQgPSAnUmVzZXQnOwogIGNsZWFyQnV0dG9uLmNsYXNzTmFtZSA9ICdzdWd1cnUtYnV0dG9uJzsKICAKICBjb250cm9scy5hcHBlbmRDaGlsZCh3aWR0aExhYmVsKTsKICBjb250cm9scy5hcHBlbmRDaGlsZChoZWlnaHRMYWJlbCk7CiAgY29udHJvbHMuYXBwZW5kQ2hpbGQobmV3UmVnaW9uQnV0dG9uKTsKICBjb250cm9scy5hcHBlbmRDaGlsZChjbGVhckJ1dHRvbik7CiAgZWwuYXBwZW5kQ2hpbGQoY29udHJvbHMpOwogIAogIGNvbnN0IGdyaWQgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTsKICBncmlkLmNsYXNzTmFtZSA9ICdzdWd1cnUtZ3JpZCc7CiAgY29udGFpbmVyLmFwcGVuZENoaWxkKGdyaWQpOwogIAogIGxldCBjdXJyZW50UmVnaW9uSWQgPSAwOwogIGxldCBpc0RyYXdpbmcgPSBmYWxzZTsKICBsZXQgaGFzTW92ZWQgPSBmYWxzZTsKICBsZXQgc3RhcnRYID0gLTE7CiAgbGV0IHN0YXJ0WSA9IC0xOwogIGxldCBzaGFwZXMgPSBbXTsKICAKICBmdW5jdGlvbiB1cGRhdGVHcmlkKCkgewogICAgY29uc3Qgd2lkdGggPSBwYXJzZUludCh3aWR0aElucHV0LnZhbHVlKSB8fCA1OwogICAgY29uc3QgaGVpZ2h0ID0gcGFyc2VJbnQoaGVpZ2h0SW5wdXQudmFsdWUpIHx8IDU7CiAgICAKICAgIC8vIEluaXRpYWxpemUgc2hhcGVzIGlmIG5lZWRlZCBvciByZXNpemUKICAgIGlmIChzaGFwZXMubGVuZ3RoICE9PSBoZWlnaHQgfHwgKHNoYXBlc1swXSAmJiBzaGFwZXNbMF0ubGVuZ3RoICE9PSB3aWR0aCkpIHsKICAgICAgc2hhcGVzID0gW107CiAgICAgIGZvciAobGV0IHkgPSAwOyB5IDwgaGVpZ2h0OyB5KyspIHsKICAgICAgICBzaGFwZXNbeV0gPSBbXTsKICAgICAgICBmb3IgKGxldCB4ID0gMDsgeCA8IHdpZHRoOyB4KyspIHsKICAgICAgICAgIHNoYXBlc1t5XVt4XSA9IHkgKiB3aWR0aCArIHg7IC8vIFN0YXJ0IHdpdGggZWFjaCBjZWxsIGFzIGl0cyBvd24gcmVnaW9uCiAgICAgICAgfQogICAgICB9CiAgICAgIGN1cnJlbnRSZWdpb25JZCA9IHdpZHRoICogaGVpZ2h0OwogICAgfQogICAgCiAgICBncmlkLmlubmVySFRNTCA9ICcnOwogICAgZ3JpZC5zdHlsZS5ncmlkVGVtcGxhdGVDb2x1bW5zID0gYHJlcGVhdCgke3dpZHRofSwgMWZyKWA7CiAgICBncmlkLnN0eWxlLmdyaWRUZW1wbGF0ZVJvd3MgPSBgcmVwZWF0KCR7aGVpZ2h0fSwgMWZyKWA7CiAgICAKICAgIGNvbnN0IGNvbG9ycyA9IFsKICAgICAgJyM5MGNhZjknLCAnI2NlOTNkOCcsICcjZmZjYzgwJywgJyNhNWQ2YTcnLAogICAgICAnI2Y0OGZiMScsICcjODBkZWVhJywgJyNmZmY1OWQnLCAnI2M1ZTFhNScsCiAgICAgICcjZTFiZWU3JywgJyNiMzlkZGInLCAnIzgxYzc4NCcsICcjZmZiNzRkJywKICAgICAgJyM2NGI1ZjYnLCAnI2JhNjhjOCcsICcjZmZhNzI2JywgJyM2NmJiNmEnCiAgICBdOwogICAgCiAgICBmb3IgKGxldCB5ID0gMDsgeSA8IGhlaWdodDsgeSsrKSB7CiAgICAgIGZvciAobGV0IHggPSAwOyB4IDwgd2lkdGg7IHgrKykgewogICAgICAgIGNvbnN0IGNlbGwgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTsKICAgICAgICBjZWxsLmNsYXNzTmFtZSA9ICdzdWd1cnUtY2VsbCc7CiAgICAgICAgY29uc3QgcmVnaW9uSWQgPSBzaGFwZXNbeV1beF07CiAgICAgICAgY29uc3QgY29sb3IgPSBjb2xvcnNbcmVnaW9uSWQgJSBjb2xvcnMubGVuZ3RoXTsKICAgICAgICBjZWxsLnN0eWxlLmJhY2tncm91bmRDb2xvciA9IGNvbG9yOwogICAgICAgIGNlbGwuZGF0YXNldC54ID0geDsKICAgICAgICBjZWxsLmRhdGFzZXQueSA9IHk7CiAgICAgICAgY2VsbC5kYXRhc2V0LnJlZ2lvbklkID0gcmVnaW9uSWQ7CiAgICAgICAgCiAgICAgICAgY2VsbC5hZGRFdmVudExpc3RlbmVyKCdtb3VzZWRvd24nLCAoZSkgPT4gewogICAgICAgICAgZS5wcmV2ZW50RGVmYXVsdCgpOwogICAgICAgICAgaXNEcmF3aW5nID0gdHJ1ZTsKICAgICAgICAgIGhhc01vdmVkID0gZmFsc2U7CiAgICAgICAgICBzdGFydFggPSB4OwogICAgICAgICAgc3RhcnRZID0geTsKICAgICAgICAgIAogICAgICAgICAgLy8gSWYgcmlnaHQtY2xpY2sgb3IgY3RybC1jbGljaywgY3JlYXRlIG5ldyByZWdpb24KICAgICAgICAgIGlmIChlLmJ1dHRvbiA9PT0gMiB8fCBlLmN0cmxLZXkgfHwgZS5tZXRhS2V5KSB7CiAgICAgICAgICAgIGxldCBtYXhJZCA9IC0xOwogICAgICAgICAgICBmb3IgKGxldCB5ID0gMDsgeSA8IHNoYXBlcy5sZW5ndGg7IHkrKykgewogICAgICAgICAgICAgIGZvciAobGV0IHggPSAwOyB4IDwgc2hhcGVzW3ldLmxlbmd0aDsgeCsrKSB7CiAgICAgICAgICAgICAgICBtYXhJZCA9IE1hdGgubWF4KG1heElkLCBzaGFwZXNbeV1beF0pOwogICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgICAgICBjdXJyZW50UmVnaW9uSWQgPSBtYXhJZCArIDE7CiAgICAgICAgICAgIHVwZGF0ZUNlbGwoeCwgeSwgY3VycmVudFJlZ2lvbklkKTsKICAgICAgICAgIH0gZWxzZSB7CiAgICAgICAgICAgIC8vIE9uIGxlZnQgY2xpY2ssIGNyZWF0ZSBuZXcgcmVnaW9uIGZvciB0aGF0IGNlbGwKICAgICAgICAgICAgbGV0IG1heElkID0gLTE7CiAgICAgICAgICAgIGZvciAobGV0IHkgPSAwOyB5IDwgc2hhcGVzLmxlbmd0aDsgeSsrKSB7CiAgICAgICAgICAgICAgZm9yIChsZXQgeCA9IDA7IHggPCBzaGFwZXNbeV0ubGVuZ3RoOyB4KyspIHsKICAgICAgICAgICAgICAgIG1heElkID0gTWF0aC5tYXgobWF4SWQsIHNoYXBlc1t5XVt4XSk7CiAgICAgICAgICAgICAgfQogICAgICAgICAgICB9CiAgICAgICAgICAgIGN1cnJlbnRSZWdpb25JZCA9IG1heElkICsgMTsKICAgICAgICAgICAgdXBkYXRlQ2VsbCh4LCB5LCBjdXJyZW50UmVnaW9uSWQpOwogICAgICAgICAgfQogICAgICAgIH0pOwogICAgICAgIAogICAgICAgIC8vIFByZXZlbnQgY29udGV4dCBtZW51IG9uIHJpZ2h0LWNsaWNrCiAgICAgICAgY2VsbC5hZGRFdmVudExpc3RlbmVyKCdjb250ZXh0bWVudScsIChlKSA9PiB7CiAgICAgICAgICBlLnByZXZlbnREZWZhdWx0KCk7CiAgICAgICAgfSk7CiAgICAgICAgCiAgICAgICAgY2VsbC5hZGRFdmVudExpc3RlbmVyKCdtb3VzZWVudGVyJywgKCkgPT4gewogICAgICAgICAgaWYgKGlzRHJhd2luZykgewogICAgICAgICAgICBoYXNNb3ZlZCA9IHRydWU7CiAgICAgICAgICAgIHVwZGF0ZUNlbGwoeCwgeSwgY3VycmVudFJlZ2lvbklkKTsKICAgICAgICAgIH0KICAgICAgICB9KTsKICAgICAgICAKICAgICAgICBncmlkLmFwcGVuZENoaWxkKGNlbGwpOwogICAgICB9CiAgICB9CiAgICAKICAgIHVwZGF0ZU1vZGVsKCk7CiAgfQogIAogIGZ1bmN0aW9uIHVwZGF0ZUNlbGwoeCwgeSwgcmVnaW9uSWQpIHsKICAgIGNvbnN0IGNlbGwgPSBncmlkLnF1ZXJ5U2VsZWN0b3IoYFtkYXRhLXg9IiR7eH0iXVtkYXRhLXk9IiR7eX0iXWApOwogICAgaWYgKGNlbGwpIHsKICAgICAgY29uc3QgY29sb3JzID0gWwogICAgICAgICcjOTBjYWY5JywgJyNjZTkzZDgnLCAnI2ZmY2M4MCcsICcjYTVkNmE3JywKICAgICAgICAnI2Y0OGZiMScsICcjODBkZWVhJywgJyNmZmY1OWQnLCAnI2M1ZTFhNScsCiAgICAgICAgJyNlMWJlZTcnLCAnI2IzOWRkYicsICcjODFjNzg0JywgJyNmZmI3NGQnLAogICAgICAgICcjNjRiNWY2JywgJyNiYTY4YzgnLCAnI2ZmYTcyNicsICcjNjZiYjZhJwogICAgICBdOwogICAgICBzaGFwZXNbeV1beF0gPSByZWdpb25JZDsKICAgICAgY2VsbC5kYXRhc2V0LnJlZ2lvbklkID0gcmVnaW9uSWQ7CiAgICAgIGNlbGwuc3R5bGUuYmFja2dyb3VuZENvbG9yID0gY29sb3JzW3JlZ2lvbklkICUgY29sb3JzLmxlbmd0aF07CiAgICAgIHVwZGF0ZU1vZGVsKCk7CiAgICB9CiAgfQogIAogIGZ1bmN0aW9uIHVwZGF0ZU1vZGVsKCkgewogICAgLy8gTm9ybWFsaXplIHJlZ2lvbiBJRHMgdG8gYmUgY29uc2VjdXRpdmUgc3RhcnRpbmcgZnJvbSAwCiAgICBjb25zdCByZWdpb25NYXAgPSB7fTsKICAgIGxldCBuZXdJZCA9IDA7CiAgICBjb25zdCBub3JtYWxpemVkID0gc2hhcGVzLm1hcChyb3cgPT4gCiAgICAgIHJvdy5tYXAob2xkSWQgPT4gewogICAgICAgIGlmICghKG9sZElkIGluIHJlZ2lvbk1hcCkpIHsKICAgICAgICAgIHJlZ2lvbk1hcFtvbGRJZF0gPSBuZXdJZCsrOwogICAgICAgIH0KICAgICAgICByZXR1cm4gcmVnaW9uTWFwW29sZElkXTsKICAgICAgfSkKICAgICk7CiAgICAKICAgIG1vZGVsLnNldCgnc2hhcGVzJywgbm9ybWFsaXplZCk7CiAgICBtb2RlbC5zYXZlX2NoYW5nZXMoKTsKICB9CiAgCiAgd2lkdGhJbnB1dC5hZGRFdmVudExpc3RlbmVyKCdjaGFuZ2UnLCAoKSA9PiB7CiAgICBtb2RlbC5zZXQoJ3dpZHRoJywgcGFyc2VJbnQod2lkdGhJbnB1dC52YWx1ZSkgfHwgNSk7CiAgICBtb2RlbC5zYXZlX2NoYW5nZXMoKTsKICAgIHVwZGF0ZUdyaWQoKTsKICB9KTsKICAKICBoZWlnaHRJbnB1dC5hZGRFdmVudExpc3RlbmVyKCdjaGFuZ2UnLCAoKSA9PiB7CiAgICBtb2RlbC5zZXQoJ2hlaWdodCcsIHBhcnNlSW50KGhlaWdodElucHV0LnZhbHVlKSB8fCA1KTsKICAgIG1vZGVsLnNhdmVfY2hhbmdlcygpOwogICAgdXBkYXRlR3JpZCgpOwogIH0pOwogIAogIG5ld1JlZ2lvbkJ1dHRvbi5hZGRFdmVudExpc3RlbmVyKCdjbGljaycsICgpID0+IHsKICAgIC8vIEZpbmQgdGhlIG1heGltdW0gcmVnaW9uIElEIGFuZCBjcmVhdGUgYSBuZXcgb25lCiAgICBsZXQgbWF4SWQgPSAtMTsKICAgIGZvciAobGV0IHkgPSAwOyB5IDwgc2hhcGVzLmxlbmd0aDsgeSsrKSB7CiAgICAgIGZvciAobGV0IHggPSAwOyB4IDwgc2hhcGVzW3ldLmxlbmd0aDsgeCsrKSB7CiAgICAgICAgbWF4SWQgPSBNYXRoLm1heChtYXhJZCwgc2hhcGVzW3ldW3hdKTsKICAgICAgfQogICAgfQogICAgY3VycmVudFJlZ2lvbklkID0gbWF4SWQgKyAxOwogIH0pOwogIAogIGNsZWFyQnV0dG9uLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgKCkgPT4gewogICAgY29uc3Qgd2lkdGggPSBwYXJzZUludCh3aWR0aElucHV0LnZhbHVlKSB8fCA1OwogICAgY29uc3QgaGVpZ2h0ID0gcGFyc2VJbnQoaGVpZ2h0SW5wdXQudmFsdWUpIHx8IDU7CiAgICBzaGFwZXMgPSBbXTsKICAgIGZvciAobGV0IHkgPSAwOyB5IDwgaGVpZ2h0OyB5KyspIHsKICAgICAgc2hhcGVzW3ldID0gW107CiAgICAgIGZvciAobGV0IHggPSAwOyB4IDwgd2lkdGg7IHgrKykgewogICAgICAgIHNoYXBlc1t5XVt4XSA9IHkgKiB3aWR0aCArIHg7CiAgICAgIH0KICAgIH0KICAgIGN1cnJlbnRSZWdpb25JZCA9IHdpZHRoICogaGVpZ2h0OwogICAgdXBkYXRlR3JpZCgpOwogIH0pOwogIAogIGRvY3VtZW50LmFkZEV2ZW50TGlzdGVuZXIoJ21vdXNldXAnLCAoKSA9PiB7CiAgICBpc0RyYXdpbmcgPSBmYWxzZTsKICAgIGhhc01vdmVkID0gZmFsc2U7CiAgICBzdGFydFggPSAtMTsKICAgIHN0YXJ0WSA9IC0xOwogIH0pOwogIAogIC8vIEluaXRpYWxpemUgZnJvbSBtb2RlbAogIG1vZGVsLm9uKCdjaGFuZ2U6d2lkdGgnLCAoKSA9PiB7CiAgICB3aWR0aElucHV0LnZhbHVlID0gbW9kZWwuZ2V0KCd3aWR0aCcpIHx8IDU7CiAgICB1cGRhdGVHcmlkKCk7CiAgfSk7CiAgCiAgbW9kZWwub24oJ2NoYW5nZTpoZWlnaHQnLCAoKSA9PiB7CiAgICBoZWlnaHRJbnB1dC52YWx1ZSA9IG1vZGVsLmdldCgnaGVpZ2h0JykgfHwgNTsKICAgIHVwZGF0ZUdyaWQoKTsKICB9KTsKICAKICAvLyBMb2FkIGV4aXN0aW5nIHNoYXBlcyBpZiBhdmFpbGFibGUKICBjb25zdCBleGlzdGluZ1NoYXBlcyA9IG1vZGVsLmdldCgnc2hhcGVzJyk7CiAgaWYgKGV4aXN0aW5nU2hhcGVzICYmIEFycmF5LmlzQXJyYXkoZXhpc3RpbmdTaGFwZXMpICYmIGV4aXN0aW5nU2hhcGVzLmxlbmd0aCA+IDApIHsKICAgIHNoYXBlcyA9IGV4aXN0aW5nU2hhcGVzLm1hcChyb3cgPT4gWy4uLnJvd10pOwogICAgdXBkYXRlR3JpZCgpOwogIH0gZWxzZSB7CiAgICB1cGRhdGVHcmlkKCk7CiAgfQogIAogIHJldHVybiAoKSA9PiB7CiAgICAvLyBDbGVhbnVwCiAgfTsKfQoKZXhwb3J0IGRlZmF1bHQgeyByZW5kZXIgfTsK&quot;' data-js-hash='&quot;c45965b6283ff9b5f0f79cf89fa30e7b&quot;'></marimo-anywidget></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "bd5856995141cabee133a15e8d272b2d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "eb8b44bafc6d2c1134e84c05d418ca31",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='PKri-0' random-id='3720680f-f987-c0d0-d5a6-eeb905b66fef'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;Solver&#92;&quot;:&#92;&quot;Basic&#92;&quot;,&#92;&quot;Status&#92;&quot;:&#92;&quot;&#92;&#92;u2713 Solved&#92;&quot;,&#92;&quot;Recursive Calls&#92;&quot;:1},{&#92;&quot;Solver&#92;&quot;:&#92;&quot;Smart&#92;&quot;,&#92;&quot;Status&#92;&quot;:&#92;&quot;&#92;&#92;u2713 Solved&#92;&quot;,&#92;&quot;Recursive Calls&#92;&quot;:1},{&#92;&quot;Solver&#92;&quot;:&#92;&quot;Constraint Prop&#92;&quot;,&#92;&quot;Status&#92;&quot;:&#92;&quot;&#92;&#92;u2713 Solved&#92;&quot;,&#92;&quot;Recursive Calls&#92;&quot;:1}]&quot;' data-total-rows='3' data-total-columns='3' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;Solver&quot;,[&quot;string&quot;,&quot;object&quot;]],[&quot;Status&quot;,[&quot;string&quot;,&quot;object&quot;]],[&quot;Recursive Calls&quot;,[&quot;integer&quot;,&quot;int64&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='false' data-show-data-types='true' data-show-page-size-selector='false' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "237aa5e7a33b2108926dd453ab37f6d4",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: row;justify-content: space-between;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><div style=\"font-family: monospace; display: inline-block;\"><table style=\"border-collapse: collapse; border: 2px solid black;\"></table></div><div style=\"font-family: monospace; display: inline-block;\"><table style=\"border-collapse: collapse; border: 2px solid black;\"></table></div><div style=\"font-family: monospace; display: inline-block;\"><table style=\"border-collapse: collapse; border: 2px solid black;\"></table></div></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "3984d259768e4f6f01dd08115a731812",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"suguru-class\">Suguru class</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "803f85fea3b62fff5ade8a36a81d6101",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "5adfc28d942689a5d18b4b7f58eb3e69",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m.\u001b[0m\u001b[32m                                                                [100%]\u001b[0m\n=================================== Overview ===================================\nPassed Tests:\n\u2713 notebooks/analysis/suguru/notebook.py::test_final_board_no_nones[BasicSolver]\n\u2713 notebooks/analysis/suguru/notebook.py::test_final_board_no_nones[SmartSolver]\n\u2713 notebooks/analysis/suguru/notebook.py::test_final_board_no_nones[ConstraintPropSolver]\n\u2713 notebooks/analysis/suguru/notebook.py::test_unsolvable_size_1_regions[BasicSolver-shapes0]\n\u2713 notebooks/analysis/suguru/notebook.py::test_unsolvable_size_1_regions[BasicSolver-shapes1]\n\u2713 notebooks/analysis/suguru/notebook.py::test_unsolvable_size_1_regions[SmartSolver-shapes0]\n\u2713 notebooks/analysis/suguru/notebook.py::test_unsolvable_size_1_regions[SmartSolver-shapes1]\n\u2713 notebooks/analysis/suguru/notebook.py::test_unsolvable_size_1_regions[ConstraintPropSolver-shapes0]\n\u2713 notebooks/analysis/suguru/notebook.py::test_unsolvable_size_1_regions[ConstraintPropSolver-shapes1]\n\nSummary:\nTotal: 9, Passed: 9, Failed: 0, Errors: 0, Skipped: 0\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    }
+  ]
+}
