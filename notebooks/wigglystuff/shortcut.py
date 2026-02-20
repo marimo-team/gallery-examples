@@ -8,19 +8,16 @@
 
 import marimo
 
-__generated_with = "0.17.8"
+__generated_with = "0.19.11"
 app = marimo.App()
+
+with app.setup:
+    import marimo as mo
+    from wigglystuff import KeystrokeWidget
 
 
 @app.cell
 def _():
-    import marimo as mo
-    from wigglystuff import KeystrokeWidget
-    return KeystrokeWidget, mo
-
-
-@app.cell
-def _(KeystrokeWidget, mo):
     widget = mo.ui.anywidget(KeystrokeWidget())
     widget
     return (widget,)
@@ -29,11 +26,6 @@ def _(KeystrokeWidget, mo):
 @app.cell
 def _(widget):
     widget.value
-    return
-
-
-@app.cell
-def _():
     return
 
 

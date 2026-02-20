@@ -12,16 +12,13 @@ import marimo
 __generated_with = "0.19.9"
 app = marimo.App(width="medium")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
-
-    return (mo,)
+    from wigglystuff import Neo4jWidget
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Neo4j Widget
 
@@ -34,7 +31,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _():
     uri_input = mo.ui.text(value="neo4j+s://demo.neo4jlabs.com", label="URI")
     user_input = mo.ui.text(value="movies", label="User")
     pass_input = mo.ui.text(value="movies", label="Password", kind="password")
@@ -44,9 +41,7 @@ def _(mo):
 
 
 @app.cell
-def _(db_input, mo, pass_input, uri_input, user_input):
-    from wigglystuff import Neo4jWidget
-
+def _(db_input, pass_input, uri_input, user_input):
     widget = mo.ui.anywidget(
         Neo4jWidget(
             uri=uri_input.value,
@@ -60,7 +55,7 @@ def _(db_input, mo, pass_input, uri_input, user_input):
 
 
 @app.cell
-def _(mo, widget):
+def _(widget):
     mo.md(f"""
     **Selected nodes:** {widget.selected_nodes}
     """)

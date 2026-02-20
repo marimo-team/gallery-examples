@@ -11,19 +11,19 @@ import marimo
 __generated_with = "0.18.1"
 app = marimo.App(width="columns")
 
+with app.setup:
+    import marimo as mo
+    from wigglystuff import GamepadWidget
+
 
 @app.cell
 def _():
-    import marimo as mo
-
-    from wigglystuff import GamepadWidget
-
     pad = mo.ui.anywidget(GamepadWidget())
-    return mo, pad
+    return (pad,)
 
 
 @app.cell
-def _(mo):
+def _():
     mo.md(r"""
     ## Listen to browser gamepad events
 
@@ -40,7 +40,7 @@ def _(pad):
 
 
 @app.cell
-def _(mo, pad):
+def _(pad):
     axes = pad.axes if pad.axes else [0.0, 0.0, 0.0, 0.0]
     left_axes = tuple(round(val, 2) for val in axes[:2])
     right_axes = tuple(round(val, 2) for val in axes[2:])

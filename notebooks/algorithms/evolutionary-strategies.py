@@ -16,20 +16,16 @@ import marimo
 __generated_with = "0.19.11"
 app = marimo.App(width="medium", auto_download=["html", "ipynb"])
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
-    import numpy as np
     import matplotlib.pyplot as plt
-    from matplotlib.patches import Ellipse
+    import numpy as np
     from functools import lru_cache
-
-    return Ellipse, lru_cache, mo, np, plt
+    from matplotlib.patches import Ellipse
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     # Evolutionary Strategies: Watching the Search Space Adapt
 
@@ -43,7 +39,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## The Two Learnable Parameters
 
@@ -66,7 +62,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## The $\sigma$ Update Rule
 
@@ -112,7 +108,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## The $\mu$ Update Rule
 
@@ -145,7 +141,7 @@ def _(mo):
 
 
 @app.cell
-def _(lru_cache, np):
+def _():
     # Test functions - all 2D for consistent visualization
 
     # --- Smooth functions (good for understanding ES behavior) ---
@@ -264,7 +260,7 @@ def _(lru_cache, np):
 
 
 @app.cell
-def _(FUNCTIONS, mo):
+def _(FUNCTIONS):
     func_dropdown = mo.ui.dropdown(
         options=list(FUNCTIONS.keys()),
         value="Sphere",
@@ -275,7 +271,7 @@ def _(FUNCTIONS, mo):
 
 
 @app.cell(hide_code=True)
-def _(FUNCTIONS, compute_landscape, func_dropdown, mo, plt):
+def _(FUNCTIONS, compute_landscape, func_dropdown):
     # Show the selected function's landscape (using cached computation)
     _func_name = func_dropdown.value
     _func_info = FUNCTIONS[_func_name]
@@ -300,60 +296,57 @@ def _(FUNCTIONS, compute_landscape, func_dropdown, mo, plt):
     return
 
 
-@app.cell
-def _(np):
-    def es_with_history(f, mu0, sigma0, alpha_mu=0.5, alpha_sigma=0.1,
-                        n_samples=50, steps=100, seed=42):
-        """
-        Evolutionary Strategy with full history for visualization.
+@app.function
+def es_with_history(f, mu0, sigma0, alpha_mu=0.5, alpha_sigma=0.1,
+                    n_samples=50, steps=100, seed=42):
+    """
+    Evolutionary Strategy with full history for visualization.
 
-        Returns a list of dicts, one per iteration, containing:
-        - mu: current mean
-        - sigma: current standard deviation
-        - samples: population samples at this step
-        - fitness: fitness values of samples
-        - best_fitness: best fitness found so far
-        """
-        np.random.seed(seed)
-        mu = np.array(mu0, dtype=float)
-        sigma = float(sigma0)
-        history = []
-        best_fitness = float('inf')
+    Returns a list of dicts, one per iteration, containing:
+    - mu: current mean
+    - sigma: current standard deviation
+    - samples: population samples at this step
+    - fitness: fitness values of samples
+    - best_fitness: best fitness found so far
+    """
+    np.random.seed(seed)
+    mu = np.array(mu0, dtype=float)
+    sigma = float(sigma0)
+    history = []
+    best_fitness = float('inf')
 
-        for step in range(steps):
-            # Sample population
-            samples = np.random.normal(mu, sigma, (n_samples, 2))
-            f_vals = np.array([f(s) for s in samples])
-            best_fitness = min(best_fitness, f_vals.min())
+    for step in range(steps):
+        # Sample population
+        samples = np.random.normal(mu, sigma, (n_samples, 2))
+        f_vals = np.array([f(s) for s in samples])
+        best_fitness = min(best_fitness, f_vals.min())
 
-            # Store current state
-            history.append({
-                'mu': mu.copy(),
-                'sigma': sigma,
-                'samples': samples.copy(),
-                'fitness': f_vals.copy(),
-                'best_fitness': best_fitness
-            })
+        # Store current state
+        history.append({
+            'mu': mu.copy(),
+            'sigma': sigma,
+            'samples': samples.copy(),
+            'fitness': f_vals.copy(),
+            'best_fitness': best_fitness
+        })
 
-            # Normalize fitness (minimization: lower is better)
-            f_norm = -(f_vals - np.mean(f_vals)) / (np.std(f_vals) + 1e-8)
+        # Normalize fitness (minimization: lower is better)
+        f_norm = -(f_vals - np.mean(f_vals)) / (np.std(f_vals) + 1e-8)
 
-            # Update mu: move toward better samples
-            d_mu = alpha_mu * np.mean(f_norm[:, None] * (samples - mu), axis=0) / sigma
-            mu = mu + d_mu
+        # Update mu: move toward better samples
+        d_mu = alpha_mu * np.mean(f_norm[:, None] * (samples - mu), axis=0) / sigma
+        mu = mu + d_mu
 
-            # Update sigma: expand if good solutions are far, contract if close
-            normalized_dist_sq = np.sum((samples - mu)**2, axis=1) / (sigma**2)
-            d_sigma = alpha_sigma * np.mean(f_norm * (normalized_dist_sq / 2 - 1))
-            sigma = np.clip(sigma + d_sigma, 0.01, 100.0)
+        # Update sigma: expand if good solutions are far, contract if close
+        normalized_dist_sq = np.sum((samples - mu)**2, axis=1) / (sigma**2)
+        d_sigma = alpha_sigma * np.mean(f_norm * (normalized_dist_sq / 2 - 1))
+        sigma = np.clip(sigma + d_sigma, 0.01, 100.0)
 
-        return history
-
-    return (es_with_history,)
+    return history
 
 
 @app.cell
-def _(mo):
+def _():
     # ES parameter controls
     n_samples_slider = mo.ui.slider(start=20, stop=200, step=10, value=50, label="Population Size")
     alpha_mu_slider = mo.ui.slider(start=0.1, stop=1.0, step=0.1, value=0.5, label="Learning Rate (mu)")
@@ -386,7 +379,6 @@ def _(
     FUNCTIONS,
     alpha_mu_slider,
     alpha_sigma_slider,
-    es_with_history,
     func_dropdown,
     init_sigma_slider,
     n_samples_slider,
@@ -421,7 +413,7 @@ def _(
 
 
 @app.cell
-def _(es_history, mo):
+def _(es_history):
     # Iteration slider for playback
     iteration_slider = mo.ui.slider(
         start=0,
@@ -437,15 +429,11 @@ def _(es_history, mo):
 
 @app.cell(hide_code=True)
 def _(
-    Ellipse,
     FUNCTIONS,
     compute_landscape,
     es_history,
     func_dropdown,
     iteration_slider,
-    mo,
-    np,
-    plt,
 ):
     # Main visualization: population cloud with trajectory
     _func_name = func_dropdown.value
@@ -532,8 +520,6 @@ def _(
     es_history,
     func_dropdown,
     iteration_slider,
-    np,
-    plt,
 ):
     # Per-sample contribution visualization with landscape background
     # All arrows have SAME LENGTH - color encodes magnitude of influence
@@ -686,7 +672,7 @@ def _(
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Per-Sample Contributions
 
@@ -700,7 +686,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## What to Notice
 
@@ -717,15 +703,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(
-    Ellipse,
-    FUNCTIONS,
-    compute_landscape,
-    es_history,
-    func_dropdown,
-    np,
-    plt,
-):
+def _(FUNCTIONS, compute_landscape, es_history, func_dropdown):
     # Small multiples: 5 key snapshots
     _func_name = func_dropdown.value
     _func_info = FUNCTIONS[_func_name]
@@ -776,7 +754,7 @@ def _(
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Key Takeaways
 

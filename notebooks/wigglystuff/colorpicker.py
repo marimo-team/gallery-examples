@@ -5,19 +5,22 @@
 #     "wigglystuff==0.2.21",
 # ]
 # ///
+
 import marimo
 
-__generated_with = "0.18.2"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
+
+with app.setup:
+    import marimo as mo
+    import random
+    from wigglystuff import ColorPicker
 
 
 @app.cell
 def _():
-    import marimo as mo
-    from wigglystuff import ColorPicker
-
     picker = mo.ui.anywidget(ColorPicker(color="#0ea5e9"))
-    return mo, picker
+    return (picker,)
 
 
 @app.cell
@@ -27,7 +30,7 @@ def _(picker):
 
 
 @app.cell
-def _(mo, picker):
+def _(picker):
     r, g, b = picker.rgb
 
     mo.vstack(
@@ -44,10 +47,7 @@ def _(mo, picker):
 
 
 @app.cell
-def _(mo, picker):
-    import random
-
-
+def _(picker):
     def randomize(_):
         picker.color = f"#{random.randint(0, 0xFFFFFF):06x}"
 

@@ -11,23 +11,30 @@
 
 import marimo
 
-__generated_with = "0.19.7"
+__generated_with = "0.19.11"
 app = marimo.App(
     css_file="/usr/local/_marimo/custom.css",
     auto_download=["html"],
 )
 
+with app.setup:
+    import marimo as mo
+    import matplotlib.pyplot as plt
+    import numpy as _np
+    import numpy as np
+    from widget import GrpoGdpoWidget
+
 
 @app.cell
-def _(mo):
+def _():
     mo.md(r"""
- 
+
     """)
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## GRPO vs GDPO Advantage Comparison
 
@@ -65,19 +72,12 @@ def _(mo):
 
 @app.cell
 def _():
-    import marimo as mo
-    from widget import GrpoGdpoWidget
-    return GrpoGdpoWidget, mo
-
-
-@app.cell
-def _(GrpoGdpoWidget):
     widget = GrpoGdpoWidget()
     return (widget,)
 
 
 @app.cell
-def _(mo, widget):
+def _(widget):
     widget_view = mo.ui.anywidget(widget)
     return (widget_view,)
 
@@ -94,96 +94,94 @@ def _(fig):
     return
 
 
+@app.function(hide_code=True)
+def normalize(arr):
+    """Normalize array to zero mean and unit variance."""
+    arr = np.array(arr, dtype=np.float64)
+    std = arr.std()
+    if std == 0:
+        return np.zeros_like(arr)
+    return (arr - arr.mean()) / std
+
+
+@app.function(hide_code=True)
+def compute_grpo_advantages(rewards):
+    """GRPO: aggregate first, then normalize."""
+    totals = rewards.sum(axis=1)
+    return normalize(totals)
+
+
+@app.function(hide_code=True)
+def compute_gdpo_advantages(rewards):
+    """GDPO: normalize each dimension, then sum."""
+    advantages = np.zeros(len(rewards))
+    for dim in range(rewards.shape[1]):
+        advantages += normalize(rewards[:, dim])
+    return advantages
+
+
+@app.function(hide_code=True)
+def train_policy(method, epochs=100, lr=0.1, batch_size=32, seed=41, fixed_rewards=None):
+    """Train a 3-dimensional Bernoulli policy using GRPO or GDPO.
+
+    Args:
+        fixed_rewards: If provided (numpy array), use this fixed dataset every epoch.
+                       If None, sample fresh data each epoch (default).
+
+    Returns history of probabilities over epochs.
+    """
+    rng = np.random.default_rng(seed)
+
+    # Policy parameters (log-odds, initialized to 0 -> prob 0.5)
+    logits = np.zeros(3)
+
+    history = []
+
+    for _epoch in range(epochs):
+        # Current probabilities
+        probs = 1 / (1 + np.exp(-logits))
+        history.append(probs.copy())
+
+        # Get rewards: either fixed or freshly sampled
+        if fixed_rewards is not None:
+            rewards = fixed_rewards
+        else:
+            rewards = (rng.random((batch_size, 3)) < probs).astype(np.float64)
+
+        # Compute advantages
+        if method == 'grpo':
+            advantages = compute_grpo_advantages(rewards)
+        else:
+            advantages = compute_gdpo_advantages(rewards)
+
+        # Policy gradient update
+        # grad log p(a) * advantage, where p(a) = prod of Bernoulli probs
+        for i in range(3):
+            # For Bernoulli: grad log p = (reward - prob) for that dimension
+            grad = ((rewards[:, i] - probs[i]) * advantages).mean()
+            logits[i] += lr * grad
+
+    return np.array(history)
+
+
 @app.cell(hide_code=True)
 def _():
-    import numpy as np
-
-    def normalize(arr):
-        """Normalize array to zero mean and unit variance."""
-        arr = np.array(arr, dtype=np.float64)
-        std = arr.std()
-        if std == 0:
-            return np.zeros_like(arr)
-        return (arr - arr.mean()) / std
-
-    def compute_grpo_advantages(rewards):
-        """GRPO: aggregate first, then normalize."""
-        totals = rewards.sum(axis=1)
-        return normalize(totals)
-
-    def compute_gdpo_advantages(rewards):
-        """GDPO: normalize each dimension, then sum."""
-        advantages = np.zeros(len(rewards))
-        for dim in range(rewards.shape[1]):
-            advantages += normalize(rewards[:, dim])
-        return advantages
-
-    def train_policy(method, epochs=100, lr=0.1, batch_size=32, seed=41, fixed_rewards=None):
-        """Train a 3-dimensional Bernoulli policy using GRPO or GDPO.
-
-        Args:
-            fixed_rewards: If provided (numpy array), use this fixed dataset every epoch.
-                           If None, sample fresh data each epoch (default).
-
-        Returns history of probabilities over epochs.
-        """
-        rng = np.random.default_rng(seed)
-
-        # Policy parameters (log-odds, initialized to 0 -> prob 0.5)
-        logits = np.zeros(3)
-
-        history = []
-
-        for _epoch in range(epochs):
-            # Current probabilities
-            probs = 1 / (1 + np.exp(-logits))
-            history.append(probs.copy())
-
-            # Get rewards: either fixed or freshly sampled
-            if fixed_rewards is not None:
-                rewards = fixed_rewards
-            else:
-                rewards = (rng.random((batch_size, 3)) < probs).astype(np.float64)
-
-            # Compute advantages
-            if method == 'grpo':
-                advantages = compute_grpo_advantages(rewards)
-            else:
-                advantages = compute_gdpo_advantages(rewards)
-
-            # Policy gradient update
-            # grad log p(a) * advantage, where p(a) = prod of Bernoulli probs
-            for i in range(3):
-                # For Bernoulli: grad log p = (reward - prob) for that dimension
-                grad = ((rewards[:, i] - probs[i]) * advantages).mean()
-                logits[i] += lr * grad
-
-        return np.array(history)
-    return (train_policy,)
-
-
-@app.cell(hide_code=True)
-def _(mo):
     reuse_toggle = mo.ui.switch(label="Train on widget data (instead of fresh samples each epoch)")
     reuse_toggle
     return (reuse_toggle,)
 
 
-@app.cell
-def _():
-    import numpy as _np
-
-    def widget_rewards_to_array(rewards_list):
-        """Convert widget rewards list to numpy array."""
-        return _np.array([
-            [r["correctness"], r["style"], r["conciseness"]]
-            for r in rewards_list
-        ], dtype=_np.float64)
-    return (widget_rewards_to_array,)
+@app.function
+def widget_rewards_to_array(rewards_list):
+    """Convert widget rewards list to numpy array."""
+    return _np.array([
+        [r["correctness"], r["style"], r["conciseness"]]
+        for r in rewards_list
+    ], dtype=_np.float64)
 
 
 @app.cell
-def _(reuse_toggle, train_policy, widget_rewards_to_array, widget_view):
+def _(reuse_toggle, widget_view):
     if reuse_toggle.value:
         fixed = widget_rewards_to_array(widget_view.widget.rewards)
     else:
@@ -195,8 +193,6 @@ def _(reuse_toggle, train_policy, widget_rewards_to_array, widget_view):
 
 @app.cell
 def _(gdpo_history, grpo_history):
-    import matplotlib.pyplot as plt
-
     fig, ax = plt.subplots(figsize=(10, 6))
 
     colors = ['#1f77b4', '#ff7f0e', '#2ca02c']  # blue, orange, green

@@ -14,24 +14,24 @@
 
 import marimo
 
-__generated_with = "0.18.1"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium", sql_output="polars")
 
 with app.setup:
     import marimo as mo
+    import json
+    import os
+    import warnings
+    import pytest
     from fastapi import FastAPI
     from fastapi.testclient import TestClient
     from gliner2 import GLiNER2
     from pydantic import BaseModel
-    import warnings
-    import os
+    from wigglystuff import SortableList
 
     os.environ["TRANSFORMERS_NO_ADVISORY_WARNINGS"] = "true"
-
     with mo.capture_stdout() as _buffer1:
         extractor = GLiNER2.from_pretrained("fastino/gliner2-base-v1")
-
-
     class ModelInput(BaseModel):
         text: str
         entities: list[str]
@@ -87,8 +87,6 @@ def _():
 
 @app.cell
 def _():
-    from wigglystuff import SortableList
-
     text_input = mo.ui.text_area(rows=2)
     entities = mo.ui.anywidget(
         SortableList(["location", "person"], addable=True, removable=True, editable=True)
@@ -97,7 +95,7 @@ def _():
 
 
 @app.cell
-def _(entities, json, out, text_input):
+def _(entities, out, text_input):
     mo.vstack(
         [
             mo.md("### text input"),
@@ -116,13 +114,11 @@ def _(entities, json, out, text_input):
 
 @app.cell(hide_code=True)
 def _(model_input):
-    import json
-
     out = extract(model_input)
 
     if mo.app_meta().mode == "script":
         print(json.dumps(out))
-    return json, out
+    return (out,)
 
 
 @app.function
@@ -144,14 +140,12 @@ def create_app():
 
 @app.cell
 def _():
-    import pytest
-
     client = TestClient(create_app())
-    return client, pytest
+    return (client,)
 
 
 @app.cell
-def _(client, pytest):
+def _(client):
     @pytest.mark.parametrize("route", ["/", "health", "healthz"])
     def test_read_main(route):
         response = client.get(route)
@@ -166,11 +160,7 @@ def _(client, pytest):
         model_out = response.json()["entities"]
         assert model_out["animal"] == ["cat"]
         assert model_out["person"] == ["Vincent"]
-    return
 
-
-@app.cell
-def _():
     return
 
 

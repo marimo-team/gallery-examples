@@ -6,26 +6,36 @@
 #     "vega-datasets==0.9.0",
 # ]
 # ///
+
 import marimo
 
-__generated_with = "0.14.17"
+__generated_with = "0.19.11"
 app = marimo.App(width="full", auto_download=["html"])
 
+with app.setup:
+    import marimo as mo
+    import altair as alt
+    from vega_datasets import data
+
 
 @app.cell
-def _(mo):
-    mo.md("""# Reactive plots! 🚗 ⚡""")
+def _():
+    mo.md("""
+    # Reactive plots! 🚗 ⚡
+    """)
     return
 
 
 @app.cell
-def _(mo):
-    mo.md("""This plot is **interactive**! Click and drag to select points to get a filtered dataset.""")
+def _():
+    mo.md("""
+    This plot is **interactive**! Click and drag to select points to get a filtered dataset.
+    """)
     return
 
 
 @app.cell
-def _(alt, data, mo):
+def _():
     cars = data.cars()
 
     brush = alt.selection_interval()
@@ -51,19 +61,21 @@ def _(alt, data, mo):
 
 
 @app.cell
-def _(mo):
-    mo.md("""Select one or more cars from the table.""")
+def _():
+    mo.md("""
+    Select one or more cars from the table.
+    """)
     return
 
 
 @app.cell
-def _(chart, mo):
+def _(chart):
     (filtered_data := mo.ui.table(chart.value))
     return (filtered_data,)
 
 
 @app.cell
-def _(alt, filtered_data, mo):
+def _(filtered_data):
     mo.stop(not len(filtered_data.value))
     mpg_hist = mo.ui.altair_chart(
         alt.Chart(filtered_data.value)
@@ -77,19 +89,6 @@ def _(alt, filtered_data, mo):
     )
     mo.hstack([mpg_hist, horsepower_hist], justify="space-around", widths="equal")
     return
-
-
-@app.cell
-def _():
-    import marimo as mo
-    return (mo,)
-
-
-@app.cell
-def _():
-    import altair as alt
-    from vega_datasets import data
-    return alt, data
 
 
 if __name__ == "__main__":

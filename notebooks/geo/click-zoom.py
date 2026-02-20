@@ -11,17 +11,13 @@ import marimo
 __generated_with = "0.19.11"
 app = marimo.App(width="medium")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
     import openlayers as ol
 
-    return mo, ol
-
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     This notebook shows how to use OpenLayers with marimo. Notice how when you interact with the map, the map state is sent back to Python.
     """)
@@ -29,14 +25,14 @@ def _(mo):
 
 
 @app.cell
-def _(ol):
+def _():
     m = ol.MapWidget()
     m.add_click_interaction()
     return (m,)
 
 
 @app.cell
-def _(m, mo):
+def _(m):
     widget = mo.ui.anywidget(m)
     return (widget,)
 

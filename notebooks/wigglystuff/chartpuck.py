@@ -15,18 +15,19 @@ import marimo
 __generated_with = "0.19.6"
 app = marimo.App()
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
     import matplotlib.pyplot as plt
     import numpy as np
+    from scipy.interpolate import CubicSpline, PchipInterpolator, Akima1DInterpolator, interp1d, BarycentricInterpolator
+    from sklearn.cluster import KMeans
+    from sklearn.datasets import load_digits
+    from sklearn.decomposition import PCA
     from wigglystuff import ChartPuck
-    return ChartPuck, mo, np, plt
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Single Puck
     """)
@@ -34,7 +35,7 @@ def _(mo):
 
 
 @app.cell
-def _(ChartPuck, np, plt):
+def _():
     # Create a scatter plot
     np.random.seed(42)
     x_data = np.random.randn(50)
@@ -55,7 +56,7 @@ def _(ChartPuck, np, plt):
 
 
 @app.cell
-def _(mo, puck):
+def _(puck):
     widget = mo.ui.anywidget(puck)
     return (widget,)
 
@@ -67,13 +68,13 @@ def _(widget):
 
 
 @app.cell
-def _(mo, widget):
+def _(widget):
     mo.callout(f"Selected position: x = {widget.x[0]:.3f}, y = {widget.y[0]:.3f}")
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Multiple Pucks
     """)
@@ -81,7 +82,7 @@ def _(mo):
 
 
 @app.cell
-def _(ChartPuck, np, plt):
+def _():
     # Create a scatter plot with multiple pucks
     np.random.seed(123)
     x_multi = np.random.randn(50)
@@ -107,7 +108,7 @@ def _(ChartPuck, np, plt):
 
 
 @app.cell
-def _(mo, multi_puck):
+def _(multi_puck):
     multi_widget = mo.ui.anywidget(multi_puck)
     return (multi_widget,)
 
@@ -119,7 +120,7 @@ def _(multi_widget):
 
 
 @app.cell
-def _(mo, multi_widget):
+def _(multi_widget):
     positions = [
         f"Puck {i+1}: ({x:.2f}, {y:.2f})"
         for i, (x, y) in enumerate(zip(multi_widget.x, multi_widget.y))
@@ -129,7 +130,7 @@ def _(mo, multi_widget):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Dynamic Chart Updates
     """)
@@ -137,7 +138,7 @@ def _(mo):
 
 
 @app.cell
-def _(np):
+def _():
     np.random.seed(42)
     dynamic_data_x = np.random.randn(50)
     dynamic_data_y = np.random.randn(50)
@@ -145,7 +146,7 @@ def _(np):
 
 
 @app.cell
-def _(ChartPuck, dynamic_data_x, dynamic_data_y):
+def _(dynamic_data_x, dynamic_data_y):
     def draw_with_crosshairs(ax, widget):
         x, y = widget.x[0], widget.y[0]
         ax.scatter(dynamic_data_x, dynamic_data_y, alpha=0.6)
@@ -168,7 +169,7 @@ def _(ChartPuck, dynamic_data_x, dynamic_data_y):
 
 
 @app.cell
-def _(dynamic_puck, mo):
+def _(dynamic_puck):
     dynamic_widget = mo.ui.anywidget(dynamic_puck)
     return (dynamic_widget,)
 
@@ -180,13 +181,13 @@ def _(dynamic_widget):
 
 
 @app.cell
-def _(dynamic_widget, mo):
+def _(dynamic_widget):
     mo.callout(f"Dynamic position: x = {dynamic_widget.x[0]:.3f}, y = {dynamic_widget.y[0]:.3f}")
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Spline Curve Editor
 
@@ -198,15 +199,13 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _():
     n_pucks_slider = mo.ui.slider(3, 8, value=5, label="Number of pucks")
     return (n_pucks_slider,)
 
 
 @app.cell
-def _(ChartPuck, n_pucks_slider, np):
-    from scipy.interpolate import CubicSpline, PchipInterpolator, Akima1DInterpolator, interp1d, BarycentricInterpolator
-
+def _(n_pucks_slider):
     # Internal state for interpolation method (not a marimo dependency)
     method_state = {"value": "CubicSpline"}
 
@@ -283,7 +282,7 @@ def _(ChartPuck, n_pucks_slider, np):
 
 
 @app.cell
-def _(method_state, mo, n_pucks_slider, spline_puck):
+def _(method_state, n_pucks_slider, spline_puck):
     def on_method_change(new_val):
         method_state["value"] = new_val
         spline_puck.redraw()
@@ -299,7 +298,7 @@ def _(method_state, mo, n_pucks_slider, spline_puck):
 
 
 @app.cell
-def _(mo, spline_puck):
+def _(spline_puck):
     spline_widget = mo.ui.anywidget(spline_puck)
     return (spline_widget,)
 
@@ -311,14 +310,14 @@ def _(spline_widget):
 
 
 @app.cell
-def _(mo, spline_widget):
+def _(spline_widget):
     _positions = [f"({x:.2f}, {y:.2f})" for x, y in zip(spline_widget.x, spline_widget.y)]
     mo.callout(f"Control points: {', '.join(_positions)}")
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Interactive K-Means Clustering
 
@@ -329,21 +328,19 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _():
     run_kmeans_button = mo.ui.run_button(label="Load K-Means Demo")
     run_kmeans_button
     return (run_kmeans_button,)
 
 
 @app.cell
-def _(mo, run_kmeans_button):
+def _(run_kmeans_button):
     mo.stop(
         not run_kmeans_button.value,
         mo.md("*Click the button above to load the interactive k-means demo.*"),
     )
 
-    from sklearn.datasets import load_digits
-    from sklearn.decomposition import PCA
 
     # Load digits dataset and reduce to 2D
     digits = load_digits()
@@ -356,9 +353,7 @@ def _(mo, run_kmeans_button):
 
 
 @app.cell
-def _(ChartPuck, np, plt, reduced_data, x_max, x_min, y_max, y_min):
-    from sklearn.cluster import KMeans
-
+def _(reduced_data, x_max, x_min, y_max, y_min):
     def draw_kmeans(ax, widget):
         centroids = list(zip(widget.x, widget.y))
 
@@ -420,13 +415,13 @@ def _(ChartPuck, np, plt, reduced_data, x_max, x_min, y_max, y_min):
 
 
 @app.cell
-def _(kmeans_puck, mo):
+def _(kmeans_puck):
     kmeans_widget = mo.ui.anywidget(kmeans_puck)
     return (kmeans_widget,)
 
 
 @app.cell
-def _(digits, kmeans_widget, mo, np, plt, reduced_data):
+def _(digits, kmeans_widget, reduced_data):
     def get_nearest_digits(centroids, reduced_data, digits, n_nearest=5):
         """Find the n nearest digit images to each centroid."""
         nearest_per_centroid = []
@@ -461,7 +456,7 @@ def _(digits, kmeans_widget, mo, np, plt, reduced_data):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ### Export to scikit-learn
 

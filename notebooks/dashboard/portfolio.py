@@ -12,23 +12,24 @@
 
 import marimo
 
-__generated_with = "0.17.7"
+__generated_with = "0.19.11"
 app = marimo.App(
     width="medium",
     css_file="/usr/local/_marimo/custom.css",
     auto_download=["html"],
 )
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
+    import altair as alt
     import pandas as pd
-    return mo, pd
+    import polars as pl
+    import yfinance as yf
+    from pathlib import Path
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     # Portfolio tracker
 
@@ -38,7 +39,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo, pd):
+def _():
     investments = mo.ui.data_editor(
         pd.DataFrame(
             [
@@ -59,107 +60,107 @@ def _(investments):
 
 
 @app.cell
-def _(parent_folder, pl):
+def _(parent_folder):
     df = pl.read_csv(f"{parent_folder}/*", glob=True)
     return
 
 
+@app.function(hide_code=True)
+def clean_data(dataf, investment_records):
+    # Convert investment records to polars DataFrame with uppercase ticker
+    investments_df = pl.DataFrame(investment_records)
+
+    return (
+        dataf.drop(["Dividends", "Stock Splits", "Volume"])
+        .join(investments_df, on=["Date", "Ticker"], how="left")
+        .with_columns(pl.col("Investment").fill_null(0))
+        .sort("Ticker", "Date")
+    )
+
+
+@app.function(hide_code=True)
+def calculate_portfolio_value(dataf):
+    # For each ticker, we need to track shares purchased at each investment
+    return (
+        dataf.with_columns(
+            # Calculate cumulative investment per ticker
+            CumInvestment=pl.col("Investment").cum_sum().over("Ticker")
+        )
+        # Filter to start from first investment
+        .filter(pl.col("CumInvestment") > 0)
+        .with_columns(
+            # When investment happens, calculate shares bought at that price
+            SharesBought=pl.when(pl.col("Investment") > 0)
+            .then(pl.col("Investment") / pl.col("Close"))
+            .otherwise(0)
+        )
+        .with_columns(
+            # Calculate total shares owned (cumulative)
+            TotalShares=pl.col("SharesBought").cum_sum().over("Ticker")
+        )
+        .with_columns(
+            # Current portfolio value = total shares × current price
+            PortfolioValue=pl.col("TotalShares") * pl.col("Close"),
+            # Profit/Loss = portfolio value - cumulative investment
+            PnL=(pl.col("TotalShares") * pl.col("Close")) - pl.col("CumInvestment"),
+        )
+    )
+
+
+@app.function(hide_code=True)
+def calculate_performance(dataf):
+    return (
+        dataf.group_by("Date")
+        .agg(
+            [
+                pl.sum("CumInvestment").alias("TotalInvested"),
+                pl.sum("PortfolioValue").alias("TotalValue"),
+                pl.sum("PnL").alias("TotalPnL"),
+            ]
+        )
+        .with_columns(
+            Date=pl.col("Date").str.to_date(),
+            ReturnPct=((pl.col("TotalValue") / pl.col("TotalInvested")) - 1) * 100,
+        )
+        .sort("Date")
+    )
+
+
+@app.function(hide_code=True)
+def make_chart(dataf):
+    portfolio_chart = (
+        alt.Chart(dataf)
+        .mark_area(line=True, opacity=0.3)
+        .encode(
+            x=alt.X("Date:T", title="Date"),
+            y=alt.Y("TotalValue:Q", title="Value ($)"),
+        )
+    )
+
+    # Add invested amount line
+    invested_line = (
+        alt.Chart(dataf)
+        .mark_line(strokeDash=[5, 5], color="black", strokeWidth=2)
+        .encode(x="Date:T", y="TotalInvested:Q")
+    )
+
+    # Combine charts
+    return portfolio_chart + invested_line
+
+
 @app.cell(hide_code=True)
 def _(parent_folder, records):
-    import altair as alt
-    import polars as pl
-
-
-    def clean_data(dataf, investment_records):
-        # Convert investment records to polars DataFrame with uppercase ticker
-        investments_df = pl.DataFrame(investment_records)
-
-        return (
-            dataf.drop(["Dividends", "Stock Splits", "Volume"])
-            .join(investments_df, on=["Date", "Ticker"], how="left")
-            .with_columns(pl.col("Investment").fill_null(0))
-            .sort("Ticker", "Date")
-        )
-
-
-    def calculate_portfolio_value(dataf):
-        # For each ticker, we need to track shares purchased at each investment
-        return (
-            dataf.with_columns(
-                # Calculate cumulative investment per ticker
-                CumInvestment=pl.col("Investment").cum_sum().over("Ticker")
-            )
-            # Filter to start from first investment
-            .filter(pl.col("CumInvestment") > 0)
-            .with_columns(
-                # When investment happens, calculate shares bought at that price
-                SharesBought=pl.when(pl.col("Investment") > 0)
-                .then(pl.col("Investment") / pl.col("Close"))
-                .otherwise(0)
-            )
-            .with_columns(
-                # Calculate total shares owned (cumulative)
-                TotalShares=pl.col("SharesBought").cum_sum().over("Ticker")
-            )
-            .with_columns(
-                # Current portfolio value = total shares × current price
-                PortfolioValue=pl.col("TotalShares") * pl.col("Close"),
-                # Profit/Loss = portfolio value - cumulative investment
-                PnL=(pl.col("TotalShares") * pl.col("Close")) - pl.col("CumInvestment"),
-            )
-        )
-
-
-    def calculate_performance(dataf):
-        return (
-            dataf.group_by("Date")
-            .agg(
-                [
-                    pl.sum("CumInvestment").alias("TotalInvested"),
-                    pl.sum("PortfolioValue").alias("TotalValue"),
-                    pl.sum("PnL").alias("TotalPnL"),
-                ]
-            )
-            .with_columns(
-                Date=pl.col("Date").str.to_date(),
-                ReturnPct=((pl.col("TotalValue") / pl.col("TotalInvested")) - 1) * 100,
-            )
-            .sort("Date")
-        )
-
-
-    def make_chart(dataf):
-        portfolio_chart = (
-            alt.Chart(dataf)
-            .mark_area(line=True, opacity=0.3)
-            .encode(
-                x=alt.X("Date:T", title="Date"),
-                y=alt.Y("TotalValue:Q", title="Value ($)"),
-            )
-        )
-
-        # Add invested amount line
-        invested_line = (
-            alt.Chart(dataf)
-            .mark_line(strokeDash=[5, 5], color="black", strokeWidth=2)
-            .encode(x="Date:T", y="TotalInvested:Q")
-        )
-
-        # Combine charts
-        return portfolio_chart + invested_line
-
-
     cached = (
         pl.read_csv(f"{parent_folder}/*", glob=True)
         .pipe(clean_data, investment_records=records)
         .pipe(calculate_portfolio_value)
         .pipe(calculate_performance)
     )
-    return cached, make_chart, pl
+    return (cached,)
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Investment value over time
     """)
@@ -167,13 +168,13 @@ def _(mo):
 
 
 @app.cell
-def _(cached, make_chart):
+def _(cached):
     cached.pipe(make_chart)
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Returns over time
     """)
@@ -197,9 +198,6 @@ def _(investments):
 
 @app.cell
 def _(records):
-    import yfinance as yf
-    from pathlib import Path
-
     parent_folder = Path("invest-data")
     parent_folder.mkdir(exist_ok=True)
 
@@ -222,7 +220,7 @@ def _(records):
 
 
 @app.cell
-def _(mo):
+def _():
     mo.md(r"""
     ## Data for download
     """)

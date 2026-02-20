@@ -10,20 +10,21 @@
 
 import marimo
 
-__generated_with = "0.19.9"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
+    import math
+    import random
+    import time
+    import wandb
+    from dotenv import load_dotenv
     from wigglystuff import EnvConfig, WandbChart
-
-    return EnvConfig, WandbChart, mo
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     # Live wandb charts
 
@@ -39,14 +40,11 @@ def _(mo):
 
 @app.cell
 def _():
-    from dotenv import load_dotenv
-
     load_dotenv()
 
-    import wandb
 
     logged_in = wandb.login()
-    return logged_in, wandb
+    return (logged_in,)
 
 
 @app.cell
@@ -56,7 +54,7 @@ def _(logged_in):
 
 
 @app.cell
-def _(EnvConfig, logged_in, mo):
+def _(logged_in):
     config = None
 
     if not logged_in:
@@ -67,7 +65,7 @@ def _(EnvConfig, logged_in, mo):
 
 
 @app.cell
-def _(config, logged_in, wandb):
+def _(config, logged_in):
     if not logged_in:
         config.require_valid()
         api_key = config["WANDB_API_KEY"]
@@ -78,10 +76,7 @@ def _(config, logged_in, wandb):
 
 
 @app.cell
-def _(wandb):
-    import math
-    import random
-
+def _():
     baseline = wandb.init(project="jupyter-projo", name="baseline")
     for _step in range(60):
         _t = _step / 59
@@ -90,11 +85,11 @@ def _(wandb):
     baseline.finish()
 
     experiment = wandb.init(project="jupyter-projo", name="fast-lr", reinit=True)
-    return baseline, experiment, math, random
+    return baseline, experiment
 
 
 @app.cell
-def _(WandbChart, api_key, baseline, experiment):
+def _(api_key, baseline, experiment):
     loss_chart = WandbChart(
         api_key=api_key,
         entity=baseline.entity,
@@ -110,7 +105,7 @@ def _(WandbChart, api_key, baseline, experiment):
 
 
 @app.cell(hide_code=True)
-def _(WandbChart, api_key, baseline, experiment):
+def _(api_key, baseline, experiment):
     acc_chart = WandbChart(
         api_key=api_key,
         entity=baseline.entity,
@@ -126,13 +121,13 @@ def _(WandbChart, api_key, baseline, experiment):
 
 
 @app.cell
-def _(acc_chart, loss_chart, mo):
+def _(acc_chart, loss_chart):
     mo.hstack([loss_chart, acc_chart])
     return
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     You can also have charts that only poll manually.
     """)
@@ -140,7 +135,7 @@ def _(mo):
 
 
 @app.cell
-def _(WandbChart, api_key, baseline, experiment):
+def _(api_key, baseline, experiment):
     manual_chart = WandbChart(
         api_key=api_key,
         entity=baseline.entity,
@@ -156,9 +151,7 @@ def _(WandbChart, api_key, baseline, experiment):
 
 
 @app.cell
-def _(acc_chart, experiment, loss_chart, math, random):
-    import time
-
+def _(acc_chart, experiment, loss_chart):
     loss_chart
     acc_chart
 
@@ -169,11 +162,6 @@ def _(acc_chart, experiment, loss_chart, math, random):
         time.sleep(2)
 
     experiment.finish()
-    return
-
-
-@app.cell
-def _():
     return
 
 

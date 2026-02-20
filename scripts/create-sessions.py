@@ -67,9 +67,16 @@ def run_single(notebook_path: str, cli_args: dict, argv: list[str] | None) -> No
     cell_ids = list(file_manager.app.cell_manager.cell_ids())
     session_data = serialize_session_view(session_view, cell_ids)
 
+    # Treat ModuleNotFoundError as a hard failure — the session cache
+    # would be useless if a dependency is missing.
+    serialized = json.dumps(session_data, indent=2)
+    if "ModuleNotFoundError" in serialized:
+        print("  Error: notebook has ModuleNotFoundError — missing dependency")
+        sys.exit(1)
+
     cache_file = get_session_cache_file(Path(notebook_path).resolve())
     cache_file.parent.mkdir(parents=True, exist_ok=True)
-    cache_file.write_text(json.dumps(session_data, indent=2))
+    cache_file.write_text(serialized)
 
     status = "with errors" if did_error else "ok"
     print(f"  -> {cache_file} ({status})")

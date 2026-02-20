@@ -11,12 +11,23 @@
 
 import marimo
 
-__generated_with = "0.18.4"
-app = marimo.App()
+__generated_with = "0.19.11"
+app = marimo.App(
+    css_file="/usr/local/_marimo/custom.css",
+    auto_download=["html"],
+)
+
+with app.setup:
+    import marimo as mo
+    import altair as alt
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    import torch
+    import torch.nn as nn
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     # Federated Learning
 
@@ -26,7 +37,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(rf"""
     ---
     ### 🧠 The 5 Steps of Federated Learning
@@ -40,7 +51,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ---
 
@@ -63,18 +74,6 @@ def _(mo):
 
 @app.cell
 def _():
-    import marimo as mo
-    import torch
-    import torch.nn as nn
-    import matplotlib.pyplot as plt
-    import altair as alt
-    import pandas as pd
-
-    return alt, mo, nn, pd, plt, torch
-
-
-@app.cell
-def _(mo, nn):
     # Neural network used by clients and the central server
     class HospitalNet(nn.Module):
         def __init__(self):
@@ -108,7 +107,7 @@ def _(mo, nn):
 
 
 @app.cell
-def _(mo):
+def _():
     # Defining buttons
     train_btn = mo.ui.run_button(label="🏥 Local Training", kind="success")
     merge_btn = mo.ui.run_button(label="🤝 Merge Models (FedAvg)", kind="warn")
@@ -120,16 +119,7 @@ def _(mo):
 
 
 @app.cell
-def _(
-    HospitalNet,
-    get_state,
-    merge_btn,
-    nn,
-    reset_btn,
-    set_state,
-    torch,
-    train_btn,
-):
+def _(HospitalNet, get_state, merge_btn, reset_btn, set_state, train_btn):
     # Federated Learning Control Logic (Train, Merge, Reset)
     # Read the current federated state and version counter
     _s = get_state()
@@ -213,8 +203,57 @@ def _(
     return
 
 
+@app.function
+def plot_model(model, title):
+    """Render a 2D heatmap showing a model’s decision surface."""
+    res = 30
+    x = torch.linspace(-5, 5, res)
+    gx, gy = torch.meshgrid(x, x, indexing="ij")
+    inp = torch.stack([gx.flatten(), gy.flatten()], dim=1)
+
+    with torch.no_grad():
+        p = model(inp).reshape(res, res)
+
+    fig, ax = plt.subplots(figsize=(1.6, 1.6))
+    ax.imshow(
+        p.numpy(),
+        extent=[-5, 5, -5, 5],
+        origin="lower",
+        cmap="PuOr",
+    )
+    ax.set_title(title, fontsize=8, fontweight="bold")
+    ax.axis("off")
+
+    html = mo.as_html(fig)
+    plt.close(fig)
+    return html
+
+
+@app.function
+def plot_local_data(hospital_id=0):
+    """Visualize one hospital’s local data distribution (illustrative)."""
+    torch.manual_seed(0)
+
+    angles = [0.0, 0.6, 1.2, 1.8]
+    x = torch.randn(60, 2)
+    w = torch.tensor([
+        torch.cos(torch.tensor(angles[hospital_id])),
+        torch.sin(torch.tensor(angles[hospital_id]))
+    ])
+    y = (x @ w > 0)
+
+    fig, ax = plt.subplots(figsize=(2.2, 2.2))
+    ax.scatter(x[:, 0], x[:, 1], c=y, cmap="coolwarm", s=15)
+    ax.set_title(f"Hospital {hospital_id} Data")
+    ax.axis("off")
+
+    html = mo.as_html(fig)
+    plt.close(fig)
+    return html
+
+
 @app.cell
-def _(alt, get_state, mo, pd, plt, torch):
+def _(get_state):
     # Federated Learning Dashboard
 
     # Read the latest federated state for visualization
@@ -233,53 +272,6 @@ def _(alt, get_state, mo, pd, plt, torch):
             "📥 **Local model updates aggregated on the server (FedAvg).** "
             "A new global model is formed and shared back."
         )
-
-    # Render a 2D heatmap showing a model’s decision surface
-    def plot_model(model, title):
-        res = 30
-        x = torch.linspace(-5, 5, res)
-        gx, gy = torch.meshgrid(x, x, indexing="ij")
-        inp = torch.stack([gx.flatten(), gy.flatten()], dim=1)
-
-        with torch.no_grad():
-            p = model(inp).reshape(res, res)
-
-        fig, ax = plt.subplots(figsize=(1.6, 1.6))
-        ax.imshow(
-            p.numpy(),
-            extent=[-5, 5, -5, 5],
-            origin="lower",
-            cmap="PuOr",
-        )
-        ax.set_title(title, fontsize=8, fontweight="bold")
-        ax.axis("off")
-
-        html = mo.as_html(fig)
-        plt.close(fig)
-        return html
-
-    # Visualize one hospital’s local data distribution (illustrative)
-    def plot_local_data(hospital_id=0):
-        torch.manual_seed(0)
-
-        angles = [0.0, 0.6, 1.2, 1.8]
-        x = torch.randn(60, 2)
-        w = torch.tensor(
-            [
-                torch.cos(torch.tensor(angles[hospital_id])),
-                torch.sin(torch.tensor(angles[hospital_id])),
-            ]
-        )
-        y = x @ w > 0
-
-        fig, ax = plt.subplots(figsize=(2.2, 2.2))
-        ax.scatter(x[:, 0], x[:, 1], c=y, cmap="coolwarm", s=15)
-        ax.set_title(f"Hospital {hospital_id} Data")
-        ax.axis("off")
-
-        html = mo.as_html(fig)
-        plt.close(fig)
-        return html
 
     # Visualize each hospital’s local model
     h_plots = [plot_model(_s["hospital_models"][i], f"Hospital {i}") for i in range(4)]
@@ -338,21 +330,6 @@ def _(alt, get_state, mo, pd, plt, torch):
             mo.hstack(data_plots, justify="space-around"),
         ]
     )
-    return
-
-
-@app.cell
-def _():
-    return
-
-
-@app.cell
-def _():
-    return
-
-
-@app.cell
-def _():
     return
 
 

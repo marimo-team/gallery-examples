@@ -13,23 +13,21 @@ import marimo
 __generated_with = "0.19.4"
 app = marimo.App(width="medium")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
     import numpy as np
+    from scipy.linalg import lu
     from wigglystuff import Matrix
-    return Matrix, mo, np
 
 
 @app.cell
-def _(Matrix, mo, slider_cols, slider_rows):
+def _(slider_cols, slider_rows):
     matrix_widget = mo.ui.anywidget(Matrix(rows=slider_rows.value, cols=slider_cols.value, min_value=-10, max_value=10))
     return (matrix_widget,)
 
 
 @app.cell
-def _(mo):
+def _():
     slider_rows = mo.ui.slider(1, 10, 1, value=3, label="rows")
     slider_cols = mo.ui.slider(1, 10, 1, value=3, label="cols")
     return slider_cols, slider_rows
@@ -48,7 +46,7 @@ def _(matrix_widget):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## SVD: $A = U \Sigma V^\top$
 
@@ -58,7 +56,7 @@ def _(mo):
 
 
 @app.cell
-def _(Matrix, matrix_widget, mo, np):
+def _(matrix_widget):
     A = np.array(matrix_widget.matrix)
     U, S, Vt = np.linalg.svd(A)
     Sigma = np.diag(S)
@@ -76,7 +74,7 @@ def _(Matrix, matrix_widget, mo, np):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## QR: $A = QR$
 
@@ -86,7 +84,7 @@ def _(mo):
 
 
 @app.cell
-def _(Matrix, matrix_widget, mo, np):
+def _(matrix_widget):
     A_qr = np.array(matrix_widget.matrix)
     Q, R = np.linalg.qr(A_qr)
 
@@ -101,7 +99,7 @@ def _(Matrix, matrix_widget, mo, np):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## LU: $A = PLU$
 
@@ -111,8 +109,7 @@ def _(mo):
 
 
 @app.cell
-def _(Matrix, matrix_widget, mo, np):
-    from scipy.linalg import lu
+def _(matrix_widget):
     A_lu = np.array(matrix_widget.matrix)
     P, L, U_lu = lu(A_lu)
 

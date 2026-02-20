@@ -8,15 +8,16 @@
 
 import marimo
 
-__generated_with = "0.18.2"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
+
+with app.setup:
+    import marimo as mo
+    from wigglystuff import Slider2D
 
 
 @app.cell
 def _():
-    import marimo as mo
-    from wigglystuff import Slider2D
-
     widget = mo.ui.anywidget(
         Slider2D(
             width=320,
@@ -25,7 +26,7 @@ def _():
             y_bounds=(-1.0, 1.5),
         )
     )
-    return mo, widget
+    return (widget,)
 
 
 @app.cell
@@ -35,15 +36,10 @@ def _(widget):
 
 
 @app.cell
-def _(mo, widget):
+def _(widget):
     mo.callout(
         f"x = {widget.x:.3f}, y = {widget.y:.3f}; bounds {widget.x_bounds} / {widget.y_bounds}"
     )
-    return
-
-
-@app.cell
-def _():
     return
 
 

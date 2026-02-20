@@ -11,21 +11,23 @@
 
 import marimo
 
-__generated_with = "0.19.7"
+__generated_with = "0.19.11"
 app = marimo.App(
     css_file="/usr/local/_marimo/custom.css",
     auto_download=["html"],
 )
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
-    return (mo,)
+    import copy as _copy
+    import matplotlib.pyplot as plt
+    import numpy as np
+    import torch
+    from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     # LLM Unlearning: A Minimal Demo
 
@@ -46,13 +48,13 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _():
     is_script_mode = mo.app_meta().mode == "script"
     return
 
 
 @app.cell
-def _(mo):
+def _():
     model_dropdown = mo.ui.dropdown(["gpt2", "gpt2-xl", "meta-llama/Llama-3-8B", "Qwen/Qwen2-7B"], value="gpt2")
     model_dropdown
     return (model_dropdown,)
@@ -60,10 +62,6 @@ def _(mo):
 
 @app.cell
 def _(model_dropdown):
-
-    import torch
-    from transformers import AutoModelForCausalLM, AutoTokenizer
-
     model_name = model_dropdown.value
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(model_name)
@@ -77,18 +75,11 @@ def _(model_dropdown):
 
     # Move existing models and tokenizer to GPU
     model.to(device);
-    return device, model, tokenizer, torch
-
-
-@app.cell
-def _():
-    import matplotlib.pyplot as plt
-    import numpy as np
-    return np, plt
+    return device, model, tokenizer
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## 1. The Reinforced Model
 
@@ -109,7 +100,7 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ### Training Data for the Reinforced Model
 
@@ -160,9 +151,7 @@ def _():
 
 
 @app.cell
-def _(device, hp_training_texts, model, tokenizer, torch):
-    import copy as _copy
-
+def _(device, hp_training_texts, model, tokenizer):
     # Create reinforced model by training heavily on HP content
     reinforced_model = _copy.deepcopy(model)
     reinforced_model.to(device)
@@ -193,7 +182,7 @@ def _(device, hp_training_texts, model, tokenizer, torch):
 
 
 @app.cell
-def _(mo):
+def _():
     reinforced_prompt_input = mo.ui.text(
         value="Ron and Hermione are the best friends of",
         label="Test prompt:",
@@ -214,7 +203,6 @@ def _(
     reinforced_model,
     reinforced_prompt_input,
     tokenizer,
-    torch,
 ):
     _prompt = reinforced_prompt_input.value
     _inputs = tokenizer(_prompt, return_tensors="pt").to(device)
@@ -255,7 +243,7 @@ def _(
 
 
 @app.cell(hide_code=True)
-def _(np, plt, reinforced_results):
+def _(reinforced_results):
     _fig, (_ax1, _ax2, _ax3) = plt.subplots(1, 3, figsize=(15, 5))
 
     # Baseline predictions
@@ -290,7 +278,7 @@ def _(np, plt, reinforced_results):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     **Interpretation:**
 

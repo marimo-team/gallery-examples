@@ -8,20 +8,16 @@
 
 import marimo
 
-__generated_with = "0.18.4"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium", sql_output="polars")
 
-
-@app.cell
-def foobar():
-    # Notice how this cell has a name?
+with app.setup:
     import marimo as mo
     from wigglystuff import CellTour
-    return CellTour, mo
 
 
 @app.cell
-def _(CellTour, mo):
+def _():
     # CellTour provides a simpler API than DriverTour
     # You can use cell indices OR cell names (data-cell-name attribute)
     tour = mo.ui.anywidget(

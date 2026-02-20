@@ -10,12 +10,21 @@
 
 import marimo
 
-__generated_with = "0.19.7"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
+
+with app.setup:
+    import marimo as mo
+    import time
+    import urllib.request
+    import numpy as np
+    from numba import jit
+    from pathlib import Path
+    from skimage import io, filters, transform
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     # Seam Carving
 
@@ -43,9 +52,6 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _():
-    import urllib.request
-    from pathlib import Path
-
     input_image = "The_Persistence_of_Memory.jpg"
     if not Path(input_image).exists():
         urllib.request.urlretrieve(
@@ -56,7 +62,7 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     ## Try it!
     """)
@@ -65,8 +71,6 @@ def _(mo):
 
 @app.cell
 def _():
-    import marimo as mo
-
     slider = mo.ui.slider(
         0.7,
         1.0,
@@ -76,11 +80,11 @@ def _():
         show_value=True,
     )
     slider
-    return mo, slider
+    return (slider,)
 
 
 @app.cell
-def _(efficient_seam_carve, input_image, mo, slider):
+def _(input_image, slider):
     scale_factor = slider.value
     result = efficient_seam_carve(input_image, scale_factor)
 
@@ -88,87 +92,85 @@ def _(efficient_seam_carve, input_image, mo, slider):
     return
 
 
-@app.cell
-def _(mo):
-    import numpy as np
-    from numba import jit
-    from skimage import io, filters, transform
-    import time
+@app.function
+def rgb2gray(rgb):
+    return np.dot(rgb[..., :3], [0.2989, 0.5870, 0.1140])
 
 
-    def rgb2gray(rgb):
-        return np.dot(rgb[..., :3], [0.2989, 0.5870, 0.1140])
+@app.function
+def compute_energy_map(gray):
+    return np.abs(filters.sobel_h(gray)) + np.abs(filters.sobel_v(gray))
 
 
-    def compute_energy_map(gray):
-        return np.abs(filters.sobel_h(gray)) + np.abs(filters.sobel_v(gray))
+@app.function
+@jit(nopython=True)
+def find_seam(energy_map):
+    height, width = energy_map.shape
+    dp = energy_map.copy()
+    backtrack = np.zeros((height, width), dtype=np.int32)
+
+    for i in range(1, height):
+        for j in range(width):
+            if j == 0:
+                idx = np.argmin(dp[i - 1, j : j + 2])
+                backtrack[i, j] = idx + j
+                min_energy = dp[i - 1, idx + j]
+            elif j == width - 1:
+                idx = np.argmin(dp[i - 1, j - 1 : j + 1])
+                backtrack[i, j] = idx + j - 1
+                min_energy = dp[i - 1, idx + j - 1]
+            else:
+                idx = np.argmin(dp[i - 1, j - 1 : j + 2])
+                backtrack[i, j] = idx + j - 1
+                min_energy = dp[i - 1, idx + j - 1]
+
+            dp[i, j] += min_energy
+
+    return backtrack
 
 
-    @jit(nopython=True)
-    def find_seam(energy_map):
-        height, width = energy_map.shape
-        dp = energy_map.copy()
-        backtrack = np.zeros((height, width), dtype=np.int32)
+@app.function
+@jit(nopython=True)
+def remove_seam(image, backtrack):
+    height, width, _ = image.shape
+    output = np.zeros((height, width - 1, 3), dtype=np.uint8)
+    j = np.argmin(backtrack[-1])
 
-        for i in range(1, height):
-            for j in range(width):
-                if j == 0:
-                    idx = np.argmin(dp[i - 1, j : j + 2])
-                    backtrack[i, j] = idx + j
-                    min_energy = dp[i - 1, idx + j]
-                elif j == width - 1:
-                    idx = np.argmin(dp[i - 1, j - 1 : j + 1])
-                    backtrack[i, j] = idx + j - 1
-                    min_energy = dp[i - 1, idx + j - 1]
-                else:
-                    idx = np.argmin(dp[i - 1, j - 1 : j + 2])
-                    backtrack[i, j] = idx + j - 1
-                    min_energy = dp[i - 1, idx + j - 1]
+    for i in range(height - 1, -1, -1):
+        for k in range(3):
+            output[i, :, k] = np.delete(image[i, :, k], j)
+        j = backtrack[i, j]
 
-                dp[i, j] += min_energy
-
-        return backtrack
+    return output
 
 
-    @jit(nopython=True)
-    def remove_seam(image, backtrack):
-        height, width, _ = image.shape
-        output = np.zeros((height, width - 1, 3), dtype=np.uint8)
-        j = np.argmin(backtrack[-1])
+@app.function
+def seam_carving(image, new_width):
+    height, width, _ = image.shape
 
-        for i in range(height - 1, -1, -1):
-            for k in range(3):
-                output[i, :, k] = np.delete(image[i, :, k], j)
-            j = backtrack[i, j]
+    while width > new_width:
+        gray = rgb2gray(image)
+        energy_map = compute_energy_map(gray)
+        backtrack = find_seam(energy_map)
+        image = remove_seam(image, backtrack)
+        width -= 1
 
-        return output
+    return image
 
 
-    def seam_carving(image, new_width):
-        height, width, _ = image.shape
+@app.function
+@mo.cache
+def efficient_seam_carve(image_path, scale_factor):
+    img = io.imread(image_path)
+    new_width = int(img.shape[1] * scale_factor)
 
-        while width > new_width:
-            gray = rgb2gray(image)
-            energy_map = compute_energy_map(gray)
-            backtrack = find_seam(energy_map)
-            image = remove_seam(image, backtrack)
-            width -= 1
+    start_time = time.time()
+    carved_img = seam_carving(img, new_width)
+    end_time = time.time()
 
-        return image
+    print(f"Seam carving completed in {end_time - start_time:.2f} seconds")
 
-    @mo.cache
-    def efficient_seam_carve(image_path, scale_factor):
-        img = io.imread(image_path)
-        new_width = int(img.shape[1] * scale_factor)
-
-        start_time = time.time()
-        carved_img = seam_carving(img, new_width)
-        end_time = time.time()
-
-        print(f"Seam carving completed in {end_time - start_time:.2f} seconds")
-
-        return carved_img
-    return (efficient_seam_carve,)
+    return carved_img
 
 
 if __name__ == "__main__":

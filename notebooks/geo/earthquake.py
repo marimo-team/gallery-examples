@@ -8,15 +8,12 @@
 
 import marimo
 
-__generated_with = "0.14.13"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
     import openlayers as ol
-    return mo, ol
 
 
 @app.cell
@@ -26,7 +23,7 @@ def _():
 
 
 @app.cell
-def _(data, ol):
+def _(data):
     vector = ol.VectorLayer(
         source=ol.VectorSource(url=data)
     )
@@ -34,7 +31,7 @@ def _(data, ol):
 
 
 @app.cell
-def _(data, ol):
+def _(data):
     radius = 8
     blur = 15
 
@@ -49,7 +46,7 @@ def _(data, ol):
 
 
 @app.cell
-def _(heatmap, ol, vector):
+def _(heatmap, vector):
     m = ol.MapWidget(layers=[ol.BasemapLayer(), vector, heatmap])
     m.add_tooltip()
     return (m,)
@@ -62,20 +59,14 @@ def _(m):
 
 
 @app.cell(hide_code=True)
-def _(heatmap, m, mo, radius):
+def _(heatmap, m, radius):
     mo.ui.slider(start=0, stop=20, step=1, value=radius, label="radius", on_change=lambda r: m.add_layer_call(heatmap.id, "setRadius", r))
-
     return
 
 
 @app.cell(hide_code=True)
-def _(blur, heatmap, m, mo):
+def _(blur, heatmap, m):
     mo.ui.slider(start=0, stop=30, step=1, value=blur, label="blur", on_change=lambda b: m.add_layer_call(heatmap.id, "setBlur", b))
-    return
-
-
-@app.cell
-def _():
     return
 
 

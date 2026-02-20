@@ -13,21 +13,15 @@ import marimo
 __generated_with = "0.18.4"
 app = marimo.App(width="medium")
 
-
-@app.cell
-def _():
-    import polars as pl
-    return (pl,)
-
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
-    return (mo,)
+    import altair as alt
+    import polars as pl
+    from battle_widget import BattleWidget
 
 
 @app.cell
-def _(mo):
+def _():
     controls = mo.md("""
     **HP:** {hp}
 
@@ -54,9 +48,7 @@ def _(mo):
 
 
 @app.cell
-def _(controls, mo):
-    from battle_widget import BattleWidget
-
+def _(controls):
     mo.stop(controls.value is None, mo.md("Configure settings and submit the form to start the simulation."))
 
     battle = mo.ui.anywidget(
@@ -87,13 +79,13 @@ def _(controls, mo):
 
 
 @app.cell
-def _(battle, pl):
+def _(battle):
     pl.DataFrame(battle.results).with_columns(diff=pl.col("n_blue") - pl.col("n_red")).plot.line(x="time", y="n_blue", detail="run_id")
     return
 
 
 @app.cell
-def _(battle, pl):
+def _(battle):
     (
         pl.DataFrame(battle.results)
             .group_by("run_id")
@@ -116,7 +108,7 @@ def _(battle, pl):
 
 
 @app.cell
-def _(battle, pl):
+def _(battle):
     (
         pl.DataFrame(battle.results)
             .group_by("run_id")
@@ -139,7 +131,7 @@ def _(battle, pl):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Lanchester's Laws
 
@@ -197,7 +189,7 @@ def _(mo):
 
 
 @app.cell
-def _(battle, pl):
+def _(battle):
     (
         pl.DataFrame(battle.results)
             .group_by("run_id")
@@ -216,22 +208,20 @@ def _(battle, pl):
 
 
 @app.cell
-def _(battle, pl):
+def _(battle):
     df = pl.DataFrame(battle.results).melt(id_vars=["run_id", "seed", "time"])
     return (df,)
 
 
 @app.cell
-def _(df, mo):
+def _(df):
     dropdown = mo.ui.dropdown(df["run_id"].unique())
     dropdown
     return (dropdown,)
 
 
 @app.cell
-def _(df, dropdown, mo, pl):
-    import altair as alt
-
+def _(df, dropdown):
     mo.stop(dropdown.value == "")
 
     run_id = dropdown.value

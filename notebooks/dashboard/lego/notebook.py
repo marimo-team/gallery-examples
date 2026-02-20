@@ -1,30 +1,28 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies = [
-#     "altair==5.5.0",
-#     "anthropic==0.71.0",
+#     "altair",
+#     "anthropic",
 #     "marimo",
-#     "polars==1.34.0",
+#     "polars",
 # ]
 # ///
 
 import marimo
 
-__generated_with = "0.17.3"
-app = marimo.App(width="columns", auto_download=["html"], sql_output="polars")
+__generated_with = "0.19.11"
+app = marimo.App(width="medium")
+
+with app.setup:
+    import marimo as mo
+    import altair as alt
+    import polars as pl
 
 
 @app.cell
 def _():
-    import marimo as mo
-    import polars as pl
-    return mo, pl
-
-
-@app.cell
-def _(pl):
     df = (
-        pl.read_csv("lego_sets.csv")
+        pl.read_csv("https://raw.githubusercontent.com/marimo-team/gallery-examples/refs/heads/main/notebooks/dashboard/lego/lego_sets.csv")
         .filter(pl.col("category") == "Normal")
         .filter(~pl.col("US_retailPrice").is_null())
         .filter(pl.len().over(pl.col("theme")) >= 10)
@@ -33,7 +31,7 @@ def _(pl):
 
 
 @app.cell(hide_code=True)
-def _(mo, multi_select):
+def _(multi_select):
     mo.md(f"""
     # Exploring price differences in Lego sets
 
@@ -51,39 +49,36 @@ def _(mo, multi_select):
 
 
 @app.cell
-def _(final, mo, pl):
+def _(final):
     mo.hstack(
         [
             mo.stat(caption="Average piece price", label=_["theme"], value=_["pieceprice"], bordered=True)
             for _ in final.group_by("theme").agg(pl.mean("pieceprice")).to_dicts()
-        ], widths="equal", gap=1
+        ], gap=1, justify="start"
     )
     return
 
 
-app._unparsable_cell(
-    r"""
-    mo.md(\"
-        r\"\"\"These are the average prices per piece per theme. But you may want to dive a bit deeper.\"\"\"
-    )
-    """,
-    column=None, disabled=False, hide_code=True, name="_"
-)
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    These are the average prices per piece per theme. But you may want to dive a bit deeper.
+    """)
+    return
 
 
 @app.cell
-def _(mo):
+def _():
     checkbox = mo.ui.checkbox(label="Show line chart", value=False)
     check_inflation = mo.ui.checkbox(label="Assume inflation", value=False)
     return check_inflation, checkbox
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(
     check_inflation,
     checkbox,
     date_range,
-    mo,
     pieceprice_range,
     price_range,
     xaxis,
@@ -107,13 +102,13 @@ def _(
 
 
 @app.cell
-def _(mo):
+def _():
     date_range = mo.ui.range_slider(1970, 2022, 1, label="Year Range", value=[2001, 2022])
     return (date_range,)
 
 
 @app.cell
-def _(df, mo):
+def _(df):
     themes = df.group_by("theme").len()["theme"].to_list()
 
     multi_select = mo.ui.multiselect(
@@ -129,7 +124,7 @@ def _(date_range):
 
 
 @app.cell
-def _(df, multi_select, pl, y1, y2):
+def _(df, multi_select, y1, y2):
     subset = (
         df.filter(
             pl.col("year") >= y1, pl.col("year") <= y2, pl.col("theme").is_in(multi_select.value)
@@ -143,7 +138,7 @@ def _(df, multi_select, pl, y1, y2):
 
 
 @app.cell
-def _(mo, pl, subset):
+def _(subset):
     max_price = subset.select(pl.col("price")).max()["price"].to_list()[0]
     max_piece_price = subset.select(pl.col("pieceprice")).max()["pieceprice"].to_list()[0]
 
@@ -153,7 +148,7 @@ def _(mo, pl, subset):
 
 
 @app.cell
-def _(mo):
+def _():
     xaxis = mo.ui.dropdown(
         ["year", "pieces", "price", "pieceprice"], label="X-Axis", value="pieces"
     )
@@ -161,30 +156,24 @@ def _(mo):
     return xaxis, yaxis
 
 
-app._unparsable_cell(
-    r"""
-    mo.md(\"
-        r\"\"\"The chart below is interactive and you can make selections in it to see each set in more detail.\"\"\"
-    )
-    """,
-    column=None, disabled=False, hide_code=True, name="_"
-)
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    The chart below is interactive and you can make selections in it to see each set in more detail
+    """)
+    return
 
 
 @app.cell
 def _(
     check_inflation,
     checkbox,
-    mo,
     pieceprice_range,
-    pl,
     price_range,
     subset,
     xaxis,
     yaxis,
 ):
-    import altair as alt
-
     alt.renderers.set_embed_options(actions=False)
 
     final = subset.filter(
@@ -218,16 +207,6 @@ def _(
 @app.cell
 def _(mochart):
     mochart.value.select("set_id", "name", "theme", "imageURL")
-    return
-
-
-@app.cell(hide_code=True)
-def _():
-    return
-
-
-@app.cell
-def _():
     return
 
 

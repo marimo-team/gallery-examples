@@ -8,20 +8,17 @@
 
 import marimo
 
-__generated_with = "0.19.4"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
 
-
-@app.cell
-def _():
-    import os
+with app.setup:
     import marimo as mo
+    import os
     from wigglystuff import EnvConfig
-    return EnvConfig, mo, os
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## `EnvConfig` Widget
 
@@ -33,7 +30,7 @@ def _(mo):
 
 
 @app.cell
-def _(EnvConfig, mo, os):
+def _():
     # Example with a validator callback
     def check_key(key):
         if len(key) < 5:
@@ -61,7 +58,7 @@ def _(config_validated):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     You can fetch values from this widget directly.
     """)
@@ -75,7 +72,7 @@ def _(config_validated):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     You can also check if all the inputs are valid. This is useful if you want to prevent other cells from running.
     """)
@@ -89,7 +86,7 @@ def _(config_validated):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     If you want to raise an error when the inputs are invalid, you can use `require_valid()`.
     """)
@@ -99,11 +96,6 @@ def _(mo):
 @app.cell
 def _(config_validated):
     config_validated.require_valid()
-    return
-
-
-@app.cell(hide_code=True)
-def _():
     return
 
 

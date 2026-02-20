@@ -10,21 +10,18 @@
 
 import marimo
 
-__generated_with = "0.19.5"
+__generated_with = "0.19.11"
 app = marimo.App(width="full")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
-    import numpy as np
     import matplotlib.pyplot as plt
+    import numpy as np
     from wigglystuff import ChartPuck
-    return ChartPuck, mo, np
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md("""
     # Greedy Sampled Search with Pucks
 
@@ -35,7 +32,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _():
     # Loss function selection dropdown
     loss_functions = {
         "Rastrigin": "rastrigin",
@@ -60,7 +57,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _():
     # Greedy search controls
     step_size_slider = mo.ui.slider(
         start=0.01,
@@ -88,103 +85,93 @@ def _(mo):
     return num_generations_slider, population_size_slider, step_size_slider
 
 
-@app.cell(hide_code=True)
-def _(np):
-    # Define loss functions with multiple local optima
+@app.function(hide_code=True)
+def rastrigin(x, y):
+    """Rastrigin function - many local minima"""
+    A = 10
+    n = 2
+    return A * n + (x**2 - A * np.cos(2 * np.pi * x)) + (y**2 - A * np.cos(2 * np.pi * y))
 
-    def rastrigin(x, y):
-        """Rastrigin function - many local minima"""
-        A = 10
-        n = 2
-        return A * n + (x**2 - A * np.cos(2 * np.pi * x)) + (y**2 - A * np.cos(2 * np.pi * y))
 
-    def ackley(x, y):
-        """Ackley function - many local minima"""
-        a = 20
-        b = 0.2
-        c = 2 * np.pi
-        term1 = -a * np.exp(-b * np.sqrt(0.5 * (x**2 + y**2)))
-        term2 = -np.exp(0.5 * (np.cos(c * x) + np.cos(c * y)))
-        return term1 + term2 + a + np.e
+@app.function(hide_code=True)
+def ackley(x, y):
+    """Ackley function - many local minima"""
+    a = 20
+    b = 0.2
+    c = 2 * np.pi
+    term1 = -a * np.exp(-b * np.sqrt(0.5 * (x**2 + y**2)))
+    term2 = -np.exp(0.5 * (np.cos(c * x) + np.cos(c * y)))
+    return term1 + term2 + a + np.e
 
-    def rosenbrock(x, y):
-        """Rosenbrock function - narrow valley"""
-        a = 1
-        b = 100
-        return (a - x)**2 + b * (y - x**2)**2
 
-    def himmelblau(x, y):
-        """Himmelblau's function - 4 equal minima"""
-        return (x**2 + y - 11)**2 + (x + y**2 - 7)**2
+@app.function(hide_code=True)
+def rosenbrock(x, y):
+    """Rosenbrock function - narrow valley"""
+    a = 1
+    b = 100
+    return (a - x)**2 + b * (y - x**2)**2
 
-    def multiple_peaks(x, y):
-        """Custom function with multiple peaks"""
-        return (
-            3 * (1 - x)**2 * np.exp(-(x**2) - (y + 1)**2)
-            - 10 * (x/5 - x**3 - y**5) * np.exp(-x**2 - y**2)
-            - 1/3 * np.exp(-(x + 1)**2 - y**2)
-        )
 
-    def camel_back(x, y):
-        """Six-hump camel back function - 6 local minima in symmetric pattern"""
-        return (4 - 2.1*x**2 + x**4/3)*x**2 + x*y + (-4 + 4*y**2)*y**2
+@app.function(hide_code=True)
+def himmelblau(x, y):
+    """Himmelblau's function - 4 equal minima"""
+    return (x**2 + y - 11)**2 + (x + y**2 - 7)**2
 
-    def beale(x, y):
-        """Beale function - long narrow curved valley"""
-        return (1.5 - x + x*y)**2 + (2.25 - x + x*y**2)**2 + (2.625 - x + x*y**3)**2
 
-    def goldstein_price(x, y):
-        """Goldstein-Price function - multiple basins with ridges"""
-        return (1 + (x + y + 1)**2 * (19 - 14*x + 3*x**2 - 14*y + 6*x*y + 3*y**2)) * \
-               (30 + (2*x - 3*y)**2 * (18 - 32*x + 12*x**2 + 48*y - 36*x*y + 27*y**2))
-
-    def three_hump(x, y):
-        """Three-hump camel function - 3 local minima"""
-        return 2*x**2 - 1.05*x**4 + x**6/6 + x*y + y**2
-
-    def levi(x, y):
-        """Levi function - wavy surface with many local minima"""
-        return np.sin(3*np.pi*x)**2 + (x-1)**2 * (1 + np.sin(3*np.pi*y)**2) + (y-1)**2 * (1 + np.sin(2*np.pi*y)**2)
-
-    def cross_in_tray(x, y):
-        """Cross-in-tray function - cross-shaped pattern with multiple minima"""
-        return -0.0001 * (np.abs(np.sin(x) * np.sin(y) * np.exp(np.abs(100 - np.sqrt(x**2 + y**2)/np.pi))) + 1)**0.1
+@app.function(hide_code=True)
+def multiple_peaks(x, y):
+    """Custom function with multiple peaks"""
     return (
-        ackley,
-        beale,
-        camel_back,
-        cross_in_tray,
-        goldstein_price,
-        himmelblau,
-        levi,
-        multiple_peaks,
-        rastrigin,
-        rosenbrock,
-        three_hump,
+        3 * (1 - x)**2 * np.exp(-(x**2) - (y + 1)**2)
+        - 10 * (x/5 - x**3 - y**5) * np.exp(-x**2 - y**2)
+        - 1/3 * np.exp(-(x + 1)**2 - y**2)
     )
+
+
+@app.function(hide_code=True)
+def camel_back(x, y):
+    """Six-hump camel back function - 6 local minima in symmetric pattern"""
+    return (4 - 2.1*x**2 + x**4/3)*x**2 + x*y + (-4 + 4*y**2)*y**2
+
+
+@app.function(hide_code=True)
+def beale(x, y):
+    """Beale function - long narrow curved valley"""
+    return (1.5 - x + x*y)**2 + (2.25 - x + x*y**2)**2 + (2.625 - x + x*y**3)**2
+
+
+@app.function(hide_code=True)
+def goldstein_price(x, y):
+    """Goldstein-Price function - multiple basins with ridges"""
+    return (1 + (x + y + 1)**2 * (19 - 14*x + 3*x**2 - 14*y + 6*x*y + 3*y**2)) * \
+           (30 + (2*x - 3*y)**2 * (18 - 32*x + 12*x**2 + 48*y - 36*x*y + 27*y**2))
+
+
+@app.function(hide_code=True)
+def three_hump(x, y):
+    """Three-hump camel function - 3 local minima"""
+    return 2*x**2 - 1.05*x**4 + x**6/6 + x*y + y**2
+
+
+@app.function(hide_code=True)
+def levi(x, y):
+    """Levi function - wavy surface with many local minima"""
+    return np.sin(3*np.pi*x)**2 + (x-1)**2 * (1 + np.sin(3*np.pi*y)**2) + (y-1)**2 * (1 + np.sin(2*np.pi*y)**2)
+
+
+@app.function(hide_code=True)
+def cross_in_tray(x, y):
+    """Cross-in-tray function - cross-shaped pattern with multiple minima"""
+    return -0.0001 * (np.abs(np.sin(x) * np.sin(y) * np.exp(np.abs(100 - np.sqrt(x**2 + y**2)/np.pi))) + 1)**0.1
 
 
 @app.cell(hide_code=True)
 def _(
-    ChartPuck,
-    ackley,
-    beale,
-    camel_back,
-    cross_in_tray,
-    goldstein_price,
-    himmelblau,
-    levi,
     loss_dropdown,
     loss_functions,
-    mo,
-    multiple_peaks,
-    np,
     num_generations_slider,
     population_size_slider,
-    rastrigin,
-    rosenbrock,
     step_size_slider,
-    three_hump,
 ):
     # Create ChartPuck with callback to show loss landscape
     x_bounds = (-5, 5)
@@ -358,7 +345,6 @@ def _(
             puck_color="#e63946",
         )
     )
-
     return (puck,)
 
 
@@ -369,7 +355,7 @@ def _(puck):
 
 
 @app.cell
-def _(mo, puck):
+def _(puck):
     # Display puck coordinates
     mo.md(f"**Puck Position:** ({puck.x[0]:.2f}, {puck.y[0]:.2f})")
     return

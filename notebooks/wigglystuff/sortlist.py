@@ -8,19 +8,16 @@
 
 import marimo
 
-__generated_with = "0.18.1"
+__generated_with = "0.19.11"
 app = marimo.App(width="columns", sql_output="polars")
 
-
-@app.cell
-def _():
+with app.setup:
     import marimo as mo
     from wigglystuff import SortableList
-    return SortableList, mo
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## `SortableList`
 
@@ -30,7 +27,7 @@ def _(mo):
 
 
 @app.cell
-def _(SortableList, mo):
+def _():
     widget = mo.ui.anywidget(
         SortableList(
             ["a", "b", "c"],
@@ -48,11 +45,6 @@ def _(SortableList, mo):
 @app.cell
 def _(widget):
     widget.value.get("value")
-    return
-
-
-@app.cell
-def _():
     return
 
 

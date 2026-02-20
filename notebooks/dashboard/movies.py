@@ -13,17 +13,17 @@ import marimo
 __generated_with = "0.19.11"
 app = marimo.App(width="full")
 
+with app.setup:
+    import marimo as mo
+    import datetime
+    import time
+    import altair as alt
+    import pandas as pd
+    import vega_datasets as data
+
 
 @app.cell
-def _(
-    button_00s,
-    button_10s,
-    button_80s,
-    button_90s,
-    end_date,
-    mo,
-    start_date,
-):
+def _(button_00s, button_10s, button_80s, button_90s, end_date, start_date):
     _range = mo.md(f"{start_date} - {end_date}")
 
     mo.hstack(
@@ -44,7 +44,7 @@ def _(
 
 
 @app.cell
-def _(mo, pd, set_end_date, set_start_date):
+def _(set_end_date, set_start_date):
     def decade_button(decade):
         s = pd.to_datetime(f"{decade}-01-01")
         e = pd.to_datetime(f"{decade + 10}-01-01")
@@ -68,7 +68,7 @@ def _(mo, pd, set_end_date, set_start_date):
 
 
 @app.cell
-def _(mo, previous_end_date, previous_start_date):
+def _(previous_end_date, previous_start_date):
     mo.md(f"""
     > Compared to: {previous_start_date.strftime("%Y-%m-%d")} - {previous_end_date.strftime("%Y-%m-%d")}
     """)
@@ -76,7 +76,7 @@ def _(mo, previous_end_date, previous_start_date):
 
 
 @app.cell
-def _(get_end_date, get_start_date, mo, pd, set_end_date, set_start_date):
+def _(get_end_date, get_start_date, set_end_date, set_start_date):
     start_date = mo.ui.date(
         label="Start Date",
         value=get_start_date().strftime("%Y-%m-%d"),
@@ -91,15 +91,7 @@ def _(get_end_date, get_start_date, mo, pd, set_end_date, set_start_date):
 
 
 @app.cell
-def _(
-    filtered_movies,
-    get_average_budget,
-    get_average_gross,
-    get_average_rating,
-    get_average_runtime,
-    mo,
-    previous_movies,
-):
+def _(filtered_movies, previous_movies):
     mo.stop(len(filtered_movies) == 0, "")
 
     previous_total_movies_count = len(previous_movies)
@@ -172,13 +164,13 @@ def _(
 
 
 @app.cell
-def _(filtered_movies, mo):
+def _(filtered_movies):
     mo.ui.table(filtered_movies, selection=None)
     return
 
 
 @app.cell
-def _(alt, filtered_movies, mo):
+def _(filtered_movies):
     # chart of rating by budget
     _chart = (
         alt.Chart(filtered_movies)
@@ -202,14 +194,7 @@ def _(alt, filtered_movies, mo):
 
 
 @app.cell
-def _(
-    chart,
-    get_average_budget,
-    get_average_gross,
-    get_average_rating,
-    get_average_runtime,
-    mo,
-):
+def _(chart):
     mo.stop(len(chart.value) == 0, mo.callout("Select data to view stats."))
 
     _total_movies = mo.stat(
@@ -250,7 +235,7 @@ def _(
 
 
 @app.cell
-def _(alt, filtered_movies, mo):
+def _(filtered_movies):
     # chart of ratings by genre
     # colored by decade
     _bar_chart = (
@@ -268,70 +253,54 @@ def _(alt, filtered_movies, mo):
     return
 
 
-@app.cell
-def _(datetime):
-    def get_average_budget(df, previous):
-        current = df["US_Gross"].mean()
-        previous = previous["US_Gross"].mean()
-        rate = (current - previous) / previous
-        return (current, previous, rate)
+@app.function
+def get_average_budget(df, previous):
+    current = df["US_Gross"].mean()
+    previous = previous["US_Gross"].mean()
+    rate = (current - previous) / previous
+    return (current, previous, rate)
 
 
-    def get_average_gross(df, previous):
-        current = df["Worldwide_Gross"].mean()
-        previous = previous["Worldwide_Gross"].mean()
-        rate = (current - previous) / previous
-        return (current, previous, rate)
+@app.function
+def get_average_gross(df, previous):
+    current = df["Worldwide_Gross"].mean()
+    previous = previous["Worldwide_Gross"].mean()
+    rate = (current - previous) / previous
+    return (current, previous, rate)
 
 
-    def get_average_runtime(df, previous):
-        current = df["Running_Time_min"].mean()
-        previous = previous["Running_Time_min"].mean()
-        rate = (current - previous) / previous
-        return (current, previous, rate)
+@app.function
+def get_average_runtime(df, previous):
+    current = df["Running_Time_min"].mean()
+    previous = previous["Running_Time_min"].mean()
+    rate = (current - previous) / previous
+    return (current, previous, rate)
 
 
-    def get_average_rating(df, previous):
-        current = df["IMDB_Rating"].mean()
-        previous = previous["IMDB_Rating"].mean()
-        rate = (current - previous) / previous
-        return (current, previous, rate)
+@app.function
+def get_average_rating(df, previous):
+    current = df["IMDB_Rating"].mean()
+    previous = previous["IMDB_Rating"].mean()
+    rate = (current - previous) / previous
+    return (current, previous, rate)
 
 
-    def get_previous_date_range(start_date, end_date):
-        delta = end_date - start_date
-        return (
-            (start_date - datetime.timedelta(days=delta.days)),
-            (end_date - datetime.timedelta(days=delta.days)),
-        )
-
-
-    def format_date(date):
-        return date.strftime("%Y-%m-%d")
-
+@app.function
+def get_previous_date_range(start_date, end_date):
+    delta = end_date - start_date
     return (
-        get_average_budget,
-        get_average_gross,
-        get_average_rating,
-        get_average_runtime,
-        get_previous_date_range,
+        (start_date - datetime.timedelta(days=delta.days)),
+        (end_date - datetime.timedelta(days=delta.days)),
     )
+
+
+@app.function
+def format_date(date):
+    return date.strftime("%Y-%m-%d")
 
 
 @app.cell
 def _():
-    import marimo as mo
-    import vega_datasets as data
-    import time
-    import pandas as pd
-    import datetime
-    import altair as alt
-
-    return alt, data, datetime, mo, pd
-
-
-@app.cell
-def _(data, pd):
     movies = data.data.movies()
 
     # convert to date
@@ -340,7 +309,7 @@ def _(data, pd):
 
 
 @app.cell
-def _(mo, pd):
+def _():
     # min = movies["Release_Date"].min()
     # max = movies["Release_Date"].max()
     min = "2010-01-01"
@@ -351,7 +320,7 @@ def _(mo, pd):
 
 
 @app.cell
-def _(end_date, get_previous_date_range, movies, pd, start_date):
+def _(end_date, movies, start_date):
     start = pd.to_datetime(start_date.value)
     end = pd.to_datetime(end_date.value)
     filtered_movies = movies[
@@ -375,11 +344,6 @@ def _(end_date, get_previous_date_range, movies, pd, start_date):
         previous_movies,
         previous_start_date,
     )
-
-
-@app.cell
-def _():
-    return
 
 
 if __name__ == "__main__":

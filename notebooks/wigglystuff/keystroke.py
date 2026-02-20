@@ -11,19 +11,19 @@ import marimo
 __generated_with = "0.18.1"
 app = marimo.App(width="medium")
 
+with app.setup:
+    import marimo as mo
+    from wigglystuff import KeystrokeWidget
+
 
 @app.cell
 def _():
-    import marimo as mo
-
-    from wigglystuff import KeystrokeWidget
-
     listener = mo.ui.anywidget(KeystrokeWidget())
-    return listener, mo
+    return (listener,)
 
 
 @app.cell
-def _(mo):
+def _():
     mo.md(r"""
     ## Capture shortcuts from the browser
 
@@ -40,7 +40,7 @@ def _(listener):
 
 
 @app.cell
-def _(listener, mo):
+def _(listener):
     info = listener.last_key or {}
 
     modifiers = [

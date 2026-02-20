@@ -5,18 +5,23 @@
 
 import marimo
 
-__generated_with = "0.19.4"
+__generated_with = "0.19.11"
 app = marimo.App(width="columns", sql_output="polars")
 
-
-@app.cell(column=0)
-def _():
+with app.setup:
     import marimo as mo
-    return (mo,)
+    import random
+    import pandas as pd
+    import pytest
+    from dataclasses import dataclass
+    from mohtml import div, table, tr, td
+    from pathlib import Path
+    from suguru_widget.suguru_widget import SuguruGeneratorWidget
+    from typing import Optional
 
 
 @app.cell
-def _(mo):
+def _():
     mo.md(r"""
     ## Solver
     """)
@@ -24,11 +29,7 @@ def _(mo):
 
 
 @app.cell
-def _(Suguru, dataclass):
-    import random
-    import pandas as pd
-
-
+def _(Suguru):
     @dataclass
     class SolverStats:
         recursive_calls: int = 0
@@ -257,11 +258,12 @@ def _(Suguru, dataclass):
                         yield result
                         if result.is_solved():
                             return
-    return BasicSolver, ConstraintPropSolver, SmartSolver, pd
+
+    return BasicSolver, ConstraintPropSolver, SmartSolver
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Solver Comparison
 
@@ -296,13 +298,6 @@ def _(mo):
 
 @app.cell
 def _():
-    from pathlib import Path
-    from suguru_widget.suguru_widget import SuguruGeneratorWidget
-    return (SuguruGeneratorWidget,)
-
-
-@app.cell
-def _(SuguruGeneratorWidget, mo):
     generator_widget = SuguruGeneratorWidget(width=5, height=5)
     generator_view = mo.ui.anywidget(generator_widget)
     generator_view
@@ -325,7 +320,7 @@ def _(Suguru, generator_view, generator_widget):
 
 
 @app.cell
-def _(BasicSolver, ConstraintPropSolver, SmartSolver, board, pd):
+def _(BasicSolver, ConstraintPropSolver, SmartSolver, board):
     # Compare solvers with clean class-based API
     solver_basic = BasicSolver(board)
     solver_smart = SmartSolver(board)
@@ -357,7 +352,7 @@ def _(BasicSolver, ConstraintPropSolver, SmartSolver, board, pd):
 
 
 @app.cell
-def _(mo, solver_basic, solver_cp, solver_smart):
+def _(solver_basic, solver_cp, solver_smart):
     mo.hstack([
         solver_basic.current_board, solver_smart.current_board, solver_cp.current_board
     ])
@@ -365,7 +360,7 @@ def _(mo, solver_basic, solver_cp, solver_smart):
 
 
 @app.cell(column=1, hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Suguru class
     """)
@@ -374,11 +369,6 @@ def _(mo):
 
 @app.cell
 def _():
-    from dataclasses import dataclass
-    from typing import Optional
-    from mohtml import div, table, tr, td
-
-
     @dataclass
     class Assignment:
         x: int
@@ -579,11 +569,12 @@ def _():
                 table(*rows, style="border-collapse: collapse; border: 2px solid black;"),
                 style="font-family: monospace; display: inline-block;",
             )
-    return Suguru, dataclass
+
+    return (Suguru,)
 
 
 @app.cell
-def _(BasicSolver, ConstraintPropSolver, SmartSolver, Suguru, pytest):
+def _(BasicSolver, ConstraintPropSolver, SmartSolver, Suguru):
     @pytest.mark.parametrize("shapes", [[[0, 1], [2, 3]], [[0, 1, 2], [3, 4, 5], [6, 7, 8]]])
     @pytest.mark.parametrize("solver_cls", [BasicSolver, SmartSolver, ConstraintPropSolver])
     def test_unsolvable_size_1_regions(shapes, solver_cls):
@@ -605,13 +596,8 @@ def _(BasicSolver, ConstraintPropSolver, SmartSolver, Suguru, pytest):
             for row in solver.current_board.board:
                 for val in row:
                     assert val is not None
+
     return
-
-
-@app.cell
-def _():
-    import pytest
-    return (pytest,)
 
 
 if __name__ == "__main__":

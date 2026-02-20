@@ -6,6 +6,7 @@
 #     "numpy",
 #     "geoindex_rs>=0.2.1",
 # ]
+# requires-python = ">=3.11"
 # ///
 
 import marimo
@@ -14,9 +15,9 @@ __generated_with = "0.19.11"
 app = marimo.App(width="medium")
 
 with app.setup:
+    import marimo as mo
     import jscatter
     import numpy as np
-    import marimo as mo
     from math import inf
 
 

@@ -6,53 +6,23 @@
 #     "marimo-cad==0.1.0",
 # ]
 # ///
+
 import marimo
 
-__generated_with = "0.19.6"
+__generated_with = "0.19.11"
 app = marimo.App(width="medium")
+
+with app.setup:
+    from marimo_cad import export_stl
+    import marimo as mo
+    import marimo_cad as cad
+    import tempfile
+    from build123d import ( Axis, BuildLine, BuildPart, BuildSketch, Line, Plane, Spline, make_face, revolve, )
+    from pathlib import Path
 
 
 @app.cell
 def _():
-    import tempfile
-    from pathlib import Path
-
-    import marimo as mo
-    from build123d import (
-        Axis,
-        BuildLine,
-        BuildPart,
-        BuildSketch,
-        Line,
-        Plane,
-        Spline,
-        make_face,
-        revolve,
-    )
-
-    import marimo_cad as cad
-    from marimo_cad import export_stl
-
-    return (
-        Axis,
-        BuildLine,
-        BuildPart,
-        BuildSketch,
-        Line,
-        Path,
-        Plane,
-        Spline,
-        cad,
-        export_stl,
-        make_face,
-        mo,
-        revolve,
-        tempfile,
-    )
-
-
-@app.cell
-def _(mo):
     mo.md(r"""
     # Parametric Vase
 
@@ -63,7 +33,7 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
+def _():
     # Shape parameters
     height = mo.ui.slider(80, 200, value=120, step=10, label="Height (mm)")
     base_radius = mo.ui.slider(20, 50, value=30, step=5, label="Base Radius (mm)")
@@ -90,79 +60,72 @@ def _(mo):
 
 
 @app.cell
-def _(cad):
+def _():
     # Create viewer once - it persists across slider changes
     viewer = cad.Viewer()
     return (viewer,)
 
 
+@app.function
+def build_vase(
+    h: float,
+    r_base: float,
+    r_belly: float,
+    r_neck: float,
+    r_top: float,
+    belly_pct: float,
+    neck_pct: float,
+    thickness: float,
+):
+    """Build a smooth vase using spline revolution."""
+    h_belly = h * (belly_pct / 100)
+    h_neck = h * (neck_pct / 100)
+
+    inner_r_base = max(r_base - thickness, 2)
+    inner_r_belly = max(r_belly - thickness, 2)
+    inner_r_neck = max(r_neck - thickness, 2)
+    inner_r_top = r_top - thickness
+
+    with BuildLine(Plane.XZ) as outer_profile:
+        Line((0, 0), (r_base, 0))
+        Spline(
+            (r_base, 0),
+            (r_belly, h_belly),
+            (r_neck, h_neck),
+            (r_top, h),
+        )
+        Line((r_top, h), (inner_r_top, h))
+        Spline(
+            (inner_r_top, h),
+            (inner_r_neck, h_neck),
+            (inner_r_belly, h_belly),
+            (inner_r_base, thickness),
+        )
+        Line((inner_r_base, thickness), (0, thickness))
+        Line((0, thickness), (0, 0))
+
+    with BuildSketch(Plane.XZ) as profile_sketch:
+        make_face(outer_profile.wires()[0])
+
+    with BuildPart() as vase_part:
+        revolve(profile_sketch.sketch, axis=Axis.Z, revolution_arc=360)
+
+    vase = vase_part.part
+    parts = [{"shape": vase, "name": "Vase", "color": "#E8D5B7"}]
+    return vase, parts
+
+
 @app.cell
 def _(
-    Axis,
-    BuildLine,
-    BuildPart,
-    BuildSketch,
-    Line,
-    Plane,
-    Spline,
     base_radius,
     belly_height,
     belly_radius,
     height,
-    make_face,
     neck_height,
     neck_radius,
-    revolve,
     top_radius,
     wall,
 ):
-    def build_vase(
-        h: float,
-        r_base: float,
-        r_belly: float,
-        r_neck: float,
-        r_top: float,
-        belly_pct: float,
-        neck_pct: float,
-        thickness: float,
-    ):
-        """Build a smooth vase using spline revolution."""
-        h_belly = h * (belly_pct / 100)
-        h_neck = h * (neck_pct / 100)
-
-        inner_r_base = max(r_base - thickness, 2)
-        inner_r_belly = max(r_belly - thickness, 2)
-        inner_r_neck = max(r_neck - thickness, 2)
-        inner_r_top = r_top - thickness
-
-        with BuildLine(Plane.XZ) as outer_profile:
-            Line((0, 0), (r_base, 0))
-            Spline(
-                (r_base, 0),
-                (r_belly, h_belly),
-                (r_neck, h_neck),
-                (r_top, h),
-            )
-            Line((r_top, h), (inner_r_top, h))
-            Spline(
-                (inner_r_top, h),
-                (inner_r_neck, h_neck),
-                (inner_r_belly, h_belly),
-                (inner_r_base, thickness),
-            )
-            Line((inner_r_base, thickness), (0, thickness))
-            Line((0, thickness), (0, 0))
-
-        with BuildSketch(Plane.XZ) as profile_sketch:
-            make_face(outer_profile.wires()[0])
-
-        with BuildPart() as vase_part:
-            revolve(profile_sketch.sketch, axis=Axis.Z, revolution_arc=360)
-
-        vase = vase_part.part
-        parts = [{"shape": vase, "name": "Vase", "color": "#E8D5B7"}]
-        return vase, parts
-
     vase_shape, vase_parts = build_vase(
         h=height.value,
         r_base=base_radius.value,
@@ -173,21 +136,17 @@ def _(
         neck_pct=neck_height.value,
         thickness=wall.value,
     )
-    return build_vase, vase_parts, vase_shape
+    return vase_parts, vase_shape
 
 
 @app.cell
 def _(
-    Path,
     base_radius,
     belly_height,
     belly_radius,
-    export_stl,
     height,
-    mo,
     neck_height,
     neck_radius,
-    tempfile,
     top_radius,
     vase_parts,
     vase_shape,
@@ -225,7 +184,7 @@ def _(
             viewer,
         ]
     )
-    return (download_btn,)
+    return
 
 
 if __name__ == "__main__":

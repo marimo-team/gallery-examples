@@ -1,15 +1,15 @@
 # /// script
+# requires-python = ">=3.12"
 # dependencies = [
-#     "marimo",
+#     "marimo>=0.19.7",
 #     "matplotlib==3.10.8",
-#     "networkx==3.6.1",
-#     "numpy==2.4.2",
-#     "rtree==1.4.1",
-#     "scipy==1.17.0",
-#     "shapely==2.1.2",
-#     "trimesh==4.11.2",
+#     "networkx",
+#     "numpy",
+#     "rtree",
+#     "scipy",
+#     "shapely",
+#     "trimesh",
 # ]
-# requires-python = ">=3.14"
 # ///
 
 import marimo
@@ -17,9 +17,20 @@ import marimo
 __generated_with = "0.19.11"
 app = marimo.App(width="medium")
 
+with app.setup:
+    import marimo as mo
+    import urllib.request
+    import networkx
+    import numpy as np
+    import rtree
+    import scipy
+    import shapely
+    import trimesh
+    from pathlib import Path
+
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     ## Trimesh
 
@@ -35,7 +46,7 @@ def _(mesh):
 
 
 @app.cell(hide_code=True)
-def _(mo):
+def _():
     mo.md(r"""
     One feature that demos particularily well is the ability to contruct a 2D slice out of a 3D object. Use the slider below to slice around.
     """)
@@ -43,14 +54,14 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
-    slider = mo.ui.slider(-0.5, 0.5, 0.01, label="cutoff")
+def _():
+    slider = mo.ui.slider(-0.5, 0.5, 0.01, debounce=True, label="cutoff")
     slider
     return (slider,)
 
 
 @app.cell
-def _(mesh, np, slider):
+def _(mesh, slider):
     origin = mesh.centroid + np.array([0, 0, slider.value])
     mesh_slice = mesh.section(plane_origin=origin, plane_normal=[0, 0, 1])
     slice_2D, to_3D = mesh_slice.to_2D()
@@ -60,28 +71,6 @@ def _(mesh, np, slider):
 
 @app.cell
 def _():
-    import marimo as mo
-
-    return (mo,)
-
-
-@app.cell
-def _():
-    import scipy 
-    import networkx
-    import shapely
-    import rtree
-    import numpy as np 
-
-    return (np,)
-
-
-@app.cell
-def _():
-    import trimesh 
-    from pathlib import Path
-    import urllib.request
-
     stl_path = Path(__file__).parent / "featuretype.STL"
     if not stl_path.exists():
         urllib.request.urlretrieve(
