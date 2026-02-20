@@ -787,40 +787,33 @@ def _(
     return
 
 
-@app.cell
-def _(problem):
-    def construct_components(names, parameters):
-        center_periodic = isinstance(problem, problems.MaunaLoa)
-        return list(
-            filter(
-                lambda v: v is not None,
-                [
-                    complib.construct_component(
-                        name, param_group, center_periodic
-                    )
-                    for name, param_group in zip(names, parameters)
-                ],
-            )
+@app.function
+def construct_components(problem, names, parameters):
+    center_periodic = isinstance(problem, problems.MaunaLoa)
+    return list(
+        filter(
+            lambda v: v is not None,
+            [
+                complib.construct_component(
+                    name, param_group, center_periodic
+                )
+                for name, param_group in zip(names, parameters)
+            ],
         )
+    )
 
-    return (construct_components,)
 
-
-@app.cell
-def _(construct_components):
-    def decompose(problem, components, params):
-        c = construct_components(components, params)
-        f = problem.decompose(c)
-        f.set_figwidth(6.4)
-        return f
-
-    return (decompose,)
+@app.function
+def decompose(problem, components, params):
+    c = construct_components(problem, components, params)
+    f = problem.decompose(c)
+    f.set_figwidth(6.4)
+    return f
 
 
 @app.cell
 def _(
     component_array,
-    decompose,
     problem,
     rolled_up_params,
     should_compute_decomposition,

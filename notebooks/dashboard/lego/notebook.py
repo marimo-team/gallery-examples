@@ -1,17 +1,17 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies = [
-#     "altair==5.5.0",
-#     "anthropic==0.71.0",
+#     "altair",
+#     "anthropic",
 #     "marimo",
-#     "polars==1.34.0",
+#     "polars",
 # ]
 # ///
 
 import marimo
 
-__generated_with = "0.17.3"
-app = marimo.App(width="columns", auto_download=["html"], sql_output="polars")
+__generated_with = "0.19.11"
+app = marimo.App(width="medium")
 
 with app.setup:
     import marimo as mo
@@ -22,7 +22,7 @@ with app.setup:
 @app.cell
 def _():
     df = (
-        pl.read_csv("lego_sets.csv")
+        pl.read_csv("https://raw.githubusercontent.com/marimo-team/gallery-examples/refs/heads/main/notebooks/dashboard/lego/lego_sets.csv")
         .filter(pl.col("category") == "Normal")
         .filter(~pl.col("US_retailPrice").is_null())
         .filter(pl.len().over(pl.col("theme")) >= 10)
@@ -54,19 +54,17 @@ def _(final):
         [
             mo.stat(caption="Average piece price", label=_["theme"], value=_["pieceprice"], bordered=True)
             for _ in final.group_by("theme").agg(pl.mean("pieceprice")).to_dicts()
-        ], widths="equal", gap=1
+        ], gap=1, justify="start"
     )
     return
 
 
-app._unparsable_cell(
-    r"""
-    mo.md(\"
-        r\"\"\"These are the average prices per piece per theme. But you may want to dive a bit deeper.\"\"\"
-    )
-    """,
-    column=None, disabled=False, hide_code=True, name="_"
-)
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    These are the average prices per piece per theme. But you may want to dive a bit deeper.
+    """)
+    return
 
 
 @app.cell
@@ -76,8 +74,16 @@ def _():
     return check_inflation, checkbox
 
 
-@app.cell
-def _(check_inflation, checkbox, date_range, pieceprice_range, price_range, xaxis, yaxis):
+@app.cell(hide_code=True)
+def _(
+    check_inflation,
+    checkbox,
+    date_range,
+    pieceprice_range,
+    price_range,
+    xaxis,
+    yaxis,
+):
     mo.hstack([
         mo.vstack([
             mo.md("**Data Settings**"), 
@@ -150,18 +156,24 @@ def _():
     return xaxis, yaxis
 
 
-app._unparsable_cell(
-    r"""
-    mo.md(\"
-        r\"\"\"The chart below is interactive and you can make selections in it to see each set in more detail.\"\"\"
-    )
-    """,
-    column=None, disabled=False, hide_code=True, name="_"
-)
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    The chart below is interactive and you can make selections in it to see each set in more detail
+    """)
+    return
 
 
 @app.cell
-def _(check_inflation, checkbox, pieceprice_range, price_range, subset, xaxis, yaxis):
+def _(
+    check_inflation,
+    checkbox,
+    pieceprice_range,
+    price_range,
+    subset,
+    xaxis,
+    yaxis,
+):
     alt.renderers.set_embed_options(actions=False)
 
     final = subset.filter(
@@ -195,16 +207,6 @@ def _(check_inflation, checkbox, pieceprice_range, price_range, subset, xaxis, y
 @app.cell
 def _(mochart):
     mochart.value.select("set_id", "name", "theme", "imageURL")
-    return
-
-
-@app.cell(hide_code=True)
-def _():
-    return
-
-
-@app.cell
-def _():
     return
 
 

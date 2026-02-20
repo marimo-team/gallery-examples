@@ -246,30 +246,30 @@ def _(
     return hist_search, logistic_search
 
 
+@app.function
+def get_cv_metrics(search_obj, model_name):
+    """Extract cross-validation metrics for the best model"""
+    best_idx = search_obj.best_index_
+    cv_results = search_obj.cv_results_
+
+    metrics = {
+        "Model": model_name,
+        "F1 Score": cv_results["mean_test_f1"][best_idx],
+        "F1 Std": cv_results["std_test_f1"][best_idx],
+        "Accuracy": cv_results["mean_test_accuracy"][best_idx],
+        "Accuracy Std": cv_results["std_test_accuracy"][best_idx],
+        "Precision": cv_results["mean_test_precision"][best_idx],
+        "Precision Std": cv_results["std_test_precision"][best_idx],
+        "Recall": cv_results["mean_test_recall"][best_idx],
+        "Recall Std": cv_results["std_test_recall"][best_idx],
+        "Train F1": cv_results["mean_train_f1"][best_idx],
+        "Train Accuracy": cv_results["mean_train_accuracy"][best_idx],
+    }
+    return metrics
+
+
 @app.cell
 def _(hist_search, logistic_search):
-    # Extract CV results for best models
-    def get_cv_metrics(search_obj, model_name):
-        """Extract cross-validation metrics for the best model"""
-        best_idx = search_obj.best_index_
-        cv_results = search_obj.cv_results_
-
-        metrics = {
-            "Model": model_name,
-            "F1 Score": cv_results["mean_test_f1"][best_idx],
-            "F1 Std": cv_results["std_test_f1"][best_idx],
-            "Accuracy": cv_results["mean_test_accuracy"][best_idx],
-            "Accuracy Std": cv_results["std_test_accuracy"][best_idx],
-            "Precision": cv_results["mean_test_precision"][best_idx],
-            "Precision Std": cv_results["std_test_precision"][best_idx],
-            "Recall": cv_results["mean_test_recall"][best_idx],
-            "Recall Std": cv_results["std_test_recall"][best_idx],
-            "Train F1": cv_results["mean_train_f1"][best_idx],
-            "Train Accuracy": cv_results["mean_train_accuracy"][best_idx],
-        }
-        return metrics
-
-
     # Get metrics for both models
     logistic_metrics = get_cv_metrics(logistic_search, "Logistic Regression")
     hist_metrics = get_cv_metrics(hist_search, "Gradient Boosting")

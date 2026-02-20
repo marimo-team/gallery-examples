@@ -5,7 +5,7 @@
 
 import marimo
 
-__generated_with = "0.19.4"
+__generated_with = "0.19.11"
 app = marimo.App(width="columns", sql_output="polars")
 
 with app.setup:
@@ -258,6 +258,7 @@ def _(Suguru):
                         yield result
                         if result.is_solved():
                             return
+
     return BasicSolver, ConstraintPropSolver, SmartSolver
 
 
@@ -568,6 +569,7 @@ def _():
                 table(*rows, style="border-collapse: collapse; border: 2px solid black;"),
                 style="font-family: monospace; display: inline-block;",
             )
+
     return (Suguru,)
 
 
@@ -594,6 +596,7 @@ def _(BasicSolver, ConstraintPropSolver, SmartSolver, Suguru):
             for row in solver.current_board.board:
                 for val in row:
                     assert val is not None
+
     return
 
 

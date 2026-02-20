@@ -199,6 +199,55 @@ def _(HospitalNet, get_state, merge_btn, reset_btn, set_state, train_btn):
     return
 
 
+@app.function
+def plot_model(model, title):
+    """Render a 2D heatmap showing a model’s decision surface."""
+    res = 30
+    x = torch.linspace(-5, 5, res)
+    gx, gy = torch.meshgrid(x, x, indexing="ij")
+    inp = torch.stack([gx.flatten(), gy.flatten()], dim=1)
+
+    with torch.no_grad():
+        p = model(inp).reshape(res, res)
+
+    fig, ax = plt.subplots(figsize=(1.6, 1.6))
+    ax.imshow(
+        p.numpy(),
+        extent=[-5, 5, -5, 5],
+        origin="lower",
+        cmap="PuOr",
+    )
+    ax.set_title(title, fontsize=8, fontweight="bold")
+    ax.axis("off")
+
+    html = mo.as_html(fig)
+    plt.close(fig)
+    return html
+
+
+@app.function
+def plot_local_data(hospital_id=0):
+    """Visualize one hospital’s local data distribution (illustrative)."""
+    torch.manual_seed(0)
+
+    angles = [0.0, 0.6, 1.2, 1.8]
+    x = torch.randn(60, 2)
+    w = torch.tensor([
+        torch.cos(torch.tensor(angles[hospital_id])),
+        torch.sin(torch.tensor(angles[hospital_id]))
+    ])
+    y = (x @ w > 0)
+
+    fig, ax = plt.subplots(figsize=(2.2, 2.2))
+    ax.scatter(x[:, 0], x[:, 1], c=y, cmap="coolwarm", s=15)
+    ax.set_title(f"Hospital {hospital_id} Data")
+    ax.axis("off")
+
+    html = mo.as_html(fig)
+    plt.close(fig)
+    return html
+
+
 @app.cell
 def _(get_state):
     # Federated Learning Dashboard
@@ -219,53 +268,6 @@ def _(get_state):
             "📥 **Local model updates aggregated on the server (FedAvg).** "
             "A new global model is formed and shared back."
         )
-
-
-    # Render a 2D heatmap showing a model’s decision surface
-    def plot_model(model, title):
-        res = 30
-        x = torch.linspace(-5, 5, res)
-        gx, gy = torch.meshgrid(x, x, indexing="ij")
-        inp = torch.stack([gx.flatten(), gy.flatten()], dim=1)
-
-        with torch.no_grad():
-            p = model(inp).reshape(res, res)
-
-        fig, ax = plt.subplots(figsize=(1.6, 1.6))
-        ax.imshow(
-            p.numpy(),
-            extent=[-5, 5, -5, 5],
-            origin="lower",
-            cmap="PuOr",
-        )
-        ax.set_title(title, fontsize=8, fontweight="bold")
-        ax.axis("off")
-
-        html = mo.as_html(fig)
-        plt.close(fig)
-        return html
-
-    # Visualize one hospital’s local data distribution (illustrative)
-    def plot_local_data(hospital_id=0):
-        torch.manual_seed(0)
-
-        angles = [0.0, 0.6, 1.2, 1.8]
-        x = torch.randn(60, 2)
-        w = torch.tensor([
-            torch.cos(torch.tensor(angles[hospital_id])),
-            torch.sin(torch.tensor(angles[hospital_id]))
-        ])
-        y = (x @ w > 0)
-
-        fig, ax = plt.subplots(figsize=(2.2, 2.2))
-        ax.scatter(x[:, 0], x[:, 1], c=y, cmap="coolwarm", s=15)
-        ax.set_title(f"Hospital {hospital_id} Data")
-        ax.axis("off")
-
-        html = mo.as_html(fig)
-        plt.close(fig)
-        return html
-
 
     # Visualize each hospital’s local model
     h_plots = [plot_model(_s["hospital_models"][i], f"Hospital {i}") for i in range(4)]

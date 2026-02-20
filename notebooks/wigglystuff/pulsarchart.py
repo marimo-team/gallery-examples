@@ -79,20 +79,22 @@ def _(widget):
     return
 
 
+@app.function
+def make_plot(selected_row):
+    if not selected_row:
+        return None
+    fig, ax = plt.subplots(figsize=(5, 5))
+    xs = [p["x"] for p in selected_row]
+    ys = [p["y"] for p in selected_row]
+    ax.plot(xs, ys)
+    ax.set_xlabel("x")
+    ax.set_ylabel("y")
+    plt.close(fig)
+    return fig
+
+
 @app.cell
 def _(widget):
-    def make_plot(selected_row):
-        if not selected_row:
-            return None
-        fig, ax = plt.subplots(figsize=(5, 5))
-        xs = [p["x"] for p in selected_row]
-        ys = [p["y"] for p in selected_row]
-        ax.plot(xs, ys)
-        ax.set_xlabel("x")
-        ax.set_ylabel("y")
-        plt.close(fig)
-        return fig
-
     plot = make_plot(widget.value.get("selected_row"))
     return (plot,)
 

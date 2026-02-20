@@ -56,63 +56,63 @@ def _():
     return max_boxes_input, n_prisoners_input
 
 
-@app.cell
-def _():
-    def find_cycles(permutation):
-        """Find all cycles in a permutation. Returns list of cycles, each cycle is a list of indices."""
-        n = len(permutation)
-        visited = [False] * n
-        cycles = []
+@app.function
+def find_cycles(permutation):
+    """Find all cycles in a permutation. Returns list of cycles, each cycle is a list of indices."""
+    n = len(permutation)
+    visited = [False] * n
+    cycles = []
 
-        for start in range(n):
-            if visited[start]:
-                continue
-            cycle = []
-            current = start
-            while not visited[current]:
-                visited[current] = True
-                cycle.append(current)
-                current = permutation[current]
-            if cycle:
-                cycles.append(cycle)
+    for start in range(n):
+        if visited[start]:
+            continue
+        cycle = []
+        current = start
+        while not visited[current]:
+            visited[current] = True
+            cycle.append(current)
+            current = permutation[current]
+        if cycle:
+            cycles.append(cycle)
 
-        return cycles
-
-
-    def generate_permutation(n=100, seed=None):
-        """Generate a random permutation of 0 to n-1."""
-        if seed is not None:
-            np.random.seed(seed)
-        return list(np.random.permutation(n))
+    return cycles
 
 
-    def max_cycle_length(perm):
-        """Find the maximum cycle length in a single permutation (1D array)."""
-        n = len(perm)
-        visited = np.zeros(n, dtype=bool)
-        max_len = 0
-        for start in range(n):
-            if visited[start]:
-                continue
-            length = 0
-            current = start
-            while not visited[current]:
-                visited[current] = True
-                length += 1
-                current = perm[current]
-            if length > max_len:
-                max_len = length
-        return max_len
+@app.function
+def generate_permutation(n=100, seed=None):
+    """Generate a random permutation of 0 to n-1."""
+    if seed is not None:
+        np.random.seed(seed)
+    return list(np.random.permutation(n))
 
 
-    def simulate_batch(n_prisoners, n_simulations):
-        """Run many simulations at once using NumPy. Returns array of max cycle lengths."""
-        # Generate all permutations at once: shape (n_simulations, n_prisoners)
-        perms = np.array([np.random.permutation(n_prisoners) for _ in range(n_simulations)])
-        # Compute max cycle length for each
-        return np.array([max_cycle_length(p) for p in perms])
+@app.function
+def max_cycle_length(perm):
+    """Find the maximum cycle length in a single permutation (1D array)."""
+    n = len(perm)
+    visited = np.zeros(n, dtype=bool)
+    max_len = 0
+    for start in range(n):
+        if visited[start]:
+            continue
+        length = 0
+        current = start
+        while not visited[current]:
+            visited[current] = True
+            length += 1
+            current = perm[current]
+        if length > max_len:
+            max_len = length
+    return max_len
 
-    return find_cycles, generate_permutation
+
+@app.function
+def simulate_batch(n_prisoners, n_simulations):
+    """Run many simulations at once using NumPy. Returns array of max cycle lengths."""
+    # Generate all permutations at once: shape (n_simulations, n_prisoners)
+    perms = np.array([np.random.permutation(n_prisoners) for _ in range(n_simulations)])
+    # Compute max cycle length for each
+    return np.array([max_cycle_length(p) for p in perms])
 
 
 @app.cell
@@ -135,13 +135,7 @@ def _(max_boxes_input, n_prisoners_input):
 
 
 @app.cell
-def _(
-    find_cycles,
-    generate_permutation,
-    max_boxes,
-    n_prisoners,
-    regenerate_button,
-):
+def _(max_boxes, n_prisoners, regenerate_button):
     # Regenerate when button is clicked
     _click_count = regenerate_button.value
 

@@ -91,14 +91,7 @@ def _(get_end_date, get_start_date, set_end_date, set_start_date):
 
 
 @app.cell
-def _(
-    filtered_movies,
-    get_average_budget,
-    get_average_gross,
-    get_average_rating,
-    get_average_runtime,
-    previous_movies,
-):
+def _(filtered_movies, previous_movies):
     mo.stop(len(filtered_movies) == 0, "")
 
     previous_total_movies_count = len(previous_movies)
@@ -201,13 +194,7 @@ def _(filtered_movies):
 
 
 @app.cell
-def _(
-    chart,
-    get_average_budget,
-    get_average_gross,
-    get_average_rating,
-    get_average_runtime,
-):
+def _(chart):
     mo.stop(len(chart.value) == 0, mo.callout("Select data to view stats."))
 
     _total_movies = mo.stat(
@@ -266,54 +253,50 @@ def _(filtered_movies):
     return
 
 
-@app.cell
-def _():
-    def get_average_budget(df, previous):
-        current = df["US_Gross"].mean()
-        previous = previous["US_Gross"].mean()
-        rate = (current - previous) / previous
-        return (current, previous, rate)
+@app.function
+def get_average_budget(df, previous):
+    current = df["US_Gross"].mean()
+    previous = previous["US_Gross"].mean()
+    rate = (current - previous) / previous
+    return (current, previous, rate)
 
 
-    def get_average_gross(df, previous):
-        current = df["Worldwide_Gross"].mean()
-        previous = previous["Worldwide_Gross"].mean()
-        rate = (current - previous) / previous
-        return (current, previous, rate)
+@app.function
+def get_average_gross(df, previous):
+    current = df["Worldwide_Gross"].mean()
+    previous = previous["Worldwide_Gross"].mean()
+    rate = (current - previous) / previous
+    return (current, previous, rate)
 
 
-    def get_average_runtime(df, previous):
-        current = df["Running_Time_min"].mean()
-        previous = previous["Running_Time_min"].mean()
-        rate = (current - previous) / previous
-        return (current, previous, rate)
+@app.function
+def get_average_runtime(df, previous):
+    current = df["Running_Time_min"].mean()
+    previous = previous["Running_Time_min"].mean()
+    rate = (current - previous) / previous
+    return (current, previous, rate)
 
 
-    def get_average_rating(df, previous):
-        current = df["IMDB_Rating"].mean()
-        previous = previous["IMDB_Rating"].mean()
-        rate = (current - previous) / previous
-        return (current, previous, rate)
+@app.function
+def get_average_rating(df, previous):
+    current = df["IMDB_Rating"].mean()
+    previous = previous["IMDB_Rating"].mean()
+    rate = (current - previous) / previous
+    return (current, previous, rate)
 
 
-    def get_previous_date_range(start_date, end_date):
-        delta = end_date - start_date
-        return (
-            (start_date - datetime.timedelta(days=delta.days)),
-            (end_date - datetime.timedelta(days=delta.days)),
-        )
-
-
-    def format_date(date):
-        return date.strftime("%Y-%m-%d")
-
+@app.function
+def get_previous_date_range(start_date, end_date):
+    delta = end_date - start_date
     return (
-        get_average_budget,
-        get_average_gross,
-        get_average_rating,
-        get_average_runtime,
-        get_previous_date_range,
+        (start_date - datetime.timedelta(days=delta.days)),
+        (end_date - datetime.timedelta(days=delta.days)),
     )
+
+
+@app.function
+def format_date(date):
+    return date.strftime("%Y-%m-%d")
 
 
 @app.cell
@@ -337,7 +320,7 @@ def _():
 
 
 @app.cell
-def _(end_date, get_previous_date_range, movies, start_date):
+def _(end_date, movies, start_date):
     start = pd.to_datetime(start_date.value)
     end = pd.to_datetime(end_date.value)
     filtered_movies = movies[
