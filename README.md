@@ -21,10 +21,10 @@ uvx marimo edit --sandbox <notebook>
 | Notebook | Description | |
 | -------- | ----------- | - |
 | Embedding Visualiser | Select points in embedded space to explore clusters. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/visualizing-embeddings.py) |
-| Evolutionary Strategies | Interactive exploration of evolutionary optimization algorithms. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/evolutionary-strategies.py) |
-| Smoothed Gradient Descent | Visualize gradient descent with momentum and smoothing techniques. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/smoothed-gradient-descent.py) |
-| Federated Learning | Simulate federated learning with FedAvg aggregation. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/federated.py) |
-| Sklearn Classification | Bootstrap scikit-learn classification models with automatic preprocessing and cross-validation. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/sklearn-clf.py) |
+| Evolutionary Strategies | Interactive exploration of evolutionary optimization. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/evolutionary-strategies.py) |
+| Smoothed Gradient Descent | Visualize gradient descent with momentum and smoothing. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/smoothed-gradient-descent.py) |
+| Federated Learning | Simulate federated learning. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/federated.py) |
+| Sklearn Classification | Bootstrap models with preprocessing and cross-validation. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/sklearn-clf.py) |
 | FastAPI + GliNER | Zero-shot entity extraction as webapp, API, or CLI. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/fastapi-gliner.py) |
 
 ## Research papers
@@ -55,7 +55,7 @@ uvx marimo edit --sandbox <notebook>
 | -------- | ----------- | - |
 | Lego Price Explorer | Explore Lego price differences and price-per-piece patterns. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/lego/notebook.py) |
 | Movies Dashboard | Explore movie data with interactive marimo UI dashboard. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/movies.py) |
-| Portfolio Calculator | An interactive tool for portfolio analysis and investment calculations. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/portfolio.py) |
+| Portfolio Calculator | An interactive tool for portfolio analysis. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/portfolio.py) |
 | World of Warcraft Bot Detection | Detect bots in WoW using session length analysis. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/world-of-warcraft.py) |
 | Altair Reactive Plots | Interactive Altair charts with brush selection and reactive filtering. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/altair-demo.py) |
 
