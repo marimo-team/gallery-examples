@@ -57,7 +57,7 @@ uvx marimo edit --sandbox <notebook>
 | Movies Dashboard | Explore movie data with interactive marimo UI dashboard. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/movies.py) |
 | Portfolio Calculator | An interactive tool for portfolio analysis. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/portfolio.py) |
 | World of Warcraft Bot Detection | Detect bots in WoW using session length analysis. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/world-of-warcraft.py) |
-| Altair Reactive Plots | Interactive Altair charts with brush selection and reactive filtering. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/altair-demo.py) |
+| Altair Reactive Plots | Altair charts with brush selection and reactive filtering. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/altair-demo.py) |
 
 ## External
 
