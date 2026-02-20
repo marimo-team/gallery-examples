@@ -79,6 +79,7 @@ uvx marimo edit --sandbox <notebook>
 
 | Notebook | Description | |
 | -------- | ----------- | - |
+| Spectral Decomposition | Interactively explore the spectral matrix decomposition | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/eigen.py) |
 | Signal Decomposition | Decompose complex signals into simpler interpretable components. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/education/signal_decomposition.py) |
 | 100 Prisoners Puzzle | Simulate the famous 100 prisoners probability puzzle. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/100-prisoners.py) |
 | Attractor | Interactive strange attractor visualization with scatter plots. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/attractor.py) |
