@@ -1,0 +1,151 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.20.2"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "d3ebf80a15674a0fea7f9ddacf40180f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"connect-to-sqlite\">Connect to SQLite</h1>\n<span class=\"paragraph\">You can use marimo's SQL cells to read from and write to SQLite databases.</span>\n<span class=\"paragraph\">The first step is to attach a SQLite database. We attach to a sample database in a read-only mode below.</span>\n<span class=\"paragraph\">For advanced usage, see <a href=\"https://duckdb.org/docs/extensions/sqlite\" rel=\"noopener noreferrer\" target=\"_blank\">duckdb's documentation</a>.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "f5cfa357b0fccc15a07a3fae1da17b17",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "20d74b7aac218c4d17b835448142e5b0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-accordion data-labels='[&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Tip: Creating SQL Cells&lt;/span&gt;&lt;/span&gt;&quot;]' data-multiple='false'><div><span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Create a SQL cell in one of two ways:</span>\n<ol>\n<li>Click the <iconify-icon icon='lucide:database' inline></iconify-icon> <code>SQL</code> button at the <strong>bottom of your notebook</strong></li>\n<li><strong>Right-click</strong> the <iconify-icon icon='lucide:circle-plus' inline></iconify-icon> button to the <strong>left of a cell</strong>, and choose <code>SQL</code>.</li>\n</ol>\n<span class=\"paragraph\">In the SQL cell, you can query dataframes in your notebook as if\nthey were tables \u2014 just reference them by name.</span></span></div></marimo-accordion>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "83a39c0bbfb56ad4c0576baa03be75b2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='bkHC-0' random-id='6ea530de-af8d-83f6-7d30-adbea372433b'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;table_name&#92;&quot;:&#92;&quot;Album&#92;&quot;},{&#92;&quot;table_name&#92;&quot;:&#92;&quot;Artist&#92;&quot;},{&#92;&quot;table_name&#92;&quot;:&#92;&quot;Customer&#92;&quot;},{&#92;&quot;table_name&#92;&quot;:&#92;&quot;Employee&#92;&quot;},{&#92;&quot;table_name&#92;&quot;:&#92;&quot;Genre&#92;&quot;},{&#92;&quot;table_name&#92;&quot;:&#92;&quot;Invoice&#92;&quot;},{&#92;&quot;table_name&#92;&quot;:&#92;&quot;InvoiceLine&#92;&quot;},{&#92;&quot;table_name&#92;&quot;:&#92;&quot;MediaType&#92;&quot;},{&#92;&quot;table_name&#92;&quot;:&#92;&quot;Playlist&#92;&quot;},{&#92;&quot;table_name&#92;&quot;:&#92;&quot;PlaylistTrack&#92;&quot;}]&quot;' data-total-rows='11' data-total-columns='1' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;table_name&quot;,[&quot;string&quot;,&quot;str&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='true' data-show-data-types='true' data-show-page-size-selector='true' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "8d6e7568fcf9e82a29cedeb5017e9d65",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Once the database is attached, you can query it with SQL. For example, the next cell computes the average track length of each composer in the chinook database.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "c325d43a9acf23f8f94c2cbf00e756a4",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='PKri-0' random-id='7340ed4c-8016-1cdf-29c1-8ad0df615c20'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;Composer&#92;&quot;:&#92;&quot;Blackmore/Gillan/Glover/Lord/Paice&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:1196094.0},{&#92;&quot;Composer&#92;&quot;:&#92;&quot;Jimmy Page/Led Zeppelin&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:1116734.0},{&#92;&quot;Composer&#92;&quot;:&#92;&quot;Gillan/Glover/Lord/Nix - Blackmore/Paice&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:913658.0},{&#92;&quot;Composer&#92;&quot;:&#92;&quot;John Bonham/John Paul Jones/Robert Plant/Willie Dixon&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:863895.0},{&#92;&quot;Composer&#92;&quot;:&#92;&quot;Blackmore/Coverdale&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:854700.0},{&#92;&quot;Composer&#92;&quot;:&#92;&quot;Arthur Crudup/Bernard Besman/Bukka White/Doc Pomus/John Bonham/John Lee Hooker/John Paul Jones/Mort Shuman/Robert Plant/Willie Dixon&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:825103.0},{&#92;&quot;Composer&#92;&quot;:&#92;&quot;Blackmore/Coverdale/Lord/Paice&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:763924.0},{&#92;&quot;Composer&#92;&quot;:&#92;&quot;Carlos Santana &amp; C. Thompson&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:747755.0},{&#92;&quot;Composer&#92;&quot;:null,&#92;&quot;avg_track_ms&#92;&quot;:711871.1238485159},{&#92;&quot;Composer&#92;&quot;:&#92;&quot;Chester Burnett/Jimmy Page/John Bonham/John Paul Jones/Robert Plant&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:711836.0}]&quot;' data-total-rows='854' data-total-columns='2' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;Composer&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;avg_track_ms&quot;,[&quot;number&quot;,&quot;f64&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='true' data-show-data-types='true' data-show-page-size-selector='true' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "eefe3963c9daa4eca67a7878c7e27940",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">You can explore the schemas of all your tables at a glance in the <strong>data sources panel</strong>: click\nthe <iconify-icon icon='lucide:database' inline></iconify-icon> icon in the left sidebar to open it.</span>\n<h2 id=\"sqlite-directly\">SQlite directly</h2>\n<span class=\"paragraph\">Above we've been using in memory DuckDB to query Sqlite (which can be very performant) but you can also make a Sqlite connection directly.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "30eb7876be03c8c0d898e28a06c791ca",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "55628b6f30f2c0c926fd2f1c76262026",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">The SQL cell below links to SQLite engine, so that's the backend that we will use. You can tell because we are using <code>AVG</code> instead of <code>MEAN</code> below.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "8ff67a53cff09787951d2bddeae56475",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='RGSE-0' random-id='a2f3c0f4-4ddb-8beb-e776-d4483d752cea'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;Composer&#92;&quot;:&#92;&quot;Blackmore/Gillan/Glover/Lord/Paice&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:1196094.0},{&#92;&quot;Composer&#92;&quot;:&#92;&quot;Jimmy Page/Led Zeppelin&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:1116734.0},{&#92;&quot;Composer&#92;&quot;:&#92;&quot;Gillan/Glover/Lord/Nix - Blackmore/Paice&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:913658.0},{&#92;&quot;Composer&#92;&quot;:&#92;&quot;John Bonham/John Paul Jones/Robert Plant/Willie Dixon&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:863895.0},{&#92;&quot;Composer&#92;&quot;:&#92;&quot;Blackmore/Coverdale&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:854700.0},{&#92;&quot;Composer&#92;&quot;:&#92;&quot;Arthur Crudup/Bernard Besman/Bukka White/Doc Pomus/John Bonham/John Lee Hooker/John Paul Jones/Mort Shuman/Robert Plant/Willie Dixon&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:825103.0},{&#92;&quot;Composer&#92;&quot;:&#92;&quot;Blackmore/Coverdale/Lord/Paice&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:763924.0},{&#92;&quot;Composer&#92;&quot;:&#92;&quot;Carlos Santana &amp; C. Thompson&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:747755.0},{&#92;&quot;Composer&#92;&quot;:null,&#92;&quot;avg_track_ms&#92;&quot;:711871.1238485159},{&#92;&quot;Composer&#92;&quot;:&#92;&quot;Chester Burnett/Jimmy Page/John Bonham/John Paul Jones/Robert Plant&#92;&quot;,&#92;&quot;avg_track_ms&#92;&quot;:711836.0}]&quot;' data-total-rows='854' data-total-columns='2' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;Composer&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;avg_track_ms&quot;,[&quot;number&quot;,&quot;f64&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='true' data-show-data-types='true' data-show-page-size-selector='true' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}
