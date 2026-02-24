@@ -58,6 +58,7 @@ uvx marimo edit --sandbox <notebook>
 | Portfolio Calculator | An interactive tool for portfolio analysis. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/portfolio.py) |
 | World of Warcraft Bot Detection | Detect bots in WoW using session length analysis. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/world-of-warcraft.py) |
 | Altair Reactive Plots | Altair charts with brush selection and reactive filtering. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/altair-demo.py) |
+| Matplotlib Selection | Select data points on a matplotlib chart with `mo.ui.matplotlib`. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/matplotlib_selection.py) |
 
 ## External
 
@@ -85,6 +86,7 @@ uvx marimo edit --sandbox <notebook>
 | Attractor | Interactive strange attractor visualization with scatter plots. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/attractor.py) |
 | Matrix Decomposition | An interactive exploration of matrix decomposition techniques. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/matrix-decompositions.py) |
 | Seam Carving | Content-aware image resizing using dynamic programming. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/seam-carving/notebook.py) |
+| Matrix | Interactive matrix editor and PCA demo using `mo.ui.matrix`. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/matrix.py) |
 | Vector Puck | Explore vector arithmetic with pucks over matplotlib. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/vector-puck.py) |
 
 ## Custom UI elements with Anywidget
@@ -93,7 +95,6 @@ uvx marimo edit --sandbox <notebook>
 | -------- | ----------- | - |
 | CellTour | Create guided tours through notebook cells. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/celltour.py) |
 | ChartPuck | Interactive chart editor with draggable control points. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/chartpuck.py) |
-| ChartSelect | Select data points on a chart interactively. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/chartselect.py) |
 | ColorPicker | An interactive color selection widget. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/colorpicker.py) |
 | CopyToClipboard | A utility widget for copying content to the clipboard. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/copytoclipboard.py) |
 | DriverTour | Create guided page tours with the DriverTour widget. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/drivertour.py) |
@@ -103,7 +104,6 @@ uvx marimo edit --sandbox <notebook>
 | Greedy Search Pucks | Greedy sampled search visualization with draggable pucks. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/greedy_search_pucks.py) |
 | HTMLRefreshWidget | Render dynamic HTML content that auto-refreshes. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/htmlwidget.py) |
 | KeystrokeWidget | Capture keyboard input and key combinations. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/keystroke.py) |
-| Matrix | An interactive matrix editor for manipulating grid data. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/matrix.py) |
 | Paint | A drawing and painting canvas widget for freeform input. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/paint.py) |
 | PulsarChart | Joy Division-style pulsar chart visualization. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/pulsarchart.py) |
 | ShortcutWidget | Keyboard shortcut capture widget. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/wigglystuff/shortcut.py) |
