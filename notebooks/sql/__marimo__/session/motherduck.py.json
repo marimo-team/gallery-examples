@@ -1,0 +1,314 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.20.2"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "357b98014b00fea2f0eb384ced3207bf",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"motherduck-marimo\">MotherDuck \ud83e\udde1 marimo</h1>\n<span class=\"paragraph\">Throughout this notebook, we will explore using <a href=\"https://motherduck.com\" rel=\"noopener noreferrer\" target=\"_blank\">MotherDuck</a> inside marimo. If you\u2019re new to marimo, check out our <a href=\"https://github.com/marimo-team/marimo\" rel=\"noopener noreferrer\" target=\"_blank\">GitHub</a> repo: marimo is free and open source.</span>\n<span class=\"paragraph\"><em>You can expand the code of any cells to see how the output are being created.</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "26c1a57b0126ccf5f109e0d4c5ffde5f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-accordion data-labels='[&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Tired of logging in to MotherDuck?&lt;/span&gt;&lt;/span&gt;&quot;]' data-multiple='false'><div><marimo-callout-output data-html='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;There is no &lt;strong&gt;MotherDuck&lt;/strong&gt; token found in your environment. To set one up, go to the &lt;a href=&#92;&quot;https://app.motherduck.com/settings/general&#92;&quot; rel=&#92;&quot;noopener noreferrer&#92;&quot; target=&#92;&quot;_blank&#92;&quot;&gt;MotherDuck&#x27;s settings page&lt;/a&gt;, create a token, and copy it below.&#92;nAnd re-run this notebook:&lt;/span&gt;&#92;n&lt;div class=&#92;&quot;language-console codehilite&#92;&quot;&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class=&#92;&quot;go&#92;&quot;&gt;motherduck_token=&amp;quot;YOUR_TOKEN_HERE&amp;quot; marimo edit /Users/vwarmerdam/conductor/workspaces/gallery-examples/yokohama-v1/notebooks/sql/motherduck.py&lt;/span&gt;&#92;n&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/span&gt;&quot;' data-kind='&quot;neutral&quot;'></marimo-callout-output></div></marimo-accordion>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "27bbff8a46f0ad9c61d16edb569bf0ad",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "28cf422417dfd3e42aca31fe1f77e541",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Let's attach a remote MotherDuck database using <code>md:</code></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "45ad71cd6ba113586e04551cd3b6640c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Attempting to automatically open the SSO authorization page in your default browser.\nPlease open this link to login into your account: https://auth.motherduck.com/activate?user_code=NMPN-PHGJ\n\n\nToken successfully retrieved \u2705\n\nYou can display the token and store it as an environment variable to avoid having to log in again:\n  PRAGMA PRINT_MD_TOKEN;\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "PKri",
+      "code_hash": "b9f7e2b7801ce2caacbcb6cd29422c91",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">!!! tip \"Explore data sources\"\nIf you open the \"Explore data sources\" panel on the left side bar (3rd icon), you will see all your tables including any news ones we will create below</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "72b3507c93a56fc3802e9a4632b5e5c6",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"lets-make-some-queries\">Let's make some queries \ud83e\udd86</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "a282afc35f716e544e9f27e4da34dc11",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='SFPL-0' random-id='2f899711-8538-975d-b34d-87be18d13d5a'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;domain&#92;&quot;:&#92;&quot;github.com&#92;&quot;,&#92;&quot;count&#92;&quot;:11093},{&#92;&quot;domain&#92;&quot;:&#92;&quot;www.youtube.com&#92;&quot;,&#92;&quot;count&#92;&quot;:9114},{&#92;&quot;domain&#92;&quot;:&#92;&quot;twitter.com&#92;&quot;,&#92;&quot;count&#92;&quot;:6460},{&#92;&quot;domain&#92;&quot;:&#92;&quot;en.wikipedia.org&#92;&quot;,&#92;&quot;count&#92;&quot;:5037},{&#92;&quot;domain&#92;&quot;:&#92;&quot;www.nytimes.com&#92;&quot;,&#92;&quot;count&#92;&quot;:4085},{&#92;&quot;domain&#92;&quot;:&#92;&quot;www.theguardian.com&#92;&quot;,&#92;&quot;count&#92;&quot;:3431},{&#92;&quot;domain&#92;&quot;:&#92;&quot;www.bloomberg.com&#92;&quot;,&#92;&quot;count&#92;&quot;:2819},{&#92;&quot;domain&#92;&quot;:&#92;&quot;arstechnica.com&#92;&quot;,&#92;&quot;count&#92;&quot;:2731},{&#92;&quot;domain&#92;&quot;:&#92;&quot;medium.com&#92;&quot;,&#92;&quot;count&#92;&quot;:2627},{&#92;&quot;domain&#92;&quot;:&#92;&quot;www.theverge.com&#92;&quot;,&#92;&quot;count&#92;&quot;:2611}]&quot;' data-total-rows='20' data-total-columns='2' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;domain&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;count&quot;,[&quot;integer&quot;,&quot;i64&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='true' data-show-data-types='true' data-show-page-size-selector='true' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "85a06cb8070694760c508730c3786ea7",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='BYtC-0' random-id='28fd80c3-dff8-ed74-7a5d-d8da746490c3'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:1,&#92;&quot;title&#92;&quot;:&#92;&quot;More Americans are saying they&#92;&#92;u2019re &#92;&#92;u2018vaxxed and done&#92;&#92;u2019&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=29878895&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:1725},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:2,&#92;&quot;title&#92;&quot;:&#92;&quot;Namecheap: Russia Service Termination&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=30504812&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:1828},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:3,&#92;&quot;title&#92;&quot;:&#92;&quot;US Senate votes unanimously to make daylight savings time permanent&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=30689043&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:2218},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:4,&#92;&quot;title&#92;&quot;:&#92;&quot;Twitter set to accept Musk&#x27;s &#36;43B offer &#92;&#92;u2013 sources&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=31153277&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:3678},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:5,&#92;&quot;title&#92;&quot;:&#92;&quot;Ask HN: What game do you wish existed?&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=31503201&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:1839},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:6,&#92;&quot;title&#92;&quot;:&#92;&quot;Supreme Court Overturns Roe vs. Wade&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=31862258&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:3463},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:7,&#92;&quot;title&#92;&quot;:&#92;&quot;Notice of termination of Twitter merger agreement&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=32027341&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:1455},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:8,&#92;&quot;title&#92;&quot;:&#92;&quot;Ask HN: What&#x27;s the next big thing that few people are talking about?&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=32378695&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:1174},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:9,&#92;&quot;title&#92;&quot;:&#92;&quot;Google is shutting down Stadia&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=33022768&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:1712},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:10,&#92;&quot;title&#92;&quot;:&#92;&quot;Elon Musk owns Twitter: The story so far&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=33374770&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:1796}]&quot;' data-total-rows='11' data-total-columns='5' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;year&quot;,[&quot;integer&quot;,&quot;i64&quot;]],[&quot;month&quot;,[&quot;integer&quot;,&quot;i64&quot;]],[&quot;title&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;hn_url&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;nb_comments&quot;,[&quot;integer&quot;,&quot;i64&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='true' data-show-data-types='true' data-show-page-size-selector='true' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "d479dc6ada09c3263761d42ae2af164c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"lets-make-some-charts\">Let's make some charts \ud83d\udcc8</h2>\n<span class=\"paragraph\">Now that we have made some queries and named the results, we can chart those resulting dataframes in Python, using our favorite charting libraries (e.g <a href=\"https://altair-viz.github.io/\" rel=\"noopener noreferrer\" target=\"_blank\">altair</a>, <a href=\"https://matplotlib.org/\" rel=\"noopener noreferrer\" target=\"_blank\">matplotlib</a>, or <a href=\"https://plotly.com/\" rel=\"noopener noreferrer\" target=\"_blank\">plotly</a>).</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "187501151f22de4930935e6e1778ab37",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "application/vnd.vegalite.v6+json": "{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v6.1.0.json\",\n  \"config\": {\n    \"view\": {\n      \"continuousHeight\": 300,\n      \"continuousWidth\": 300\n    }\n  },\n  \"data\": {\n    \"name\": \"data-2330fde841054ece2fa92918337f1fdc\"\n  },\n  \"datasets\": {\n    \"data-2330fde841054ece2fa92918337f1fdc\": [\n      {\n        \"count\": 11093,\n        \"domain\": \"github.com\"\n      },\n      {\n        \"count\": 9114,\n        \"domain\": \"www.youtube.com\"\n      },\n      {\n        \"count\": 6460,\n        \"domain\": \"twitter.com\"\n      },\n      {\n        \"count\": 5037,\n        \"domain\": \"en.wikipedia.org\"\n      },\n      {\n        \"count\": 4085,\n        \"domain\": \"www.nytimes.com\"\n      },\n      {\n        \"count\": 3431,\n        \"domain\": \"www.theguardian.com\"\n      },\n      {\n        \"count\": 2819,\n        \"domain\": \"www.bloomberg.com\"\n      },\n      {\n        \"count\": 2731,\n        \"domain\": \"arstechnica.com\"\n      },\n      {\n        \"count\": 2627,\n        \"domain\": \"medium.com\"\n      },\n      {\n        \"count\": 2611,\n        \"domain\": \"www.theverge.com\"\n      },\n      {\n        \"count\": 2321,\n        \"domain\": \"www.wsj.com\"\n      },\n      {\n        \"count\": 1944,\n        \"domain\": \"www.reuters.com\"\n      },\n      {\n        \"count\": 1934,\n        \"domain\": \"www.theregister.com\"\n      },\n      {\n        \"count\": 1822,\n        \"domain\": \"www.bbc.com\"\n      },\n      {\n        \"count\": 1586,\n        \"domain\": \"techcrunch.com\"\n      },\n      {\n        \"count\": 1420,\n        \"domain\": \"www.nature.com\"\n      },\n      {\n        \"count\": 1330,\n        \"domain\": \"www.cnbc.com\"\n      },\n      {\n        \"count\": 1293,\n        \"domain\": \"www.washingtonpost.com\"\n      },\n      {\n        \"count\": 1234,\n        \"domain\": \"old.reddit.com\"\n      },\n      {\n        \"count\": 1186,\n        \"domain\": \"www.theatlantic.com\"\n      }\n    ]\n  },\n  \"encoding\": {\n    \"tooltip\": [\n      {\n        \"field\": \"domain\",\n        \"type\": \"nominal\"\n      },\n      {\n        \"field\": \"count\",\n        \"type\": \"quantitative\"\n      }\n    ],\n    \"x\": {\n      \"field\": \"count\",\n      \"title\": \"Number of Shares\",\n      \"type\": \"quantitative\"\n    },\n    \"y\": {\n      \"field\": \"domain\",\n      \"sort\": \"-x\",\n      \"title\": \"Domain\",\n      \"type\": \"nominal\"\n    }\n  },\n  \"mark\": {\n    \"type\": \"bar\"\n  },\n  \"title\": \"Top 20 Most Shared Websites on Hacker News\",\n  \"usermeta\": {\n    \"embedOptions\": {}\n  },\n  \"width\": \"container\"\n}"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "3bdd525d6a4e7a3e0adb8580e2d17d7a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"adding-reactivity\">Adding reactivity \u26a1</h2>\n<span class=\"paragraph\">We can also parameterize our SQL using marimo UI elements. This not only makes our SQL reactive, but also any downstream logic, including our charts.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "c1b7b1d18b5ff786fb8c4d2ef4e0138a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "0b0eaa4fa9ce2b59d70b2e961024c8eb",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "iLit",
+      "code_hash": "4acc10d6288d8100f1f5def1949f14d1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: row;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><div style='display: flex;flex: 1;flex-direction: row;justify-content: space-between;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"_1\"><iconify-icon icon='lucide:filter' inline></iconify-icon></h2></span><marimo-ui-element object-id='nWHF-0' random-id='ab3f4390-a93c-39c5-7e86-eb268d859eb5'><marimo-multiselect data-initial-value='[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;,&quot;July&quot;,&quot;August&quot;,&quot;September&quot;,&quot;October&quot;,&quot;November&quot;,&quot;December&quot;]' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Month&lt;/span&gt;&lt;/span&gt;&quot;' data-options='[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;,&quot;July&quot;,&quot;August&quot;,&quot;September&quot;,&quot;October&quot;,&quot;November&quot;,&quot;December&quot;]' data-full-width='false'></marimo-multiselect></marimo-ui-element><marimo-ui-element object-id='nWHF-1' random-id='eeb52298-58aa-2fb0-d398-ae0cc20869b5'><marimo-dropdown data-initial-value='[&quot;story&quot;]' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;HN Type&lt;/span&gt;&lt;/span&gt;&quot;' data-options='[&quot;poll&quot;,&quot;story&quot;]' data-allow-select-none='false' data-searchable='false' data-full-width='false'></marimo-dropdown></marimo-ui-element></div></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "936aaadf7de79df850feacde4a048277",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='ZHCJ-0' random-id='9c0e7a99-e76b-1f03-f34c-81540f76ed55'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;month&#92;&quot;:1,&#92;&quot;score&#92;&quot;:3393,&#92;&quot;type&#92;&quot;:&#92;&quot;story&#92;&quot;,&#92;&quot;title&#92;&quot;:&#92;&quot;My First Impressions of Web3&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=29845208&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:1129,&#92;&quot;year&#92;&quot;:2022},{&#92;&quot;month&#92;&quot;:2,&#92;&quot;score&#92;&quot;:3636,&#92;&quot;type&#92;&quot;:&#92;&quot;story&#92;&quot;,&#92;&quot;title&#92;&quot;:&#92;&quot;Google Search Is Dying&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=30347719&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:1561,&#92;&quot;year&#92;&quot;:2022},{&#92;&quot;month&#92;&quot;:3,&#92;&quot;score&#92;&quot;:2191,&#92;&quot;type&#92;&quot;:&#92;&quot;story&#92;&quot;,&#92;&quot;title&#92;&quot;:&#92;&quot;US Senate votes unanimously to make daylight savings time permanent&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=30689043&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:2218,&#92;&quot;year&#92;&quot;:2022},{&#92;&quot;month&#92;&quot;:4,&#92;&quot;score&#92;&quot;:2747,&#92;&quot;type&#92;&quot;:&#92;&quot;story&#92;&quot;,&#92;&quot;title&#92;&quot;:&#92;&quot;Elon Musk makes &#36;43B unsolicited bid to take Twitter private&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=31025061&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:3078,&#92;&quot;year&#92;&quot;:2022},{&#92;&quot;month&#92;&quot;:5,&#92;&quot;score&#92;&quot;:4298,&#92;&quot;type&#92;&quot;:&#92;&quot;story&#92;&quot;,&#92;&quot;title&#92;&quot;:&#92;&quot;Mechanical Watch&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=31261533&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:413,&#92;&quot;year&#92;&quot;:2022},{&#92;&quot;month&#92;&quot;:6,&#92;&quot;score&#92;&quot;:1765,&#92;&quot;type&#92;&quot;:&#92;&quot;story&#92;&quot;,&#92;&quot;title&#92;&quot;:&#92;&quot;Supreme Court Overturns Roe vs. Wade&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=31862258&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:3463,&#92;&quot;year&#92;&quot;:2022},{&#92;&quot;month&#92;&quot;:7,&#92;&quot;score&#92;&quot;:2051,&#92;&quot;type&#92;&quot;:&#92;&quot;story&#92;&quot;,&#92;&quot;title&#92;&quot;:&#92;&quot;Ask HN: What are some cool but obscure data structures you know about?&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=32186203&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:753,&#92;&quot;year&#92;&quot;:2022},{&#92;&quot;month&#92;&quot;:8,&#92;&quot;score&#92;&quot;:1614,&#92;&quot;type&#92;&quot;:&#92;&quot;story&#92;&quot;,&#92;&quot;title&#92;&quot;:&#92;&quot;Physical buttons outperform touchscreens in new cars, test finds&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=32494497&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:953,&#92;&quot;year&#92;&quot;:2022},{&#92;&quot;month&#92;&quot;:9,&#92;&quot;score&#92;&quot;:2827,&#92;&quot;type&#92;&quot;:&#92;&quot;story&#92;&quot;,&#92;&quot;title&#92;&quot;:&#92;&quot;Queen Elizabeth II has died&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=32768834&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:1596,&#92;&quot;year&#92;&quot;:2022},{&#92;&quot;month&#92;&quot;:10,&#92;&quot;score&#92;&quot;:3053,&#92;&quot;type&#92;&quot;:&#92;&quot;story&#92;&quot;,&#92;&quot;title&#92;&quot;:&#92;&quot;Sound&#92;&quot;,&#92;&quot;hn_url&#92;&quot;:&#92;&quot;https://news.ycombinator.com/item?id=33249215&#92;&quot;,&#92;&quot;nb_comments&#92;&quot;:207,&#92;&quot;year&#92;&quot;:2022}]&quot;' data-total-rows='11' data-total-columns='7' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;month&quot;,[&quot;integer&quot;,&quot;i64&quot;]],[&quot;score&quot;,[&quot;integer&quot;,&quot;i64&quot;]],[&quot;type&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;title&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;hn_url&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;nb_comments&quot;,[&quot;integer&quot;,&quot;i64&quot;]],[&quot;year&quot;,[&quot;integer&quot;,&quot;i64&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='true' data-show-data-types='true' data-show-page-size-selector='true' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ROlb",
+      "code_hash": "80b0c164efca35551203291f18e5b7c1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "application/vnd.vegalite.v6+json": "{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v6.1.0.json\",\n  \"config\": {\n    \"view\": {\n      \"continuousHeight\": 300,\n      \"continuousWidth\": 300\n    }\n  },\n  \"data\": {\n    \"name\": \"data-ea44177d313e21476023452bffb2f407\"\n  },\n  \"datasets\": {\n    \"data-ea44177d313e21476023452bffb2f407\": [\n      {\n        \"hn_url\": \"https://news.ycombinator.com/item?id=29845208\",\n        \"month\": 1,\n        \"nb_comments\": 1129,\n        \"score\": 3393,\n        \"title\": \"My First Impressions of Web3\",\n        \"type\": \"story\",\n        \"year\": 2022\n      },\n      {\n        \"hn_url\": \"https://news.ycombinator.com/item?id=30347719\",\n        \"month\": 2,\n        \"nb_comments\": 1561,\n        \"score\": 3636,\n        \"title\": \"Google Search Is Dying\",\n        \"type\": \"story\",\n        \"year\": 2022\n      },\n      {\n        \"hn_url\": \"https://news.ycombinator.com/item?id=30689043\",\n        \"month\": 3,\n        \"nb_comments\": 2218,\n        \"score\": 2191,\n        \"title\": \"US Senate votes unanimously to make daylight savings time permanent\",\n        \"type\": \"story\",\n        \"year\": 2022\n      },\n      {\n        \"hn_url\": \"https://news.ycombinator.com/item?id=31025061\",\n        \"month\": 4,\n        \"nb_comments\": 3078,\n        \"score\": 2747,\n        \"title\": \"Elon Musk makes $43B unsolicited bid to take Twitter private\",\n        \"type\": \"story\",\n        \"year\": 2022\n      },\n      {\n        \"hn_url\": \"https://news.ycombinator.com/item?id=31261533\",\n        \"month\": 5,\n        \"nb_comments\": 413,\n        \"score\": 4298,\n        \"title\": \"Mechanical Watch\",\n        \"type\": \"story\",\n        \"year\": 2022\n      },\n      {\n        \"hn_url\": \"https://news.ycombinator.com/item?id=31862258\",\n        \"month\": 6,\n        \"nb_comments\": 3463,\n        \"score\": 1765,\n        \"title\": \"Supreme Court Overturns Roe vs. Wade\",\n        \"type\": \"story\",\n        \"year\": 2022\n      },\n      {\n        \"hn_url\": \"https://news.ycombinator.com/item?id=32186203\",\n        \"month\": 7,\n        \"nb_comments\": 753,\n        \"score\": 2051,\n        \"title\": \"Ask HN: What are some cool but obscure data structures you know about?\",\n        \"type\": \"story\",\n        \"year\": 2022\n      },\n      {\n        \"hn_url\": \"https://news.ycombinator.com/item?id=32494497\",\n        \"month\": 8,\n        \"nb_comments\": 953,\n        \"score\": 1614,\n        \"title\": \"Physical buttons outperform touchscreens in new cars, test finds\",\n        \"type\": \"story\",\n        \"year\": 2022\n      },\n      {\n        \"hn_url\": \"https://news.ycombinator.com/item?id=32768834\",\n        \"month\": 9,\n        \"nb_comments\": 1596,\n        \"score\": 2827,\n        \"title\": \"Queen Elizabeth II has died\",\n        \"type\": \"story\",\n        \"year\": 2022\n      },\n      {\n        \"hn_url\": \"https://news.ycombinator.com/item?id=33249215\",\n        \"month\": 10,\n        \"nb_comments\": 207,\n        \"score\": 3053,\n        \"title\": \"Sound\",\n        \"type\": \"story\",\n        \"year\": 2022\n      },\n      {\n        \"hn_url\": \"https://news.ycombinator.com/item?id=33529838\",\n        \"month\": 11,\n        \"nb_comments\": 1975,\n        \"score\": 2046,\n        \"title\": \"Meta lays off 11,000 people\",\n        \"type\": \"story\",\n        \"year\": 2022\n      }\n    ]\n  },\n  \"encoding\": {\n    \"color\": {\n      \"field\": \"nb_comments\",\n      \"scale\": {\n        \"scheme\": \"viridis\"\n      },\n      \"type\": \"quantitative\"\n    },\n    \"size\": {\n      \"field\": \"nb_comments\",\n      \"scale\": {\n        \"range\": [\n          100,\n          1000\n        ]\n      },\n      \"title\": \"Number of Comments\",\n      \"type\": \"quantitative\"\n    },\n    \"tooltip\": [\n      {\n        \"field\": \"title\",\n        \"type\": \"nominal\"\n      },\n      {\n        \"field\": \"nb_comments\",\n        \"type\": \"quantitative\"\n      },\n      {\n        \"field\": \"hn_url\",\n        \"type\": \"nominal\"\n      }\n    ],\n    \"x\": {\n      \"field\": \"month\",\n      \"title\": \"Month\",\n      \"type\": \"ordinal\"\n    },\n    \"y\": {\n      \"field\": \"score\",\n      \"title\": \"Score\",\n      \"type\": \"quantitative\"\n    }\n  },\n  \"height\": 400,\n  \"mark\": {\n    \"type\": \"circle\"\n  },\n  \"title\": \"Most Commented story Each Month\",\n  \"usermeta\": {\n    \"embedOptions\": {}\n  },\n  \"width\": \"container\"\n}"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qnkX",
+      "code_hash": "9319e0e6ff008ad9e76482ad3b28c1ec",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"additional-reactivity\">Additional Reactivity \u26a1\u26a1</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TqIu",
+      "code_hash": "e911de9d6d8dd6bb7bbd1fa3effb007a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='TqIu-0' random-id='a3baf61f-a04f-1d38-0494-93b354a23b11'><marimo-text data-initial-value='&quot;duckdb&quot;' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Search for keywords&lt;/span&gt;&lt;/span&gt;&quot;' data-placeholder='&quot;&quot;' data-kind='&quot;text&quot;' data-full-width='false' data-disabled='false' data-debounce='true'></marimo-text></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Vxnm",
+      "code_hash": "6d938d2a43071893a38beb6ec8e9e81b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='Vxnm-0' random-id='76a4d958-b483-a440-50d8-d6a4bb251c9b'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:1,&#92;&quot;keyword_mentions&#92;&quot;:6},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:2,&#92;&quot;keyword_mentions&#92;&quot;:4},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:3,&#92;&quot;keyword_mentions&#92;&quot;:10},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:4,&#92;&quot;keyword_mentions&#92;&quot;:9},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:5,&#92;&quot;keyword_mentions&#92;&quot;:43},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:6,&#92;&quot;keyword_mentions&#92;&quot;:8},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:7,&#92;&quot;keyword_mentions&#92;&quot;:15},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:8,&#92;&quot;keyword_mentions&#92;&quot;:6},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:9,&#92;&quot;keyword_mentions&#92;&quot;:19},{&#92;&quot;year&#92;&quot;:2022,&#92;&quot;month&#92;&quot;:10,&#92;&quot;keyword_mentions&#92;&quot;:10}]&quot;' data-total-rows='11' data-total-columns='3' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;year&quot;,[&quot;integer&quot;,&quot;i64&quot;]],[&quot;month&quot;,[&quot;integer&quot;,&quot;i64&quot;]],[&quot;keyword_mentions&quot;,[&quot;integer&quot;,&quot;i64&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='true' data-show-data-types='true' data-show-page-size-selector='true' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "DnEU",
+      "code_hash": "58dbeee776b55438cd0e19a7bb0956a6",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ulZA",
+      "code_hash": "13e1eb1f7c90b880b211ce51f99eeca0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "application/vnd.vegalite.v6+json": "{\n  \"$schema\": \"https://vega.github.io/schema/vega-lite/v6.1.0.json\",\n  \"config\": {\n    \"view\": {\n      \"continuousHeight\": 300,\n      \"continuousWidth\": 300\n    }\n  },\n  \"data\": {\n    \"name\": \"data-d09af786a898e6c4660609ee34f0d529\"\n  },\n  \"datasets\": {\n    \"data-d09af786a898e6c4660609ee34f0d529\": [\n      {\n        \"keyword_mentions\": 6,\n        \"month\": 1,\n        \"year\": 2022\n      },\n      {\n        \"keyword_mentions\": 4,\n        \"month\": 2,\n        \"year\": 2022\n      },\n      {\n        \"keyword_mentions\": 10,\n        \"month\": 3,\n        \"year\": 2022\n      },\n      {\n        \"keyword_mentions\": 9,\n        \"month\": 4,\n        \"year\": 2022\n      },\n      {\n        \"keyword_mentions\": 43,\n        \"month\": 5,\n        \"year\": 2022\n      },\n      {\n        \"keyword_mentions\": 8,\n        \"month\": 6,\n        \"year\": 2022\n      },\n      {\n        \"keyword_mentions\": 15,\n        \"month\": 7,\n        \"year\": 2022\n      },\n      {\n        \"keyword_mentions\": 6,\n        \"month\": 8,\n        \"year\": 2022\n      },\n      {\n        \"keyword_mentions\": 19,\n        \"month\": 9,\n        \"year\": 2022\n      },\n      {\n        \"keyword_mentions\": 10,\n        \"month\": 10,\n        \"year\": 2022\n      },\n      {\n        \"keyword_mentions\": 9,\n        \"month\": 11,\n        \"year\": 2022\n      }\n    ]\n  },\n  \"height\": 400,\n  \"layer\": [\n    {\n      \"encoding\": {\n        \"tooltip\": [\n          {\n            \"field\": \"year\",\n            \"type\": \"quantitative\"\n          },\n          {\n            \"field\": \"month\",\n            \"type\": \"quantitative\"\n          },\n          {\n            \"field\": \"keyword_mentions\",\n            \"type\": \"quantitative\"\n          }\n        ],\n        \"x\": {\n          \"field\": \"month\",\n          \"title\": \"Month\",\n          \"type\": \"ordinal\"\n        },\n        \"y\": {\n          \"field\": \"keyword_mentions\",\n          \"title\": \"Year\",\n          \"type\": \"quantitative\"\n        }\n      },\n      \"mark\": {\n        \"type\": \"rect\"\n      },\n      \"title\": \"Monthly Mentions of \\\"duckdb\\\" in Hacker News Posts\"\n    },\n    {\n      \"encoding\": {\n        \"text\": {\n          \"field\": \"keyword_mentions\",\n          \"type\": \"quantitative\"\n        },\n        \"x\": {\n          \"field\": \"month\",\n          \"type\": \"ordinal\"\n        },\n        \"y\": {\n          \"field\": \"keyword_mentions\",\n          \"title\": \"Year\",\n          \"type\": \"quantitative\"\n        }\n      },\n      \"mark\": {\n        \"baseline\": \"bottom\",\n        \"dy\": -5,\n        \"type\": \"text\"\n      }\n    }\n  ],\n  \"usermeta\": {\n    \"embedOptions\": {}\n  },\n  \"width\": \"container\"\n}"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ecfG",
+      "code_hash": "975227fa01920b93cb4dc97b952cf03b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}
