@@ -114,9 +114,9 @@ def _(mo):
     You can explore the schemas of all your tables at a glance in the **data sources panel**: click
     the {mo.icon("lucide:database")} icon in the left sidebar to open it.
 
-    ## SQlite directly 
+    ## SQLte directly 
 
-    Above we've been using in memory DuckDB to query Sqlite (which can be very performant) but you can also make a Sqlite connection directly.
+    Above we've been using in memory DuckDB to query SQLite (which can be very performant) but you can also make a SQLite connection directly.
     """)
     return
 
