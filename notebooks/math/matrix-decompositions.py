@@ -1,28 +1,30 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies = [
-#     "marimo",
+#     "marimo>=0.20.2",
 #     "numpy==2.3.5",
 #     "scipy==1.17.0",
-#     "wigglystuff",
 # ]
 # ///
 
 import marimo
 
-__generated_with = "0.19.4"
+__generated_with = "0.20.2"
 app = marimo.App(width="medium")
 
 with app.setup:
     import marimo as mo
     import numpy as np
     from scipy.linalg import lu
-    from wigglystuff import Matrix
 
 
 @app.cell
 def _(slider_cols, slider_rows):
-    matrix_widget = mo.ui.anywidget(Matrix(rows=slider_rows.value, cols=slider_cols.value, min_value=-10, max_value=10))
+    matrix_widget = mo.ui.matrix(
+        np.zeros((slider_rows.value, slider_cols.value)).tolist(),
+        min_value=-10,
+        max_value=10,
+    )
     return (matrix_widget,)
 
 
@@ -57,19 +59,23 @@ def _():
 
 @app.cell
 def _(matrix_widget):
-    A = np.array(matrix_widget.matrix)
+    A = np.array(matrix_widget.value)
     U, S, Vt = np.linalg.svd(A)
     Sigma = np.diag(S)
 
-    mo.hstack([
-        Matrix(matrix=A.tolist(), static=True),
-        mo.md("# $=$"),
-        Matrix(matrix=U.tolist(), static=True),
-        mo.md("# $\\times$"),
-        Matrix(matrix=Sigma.tolist(), static=True),
-        mo.md("# $\\times$"),
-        Matrix(matrix=Vt.tolist(), static=True),
-    ], justify="start", align="center")
+    mo.hstack(
+        [
+            mo.ui.matrix(A.tolist(), disabled=True),
+            mo.md("# $=$"),
+            mo.ui.matrix(U.tolist(), disabled=True),
+            mo.md("# $\\times$"),
+            mo.ui.matrix(Sigma.tolist(), disabled=True),
+            mo.md("# $\\times$"),
+            mo.ui.matrix(Vt.tolist(), disabled=True),
+        ],
+        justify="start",
+        align="center",
+    )
     return
 
 
@@ -85,16 +91,20 @@ def _():
 
 @app.cell
 def _(matrix_widget):
-    A_qr = np.array(matrix_widget.matrix)
+    A_qr = np.array(matrix_widget.value)
     Q, R = np.linalg.qr(A_qr)
 
-    mo.hstack([
-        Matrix(matrix=A_qr.tolist(), static=True),
-        mo.md("# $=$"),
-        Matrix(matrix=Q.tolist(), static=True),
-        mo.md("# $\\times$"),
-        Matrix(matrix=R.tolist(), static=True, triangular="upper"),
-    ], justify="start", align="center")
+    mo.hstack(
+        [
+            mo.ui.matrix(A_qr.tolist(), disabled=True),
+            mo.md("# $=$"),
+            mo.ui.matrix(Q.tolist(), disabled=True),
+            mo.md("# $\\times$"),
+            mo.ui.matrix(R.tolist(), disabled=True),
+        ],
+        justify="start",
+        align="center",
+    )
     return
 
 
@@ -110,18 +120,22 @@ def _():
 
 @app.cell
 def _(matrix_widget):
-    A_lu = np.array(matrix_widget.matrix)
+    A_lu = np.array(matrix_widget.value)
     P, L, U_lu = lu(A_lu)
 
-    mo.hstack([
-        Matrix(matrix=A_lu.tolist(), static=True),
-        mo.md("# $=$"),
-        Matrix(matrix=P.tolist(), static=True),
-        mo.md("# $\\times$"),
-        Matrix(matrix=L.tolist(), static=True, triangular="lower"),
-        mo.md("# $\\times$"),
-        Matrix(matrix=U_lu.tolist(), static=True, triangular="upper"),
-    ], justify="start", align="center")
+    mo.hstack(
+        [
+            mo.ui.matrix(A_lu.tolist(), disabled=True),
+            mo.md("# $=$"),
+            mo.ui.matrix(P.tolist(), disabled=True),
+            mo.md("# $\\times$"),
+            mo.ui.matrix(L.tolist(), disabled=True),
+            mo.md("# $\\times$"),
+            mo.ui.matrix(U_lu.tolist(), disabled=True),
+        ],
+        justify="start",
+        align="center",
+    )
     return
 
 
