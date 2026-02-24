@@ -1,0 +1,36 @@
+name: Check marimo notebooks
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "notebooks/**/*.py"
+
+jobs:
+  check-notebooks:
+    name: marimo check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Get changed notebook files
+        id: changed
+        run: |
+          files=$(gh pr diff ${{ github.event.pull_request.number }} --name-only | grep '^notebooks/.*\.py$' || true)
+          # Filter to only marimo notebooks (files containing "import marimo" and "app = marimo.App")
+          notebook_files=""
+          for f in $files; do
+            if [ -f "$f" ] && grep -q "import marimo" "$f" && grep -q "app = marimo.App" "$f"; then
+              notebook_files="$notebook_files $f"
+            fi
+          done
+          notebook_files=$(echo "$notebook_files" | xargs)
+          echo "files=$notebook_files" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Run marimo check
+        if: steps.changed.outputs.files != ''
+        run: uvx marimo check ${{ steps.changed.outputs.files }}
