@@ -60,6 +60,14 @@ uvx marimo edit --sandbox <notebook>
 | Altair Reactive Plots | Altair charts with brush selection and reactive filtering. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/altair-demo.py) |
 | Matplotlib Selection | Select data points on a matplotlib chart with `mo.ui.matplotlib`. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/matplotlib_selection.py) |
 
+## SQL
+
+| Notebook | Description | |
+| -------- | ----------- | - |
+| Connect to SQLite | Use marimo's SQL cells to read from and write to SQLite databases. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/sql/sqlite.py) |
+| MotherDuck | Explore using MotherDuck inside marimo. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/sql/motherduck.py) |
+| SQL Interpolation | Interactive SQL with slider-driven query interpolation. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/sql/interpolate.py) |
+
 ## External
 
 | Notebook | Description | |
