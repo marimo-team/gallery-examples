@@ -8,8 +8,8 @@
 
 import marimo
 
-__generated_with = "0.18.4"
-app = marimo.App(width="columns", sql_output="polars")
+__generated_with = "0.20.2"
+app = marimo.App(width="medium", sql_output="polars")
 
 with app.setup:
     import marimo as mo
