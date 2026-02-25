@@ -144,37 +144,26 @@ def _(mo, n_layers):
         label="gradient steps"
     )
 
-    training_parameters = mo.md(
-        """
-       {layer_sizes} 
+    train_button = mo.ui.run_button(label="Train")
 
-       {iterations}
-        """
-    ).batch(layer_sizes=layer_sizes, iterations=iterations).form(
-        submit_button_label="Train",
-        bordered=False,
-        show_clear_button=True,
-        clear_button_label="Reset"
-    )
-
-    training_parameters
-    return (training_parameters,)
+    mo.vstack([layer_sizes, iterations, train_button])
+    return iterations, layer_sizes, train_button
 
 
 @app.cell(hide_code=True)
-def _(MLP, mo, n_layers, train, training_parameters):
+def _(MLP, iterations, layer_sizes, mo, n_layers, train, train_button):
     mo.stop(
-        training_parameters.value is None,
+        not train_button.value,
         mo.md("Click the `Train` button to continue").callout(kind="warn")
     )
 
-    model = MLP(n_layers.value, training_parameters.value["layer_sizes"] + [1])
+    model = MLP(n_layers.value, list(layer_sizes.value) + [1])
     print(model)
     print("number of parameters", len(model.parameters()))
 
     trained_model = train(
-        model, 
-        iters=training_parameters.value["iterations"]
+        model,
+        iters=iterations.value
     )
     return (trained_model,)
 
