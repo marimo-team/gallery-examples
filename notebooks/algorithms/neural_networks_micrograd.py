@@ -57,10 +57,11 @@ def _():
 
 
 @app.cell(hide_code=True)
-async def _(micropip):
+async def _():
     import sys
 
     if "pyodide" in sys.modules:
+        import micropip
         await micropip.install("micrograd")
     from micrograd.engine import Value
     from micrograd.nn import Neuron, Layer, MLP
