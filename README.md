@@ -21,6 +21,7 @@ uvx marimo edit --sandbox <notebook>
 | Notebook | Description | |
 | -------- | ----------- | - |
 | Embedding Visualiser | Select points in embedded space to explore clusters. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/visualizing-embeddings.py) |
+| Neural networks | Training a tiny neural network with micrograd | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/neural_networks_micrograd.py/wasm) |
 | Evolutionary Strategies | Interactive exploration of evolutionary optimization. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/evolutionary-strategies.py) |
 | Smoothed Gradient Descent | Visualize gradient descent with momentum and smoothing. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/smoothed-gradient-descent.py) |
 | Federated Learning | Simulate federated learning. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/federated.py) |
