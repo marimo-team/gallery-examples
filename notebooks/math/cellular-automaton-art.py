@@ -50,11 +50,6 @@ def _(alpha, blur, grid, n_states, palette, smoothing):
 
 @app.cell(hide_code=True)
 def _():
-    rule = mo.ui.dropdown(
-        options=["Voter model", "Cyclic CA"],
-        value="Voter model",
-        label="Rule",
-    )
     seed = mo.ui.slider(start=0, stop=200, value=42, label="Seed", show_value=True)
     n_states = mo.ui.slider(start=4, stop=20, value=14, label="States", show_value=True)
     grid_size = mo.ui.slider(
@@ -78,7 +73,7 @@ def _():
         label="Palette",
     )
     mo.vstack(
-        [rule, seed, n_states, grid_size, steps, threshold, block_size, smoothing, blur, alpha, palette],
+        [seed, n_states, grid_size, steps, threshold, block_size, smoothing, blur, alpha, palette],
         justify="start",
     )
     return (
@@ -88,7 +83,6 @@ def _():
         grid_size,
         n_states,
         palette,
-        rule,
         seed,
         smoothing,
         steps,
@@ -116,30 +110,6 @@ def voter_model(
             new_grid[mask] = np.roll(
                 np.roll(grid, -dr, axis=0), -dc, axis=1
             )[mask]
-        grid = new_grid
-    return grid
-
-
-@app.function
-def cyclic_ca(
-    size: int, n: int, t: int, num_steps: int, rng_seed: int, block_size: int = 1
-) -> np.ndarray:
-    """Cyclic cellular automaton — advance when enough neighbours hold the next state."""
-    rng = np.random.default_rng(rng_seed)
-    if block_size > 1:
-        small = rng.integers(0, n, size=(size // block_size + 1, size // block_size + 1))
-        grid = np.repeat(np.repeat(small, block_size, axis=0), block_size, axis=1)[:size, :size].copy()
-    else:
-        grid = rng.integers(0, n, size=(size, size))
-    kernel = np.array([[1, 1, 1], [1, 0, 1], [1, 1, 1]])
-    for _ in range(num_steps):
-        new_grid = grid.copy()
-        for s in range(n):
-            next_s = (s + 1) % n
-            neighbour_count = convolve(
-                (grid == next_s).astype(int), kernel, mode="wrap"
-            )
-            new_grid[(grid == s) & (neighbour_count >= t)] = next_s
         grid = new_grid
     return grid
 
@@ -174,7 +144,7 @@ def build_cmap(name: str, n: int) -> ListedColormap:
 
 
 @app.cell
-def _(block_size, grid_size, n_states, rule, seed, steps, threshold):
+def _(block_size, grid_size, n_states, seed, steps):
     with mo.persistent_cache("art"):
         _size = grid_size.value
         _n = n_states.value
@@ -182,10 +152,7 @@ def _(block_size, grid_size, n_states, rule, seed, steps, threshold):
         _seed = seed.value
         _block = block_size.value
 
-        if rule.value == "Voter model":
-            grid = voter_model(_size, _n, _steps, _seed, _block)
-        else:
-            grid = cyclic_ca(_size, _n, threshold.value, _steps, _seed, _block)
+        grid = voter_model(_size, _n, _steps, _seed, _block)
     return (grid,)
 
 
