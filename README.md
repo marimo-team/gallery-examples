@@ -96,7 +96,7 @@ uvx marimo edit --sandbox <notebook>
 | Matrix Decomposition | An interactive exploration of matrix decomposition techniques. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/matrix-decompositions.py) |
 | Seam Carving | Content-aware image resizing using dynamic programming. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/seam-carving/notebook.py) |
 | Matrix | Interactive matrix editor and PCA demo using `mo.ui.matrix`. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/matrix.py) |
-| Cellular Automaton Art | Voter-model cellular automaton that self-organises into paint-splatter art. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/cellular-automaton-art.py/wasm) |
+| Cellular Automaton Art | Voter-model cellular automaton that self-organises into paint-splatter art. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/cellular-automaton-art.py) |
 | Vector Puck | Explore vector arithmetic with pucks over matplotlib. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/vector-puck.py) |
 
 ## Custom UI elements with Anywidget
