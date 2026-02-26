@@ -91,7 +91,7 @@ def _():
 @app.cell
 def _(X, mo, plt, y):
     plt.figure(figsize=(5, 5))
-    mo.center(plt.scatter(X[:, 0], X[:, 1], c=y, s=20, cmap="jet"))
+    mo.center(plt.scatter(X[:, 0], X[:, 1], c=y, s=20, cmap=plt.cm.Spectral))
     return
 
 
@@ -243,7 +243,7 @@ def _(Value, X, np, plt, y):
         Xmesh = np.c_[xx.ravel(), yy.ravel()]
         inputs = [list(map(Value, xrow)) for xrow in Xmesh]
         scores = list(map(model, inputs))
-        Z = np.array([s.data > 0 for s in scores])
+        Z = np.array([1.0 if s.data > 0 else -1.0 for s in scores])
         Z = Z.reshape(xx.shape)
 
         fig = plt.figure()
