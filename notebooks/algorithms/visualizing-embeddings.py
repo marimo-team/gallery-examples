@@ -1,23 +1,21 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies = [
-#     "altair==6.0.0",
 #     "marimo",
 #     "matplotlib==3.10.8",
 #     "pandas==3.0.0",
-#     "pymde==0.2.3",
+#     "pymde>=0.3.0",
 #     "torch==2.10.0",
 # ]
 # ///
 
 import marimo
 
-__generated_with = "0.19.11"
+__generated_with = "0.20.2"
 app = marimo.App(width="medium")
 
 with app.setup:
     import marimo as mo
-    import altair as alt
     import matplotlib.pyplot as plt
     import pandas as pd
     import pymde
@@ -78,38 +76,35 @@ def _(constraint, embedding_dimension):
 
 
 @app.cell
-def _(df):
-    chart = mo.ui.altair_chart(
-        alt.Chart(df)
-        .mark_circle(size=4)
-        .encode(
-            x=alt.X("x:Q").scale(domain=(-2.5, 2.5)),
-            y=alt.Y("y:Q").scale(domain=(-2.5, 2.5)),
-            color=alt.Color("digit:N"),
-        )
-        .properties(width=500, height=500),
-        chart_selection="interval",
-    )
-    chart
-    return (chart,)
+def _(embedding):
+    ax = pymde.plot(embedding, color_by=mnist.attributes["digits"])
+    ax = mo.ui.matplotlib(ax)
+    ax
+    return (ax,)
 
 
 @app.cell
-def _(chart):
-    table = mo.ui.table(chart.value)
+def _(ax, embedding):
+    mask = ax.value.get_mask(embedding[:, 0], embedding[:, 1])
+    return (mask,)
+
+
+@app.cell
+def _(df, mask):
+    table = mo.ui.table(df[mask])
     return (table,)
 
 
 @app.cell(hide_code=True)
-def _(chart, table):
-    # mo.stop() prevents this cell from running if the chart has
+def _(mask, table):
+    # mo.stop() prevents this cell from running if the ax has
     # no selection
-    mo.stop(not len(chart.value))
+    mo.stop(not mask.any())
 
     # show 10 images: either the first 10 from the selection, or the first ten
     # selected in the table
     selected_images = (
-        show_images(list(chart.value["index"]))
+        show_images(list(mask.nonzero()[0]))
         if not len(table.value)
         else show_images(list(table.value["index"]))
     )
@@ -149,14 +144,13 @@ def show_images(indices, max_images=10):
 
 @app.cell
 def _(embedding):
-    indices = torch.randperm(mnist.data.shape[0])[:20000].numpy()
-    embedding_sampled = embedding.numpy()[indices]
+    indices = torch.arange(mnist.data.shape[0]).numpy()
 
     df = pd.DataFrame(
         {
             "index": indices,
-            "x": embedding_sampled[:, 0],
-            "y": embedding_sampled[:, 1],
+            "x": embedding[:, 0],
+            "y": embedding[:, 1],
             "digit": mnist.attributes["digits"][indices],
         }
     )
