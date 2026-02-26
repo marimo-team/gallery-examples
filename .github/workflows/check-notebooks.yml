@@ -3,8 +3,8 @@ name: Check marimo notebooks
 on:
   pull_request:
     branches: [main]
-    paths:
-      - "notebooks/**/*.py"
+  push:
+    branches: [main]
 
 jobs:
   check-notebooks:
