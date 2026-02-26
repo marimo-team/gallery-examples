@@ -4,6 +4,8 @@
 #     "marimo",
 #     "matplotlib",
 #     "numpy",
+#     "openai==2.24.0",
+#     "pydantic-ai-slim==1.63.0",
 #     "scipy",
 # ]
 # ///
@@ -33,61 +35,75 @@ def _():
 
 
 @app.cell(hide_code=True)
-def _(alpha, blur, grid, n_states, palette, smoothing):
-    _n = n_states.value
-    display_grid = smooth_grid(grid, smoothing.value, _n)
-    display_grid = blur_grid(display_grid, blur.value, _n)
+def _():
+    form = mo.ui.form(
+        mo.ui.dictionary({
+            "seed": mo.ui.slider(start=0, stop=200, value=42, show_value=True),
+            "n_states": mo.ui.slider(start=4, stop=20, value=14, show_value=True),
+            "grid_size": mo.ui.slider(start=100, stop=1000, value=400, step=50, show_value=True),
+            "steps": mo.ui.slider(start=50, stop=1000, value=400, step=10, show_value=True),
+            "block_size": mo.ui.slider(start=1, stop=32, value=1, show_value=True),
+        }, label="parameters"),
+        submit_button_label="Make art!",
+        bordered=False
+    )
+    form
+    return (form,)
 
-    cmap = build_cmap(palette.value, _n)
-    fig, ax = plt.subplots(figsize=(10, 10), facecolor="white")
-    ax.imshow(grid, cmap=cmap, interpolation="nearest")
-    ax.imshow(display_grid, cmap=cmap, interpolation="nearest", alpha=alpha.value)
-    ax.set_axis_off()
-    fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
-    fig
+
+@app.cell(hide_code=True)
+def _(form):
+    mo.stop(form.value is None, mo.md("Click **Make art!** to cook up a plot"))
+    with mo.persistent_cache("art"):
+        _v = form.value
+        grid = voter_model(_v["grid_size"], _v["n_states"], _v["steps"], _v["seed"], _v["block_size"])
+    return (grid,)
+
+
+@app.cell
+def _(grid, plot_grid):
+    plot_grid(grid)
     return
 
 
 @app.cell(hide_code=True)
 def _():
-    seed = mo.ui.slider(start=0, stop=200, value=42, label="Seed", show_value=True)
-    n_states = mo.ui.slider(start=4, stop=20, value=14, label="States", show_value=True)
-    grid_size = mo.ui.slider(
-        start=100, stop=1000, value=400, step=50, label="Grid size", show_value=True
-    )
-    steps = mo.ui.slider(start=50, stop=1000, value=800, step=10, label="Steps", show_value=True)
-    threshold = mo.ui.slider(start=1, stop=3, value=1, label="Threshold (cyclic only)", show_value=True)
-    block_size = mo.ui.slider(start=1, stop=32, value=1, label="Block init size", show_value=True)
+    mo.md(r"""
+    The rendering parameters below affect the look and feel of the plot, without changing the simulated grid.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _():
     smoothing = mo.ui.slider(start=0, stop=10, value=6, label="Smoothing", show_value=True)
     blur = mo.ui.slider(start=0.0, stop=8.0, value=0.0, step=0.5, label="Gaussian blur", show_value=True)
-    alpha = mo.ui.slider(start=0.0, stop=1.0, value=0.4, step=0.05, label="Smooth alpha", show_value=True)
+    alpha = mo.ui.slider(start=0.0, stop=1.0, value=0.65, step=0.05, label="Smooth alpha", show_value=True)
     palette = mo.ui.dropdown(
-        options=[
-            "Blue-Cream-Red",
-            "Viridis",
-            "Twilight",
-            "Ocean-Earth",
-            "Neon",
-        ],
+        options=["Blue-Cream-Red", "Viridis", "Twilight", "Ocean-Earth", "Neon"],
         value="Blue-Cream-Red",
         label="Palette",
     )
-    mo.vstack(
-        [seed, n_states, grid_size, steps, threshold, block_size, smoothing, blur, alpha, palette],
-        justify="start",
-    )
-    return (
-        alpha,
-        block_size,
-        blur,
-        grid_size,
-        n_states,
-        palette,
-        seed,
-        smoothing,
-        steps,
-        threshold,
-    )
+    mo.hstack([smoothing, blur, alpha, palette], wrap=True, justify="start")
+    return alpha, blur, palette, smoothing
+
+
+@app.cell
+def _(alpha, blur, palette, smoothing):
+    def plot_grid(grid):
+        _n = int(grid.max()) + 1
+        display_grid = smooth_grid(grid, smoothing.value, _n)
+        display_grid = blur_grid(display_grid, blur.value, _n)
+
+        cmap = build_cmap(palette.value, _n)
+        fig, ax = plt.subplots(figsize=(10, 10), facecolor="white")
+        ax.imshow(grid, cmap=cmap, interpolation="nearest")
+        ax.imshow(display_grid, cmap=cmap, interpolation="nearest", alpha=alpha.value)
+        ax.set_axis_off()
+        fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
+        return fig
+
+    return (plot_grid,)
 
 
 @app.function
@@ -97,19 +113,34 @@ def voter_model(
     """Each cell copies a random Moore-neighbour's state."""
     rng = np.random.default_rng(rng_seed)
     if block_size > 1:
-        small = rng.integers(0, n, size=(size // block_size + 1, size // block_size + 1))
-        grid = np.repeat(np.repeat(small, block_size, axis=0), block_size, axis=1)[:size, :size].copy()
+        small = rng.integers(
+            0, n, size=(size // block_size + 1, size // block_size + 1)
+        )
+        grid = np.repeat(
+            np.repeat(small, block_size, axis=0), block_size, axis=1
+        )[:size, :size].copy()
     else:
         grid = rng.integers(0, n, size=(size, size))
-    shifts = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
-    for _ in range(num_steps):
+    shifts = [
+        (-1, -1),
+        (-1, 0),
+        (-1, 1),
+        (0, -1),
+        (0, 1),
+        (1, -1),
+        (1, 0),
+        (1, 1),
+    ]
+    for i in mo.status.progress_bar(
+        range(num_steps), subtitle="Simulating automaton ...", completion_subtitle="Done!"
+    ):
         direction = rng.integers(0, 8, size=(size, size))
         new_grid = grid.copy()
         for d, (dr, dc) in enumerate(shifts):
             mask = direction == d
-            new_grid[mask] = np.roll(
-                np.roll(grid, -dr, axis=0), -dc, axis=1
-            )[mask]
+            new_grid[mask] = np.roll(np.roll(grid, -dr, axis=0), -dc, axis=1)[
+                mask
+            ]
         grid = new_grid
     return grid
 
@@ -119,19 +150,41 @@ def build_cmap(name: str, n: int) -> ListedColormap:
     """Build a ListedColormap with *n* colours from the chosen palette."""
     palettes = {
         "Blue-Cream-Red": [
-            "#3060ff", "#50a0ff", "#60d0ff", "#80eeff",
-            "#c0ffff", "#fffff0", "#ffee60", "#ffb040",
-            "#ff6060", "#ff4040", "#ee2020",
+            "#3060ff",
+            "#50a0ff",
+            "#60d0ff",
+            "#80eeff",
+            "#c0ffff",
+            "#fffff0",
+            "#ffee60",
+            "#ffb040",
+            "#ff6060",
+            "#ff4040",
+            "#ee2020",
         ],
         "Ocean-Earth": [
-            "#2080ff", "#00c8f0", "#00f0d0", "#40ffa0",
-            "#a0ff60", "#ffff50", "#ffc020", "#ff7030",
-            "#ff4060", "#f020a0",
+            "#2080ff",
+            "#00c8f0",
+            "#00f0d0",
+            "#40ffa0",
+            "#a0ff60",
+            "#ffff50",
+            "#ffc020",
+            "#ff7030",
+            "#ff4060",
+            "#f020a0",
         ],
         "Neon": [
-            "#8040ff", "#c040ff", "#ff40ff", "#ff40a0",
-            "#ff4060", "#ff8020", "#ffc000", "#e0ff00",
-            "#40ff40", "#00ffc0",
+            "#8040ff",
+            "#c040ff",
+            "#ff40ff",
+            "#ff40a0",
+            "#ff4060",
+            "#ff8020",
+            "#ffc000",
+            "#e0ff00",
+            "#40ff40",
+            "#00ffc0",
         ],
     }
     if name in palettes:
@@ -143,19 +196,6 @@ def build_cmap(name: str, n: int) -> ListedColormap:
     return ListedColormap([base(i / max(n - 1, 1)) for i in range(n)])
 
 
-@app.cell
-def _(block_size, grid_size, n_states, seed, steps):
-    with mo.persistent_cache("art"):
-        _size = grid_size.value
-        _n = n_states.value
-        _steps = steps.value
-        _seed = seed.value
-        _block = block_size.value
-
-        grid = voter_model(_size, _n, _steps, _seed, _block)
-    return (grid,)
-
-
 @app.function
 def smooth_grid(grid: np.ndarray, radius: int, n_states: int) -> np.ndarray:
     """Mode-filter: replace each cell with the most common state in a (2r+1)x(2r+1) window."""
@@ -163,7 +203,10 @@ def smooth_grid(grid: np.ndarray, radius: int, n_states: int) -> np.ndarray:
         return grid
     kernel = np.ones((2 * radius + 1, 2 * radius + 1))
     counts = np.stack(
-        [convolve((grid == s).astype(float), kernel, mode="wrap") for s in range(n_states)]
+        [
+            convolve((grid == s).astype(float), kernel, mode="wrap")
+            for s in range(n_states)
+        ]
     )
     return np.argmax(counts, axis=0).astype(grid.dtype)
 
@@ -174,7 +217,12 @@ def blur_grid(grid: np.ndarray, sigma: float, n_states: int) -> np.ndarray:
     if sigma == 0:
         return grid
     blurred = np.stack(
-        [gaussian_filter((grid == s).astype(float), sigma=sigma, mode="wrap") for s in range(n_states)]
+        [
+            gaussian_filter(
+                (grid == s).astype(float), sigma=sigma, mode="wrap"
+            )
+            for s in range(n_states)
+        ]
     )
     return np.argmax(blurred, axis=0).astype(grid.dtype)
 
