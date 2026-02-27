@@ -97,6 +97,7 @@ uvx marimo edit --sandbox <notebook>
 | Seam Carving | Content-aware image resizing using dynamic programming. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/seam-carving/notebook.py) |
 | Matrix | Interactive matrix editor and PCA demo using `mo.ui.matrix`. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/matrix.py/wasm) |
 | Cellular Automaton Art | Voter-model cellular automaton that self-organises into paint-splatter art. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/cellular-automaton-art.py/wasm) |
+| Bak-Sneppen Model | Interactive 3D visualization of the Bak-Sneppen self-organized criticality model. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/bak-sneppen-model.py/wasm) |
 | Vector Puck | Explore vector arithmetic with pucks over matplotlib. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/vector-puck.py/wasm) |
 
 ## Custom UI elements with Anywidget
