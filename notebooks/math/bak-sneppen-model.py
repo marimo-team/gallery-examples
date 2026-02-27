@@ -25,7 +25,7 @@ def _():
     return mo, np, plt
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md("""
     # Bak-Sneppen Model — Interactive 3D Visualization
@@ -70,6 +70,54 @@ def _(mo):
     - Use the **camera controls** to rotate and tilt the view
     - Notice how, after enough steps, the stems cluster near the top — that's the self-organized critical state!
     """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(
+    azimuth_slider,
+    controls,
+    elevation_slider,
+    get_state,
+    mo,
+    np,
+    plt,
+    total_steps_get,
+):
+    fitness = get_state()
+    _n_creatures = len(fitness)
+    _theta = np.linspace(0, 2 * np.pi, _n_creatures, endpoint=False)
+    _x = np.cos(_theta)
+    _y = np.sin(_theta)
+
+    _bg_color = "#1d252b"
+    _dr_color = "#fbfcfc"
+
+    _fig = plt.figure(figsize=(7, 7))
+    _fig.set_facecolor(_bg_color)
+    _ax = _fig.add_subplot(projection="3d")
+    _ax.set_facecolor(_bg_color)
+
+    _markerline, _stemlines, _baseline = _ax.stem(_x, _y, fitness, linefmt=":w")
+    _stemlines.set_linewidths(0.5)
+    _markerline.set_markerfacecolor(_dr_color)
+    _markerline.set_markeredgecolor("#07BEB8")
+    _markerline.set_markeredgewidth(0)
+    _markerline.set_markersize(4)
+    _baseline.set_color("#FF8552")
+    _baseline.set_linewidth(2)
+    _ax.set_xlim([-1, 1])
+    _ax.set_ylim([-1, 1])
+    _ax.set_zlim([0, 1.1])
+    _ax.set_aspect("equal")
+    _ax.view_init(elevation_slider.value, azimuth_slider.value, 0)
+    _ax.axis("off")
+
+    _plot = mo.vstack([
+        _fig,
+        mo.md(f"**Total steps: {total_steps_get()}**"),
+    ])
+    mo.hstack([controls, _plot], widths=[1, 3], align="start", gap=2)
     return
 
 
@@ -162,55 +210,7 @@ def _(
     return
 
 
-@app.cell
-def _(
-    azimuth_slider,
-    controls,
-    elevation_slider,
-    get_state,
-    mo,
-    np,
-    plt,
-    total_steps_get,
-):
-    fitness = get_state()
-    _n_creatures = len(fitness)
-    _theta = np.linspace(0, 2 * np.pi, _n_creatures, endpoint=False)
-    _x = np.cos(_theta)
-    _y = np.sin(_theta)
-
-    _bg_color = "#1d252b"
-    _dr_color = "#fbfcfc"
-
-    _fig = plt.figure(figsize=(7, 7))
-    _fig.set_facecolor(_bg_color)
-    _ax = _fig.add_subplot(projection="3d")
-    _ax.set_facecolor(_bg_color)
-
-    _markerline, _stemlines, _baseline = _ax.stem(_x, _y, fitness, linefmt=":w")
-    _stemlines.set_linewidths(0.5)
-    _markerline.set_markerfacecolor(_dr_color)
-    _markerline.set_markeredgecolor("#07BEB8")
-    _markerline.set_markeredgewidth(0)
-    _markerline.set_markersize(4)
-    _baseline.set_color("#FF8552")
-    _baseline.set_linewidth(2)
-    _ax.set_xlim([-1, 1])
-    _ax.set_ylim([-1, 1])
-    _ax.set_zlim([0, 1.1])
-    _ax.set_aspect("equal")
-    _ax.view_init(elevation_slider.value, azimuth_slider.value, 0)
-    _ax.axis("off")
-
-    _plot = mo.vstack([
-        _fig,
-        mo.md(f"**Total steps: {total_steps_get()}**"),
-    ])
-    mo.hstack([controls, _plot], widths=[1, 3], align="start", gap=2)
-    return
-
-
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md("""
     ---
