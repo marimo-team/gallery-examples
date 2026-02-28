@@ -4,8 +4,6 @@
 #     "marimo",
 #     "matplotlib",
 #     "numpy",
-#     "openai==2.24.0",
-#     "pydantic-ai-slim==1.63.0",
 #     "scipy",
 # ]
 # ///
