@@ -75,6 +75,7 @@ uvx marimo edit --sandbox <notebook>
 | -------- | ----------- | - |
 | Neo4j Widget | Interactive graph explorer for Neo4j databases. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/external/neo4jwidget.py) |
 | Wandb Chart | Live Weights & Biases chart integration. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/external/wandbchart.py) |
+| When Europeans Fly Nest | Dataviz makeover exploring when young Europeans leave home. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/external/when-europeans-fly-nest.py) |
 
 ## Geo
 
