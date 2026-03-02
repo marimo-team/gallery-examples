@@ -35,14 +35,25 @@ async def _(mo):
     import pandas as pd
     import narwhals as pl
     import os
+    import tempfile
+    import urllib.request
+    import zipfile
 
     alt.renderers.set_embed_options(actions=False)
 
-    for csv in os.listdir(mo.notebook_dir() / "data"):
+    _data_dir = os.path.join(tempfile.mkdtemp(), "f1-data")
+    urllib.request.urlretrieve(
+        "https://raw.githubusercontent.com/marimo-team/gallery-examples/main/notebooks/sql/f1-driver-career-explorer/archive.zip",
+        os.path.join(tempfile.gettempdir(), "f1-archive.zip"),
+    )
+    with zipfile.ZipFile(os.path.join(tempfile.gettempdir(), "f1-archive.zip"), "r") as _zf:
+        _zf.extractall(_data_dir)
+
+    for csv in os.listdir(_data_dir):
         if csv.endswith(".csv"):
             table_name = csv.split(".")[0]
             print(csv)
-            path = mo.notebook_dir() / "data" / csv
+            path = os.path.join(_data_dir, csv)
             mo.sql(
                 f"""
            CREATE OR REPLACE TABLE {table_name} AS
@@ -53,18 +64,9 @@ async def _(mo):
 
 
 @app.cell(hide_code=True)
-def debug_schemas(mo, os, pl):
+def debug_schemas(mo, pl):
     mo.stop(True)  # Comment out to run and get all the schemas
-
-    # Read files in ./data
-    for _file in os.listdir("./data"):
-        if _file.endswith(".csv"):
-            df = pl.read_csv(
-                f"./data/{_file}", infer_schema_length=10000, ignore_errors=True
-            )
-            print(_file)
-            print(df.schema)
-    return (df,)
+    return
 
 
 @app.cell
