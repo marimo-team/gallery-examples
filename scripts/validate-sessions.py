@@ -104,7 +104,7 @@ def check_session_freshness(notebooks: list[Path]) -> bool:
 
     Matches notebook cells to session cells by code_hash rather than
     by position or cell ID, since the convert API and marimo runtime
-    may order cells differently (see marimo-cloud#931).
+    may order cells differently.
 
     Returns True if all pass.
     """
