@@ -6,8 +6,6 @@
 #     "matplotlib>=3.7.0",
 #     "scikit-learn>=1.3.0",
 #     "scipy>=1.10.0",
-#     "openai==2.24.0",
-#     "pydantic-ai-slim==1.65.0",
 # ]
 # ///
 
