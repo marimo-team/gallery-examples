@@ -9,6 +9,7 @@ This repo is a collection of [marimo](https://marimo.io) notebooks organized by 
    - Use PEP 723 inline script metadata at the top for dependencies
    - Follow the marimo `App` structure with `@app.cell` decorators
    - Pin dependency versions where possible
+   - Remove any empty cells (`@app.cell` with an empty body) — they cause session hash mismatches in CI
    - Run `uvx marimo check <notebook>` to check for mistakes
 
 2. **Generate the session metadata** (pre-computed outputs for the gallery):

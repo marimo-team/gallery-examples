@@ -476,10 +476,5 @@ def _(table_view):
     return
 
 
-@app.cell
-def _():
-    return
-
-
 if __name__ == "__main__":
     app.run()
