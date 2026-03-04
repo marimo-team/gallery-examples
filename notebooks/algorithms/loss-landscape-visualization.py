@@ -6,13 +6,15 @@
 #     "matplotlib>=3.7.0",
 #     "scikit-learn>=1.3.0",
 #     "scipy>=1.10.0",
+#     "openai==2.24.0",
+#     "pydantic-ai-slim==1.65.0",
 # ]
 # ///
 
 import marimo
 
 __generated_with = "0.20.4"
-app = marimo.App()
+app = marimo.App(width="medium")
 
 with app.setup:
     import marimo as mo
@@ -66,7 +68,7 @@ def _():
         """).batch(
             target_fn=mo.ui.dropdown(
                 options={"f(x) = x": "x", "f(x) = x²": "x2", "f(x) = x³": "x3", "f(x) = sin(x)": "sin"},
-                value="f(x) = x³",
+                value="f(x) = x²",
                 label="Target function",
             ),
             hidden_width=mo.ui.slider(start=5, stop=50, step=5, value=10, label="Hidden layer width"),
@@ -145,7 +147,7 @@ def _(config_form):
 @app.cell(hide_code=True)
 def _():
     mo.md("""
-    ## Training loss curve
+    ## Training loss
     """)
     return
 
@@ -168,7 +170,9 @@ def _(target_fn_key, training_losses):
 @app.cell(hide_code=True)
 def _():
     mo.md("""
-    ## Loss landscape
+    ## Trajectory explorer
+
+    Drag the slider to move through training and see the optimizer's position on the landscape.
     """)
     return
 
@@ -199,6 +203,58 @@ def _(
         f"**{len(plane_indices)}** local planes"
     )
     return loss_grid, pc1_1d, pc2_1d, traj_pc
+
+
+@app.cell(hide_code=True)
+def _(n_steps):
+    step_slider = mo.ui.slider(start=0, stop=n_steps, step=1, value=0, label="Training step")
+    step_slider
+    return (step_slider,)
+
+
+@app.function(hide_code=True)
+def plot_loss_landscape(traj_pc, pc1_1d, pc2_1d, loss_grid, training_losses, step_slider):
+    from scipy.interpolate import RegularGridInterpolator
+
+    _t = int(step_slider.value)
+    _PC1_m, _PC2_m = np.meshgrid(pc1_1d, pc2_1d)
+
+    # Interpolate loss at trajectory points for the 3D ball
+    _fill = np.nanmean(loss_grid)
+    _loss_safe = np.where(np.isfinite(loss_grid), loss_grid, _fill)
+    _interp = RegularGridInterpolator((pc2_1d, pc1_1d), _loss_safe, bounds_error=False, fill_value=_fill)
+    _loss_range = np.nanmax(loss_grid) - np.nanmin(loss_grid)
+    _z_offset = 0.05 * _loss_range if _loss_range > 0 else 0.01
+
+    fig_frame = plt.figure(figsize=(10, 7))
+    ax_frame = fig_frame.add_subplot(111, projection="3d")
+    ax_frame.plot_surface(_PC1_m, _PC2_m, loss_grid, cmap="viridis", alpha=0.8, edgecolor="none")
+
+    # Trail up to current step (on surface)
+    _trail_x = traj_pc[:_t + 1, 0]
+    _trail_y = traj_pc[:_t + 1, 1]
+    _trail_z = np.array([float(_interp([_trail_y[i], _trail_x[i]])[0]) + _z_offset for i in range(len(_trail_x))])
+    ax_frame.plot(_trail_x, _trail_y, _trail_z, "r-", lw=2, alpha=0.9, zorder=5)
+
+    # Current position (ball on surface)
+    _bx = traj_pc[_t, 0]
+    _by = traj_pc[_t, 1]
+    _bz = float(_interp([_by, _bx])[0]) + _z_offset
+    ax_frame.plot([_bx], [_by], [_bz], "o", color="red", markersize=9, markeredgecolor="white", markeredgewidth=1.25, zorder=10)
+
+    ax_frame.set_xlabel("PC1")
+    ax_frame.set_ylabel("PC2")
+    ax_frame.set_zlabel("Loss")
+    ax_frame.set_title(f"Step {_t}: loss = {training_losses[_t]:.6f}")
+    ax_frame.view_init(elev=25, azim=135)
+    fig_frame.tight_layout()
+    return plt.gca()
+
+
+@app.cell
+def _(loss_grid, pc1_1d, pc2_1d, step_slider, training_losses, traj_pc):
+    plot_loss_landscape(traj_pc, pc1_1d, pc2_1d, loss_grid, training_losses, step_slider)
+    return
 
 
 @app.cell(hide_code=True)
@@ -246,63 +302,6 @@ def _(loss_grid, pc1_1d, pc2_1d, target_fn_key, traj_pc):
     ax_3d.view_init(elev=25, azim=135)
     fig_3d.tight_layout()
     fig_3d
-    return
-
-
-@app.cell(hide_code=True)
-def _():
-    mo.md("""
-    ## 5. Trajectory explorer
-
-    Drag the slider to move through training and see the optimizer's position on the landscape.
-    """)
-    return
-
-
-@app.cell(hide_code=True)
-def _(n_steps):
-    step_slider = mo.ui.slider(start=0, stop=n_steps, step=1, value=0, label="Training step", full_width=True)
-    step_slider
-    return (step_slider,)
-
-
-@app.cell(hide_code=True)
-def _(loss_grid, pc1_1d, pc2_1d, step_slider, training_losses, traj_pc):
-    from scipy.interpolate import RegularGridInterpolator
-
-    _t = int(step_slider.value)
-    _PC1_m, _PC2_m = np.meshgrid(pc1_1d, pc2_1d)
-
-    # Interpolate loss at trajectory points for the 3D ball
-    _fill = np.nanmean(loss_grid)
-    _loss_safe = np.where(np.isfinite(loss_grid), loss_grid, _fill)
-    _interp = RegularGridInterpolator((pc2_1d, pc1_1d), _loss_safe, bounds_error=False, fill_value=_fill)
-    _loss_range = np.nanmax(loss_grid) - np.nanmin(loss_grid)
-    _z_offset = 0.05 * _loss_range if _loss_range > 0 else 0.01
-
-    fig_frame = plt.figure(figsize=(10, 7))
-    ax_frame = fig_frame.add_subplot(111, projection="3d")
-    ax_frame.plot_surface(_PC1_m, _PC2_m, loss_grid, cmap="viridis", alpha=0.8, edgecolor="none")
-
-    # Trail up to current step (on surface)
-    _trail_x = traj_pc[:_t + 1, 0]
-    _trail_y = traj_pc[:_t + 1, 1]
-    _trail_z = np.array([float(_interp([_trail_y[i], _trail_x[i]])[0]) + _z_offset for i in range(len(_trail_x))])
-    ax_frame.plot(_trail_x, _trail_y, _trail_z, "r-", lw=2, alpha=0.9, zorder=5)
-
-    # Current position (ball on surface)
-    _bx = traj_pc[_t, 0]
-    _by = traj_pc[_t, 1]
-    _bz = float(_interp([_by, _bx])[0]) + _z_offset
-    ax_frame.plot([_bx], [_by], [_bz], "o", color="red", markersize=9, markeredgecolor="white", markeredgewidth=1.25, zorder=10)
-
-    ax_frame.set_xlabel("PC1")
-    ax_frame.set_ylabel("PC2")
-    ax_frame.set_zlabel("Loss")
-    ax_frame.set_title(f"Step {_t}: loss = {training_losses[_t]:.6f}")
-    ax_frame.view_init(elev=25, azim=135)
-    fig_frame.tight_layout()
-    fig_frame
     return
 
 
