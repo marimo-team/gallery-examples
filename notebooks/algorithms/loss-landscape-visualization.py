@@ -5,13 +5,14 @@
 #     "numpy>=1.24.0",
 #     "matplotlib>=3.7.0",
 #     "scikit-learn>=1.3.0",
+#     "scipy>=1.10.0",
 # ]
 # ///
 
 import marimo
 
 __generated_with = "0.20.4"
-app = marimo.App(width="medium")
+app = marimo.App()
 
 with app.setup:
     import marimo as mo
@@ -70,7 +71,7 @@ def _():
             ),
             hidden_width=mo.ui.slider(start=5, stop=50, step=5, value=10, label="Hidden layer width"),
             n_hidden=mo.ui.slider(start=1, stop=3, step=1, value=1, label="Number of hidden layers"),
-            lr=mo.ui.slider(start=-4, stop=-1, step=0.5, value=-2, label="$\log$(learning rate)"),
+            lr=mo.ui.slider(start=-4, stop=-1, step=0.5, value=-2, label=r"$\log$(learning rate)"),
             n_steps=mo.ui.slider(start=100, stop=1000, step=50, value=300, label="Training steps"),
             seed=mo.ui.number(start=0, stop=9999, value=42, label="Random seed"),
             k=mo.ui.slider(start=1, stop=30, step=1, value=10, label="k (lookback for velocity)"),
@@ -219,7 +220,7 @@ def _(loss_grid, pc1_1d, pc2_1d, target_fn_key, traj_pc):
     ax_heat.legend(loc="upper right")
     ax_heat.set_xlabel("PC1")
     ax_heat.set_ylabel("PC2")
-    ax_heat.set_title(f"Loss landscape — f(x) = {_fn_labels[target_fn_key]}")
+    ax_heat.set_title(f"Loss landscape: f(x) = {_fn_labels[target_fn_key]}")
     fig_heat.tight_layout()
     fig_heat
     return
@@ -241,7 +242,7 @@ def _(loss_grid, pc1_1d, pc2_1d, target_fn_key, traj_pc):
     ax_3d.set_xlabel("PC1")
     ax_3d.set_ylabel("PC2")
     ax_3d.set_zlabel("Loss")
-    ax_3d.set_title(f"Loss surface — f(x) = {_fn_labels[target_fn_key]}")
+    ax_3d.set_title(f"Loss surface: f(x) = {_fn_labels[target_fn_key]}")
     ax_3d.view_init(elev=25, azim=135)
     fig_3d.tight_layout()
     fig_3d
@@ -267,20 +268,39 @@ def _(n_steps):
 
 @app.cell(hide_code=True)
 def _(loss_grid, pc1_1d, pc2_1d, step_slider, training_losses, traj_pc):
+    from scipy.interpolate import RegularGridInterpolator
+
     _t = int(step_slider.value)
-    fig_frame, ax_frame = plt.subplots(figsize=(8, 6))
-    ax_frame.imshow(
-        loss_grid,
-        extent=[pc1_1d[0], pc1_1d[-1], pc2_1d[0], pc2_1d[-1]],
-        origin="lower",
-        aspect="auto",
-        cmap="viridis",
-    )
-    ax_frame.plot(traj_pc[:_t + 1, 0], traj_pc[:_t + 1, 1], "w-", alpha=0.6, lw=1)
-    ax_frame.plot(traj_pc[_t, 0], traj_pc[_t, 1], "ro", markersize=12, markeredgecolor="white", markeredgewidth=2)
+    _PC1_m, _PC2_m = np.meshgrid(pc1_1d, pc2_1d)
+
+    # Interpolate loss at trajectory points for the 3D ball
+    _fill = np.nanmean(loss_grid)
+    _loss_safe = np.where(np.isfinite(loss_grid), loss_grid, _fill)
+    _interp = RegularGridInterpolator((pc2_1d, pc1_1d), _loss_safe, bounds_error=False, fill_value=_fill)
+    _loss_range = np.nanmax(loss_grid) - np.nanmin(loss_grid)
+    _z_offset = 0.05 * _loss_range if _loss_range > 0 else 0.01
+
+    fig_frame = plt.figure(figsize=(10, 7))
+    ax_frame = fig_frame.add_subplot(111, projection="3d")
+    ax_frame.plot_surface(_PC1_m, _PC2_m, loss_grid, cmap="viridis", alpha=0.8, edgecolor="none")
+
+    # Trail up to current step (on surface)
+    _trail_x = traj_pc[:_t + 1, 0]
+    _trail_y = traj_pc[:_t + 1, 1]
+    _trail_z = np.array([float(_interp([_trail_y[i], _trail_x[i]])[0]) + _z_offset for i in range(len(_trail_x))])
+    ax_frame.plot(_trail_x, _trail_y, _trail_z, "r-", lw=2, alpha=0.9, zorder=5)
+
+    # Current position (ball on surface)
+    _bx = traj_pc[_t, 0]
+    _by = traj_pc[_t, 1]
+    _bz = float(_interp([_by, _bx])[0]) + _z_offset
+    ax_frame.plot([_bx], [_by], [_bz], "o", color="red", markersize=9, markeredgecolor="white", markeredgewidth=1.25, zorder=10)
+
     ax_frame.set_xlabel("PC1")
     ax_frame.set_ylabel("PC2")
-    ax_frame.set_title(f"Step {_t} — loss = {training_losses[_t]:.6f}")
+    ax_frame.set_zlabel("Loss")
+    ax_frame.set_title(f"Step {_t}: loss = {training_losses[_t]:.6f}")
+    ax_frame.view_init(elev=25, azim=135)
     fig_frame.tight_layout()
     fig_frame
     return
@@ -295,7 +315,7 @@ def _():
     Projecting via global PCA onto 2 directions gives a single fixed plane that
     misses local curvature information.
 
-    **Solution — local planes.** At each trajectory point $\mathbf{w}_t$, define a
+    **Solution: local planes.** At each trajectory point $\mathbf{w}_t$, define a
     local 2D coordinate system:
 
     - **$\mathbf{e}_1$** = normalized velocity $\mathbf{v}_t = \mathbf{w}_t - \mathbf{w}_{t-k}$
@@ -311,9 +331,9 @@ def _():
     PC space.
 
     **Parameters:**
-    - **$k$** — lookback steps for velocity/acceleration (larger = smoother directions)
-    - **$\sigma$** — Gaussian scale (larger = more blending between planes)
-    - **Loss cap** — clips extreme values for better color contrast
+    - **$k$**: lookback steps for velocity/acceleration (larger = smoother directions)
+    - **$\sigma$**: Gaussian scale (larger = more blending between planes)
+    - **Loss cap**: clips extreme values for better color contrast
 
     Based on [Ziming Liu's blog](https://kindxiaoming.github.io/blog/2026/loss-visualization-1/).
     """)
