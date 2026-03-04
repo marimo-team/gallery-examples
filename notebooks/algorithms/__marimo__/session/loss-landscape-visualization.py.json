@@ -1,0 +1,347 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.20.4",
+    "script_metadata_hash": "6a23466b434743fbb42f36f07046c63b"
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "0de599b7a81818e5d46f491e0d82a75f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "02b7eaffc1e311797eaae171c538dfe4",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"loss-landscape-visualization\">Loss Landscape Visualization</h1>\n<span class=\"paragraph\"><em>Based on a <a href=\"https://kindxiaoming.github.io/blog/2026/loss-visualization-1/\" rel=\"noopener noreferrer\" target=\"_blank\">blog post</a> by <a href=\"https://kindxiaoming.github.io/\" rel=\"noopener noreferrer\" target=\"_blank\">Ziming Liu</a>.</em></span>\n<span class=\"paragraph\">Explore the <strong>local-plane</strong> method for visualizing 2D loss landscapes of neural\nnetworks, based on\n<a href=\"https://kindxiaoming.github.io/blog/2026/loss-visualization-1/\" rel=\"noopener noreferrer\" target=\"_blank\">Ziming Liu's blog post</a>.</span>\n<span class=\"paragraph\"><strong>The idea:</strong> Standard PCA projections of weight trajectories capture global\nstructure but miss local geometry. Instead, we build local 2D coordinate systems\nat each trajectory point using <strong>velocity</strong> (tangent) and <strong>acceleration</strong>\n(curvature) directions, then blend them with Gaussian weighting to produce a\nsmooth landscape.</span>\n<span class=\"paragraph\">Use the controls below to pick a target function, network architecture, and\nvisualization parameters, then watch the optimizer roll through the loss landscape.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "97f9cb66b04075014c3a4764c273646a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='MJUe-32' random-id='2ce0110c-be44-ef5b-d0f9-dd5c49e7a8c4'><marimo-form data-initial-value='null' data-label='null' data-element-id='&quot;MJUe-31&quot;' data-loading='false' data-bordered='false' data-submit-button-label='&quot;Train &amp; Visualize&quot;' data-submit-button-disabled='false' data-clear-on-submit='false' data-show-clear-button='false' data-clear-button-label='&quot;Clear&quot;' data-should-validate='false'><marimo-ui-element object-id='MJUe-31' random-id='4be8a579-070b-c916-9126-5ba7016cc32f'><marimo-dict data-initial-value='{&quot;target_fn&quot;:[&quot;f(x) = x\u00b2&quot;],&quot;hidden_width&quot;:10,&quot;n_hidden&quot;:1,&quot;lr&quot;:-2,&quot;n_steps&quot;:300,&quot;seed&quot;:42,&quot;k&quot;:10,&quot;sigma&quot;:0.1,&quot;grid_res&quot;:40,&quot;loss_cap&quot;:1.5}' data-label='null' data-element-ids='{&quot;MJUe-21&quot;:&quot;target_fn&quot;,&quot;MJUe-22&quot;:&quot;hidden_width&quot;,&quot;MJUe-23&quot;:&quot;n_hidden&quot;,&quot;MJUe-24&quot;:&quot;lr&quot;,&quot;MJUe-25&quot;:&quot;n_steps&quot;,&quot;MJUe-26&quot;:&quot;seed&quot;,&quot;MJUe-27&quot;:&quot;k&quot;,&quot;MJUe-28&quot;:&quot;sigma&quot;,&quot;MJUe-29&quot;:&quot;grid_res&quot;,&quot;MJUe-30&quot;:&quot;loss_cap&quot;}'><span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Target function &amp; network</strong></span>\n<ul>\n<li><marimo-ui-element object-id='MJUe-21' random-id='547a1f50-07b9-ac22-c7f2-d92d1efc33f4'><marimo-dropdown data-initial-value='[&quot;f(x) = x\u00b2&quot;]' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Target function&lt;/span&gt;&lt;/span&gt;&quot;' data-options='[&quot;f(x) = x&quot;,&quot;f(x) = x\u00b2&quot;,&quot;f(x) = x\u00b3&quot;,&quot;f(x) = sin(x)&quot;]' data-allow-select-none='false' data-searchable='false' data-full-width='false'></marimo-dropdown></marimo-ui-element></li>\n<li><marimo-ui-element object-id='MJUe-22' random-id='09a0760b-7a65-8795-ddfe-4200b54992ba'><marimo-slider data-initial-value='10' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Hidden layer width&lt;/span&gt;&lt;/span&gt;&quot;' data-start='5' data-stop='50' data-step='5' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element></li>\n<li><marimo-ui-element object-id='MJUe-23' random-id='a078c56d-fba7-6d6e-6c08-b4c593775adc'><marimo-slider data-initial-value='1' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Number of hidden layers&lt;/span&gt;&lt;/span&gt;&quot;' data-start='1' data-stop='3' data-step='1' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element></li>\n<li><marimo-ui-element object-id='MJUe-24' random-id='fb774cb6-a04f-906b-f2b4-138b4bf7f4bc'><marimo-slider data-initial-value='-2' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;&lt;marimo-tex class=&#92;&quot;arithmatex&#92;&quot;&gt;||(&#92;&#92;log||)&lt;/marimo-tex&gt;(learning rate)&lt;/span&gt;&lt;/span&gt;&quot;' data-start='-4' data-stop='-1' data-step='0.5' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element></li>\n<li><marimo-ui-element object-id='MJUe-25' random-id='d7dc386c-1a9b-6459-3bd8-4936681a6d30'><marimo-slider data-initial-value='300' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Training steps&lt;/span&gt;&lt;/span&gt;&quot;' data-start='100' data-stop='1000' data-step='50' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element></li>\n<li><marimo-ui-element object-id='MJUe-26' random-id='545530fa-18de-9c7c-94be-d697c613e916'><marimo-number data-initial-value='42' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Random seed&lt;/span&gt;&lt;/span&gt;&quot;' data-start='0' data-stop='9999' data-debounce='false' data-full-width='false' data-disabled='false'></marimo-number></marimo-ui-element></li>\n</ul>\n<span class=\"paragraph\"><strong>Landscape parameters</strong></span>\n<ul>\n<li><marimo-ui-element object-id='MJUe-27' random-id='8caf5aec-2631-0848-4c99-4ff7630ee13f'><marimo-slider data-initial-value='10' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;k (lookback for velocity)&lt;/span&gt;&lt;/span&gt;&quot;' data-start='1' data-stop='30' data-step='1' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element></li>\n<li><marimo-ui-element object-id='MJUe-28' random-id='1694ee9a-95b5-0d43-cf39-0209b9a3fde1'><marimo-slider data-initial-value='0.1' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;\u03c3 (Gaussian smoothing)&lt;/span&gt;&lt;/span&gt;&quot;' data-start='0.01' data-stop='1.0' data-step='0.01' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element></li>\n<li><marimo-ui-element object-id='MJUe-29' random-id='fd70ac67-088a-072b-d76b-4888e6579940'><marimo-slider data-initial-value='40' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Grid resolution&lt;/span&gt;&lt;/span&gt;&quot;' data-start='20' data-stop='80' data-step='5' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element></li>\n<li><marimo-ui-element object-id='MJUe-30' random-id='c571e619-eea6-6a63-71ca-d9ae67c05e4e'><marimo-slider data-initial-value='1.5' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Loss cap&lt;/span&gt;&lt;/span&gt;&quot;' data-start='0.5' data-stop='5.0' data-step='0.25' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element></li>\n</ul></span></marimo-dict></marimo-ui-element></marimo-form></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "ff9d5f68f4694e43c5ab0fbfdaf76445",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><em>Configure parameters above and click <strong>Train &amp; Visualize</strong> to start.</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "4db7ea4e7994a2d83f92e8d140bb0b7d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"training-loss\">Training loss</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "b0ad3badb64ad786216322ad68948ce7",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "b4f326adcc3e0912d6ee63984045b882",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"trajectory-explorer\">Trajectory explorer</h2>\n<span class=\"paragraph\">Drag the slider to move through training and see the optimizer's position on the landscape.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "74f54e07505f4fcac45a1cf4e5d77636",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "2107ef92bfa724d2794f5e4018ca4dfe",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "f9f913526bee8ea5949a9870360049a6",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "b457f302c3d6a5709be3fdd9a35a7271",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "61a367ccd266ebdecdeb3b9fc8a41954",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "7ec034f69c17fed874afeeba30bfa205",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "a01aaa25b9b295d049014b41ec4195e8",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"how-it-all-works\">How it all works</h2>\n<span class=\"paragraph\"><strong>Problem.</strong> Neural network loss landscapes live in thousands of dimensions.\nProjecting via global PCA onto 2 directions gives a single fixed plane that\nmisses local curvature information.</span>\n<span class=\"paragraph\"><strong>Solution: local planes.</strong> At each trajectory point <marimo-tex class=\"arithmatex\">||(\\mathbf{w}_t||)</marimo-tex>, define a\nlocal 2D coordinate system:</span>\n<ul>\n<li><strong><marimo-tex class=\"arithmatex\">||(\\mathbf{e}_1||)</marimo-tex></strong> = normalized velocity <marimo-tex class=\"arithmatex\">||(\\mathbf{v}_t = \\mathbf{w}_t - \\mathbf{w}_{t-k}||)</marimo-tex></li>\n<li><strong><marimo-tex class=\"arithmatex\">||(\\mathbf{e}_2||)</marimo-tex></strong> = normalized acceleration component orthogonal to <marimo-tex class=\"arithmatex\">||(\\mathbf{e}_1||)</marimo-tex>:\n  <marimo-tex class=\"arithmatex\">||(\\mathbf{a}_t = \\mathbf{v}_t - \\mathbf{v}_{t-1}||)</marimo-tex>, then Gram-Schmidt</li>\n</ul>\n<span class=\"paragraph\"><strong>Blending.</strong> For each query point in the global PCA grid, evaluate the loss on\nevery local plane and combine with Gaussian weights:</span>\n<marimo-tex class=\"arithmatex\">||[L(\\text{query}) = \\frac{\\sum_i g_i \\cdot L_i}{\\sum_i g_i}, \\quad g_i = \\exp\\!\\left(-\\frac{d_i^2}{2\\sigma^2}\\right)||]</marimo-tex><span class=\"paragraph\">where <marimo-tex class=\"arithmatex\">||(d_i||)</marimo-tex> is the distance from the query to the <marimo-tex class=\"arithmatex\">||(i||)</marimo-tex>-th trajectory point in\nPC space.</span>\n<span class=\"paragraph\"><strong>Parameters:</strong></span>\n<ul>\n<li><strong><marimo-tex class=\"arithmatex\">||(k||)</marimo-tex></strong>: lookback steps for velocity/acceleration (larger = smoother directions)</li>\n<li><strong><marimo-tex class=\"arithmatex\">||(\\sigma||)</marimo-tex></strong>: Gaussian scale (larger = more blending between planes)</li>\n<li><strong>Loss cap</strong>: clips extreme values for better color contrast</li>\n</ul>\n<span class=\"paragraph\">Based on <a href=\"https://kindxiaoming.github.io/blog/2026/loss-visualization-1/\" rel=\"noopener noreferrer\" target=\"_blank\">Ziming Liu's blog</a>.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "90e43aec05882e029c72f7d95206b31a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "iLit",
+      "code_hash": "ca8b728da45a813a5e07f3d04cd132fa",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "420a69572933bb8afc14af5d3006172b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ROlb",
+      "code_hash": "f6e1bef8abf2cdd1c3f32f349b136e9b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qnkX",
+      "code_hash": "b931c5f12fd247d11fdca3575bd954a0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TqIu",
+      "code_hash": "d804ad15e98e6862fb7082b7c373704f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Vxnm",
+      "code_hash": "65aaf29b6537647163c3d2b057e5ef9e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "DnEU",
+      "code_hash": "9f6a963d80140dfc2d506e32703c3974",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ulZA",
+      "code_hash": "28b011a89ec00db5b5151d1c2c7f9c6a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ecfG",
+      "code_hash": "cb446670ccc154261ab0c38d1006f8bf",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Pvdt",
+      "code_hash": "dcfa0b4daa5f93611e16a2f37f1b05c4",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZBYS",
+      "code_hash": "372b91319369f5a1741888759e0b5ec4",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}
