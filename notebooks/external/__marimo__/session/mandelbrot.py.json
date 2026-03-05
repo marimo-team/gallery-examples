@@ -1,0 +1,100 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.20.4",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "291d843e167b842c73c84e38386d7458",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "6e92064f27d0a3744dfaff4a230858af",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"mandelbrot-cython-vs-python\">Mandelbrot \u2014 Cython vs Python</h1>\n<span class=\"paragraph\">Drag the slider and watch the difference.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "f0ae25d9b4d36b96c5ce63d233c7da4e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='vblA-0' random-id='10628216-41d3-a8f2-224c-163a9faf2ce9'><marimo-slider data-initial-value='300' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Resolution (px)&lt;/span&gt;&lt;/span&gt;&quot;' data-start='100' data-stop='800' data-step='100' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "933490c35219c37d338d9d24006c6b7e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "d62f79ea1f1f2bd6f248c51a305ca5e9",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='lEQa-0' random-id='3e1c0144-fd28-5447-ab3b-4d97a3d24cd2'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;17063e388d77464b8d2f3fb826ba006c&quot;}' data-label='null' data-js-url='&quot;data:text/javascript;base64,CmZ1bmN0aW9uIHJlbmRlcih7IG1vZGVsLCBlbCB9KSB7CiAgZWwuaW5uZXJIVE1MID0gIiI7CiAgY29uc3QgY29udGFpbmVyID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgiZGl2Iik7CiAgY29udGFpbmVyLmNsYXNzTmFtZSA9ICJzYnMtcm9vdCI7CiAgY29udGFpbmVyLmlubmVySFRNTCA9IGAKICAgIDxzdHlsZT4KICAgICAgLnNicy1yb290IHsKICAgICAgICBkaXNwbGF5OiBncmlkOwogICAgICAgIGdyaWQtdGVtcGxhdGUtY29sdW1uczogMWZyIDFmcjsKICAgICAgICBnYXA6IDE2cHg7CiAgICAgICAgZm9udC1mYW1pbHk6IHN5c3RlbS11aSwgLWFwcGxlLXN5c3RlbSwgc2Fucy1zZXJpZjsKICAgICAgfQogICAgICAuc2JzLXBhbmVsIHsKICAgICAgICBib3JkZXI6IDFweCBzb2xpZCAjZTBlMGUwOwogICAgICAgIGJvcmRlci1yYWRpdXM6IDhweDsKICAgICAgICBwYWRkaW5nOiAxMnB4OwogICAgICAgIGJhY2tncm91bmQ6ICNmYWZhZmE7CiAgICAgIH0KICAgICAgLnNicy1oZWFkZXIgewogICAgICAgIGRpc3BsYXk6IGZsZXg7CiAgICAgICAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuOwogICAgICAgIGFsaWduLWl0ZW1zOiBiYXNlbGluZTsKICAgICAgICBtYXJnaW4tYm90dG9tOiA4cHg7CiAgICAgIH0KICAgICAgLnNicy1sYWJlbCB7IGZvbnQtd2VpZ2h0OiA2MDA7IGZvbnQtc2l6ZTogMTRweDsgfQogICAgICAuc2JzLXRpbWUgIHsgZm9udC1zaXplOiAxM3B4OyBjb2xvcjogIzY2NjsgZm9udC12YXJpYW50LW51bWVyaWM6IHRhYnVsYXItbnVtczsgfQogICAgICAuc2JzLWltZy13cmFwIHsKICAgICAgICB3aWR0aDogMTAwJTsKICAgICAgICBtaW4taGVpZ2h0OiAxMjBweDsKICAgICAgICBkaXNwbGF5OiBmbGV4OwogICAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7CiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7CiAgICAgICAgYmFja2dyb3VuZDogI2ZmZjsKICAgICAgICBib3JkZXItcmFkaXVzOiA0cHg7CiAgICAgICAgb3ZlcmZsb3c6IGhpZGRlbjsKICAgICAgfQogICAgICAuc2JzLWltZy13cmFwIGltZyB7CiAgICAgICAgd2lkdGg6IDEwMCU7CiAgICAgICAgaGVpZ2h0OiBhdXRvOwogICAgICAgIGRpc3BsYXk6IGJsb2NrOwogICAgICAgIGltYWdlLXJlbmRlcmluZzogcGl4ZWxhdGVkOwogICAgICB9CiAgICAgIC5zYnMtc3Bpbm5lciB7CiAgICAgICAgY29sb3I6ICM5OTk7CiAgICAgICAgZm9udC1zaXplOiAxM3B4OwogICAgICAgIGFuaW1hdGlvbjogc2JzLXB1bHNlIDEuNXMgZWFzZS1pbi1vdXQgaW5maW5pdGU7CiAgICAgIH0KICAgICAgQGtleWZyYW1lcyBzYnMtcHVsc2UgewogICAgICAgIDAlLCAxMDAlIHsgb3BhY2l0eTogMTsgfQogICAgICAgIDUwJSB7IG9wYWNpdHk6IDAuNDsgfQogICAgICB9CiAgICAgIC5zYnMtc3VtbWFyeSB7CiAgICAgICAgZ3JpZC1jb2x1bW46IDEgLyAtMTsKICAgICAgICB0ZXh0LWFsaWduOiBjZW50ZXI7CiAgICAgICAgZm9udC1zaXplOiAxM3B4OwogICAgICAgIGNvbG9yOiAjNjY2OwogICAgICAgIHBhZGRpbmctdG9wOiA0cHg7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgICA8ZGl2IGNsYXNzPSJzYnMtcGFuZWwiIGlkPSJzYnMtbGVmdCI+CiAgICAgIDxkaXYgY2xhc3M9InNicy1oZWFkZXIiPgogICAgICAgIDxzcGFuIGNsYXNzPSJzYnMtbGFiZWwiIGRhdGEtYmluZD0ibGVmdF9sYWJlbCI+PC9zcGFuPgogICAgICAgIDxzcGFuIGNsYXNzPSJzYnMtdGltZSIgZGF0YS1iaW5kPSJsZWZ0X3RpbWUiPjwvc3Bhbj4KICAgICAgPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InNicy1pbWctd3JhcCIgZGF0YS1wYW5lbD0ibGVmdCI+CiAgICAgICAgPHNwYW4gY2xhc3M9InNicy1zcGlubmVyIj5jb21wdXRpbmdcdTIwMjY8L3NwYW4+CiAgICAgIDwvZGl2PgogICAgPC9kaXY+CiAgICA8ZGl2IGNsYXNzPSJzYnMtcGFuZWwiIGlkPSJzYnMtcmlnaHQiPgogICAgICA8ZGl2IGNsYXNzPSJzYnMtaGVhZGVyIj4KICAgICAgICA8c3BhbiBjbGFzcz0ic2JzLWxhYmVsIiBkYXRhLWJpbmQ9InJpZ2h0X2xhYmVsIj48L3NwYW4+CiAgICAgICAgPHNwYW4gY2xhc3M9InNicy10aW1lIiBkYXRhLWJpbmQ9InJpZ2h0X3RpbWUiPjwvc3Bhbj4KICAgICAgPC9kaXY+CiAgICAgIDxkaXYgY2xhc3M9InNicy1pbWctd3JhcCIgZGF0YS1wYW5lbD0icmlnaHQiPgogICAgICAgIDxzcGFuIGNsYXNzPSJzYnMtc3Bpbm5lciI+Y29tcHV0aW5nXHUyMDI2PC9zcGFuPgogICAgICA8L2Rpdj4KICAgIDwvZGl2PgogICAgPGRpdiBjbGFzcz0ic2JzLXN1bW1hcnkiIGRhdGEtYmluZD0ic3VtbWFyeSI+PC9kaXY+CiAgYDsKICBlbC5hcHBlbmRDaGlsZChjb250YWluZXIpOwoKICBjb25zdCByZWZzID0gewogICAgbGVmdF9sYWJlbDogIGNvbnRhaW5lci5xdWVyeVNlbGVjdG9yKCdbZGF0YS1iaW5kPSJsZWZ0X2xhYmVsIl0nKSwKICAgIGxlZnRfdGltZTogICBjb250YWluZXIucXVlcnlTZWxlY3RvcignW2RhdGEtYmluZD0ibGVmdF90aW1lIl0nKSwKICAgIGxlZnRfd3JhcDogICBjb250YWluZXIucXVlcnlTZWxlY3RvcignW2RhdGEtcGFuZWw9ImxlZnQiXScpLAogICAgcmlnaHRfbGFiZWw6IGNvbnRhaW5lci5xdWVyeVNlbGVjdG9yKCdbZGF0YS1iaW5kPSJyaWdodF9sYWJlbCJdJyksCiAgICByaWdodF90aW1lOiAgY29udGFpbmVyLnF1ZXJ5U2VsZWN0b3IoJ1tkYXRhLWJpbmQ9InJpZ2h0X3RpbWUiXScpLAogICAgcmlnaHRfd3JhcDogIGNvbnRhaW5lci5xdWVyeVNlbGVjdG9yKCdbZGF0YS1wYW5lbD0icmlnaHQiXScpLAogICAgc3VtbWFyeTogICAgIGNvbnRhaW5lci5xdWVyeVNlbGVjdG9yKCdbZGF0YS1iaW5kPSJzdW1tYXJ5Il0nKSwKICB9OwoKICBmdW5jdGlvbiB1cGRhdGVUZXh0KGtleSkgewogICAgaWYgKHJlZnNba2V5XSkgcmVmc1trZXldLnRleHRDb250ZW50ID0gbW9kZWwuZ2V0KGtleSk7CiAgfQoKICBmdW5jdGlvbiB1cGRhdGVJbWFnZShzaWRlKSB7CiAgICBjb25zdCBiNjQgID0gbW9kZWwuZ2V0KHNpZGUgKyAiX2ltYWdlIik7CiAgICBjb25zdCBkb25lID0gbW9kZWwuZ2V0KHNpZGUgKyAiX2RvbmUiKTsKICAgIGNvbnN0IHdyYXAgPSByZWZzW3NpZGUgKyAiX3dyYXAiXTsKICAgIGlmICghd3JhcCkgcmV0dXJuOwogICAgaWYgKGI2NCkgewogICAgICBjb25zdCBleGlzdGluZyA9IHdyYXAucXVlcnlTZWxlY3RvcigiaW1nIik7CiAgICAgIGlmIChleGlzdGluZykgewogICAgICAgIGV4aXN0aW5nLnNyYyA9ICJkYXRhOmltYWdlL3BuZztiYXNlNjQsIiArIGI2NDsKICAgICAgfSBlbHNlIHsKICAgICAgICB3cmFwLmlubmVySFRNTCA9ICIiOwogICAgICAgIGNvbnN0IGltZyA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoImltZyIpOwogICAgICAgIGltZy5zcmMgPSAiZGF0YTppbWFnZS9wbmc7YmFzZTY0LCIgKyBiNjQ7CiAgICAgICAgd3JhcC5hcHBlbmRDaGlsZChpbWcpOwogICAgICB9CiAgICB9IGVsc2UgaWYgKCFkb25lKSB7CiAgICAgIHdyYXAuaW5uZXJIVE1MID0gJzxzcGFuIGNsYXNzPSJzYnMtc3Bpbm5lciI+Y29tcHV0aW5nXHUyMDI2PC9zcGFuPic7CiAgICB9CiAgfQoKICBmb3IgKGNvbnN0IGsgb2YgWyJsZWZ0X2xhYmVsIiwgImxlZnRfdGltZSIsICJyaWdodF9sYWJlbCIsICJyaWdodF90aW1lIiwgInN1bW1hcnkiXSkgewogICAgdXBkYXRlVGV4dChrKTsKICB9CiAgdXBkYXRlSW1hZ2UoImxlZnQiKTsKICB1cGRhdGVJbWFnZSgicmlnaHQiKTsKCiAgZm9yIChjb25zdCBrIG9mIFsibGVmdF9sYWJlbCIsICJsZWZ0X3RpbWUiLCAicmlnaHRfbGFiZWwiLCAicmlnaHRfdGltZSIsICJzdW1tYXJ5Il0pIHsKICAgIG1vZGVsLm9uKCJjaGFuZ2U6IiArIGssICgpID0+IHVwZGF0ZVRleHQoaykpOwogIH0KICBmb3IgKGNvbnN0IHNpZGUgb2YgWyJsZWZ0IiwgInJpZ2h0Il0pIHsKICAgIG1vZGVsLm9uKCJjaGFuZ2U6IiArIHNpZGUgKyAiX2ltYWdlIiwgKCkgPT4gdXBkYXRlSW1hZ2Uoc2lkZSkpOwogICAgbW9kZWwub24oImNoYW5nZToiICsgc2lkZSArICJfZG9uZSIsICAoKSA9PiB1cGRhdGVJbWFnZShzaWRlKSk7CiAgfQp9CmV4cG9ydCBkZWZhdWx0IHsgcmVuZGVyIH07Cg==&quot;' data-js-hash='&quot;36e9fd089531bf63e56c7c15bc0d5a55&quot;'></marimo-anywidget></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "39cc2076c5fe7b3ed321b279895f2357",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "bb7aeb7eb11adeed0ca7dad6b2d0d4da",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}
