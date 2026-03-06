@@ -43,6 +43,7 @@ uvx marimo edit --sandbox <notebook>
 | -------- | ----------- | - |
 | Lanchester's Law | Interactive simulation of Lanchester's Laws of combat. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/analysis/lanchesters-law/notebook.py/wasm) |
 | Suguru | Interactive Suguru puzzle solver and generator. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/analysis/suguru/notebook.py/wasm) |
+| ARC-Easy LLM | Prompt repetition experiment on ARC-Easy multiple-choice questions. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/analysis/arc-easy-llm.py) |
 
 ## 3D
 

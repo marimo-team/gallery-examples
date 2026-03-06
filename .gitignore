@@ -205,3 +205,4 @@ cython_debug/
 *.parquet
 inputs/
 *.sqlite
+wandb/

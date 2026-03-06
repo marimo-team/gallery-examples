@@ -1,0 +1,298 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.20.4",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "0cb199ee7f02647a20131251150128ae",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "7c156000e65965019e7b35ddaf44afab",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"arc-easy-prompt-repetition-experiment\">ARC-Easy: Prompt Repetition Experiment</h1>\n<span class=\"paragraph\">Reproducing the \"repeat the prompt\" technique from <a href=\"https://www.alphaxiv.org/abs/2512.14982\" rel=\"noopener noreferrer\" target=\"_blank\">the \"Prompt Repetition Improves Non-Reasoning LLMs\" paper</a>.</span>\n<span class=\"paragraph\">The idea is to transform a prompt, like <code>&lt;QUERY&gt;</code>, into <code>&lt;QUERY&gt; &lt;QUERY&gt;</code> or <code>&lt;QUERY&gt; &lt;QUERY&gt; &lt;QUERY&gt;</code>. It's a stange-trick, but one that seems to work. So this notebook tries to reproduce the finding.</span>\n<span class=\"paragraph\">We evaluate this on ARC-Easy multiple-choice science questions across open-source models.</span>\n<h2 id=\"design\">Design</h2>\n<span class=\"paragraph\">This notebook is designed to be run as a command line application as well. You can run it via:</span>\n<div class=\"language-text codehilite\"><pre><span></span><code>uv run arc-easy-llm.py --repeat-count 2\n</code></pre></div>\n<span class=\"paragraph\">All the parameters defined in the  <code>ExperimentParams</code> pydantic class can be passed via the command line as well.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "4257671b4108c86ef5df9d6bdabe55a0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "1d187b15704db96301ecff12c0232d56",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "322c206fa6ca9d2db936b47ddb0b9023",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<pre class='text-xs'>500</pre>"
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "/Users/vincentwarmerdam/.cache/uv/archive-v0/Nfx2ugsWNUqBXih5C5xUJ/lib/python3.14/site-packages/requests/__init__.py:113: RequestsDependencyWarning: urllib3 (2.6.3) or chardet (7.0.1)/charset_normalizer (3.4.5) doesn't match a supported version!\n  warnings.warn(\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "Xref",
+      "code_hash": "7dd6b13f8a456c551dc41bae60f39054",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><marimo-ui-element object-id='Xref-0' random-id='5b273303-3e19-5763-ae65-c83edbd69bd6'><marimo-text data-initial-value='&quot;https://api.inference.wandb.ai/v1&quot;' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Base URL&lt;/span&gt;&lt;/span&gt;&quot;' data-placeholder='&quot;&quot;' data-kind='&quot;text&quot;' data-full-width='true' data-disabled='false' data-debounce='true'></marimo-text></marimo-ui-element><marimo-ui-element object-id='Xref-1' random-id='2a06ac9f-2a23-9c96-b826-789ec8cffa88'><marimo-text data-initial-value='&quot;meta-llama/Llama-3.1-8B-Instruct&quot;' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Models (comma-separated)&lt;/span&gt;&lt;/span&gt;&quot;' data-placeholder='&quot;&quot;' data-kind='&quot;text&quot;' data-full-width='true' data-disabled='false' data-debounce='true'></marimo-text></marimo-ui-element><marimo-ui-element object-id='Xref-2' random-id='8d3b8b58-1ff1-2ad9-38e3-7e565037ca91'><marimo-slider data-initial-value='16' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Concurrency&lt;/span&gt;&lt;/span&gt;&quot;' data-start='1' data-stop='64' data-step='1' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "9b165ccc58a200f5a9ccbbcb47d2402e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "a78e8c859e7870e2bc129a38e8200efd",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">This notebook assumes that you're using weights and biases to log the results.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "f0ff9c497a795e2f706f5bc6d9cc5e97",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='RGSE-0' random-id='a1f05103-de33-628a-f965-bedfaa256113'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;02be912ab83b4c59b7b961f40972159c&quot;}' data-label='null' data-js-url='&quot;data:text/javascript;base64,ZnVuY3Rpb24gcmVuZGVyKHsgbW9kZWwsIGVsIH0pIHsKICBlbC5jbGFzc0xpc3QuYWRkKCJlbnYtY29uZmlnLXdpZGdldCIpOwoKICBjb25zdCBjb250YWluZXIgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCJkaXYiKTsKICBjb250YWluZXIuY2xhc3NOYW1lID0gImVudi1jb25maWctY29udGFpbmVyIjsKCiAgLy8gU3RvcmUgcmVmZXJlbmNlcyB0byB1cGRhdGUgaW4gcGxhY2UgKG5vIERPTSByZWJ1aWxkKQogIGNvbnN0IHJvd3MgPSBbXTsKICBjb25zdCBpbnB1dHMgPSBbXTsKICBjb25zdCBzdGF0dXNFbHMgPSBbXTsKICBsZXQgZm9vdGVyOwoKICBmdW5jdGlvbiBidWlsZEluaXRpYWxET00oKSB7CiAgICBjb25zdCB2YXJpYWJsZXMgPSBtb2RlbC5nZXQoInZhcmlhYmxlcyIpOwoKICAgIHZhcmlhYmxlcy5mb3JFYWNoKCh2YXJpYWJsZSwgaW5kZXgpID0+IHsKICAgICAgY29uc3Qgcm93ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgiZGl2Iik7CiAgICAgIHJvdy5jbGFzc05hbWUgPSAiZW52LWNvbmZpZy1yb3ciOwogICAgICByb3cuZGF0YXNldC5zdGF0dXMgPSB2YXJpYWJsZS5zdGF0dXM7CiAgICAgIHJvd3MucHVzaChyb3cpOwoKICAgICAgLy8gVmFyaWFibGUgbmFtZQogICAgICBjb25zdCBuYW1lRWwgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCJkaXYiKTsKICAgICAgbmFtZUVsLmNsYXNzTmFtZSA9ICJlbnYtdmFyLW5hbWUiOwogICAgICBuYW1lRWwudGV4dENvbnRlbnQgPSB2YXJpYWJsZS5uYW1lOwogICAgICByb3cuYXBwZW5kQ2hpbGQobmFtZUVsKTsKCiAgICAgIC8vIElucHV0IGZpZWxkCiAgICAgIGNvbnN0IGZpZWxkRWwgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCJkaXYiKTsKICAgICAgZmllbGRFbC5jbGFzc05hbWUgPSAiZW52LXZhci1maWVsZCI7CgogICAgICBjb25zdCBpbnB1dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoImlucHV0Iik7CiAgICAgIGlucHV0LnR5cGUgPSAicGFzc3dvcmQiOwogICAgICBpbnB1dC5jbGFzc05hbWUgPSAiZW52LWlucHV0IjsKICAgICAgaW5wdXQuYXV0b2NvbXBsZXRlID0gIm9mZiI7CiAgICAgIGlucHV0cy5wdXNoKGlucHV0KTsKCiAgICAgIC8vIFNldCBpbml0aWFsIHZhbHVlL3BsYWNlaG9sZGVyIC0gc2hvdyB2YWx1ZSBldmVuIGZvciBpbnZhbGlkIHN0YXR1cwogICAgICBpZiAodmFyaWFibGUuc3RhdHVzID09PSAidmFsaWQiIHx8IHZhcmlhYmxlLnN0YXR1cyA9PT0gImludmFsaWQiKSB7CiAgICAgICAgaW5wdXQudmFsdWUgPSB2YXJpYWJsZS52YWx1ZSB8fCAiIjsKICAgICAgfQogICAgICBpZiAodmFyaWFibGUuc3RhdHVzID09PSAibWlzc2luZyIpIHsKICAgICAgICBpbnB1dC5wbGFjZWhvbGRlciA9ICJFbnRlciB2YWx1ZS4uLiI7CiAgICAgIH0KCiAgICAgIC8vIFN1Ym1pdCBvbiBFbnRlciBvbmx5IC0gbGV0IFRhYiB3b3JrIG5hdHVyYWxseQogICAgICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCJrZXlkb3duIiwgKGUpID0+IHsKICAgICAgICBpZiAoZS5rZXkgPT09ICJFbnRlciIpIHsKICAgICAgICAgIGUucHJldmVudERlZmF1bHQoKTsKICAgICAgICAgIGNvbnN0IHZhbHVlID0gaW5wdXQudmFsdWUudHJpbSgpOwogICAgICAgICAgaWYgKCF2YWx1ZSkgcmV0dXJuOwoKICAgICAgICAgIG1vZGVsLnNldCgiX3BlbmRpbmdfdmFsdWUiLCB7CiAgICAgICAgICAgIG5hbWU6IHZhcmlhYmxlLm5hbWUsCiAgICAgICAgICAgIHZhbHVlOiB2YWx1ZSwKICAgICAgICAgIH0pOwogICAgICAgICAgbW9kZWwuc2F2ZV9jaGFuZ2VzKCk7CiAgICAgICAgfQogICAgICB9KTsKCiAgICAgIGZpZWxkRWwuYXBwZW5kQ2hpbGQoaW5wdXQpOwogICAgICByb3cuYXBwZW5kQ2hpbGQoZmllbGRFbCk7CgogICAgICAvLyBTdGF0dXMgaW5kaWNhdG9yCiAgICAgIGNvbnN0IHN0YXR1c0VsID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgiZGl2Iik7CiAgICAgIHN0YXR1c0VsLmNsYXNzTmFtZSA9ICJlbnYtdmFyLXN0YXR1cyI7CiAgICAgIHN0YXR1c0Vscy5wdXNoKHN0YXR1c0VsKTsKICAgICAgdXBkYXRlU3RhdHVzSWNvbihzdGF0dXNFbCwgdmFyaWFibGUpOwoKICAgICAgcm93LmFwcGVuZENoaWxkKHN0YXR1c0VsKTsKICAgICAgY29udGFpbmVyLmFwcGVuZENoaWxkKHJvdyk7CiAgICB9KTsKCiAgICAvLyBGb290ZXIKICAgIGZvb3RlciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoImRpdiIpOwogICAgdXBkYXRlRm9vdGVyKCk7CiAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQoZm9vdGVyKTsKCiAgICBlbC5hcHBlbmRDaGlsZChjb250YWluZXIpOwogIH0KCiAgZnVuY3Rpb24gdXBkYXRlU3RhdHVzSWNvbihzdGF0dXNFbCwgdmFyaWFibGUpIHsKICAgIGlmICh2YXJpYWJsZS5zdGF0dXMgPT09ICJ2YWxpZCIpIHsKICAgICAgc3RhdHVzRWwuaW5uZXJIVE1MID0gYAogICAgICAgIDxzdmcgY2xhc3M9ImVudi1jaGVjayIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiPgogICAgICAgICAgPHBhdGggZD0iTTkgMTYuMTdMNC44MyAxMmwtMS40MiAxLjQxTDkgMTkgMjEgN2wtMS40MS0xLjQxeiIgZmlsbD0iY3VycmVudENvbG9yIi8+CiAgICAgICAgPC9zdmc+CiAgICAgIGA7CiAgICB9IGVsc2UgaWYgKHZhcmlhYmxlLnN0YXR1cyA9PT0gImludmFsaWQiKSB7CiAgICAgIHN0YXR1c0VsLmlubmVySFRNTCA9IGAKICAgICAgICA8c3BhbiBjbGFzcz0iZW52LWVycm9yLXRleHQiIHRpdGxlPSIke3ZhcmlhYmxlLmVycm9yIHx8ICJJbnZhbGlkIn0iPgogICAgICAgICAgPHN2ZyBjbGFzcz0iZW52LWVycm9yLWljb24iIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjE4Ij4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTEgMTVoLTJ2LTJoMnYyem0wLTRoLTJWN2gydjZ6IiBmaWxsPSJjdXJyZW50Q29sb3IiLz4KICAgICAgICAgIDwvc3ZnPgogICAgICAgIDwvc3Bhbj4KICAgICAgYDsKICAgIH0gZWxzZSB7CiAgICAgIHN0YXR1c0VsLmlubmVySFRNTCA9ICIiOwogICAgfQogIH0KCiAgZnVuY3Rpb24gdXBkYXRlRm9vdGVyKCkgewogICAgY29uc3QgYWxsVmFsaWQgPSBtb2RlbC5nZXQoImFsbF92YWxpZCIpOwogICAgZm9vdGVyLmNsYXNzTmFtZSA9ICJlbnYtY29uZmlnLWZvb3RlciI7CiAgICBmb290ZXIudGV4dENvbnRlbnQgPSBhbGxWYWxpZAogICAgICA/ICJBbGwgdmFyaWFibGVzIGNvbmZpZ3VyZWQiCiAgICAgIDogIlByZXNzIEVudGVyIHRvIHNldCBlYWNoIHZhcmlhYmxlIjsKICB9CgogIGZ1bmN0aW9uIHVwZGF0ZUluUGxhY2UoKSB7CiAgICBjb25zdCB2YXJpYWJsZXMgPSBtb2RlbC5nZXQoInZhcmlhYmxlcyIpOwoKICAgIHZhcmlhYmxlcy5mb3JFYWNoKCh2YXJpYWJsZSwgaW5kZXgpID0+IHsKICAgICAgY29uc3Qgcm93ID0gcm93c1tpbmRleF07CiAgICAgIGNvbnN0IGlucHV0ID0gaW5wdXRzW2luZGV4XTsKICAgICAgY29uc3Qgc3RhdHVzRWwgPSBzdGF0dXNFbHNbaW5kZXhdOwoKICAgICAgLy8gVXBkYXRlIHJvdyBzdGF0dXMgKGZvciBiYWNrZ3JvdW5kIGNvbG9yKQogICAgICByb3cuZGF0YXNldC5zdGF0dXMgPSB2YXJpYWJsZS5zdGF0dXM7CgogICAgICAvLyBVcGRhdGUgaW5wdXQgYmFzZWQgb24gc3RhdHVzIC0gc2hvdyB2YWx1ZSBldmVuIGZvciBpbnZhbGlkIHN0YXR1cwogICAgICBpZiAodmFyaWFibGUuc3RhdHVzID09PSAidmFsaWQiIHx8IHZhcmlhYmxlLnN0YXR1cyA9PT0gImludmFsaWQiKSB7CiAgICAgICAgLy8gT25seSB1cGRhdGUgdmFsdWUgaWYgaXQgY2hhbmdlZCAoYXZvaWQgb3ZlcndyaXRpbmcgd2hpbGUgdXNlciB0eXBlcykKICAgICAgICBpZiAoaW5wdXQudmFsdWUgIT09IHZhcmlhYmxlLnZhbHVlKSB7CiAgICAgICAgICBpbnB1dC52YWx1ZSA9IHZhcmlhYmxlLnZhbHVlIHx8ICIiOwogICAgICAgIH0KICAgICAgICBpbnB1dC5wbGFjZWhvbGRlciA9ICIiOwogICAgICB9IGVsc2UgewogICAgICAgIGlucHV0LnBsYWNlaG9sZGVyID0gIkVudGVyIHZhbHVlLi4uIjsKICAgICAgfQoKICAgICAgLy8gVXBkYXRlIHN0YXR1cyBpY29uCiAgICAgIHVwZGF0ZVN0YXR1c0ljb24oc3RhdHVzRWwsIHZhcmlhYmxlKTsKICAgIH0pOwoKICAgIHVwZGF0ZUZvb3RlcigpOwogIH0KCiAgYnVpbGRJbml0aWFsRE9NKCk7CiAgbW9kZWwub24oImNoYW5nZTp2YXJpYWJsZXMiLCB1cGRhdGVJblBsYWNlKTsKfQoKZXhwb3J0IGRlZmF1bHQgeyByZW5kZXIgfTsK&quot;' data-js-hash='&quot;39ca73dc82f163ebbaaa0cc702aab9d5&quot;'></marimo-anywidget></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "wandb: [wandb.login()] Using explicit session credentials for https://api.wandb.ai.\nwandb: Appending key for api.wandb.ai to your netrc file: /Users/vincentwarmerdam/.netrc\nwandb: Currently logged in as: koaning to https://api.wandb.ai. Use `wandb login --relogin` to force relogin\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "cf6a64bad2f0488da6e4a9e839a9471e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "application/vnd.marimo+mimebundle": {
+              "text/html": "<button onClick=\"this.nextSibling.style.display='block';this.style.display='none';\">Display W&B run</button><iframe src='https://wandb.ai/koaning/arc-easy-prompt-repeat/runs/6vp6l02q?jupyter=true' style='border:none;width:100%;height:420px;display:none;'></iframe>"
+            }
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "\u001b[36m\u001b[1mweave\u001b[0m: Logged in as Weights & Biases user: koaning.\n\u001b[36m\u001b[1mweave\u001b[0m: View Weave data at https://wandb.ai/koaning/arc-easy-prompt-repeat/weave\nwandb: setting up run 6vp6l02q\nwandb: Tracking run with wandb version 0.25.0\nwandb: Run data is saved locally in /Users/vincentwarmerdam/conductor/workspaces/gallery-examples/beirut-v1/wandb/run-20260306_124130-6vp6l02q\nwandb: Run `wandb offline` to turn off syncing.\nwandb: Syncing run helpful-darkness-250\nwandb: \u2b50\ufe0f View project at https://wandb.ai/koaning/arc-easy-prompt-repeat\nwandb: \ud83d\ude80 View run at https://wandb.ai/koaning/arc-easy-prompt-repeat/runs/6vp6l02q\nwandb: Initializing weave.\n",
+          "mimetype": "text/plain"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "\n",
+          "mimetype": "text/plain"
+        },
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "\u001b[36m\u001b[1mweave\u001b[0m: Logged in as Weights & Biases user: koaning.\n\u001b[36m\u001b[1mweave\u001b[0m: View Weave data at https://wandb.ai/koaning/arc-easy-prompt-repeat/weave\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "emfo",
+      "code_hash": "0a7869ac4984bdfbc2264377bd74ecf0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">The results are stored on the weights and biases side, but we also keep a local cache around.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "e88dac0ef04fb2cf6466ddf3bea1f6bc",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "15ccde888e15487e5c511283a9fa90cd",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "iLit",
+      "code_hash": "65572bb7efd719824ecdb2c387469052",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='iLit-0' random-id='bb6a86fa-23ce-d08d-5ca5-c2e7f2461a74'><marimo-button data-initial-value='0' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Run evaluation&lt;/span&gt;&lt;/span&gt;&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "1184ea6c42d2d5ccaa596a76c4e0ac02",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><em>Click 'Run evaluation' to start.</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ROlb",
+      "code_hash": "4d79a3f542f873a9eb6fec6ede89482f",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qnkX",
+      "code_hash": "51ee26fab354bfb68bcc14630d9d0ab2",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TqIu",
+      "code_hash": "61a7b77a9be743527bea7223603ca3c6",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "wandb: updating run metadata\nwandb: uploading wandb-metadata.json; uploading requirements.txt; uploading output.log; uploading wandb-summary.json; uploading config.yaml\nwandb: uploading summary, console lines 0-2\nwandb: \ud83d\ude80 View run helpful-darkness-250 at: https://wandb.ai/koaning/arc-easy-prompt-repeat/runs/6vp6l02q\nwandb: \u2b50\ufe0f View project at: https://wandb.ai/koaning/arc-easy-prompt-repeat\nwandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)\nwandb: Find logs at: ./wandb/run-20260306_124130-6vp6l02q/logs\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    }
+  ]
+}
