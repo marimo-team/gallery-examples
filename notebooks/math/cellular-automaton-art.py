@@ -52,9 +52,8 @@ def _():
 @app.cell(hide_code=True)
 def _(form):
     mo.stop(form.value is None, mo.md("Click **Make art!** to cook up a plot"))
-    with mo.persistent_cache("art"):
-        _v = form.value
-        grid = voter_model(_v["grid_size"], _v["n_states"], _v["steps"], _v["seed"], _v["block_size"])
+    _v = form.value
+    grid = voter_model(_v["grid_size"], _v["n_states"], _v["steps"], _v["seed"], _v["block_size"])
     return (grid,)
 
 
