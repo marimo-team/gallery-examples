@@ -37,11 +37,11 @@ def _(mo):
     mo.md("""
     # ARC-Easy: Prompt Repetition Experiment
 
-    Reproducing the "repeat the prompt" technique from [the "Prompt Repetition Improves Non-Reasoning LLMs" paper](https://www.alphaxiv.org/abs/2512.14982).
+    This notebooks serves two purposes.
 
-    The idea is to transform a prompt, like `<QUERY>`, into `<QUERY> <QUERY>` or `<QUERY> <QUERY> <QUERY>`. It's a stange-trick, but one that seems to work. So this notebook tries to reproduce the finding.
+    1. It reproduces the "repeat the prompt" technique from [the "Prompt Repetition Improves Non-Reasoning LLMs" paper](https://www.alphaxiv.org/abs/2512.14982). The idea is to transform a prompt, like `<QUERY>`, into `<QUERY> <QUERY>` or `<QUERY> <QUERY> <QUERY>`. It's a stange-trick, but one that seems to work. So this notebook tries to reproduce the finding on open-source models on the Arc-Easy task.
+    2. It also serves to display a general pattern. Notebooks are great for exploration, but marimo also makes it great to serve as a batch job. Combine it with weights and biases and suddenly you have a nice way to run larger experiments.
 
-    We evaluate this on ARC-Easy multiple-choice science questions across open-source models.
 
     ## Design
 
@@ -52,6 +52,10 @@ def _(mo):
     ```
 
     All the parameters defined in the  `ExperimentParams` pydantic class can be passed via the command line as well.
+
+    ## Experiment
+
+    The parameters for the experience are defined in a `pydantic` base model below. Make sure to change the project name for your own.
     """)
     return
 
@@ -78,13 +82,21 @@ def _():
         cache_dir: str = Field(default=".cache/arc-easy-llm")
         wandb_project: str = Field(default="arc-easy-prompt-repeat")
         wandb_run_name: str | None = Field(default=None)
-        weave_project: str = Field(default="koaning/arc-easy-prompt-repeat")
+        weave_project: str = Field(default="user/arc-easy-prompt-repeat")
 
 
     class MCAnswer(BaseModel):
         letter: Literal["A", "B", "C", "D"]
 
     return ExperimentParams, MCAnswer
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    If this notebook is running from the command line, we detect it in the cell below.
+    """)
+    return
 
 
 @app.cell
@@ -102,6 +114,14 @@ def _(ExperimentParams, is_script_mode, mo):
     return (params,)
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Next we load the dataset.
+    """)
+    return
+
+
 @app.cell
 def _(params):
     from datasets import load_dataset
@@ -110,6 +130,14 @@ def _(params):
     examples = list(ds.take(params.n_examples))
     len(examples)
     return (examples,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Next we load the open-source LLM.
+    """)
+    return
 
 
 @app.cell
@@ -129,6 +157,16 @@ def _(mo, params):
     )
     mo.vstack([base_url_input, models_input, concurrency_slider])
     return base_url_input, concurrency_slider, models_input
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Weights and Biases
+
+    You either need to be logged in, or you need to have an environment variable.
+    """)
+    return
 
 
 @app.cell
@@ -157,7 +195,7 @@ def _():
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    This notebook assumes that you're using weights and biases to log the results.
+    The widget below makes it easy to copy/paste a key if need be.
     """)
     return
 
@@ -174,6 +212,14 @@ def _():
     )
     env_config
     return env_config, wandb
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    We also track the traces via weave, just for safekeeps.
+    """)
+    return
 
 
 @app.cell
@@ -209,6 +255,16 @@ def _(params):
 
     cache = diskcache.Cache(params.cache_dir)
     return (cache,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## LLM Tasks
+
+    All the utilities related to the LLM task are found below.
+    """)
+    return
 
 
 @app.cell
@@ -291,6 +347,14 @@ def _(MCAnswer):
             return {"raw": raw, "parsed": parse_letter(raw)}
 
     return AsyncOpenAI, ask_llm, asyncio, build_prompt, normalize_answer
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    If you want to run the experiment you can click the button below, but if we are running from the script this is "pressed on your behalf" automatically.
+    """)
+    return
 
 
 @app.cell
@@ -440,6 +504,14 @@ def _(mo, results):
 @app.cell(hide_code=True)
 def _(wandb):
     wandb.finish()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    And there you have it! A general pattern for experimentation!
+    """)
     return
 
 
