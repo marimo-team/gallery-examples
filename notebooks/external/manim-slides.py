@@ -111,6 +111,8 @@ def _(mo):
     ## The code
 
     What follows next is some code that was generated with Claude. The cool thing here is that you can use marimo to host the markdown, then point Claude at the notebook to read the math, and then get Claude to add the relevant slides to the same notebook.
+
+    One crucial thing: we *need* the setup cell at the start of this notebook for all of this to work. The details of this are explained in [this video](https://www.youtube.com/watch?v=ZZBkvfesKG0).
     """)
     return
 
