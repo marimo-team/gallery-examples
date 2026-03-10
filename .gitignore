@@ -206,3 +206,6 @@ cython_debug/
 inputs/
 *.sqlite
 wandb/
+media/
+slides/
+simple.html
