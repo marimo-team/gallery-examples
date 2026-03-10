@@ -46,12 +46,12 @@
     },
     {
       "id": "vblA",
-      "code_hash": "a105b7e70bb41f34515eb7869aca7b0a",
+      "code_hash": "d34ad9d9537d3337551e2b591d9e16d1",
       "outputs": [
         {
           "type": "data",
           "data": {
-            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"the-code\">The code</h2>\n<span class=\"paragraph\">What follows next is some code that was generated with Claude. The cool thing here is that you can use marimo to host the markdown, then point Claude at the notebook to read the math, and then get Claude to add the relevant slides to the same notebook.</span></span>"
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"the-code\">The code</h2>\n<span class=\"paragraph\">What follows next is some code that was generated with Claude. The cool thing here is that you can use marimo to host the markdown, then point Claude at the notebook to read the math, and then get Claude to add the relevant slides to the same notebook.</span>\n<span class=\"paragraph\">One crucial thing: we <em>need</em> the setup cell at the start of this notebook for all of this to work. The details of this are explained in <a href=\"https://www.youtube.com/watch?v=ZZBkvfesKG0\" rel=\"noopener noreferrer\" target=\"_blank\">this video</a>.</span></span>"
           }
         }
       ],
@@ -85,7 +85,7 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "You are using Manim Slides version v5.5.2, but version v5.5.4 is available.\nYou should consider upgrading via pip install -U manim-slides\nManim Community v0.19.1\n\n[03/10/26 12:21:53] INFO     Animation 0 : Using cached     cairo_renderer.py:94\n                             data (hash :                                       \n                             3544663784_364912079_223132457                     \n                             )                                                  \n",
+          "text": "You are using Manim Slides version v5.5.2, but version v5.5.4 is available.\nYou should consider upgrading via pip install -U manim-slides\nManim Community v0.19.1\n\n[03/10/26 12:26:31] INFO     Animation 0 : Using cached     cairo_renderer.py:94\n                             data (hash :                                       \n                             3544663784_364912079_223132457                     \n                             )                                                  \n",
           "mimetype": "text/plain"
         },
         {
@@ -133,7 +133,7 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[03/10/26 12:21:54] INFO     Animation 4 : Using cached     cairo_renderer.py:94\n                             data (hash :                                       \n                             260329756_2279006742_378866820                     \n                             3)                                                 \n",
+          "text": "[03/10/26 12:26:32] INFO     Animation 4 : Using cached     cairo_renderer.py:94\n                             data (hash :                                       \n                             260329756_2279006742_378866820                     \n                             3)                                                 \n",
           "mimetype": "text/plain"
         },
         {
@@ -217,7 +217,7 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "                    INFO     Animation 11 : Using cached    cairo_renderer.py:94\n                             data (hash :                                       \n                             260329756_2461157838_254048142                     \n                             8)                                                 \n",
+          "text": "[03/10/26 12:26:33] INFO     Animation 11 : Using cached    cairo_renderer.py:94\n                             data (hash :                                       \n                             260329756_2461157838_254048142                     \n                             8)                                                 \n",
           "mimetype": "text/plain"
         },
         {
@@ -229,7 +229,7 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[03/10/26 12:21:55] INFO     Animation 12 : Using cached    cairo_renderer.py:94\n                             data (hash :                                       \n                             260329756_2608738049_317928124                     \n                             2)                                                 \n",
+          "text": "                    INFO     Animation 12 : Using cached    cairo_renderer.py:94\n                             data (hash :                                       \n                             260329756_2608738049_317928124                     \n                             2)                                                 \n",
           "mimetype": "text/plain"
         },
         {
@@ -289,7 +289,7 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "                    INFO     Animation 17 : Using cached    cairo_renderer.py:94\n                             data (hash :                                       \n                             260329756_575184950_1062418120                     \n                             )                                                  \n",
+          "text": "[03/10/26 12:26:34] INFO     Animation 17 : Using cached    cairo_renderer.py:94\n                             data (hash :                                       \n                             260329756_575184950_1062418120                     \n                             )                                                  \n",
           "mimetype": "text/plain"
         },
         {
@@ -301,7 +301,7 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[03/10/26 12:21:56] INFO     Animation 18 : Using cached    cairo_renderer.py:94\n                             data (hash :                                       \n                             260329756_2608738049_426341418                     \n                             9)                                                 \n",
+          "text": "                    INFO     Animation 18 : Using cached    cairo_renderer.py:94\n                             data (hash :                                       \n                             260329756_2608738049_426341418                     \n                             9)                                                 \n",
           "mimetype": "text/plain"
         },
         {
@@ -361,7 +361,7 @@
         {
           "type": "stream",
           "name": "stdout",
-          "text": "[03/10/26 12:21:56] INFO     Generated 8 slides to                   base.py:599\n                             '/Users/vwarmerdam/conductor/workspaces            \n                             /gallery-examples/seville-v2/slides/fil            \n                             es/SimpleSlides'                                   \n                    INFO     Generated 8 slides to                   base.py:599\n                             '/Users/vwarmerdam/conductor/workspaces            \n                             /gallery-examples/seville-v2/slides/fil            \n                             es/SimpleSlides'                                   \n                    INFO     Slide 'SimpleSlides' configuration      base.py:611\n                             written in                                         \n                             '/Users/vwarmerdam/conductor/workspaces            \n                             /gallery-examples/seville-v2/slides/Sim            \n                             pleSlides.json'                                    \n                    INFO     Slide 'SimpleSlides' configuration      base.py:611\n                             written in                                         \n                             '/Users/vwarmerdam/conductor/workspaces            \n                             /gallery-examples/seville-v2/slides/Sim            \n                             pleSlides.json'                                    \nYou are using manim version v0.19.1, but version v0.20.1 is available.\nYou should consider upgrading via pip install -U manim\n",
+          "text": "[03/10/26 12:26:34] INFO     Generated 8 slides to                   base.py:599\n                             '/Users/vwarmerdam/conductor/workspaces            \n                             /gallery-examples/seville-v2/slides/fil            \n                             es/SimpleSlides'                                   \n                    INFO     Generated 8 slides to                   base.py:599\n                             '/Users/vwarmerdam/conductor/workspaces            \n                             /gallery-examples/seville-v2/slides/fil            \n                             es/SimpleSlides'                                   \n                    INFO     Slide 'SimpleSlides' configuration      base.py:611\n                             written in                                         \n                             '/Users/vwarmerdam/conductor/workspaces            \n                             /gallery-examples/seville-v2/slides/Sim            \n                             pleSlides.json'                                    \n                    INFO     Slide 'SimpleSlides' configuration      base.py:611\n                             written in                                         \n                             '/Users/vwarmerdam/conductor/workspaces            \n                             /gallery-examples/seville-v2/slides/Sim            \n                             pleSlides.json'                                    \nYou are using manim version v0.19.1, but version v0.20.1 is available.\nYou should consider upgrading via pip install -U manim\n",
           "mimetype": "text/plain"
         }
       ]
