@@ -39,7 +39,7 @@ def _(mo):
 
     Drag the red initial-condition point to explore solutions of
 
-    $$\frac{dy}{dt} = y^2 - 3t^2 + 1$$
+    $$\frac{dy}{dt} = \frac{1}{2}y^2 - 5t^2 + 1$$
 
     The solver integrates forward (blue) and backward (orange) in time
     from the current initial condition.
@@ -52,6 +52,7 @@ def _(ChartPuck, np, ode_rhs, plt, solve_ivp):
     X_MIN, X_MAX = -3, 3
     Y_MIN, Y_MAX = -10, 10
 
+
     def draw_ode_soln(ax: plt.Axes, widget: ChartPuck) -> None:
         x, y = widget.x[0], widget.y[0]
 
@@ -60,7 +61,9 @@ def _(ChartPuck, np, ode_rhs, plt, solve_ivp):
         _y_grid: np.ndarray = np.linspace(Y_MIN, Y_MAX, 25)
         _T, _Y = np.meshgrid(_t_grid, _y_grid)
         _dT: np.ndarray = np.ones_like(_T)  # dt/dt = 1
-        _dY: np.ndarray = _Y - _T**2 + 1  # dy/dt = y - t^2 + 1
+        _dY: np.ndarray = ode_rhs(_T.flatten(), _Y.flatten()).reshape(
+            _T.shape
+        )  # dy/dt from the ODE
 
         # Normalize arrows so they all have the same length
         _speed: np.ndarray = np.sqrt(_dT**2 + _dY**2)
@@ -83,18 +86,24 @@ def _(ChartPuck, np, ode_rhs, plt, solve_ivp):
 
         # --- Compute forward ODE solution ---
         t_forward_span: tuple[float, float] = (x, float(X_MAX))
-        sol_forward = solve_ivp(ode_rhs, t_forward_span, [y], dense_output=True, max_step=0.05)
+        sol_forward = solve_ivp(
+            ode_rhs, t_forward_span, [y], dense_output=True, max_step=0.05
+        )
         t_fwd: np.ndarray = np.linspace(x, float(X_MAX), 300)
         y_fwd: np.ndarray = sol_forward.sol(t_fwd)[0]
 
         # --- Compute backward ODE solution ---
         t_backward_span: tuple[float, float] = (x, float(X_MIN))
-        sol_backward = solve_ivp(ode_rhs, t_backward_span, [y], dense_output=True, max_step=0.05)
+        sol_backward = solve_ivp(
+            ode_rhs, t_backward_span, [y], dense_output=True, max_step=0.05
+        )
         t_bwd: np.ndarray = np.linspace(x, float(X_MIN), 300)
         y_bwd: np.ndarray = sol_backward.sol(t_bwd)[0]
 
         # --- Plot forward and backward solutions ---
-        ax.plot(t_fwd, y_fwd, color="tab:blue", linewidth=2.5, label="Forward", zorder=3)
+        ax.plot(
+            t_fwd, y_fwd, color="tab:blue", linewidth=2.5, label="Forward", zorder=3
+        )
         ax.plot(
             t_bwd,
             y_bwd,
@@ -119,8 +128,8 @@ def _(ChartPuck, np, ode_rhs, plt, solve_ivp):
 @app.cell
 def _(np):
     def ode_rhs(t: float, y: np.ndarray) -> np.ndarray:
-        """dy/dt = y^2 - 3t^2 + 1."""
-        return np.array([y[0] ** 2 - 3 * t**2 + 1])
+        """dy/dt = 0.5 y^2 - 5t^2 + 1."""
+        return np.array([0.5 * y**2 - 5 * t**2 + 1])
 
     return (ode_rhs,)
 
