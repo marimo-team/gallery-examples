@@ -108,7 +108,7 @@ uvx marimo edit --sandbox <notebook>
 | Vector Puck | Explore vector arithmetic with pucks over matplotlib. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/vector-puck.py/wasm) |
 | Thermodynamic Linear Algebra | Estimate a matrix inverse via overdamped Langevin dynamics. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/thermodynamic_linear_algebra.py/wasm) |
 | Interactive ODE Solver | Drag to set initial conditions and explore solutions of an ODE with a direction field. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/ode-solver.py) |
-| RPSLS Math | Explore balanced tournament graphs for Rock-Paper-Scissors variants. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/rpsls-math/notebook.py) |
+| RPSLS Math | Explore balanced tournament graphs for Rock-Paper-Scissors variants. | [![Open in molab]([https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/rpsls-math/notebook.py](https://molab.marimo.io/notebooks/nb_5AqxB9MfasrxQ8SjVmAbsH)) |
 
 ## Custom UI elements with Anywidget
 
