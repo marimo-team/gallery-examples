@@ -59,11 +59,9 @@ def _(ChartPuck, np, ode_rhs, plt, solve_ivp):
         # --- Direction field (quiver plot) ---
         _t_grid: np.ndarray = np.linspace(X_MIN, X_MAX, 25)
         _y_grid: np.ndarray = np.linspace(Y_MIN, Y_MAX, 25)
-        _T, _Y = np.meshgrid(_t_grid, _y_grid)
+        _T, _Y = np.meshgrid(_t_grid, _y_grid) # Shape (25, 25) each
         _dT: np.ndarray = np.ones_like(_T)  # dt/dt = 1
-        _dY: np.ndarray = ode_rhs(_T.flatten(), _Y.flatten()).reshape(
-            _T.shape
-        )  # dy/dt from the ODE
+        _dY: np.ndarray = ode_rhs(_T, _Y).squeeze()  # dy/dt from the ODE
 
         # Normalize arrows so they all have the same length
         _speed: np.ndarray = np.sqrt(_dT**2 + _dY**2)
