@@ -107,6 +107,7 @@ uvx marimo edit --sandbox <notebook>
 | Bak-Sneppen Model | Interactive 3D visualization of the Bak-Sneppen self-organized criticality model. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/bak-sneppen-model.py/wasm) |
 | Vector Puck | Explore vector arithmetic with pucks over matplotlib. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/vector-puck.py/wasm) |
 | Thermodynamic Linear Algebra | Estimate a matrix inverse via overdamped Langevin dynamics. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/thermodynamic_linear_algebra.py/wasm) |
+| Interactive ODE Solver | Drag to set initial conditions and explore solutions of an ODE with a direction field. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/ode-solver.py) |
 
 ## Custom UI elements with Anywidget
 
