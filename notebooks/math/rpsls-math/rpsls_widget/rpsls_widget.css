@@ -1,0 +1,51 @@
+.rpsls-container {
+  --rpsls-node-stroke: #fff;
+  --rpsls-label-fill: #333;
+  --rpsls-edge-color: #888;
+  --rpsls-edge-dim: #e0e0e0;
+  --rpsls-arrow-fill: #666;
+  --rpsls-highlight-stroke: #555;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .rpsls-container {
+    --rpsls-node-stroke: #333;
+    --rpsls-label-fill: #ddd;
+    --rpsls-edge-color: #999;
+    --rpsls-edge-dim: #444;
+    --rpsls-arrow-fill: #999;
+    --rpsls-highlight-stroke: #ccc;
+  }
+}
+
+.rpsls-container svg {
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.node-label {
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--rpsls-label-fill);
+  pointer-events: none;
+  user-select: none;
+}
+
+.edge {
+  fill: none;
+  stroke-width: 1.8;
+}
+
+.node-circle {
+  stroke: var(--rpsls-node-stroke);
+  stroke-width: 2;
+}
+
+.balance-label {
+  font-size: 14px;
+  font-weight: 500;
+  text-anchor: middle;
+}
