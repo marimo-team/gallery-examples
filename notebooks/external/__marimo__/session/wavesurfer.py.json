@@ -1,0 +1,230 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.21.1",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "52a3b694bca8092686cdd9ffbd8667c9",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "64dc8d0fbb08c2ba75fcd608b6db3eaa",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"interactive-audio-waveform-widget\">\ud83c\udfb5 Interactive Audio Waveform Widget</h1>\n<span class=\"paragraph\">A custom <code>anywidget</code> integrating <strong>wavesurfer.js</strong> for interactive audio visualization.\nDrag region boundaries to adjust segments, click regions to select them, see changes in the table below.</span>\n<span class=\"paragraph\">\ud83d\udca1 <strong>Try this</strong>: Drag the colored region edges in the waveform to adjust timing.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "6ab40cfdaed8ea79050ea29fc56a614f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='vblA-0' random-id='b6858888-a5a9-77a8-846f-d25fe521b647'><marimo-file data-initial-value='[]' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Upload Audio File (optional)&lt;/span&gt;&lt;/span&gt;&quot;' data-filetypes='[&quot;.mp3&quot;,&quot;.wav&quot;,&quot;.ogg&quot;,&quot;.m4a&quot;]' data-multiple='false' data-kind='&quot;button&quot;' data-max_size='100000000'></marimo-file></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "dd632f88a7aa9450a7ccc43942d94611",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "3b58ec7506950bc8204b04d35808b811",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "c2090acc9d1dd48bb3b047096ad9adff",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-callout-output data-html='&quot;&lt;span&gt;\ud83c\udfb9 Using generated sample (3 musical pitches: A4 \u2192 C5 \u2192 E5)&lt;/span&gt;&quot;' data-kind='&quot;info&quot;'></marimo-callout-output>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "6b43a2fa40b307af06075723fd6a0db9",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "68486878e3242cde03e81ce26b0b97ff",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "53cb76adb0704cf87ba19f58c941ee96",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "fe86a52cbb4f82395aac9c246254c364",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: row;justify-content: space-between;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><div style='flex: 3'><marimo-ui-element object-id='BYtC-0' random-id='3698cb90-5e99-166d-f351-39537f16d528'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;d123619a73ca4cb1a367e39fe61fb21f&quot;}' data-label='null' data-js-url='&quot;data:text/javascript;base64,CiAgICBpbXBvcnQgV2F2ZVN1cmZlciBmcm9tICdodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvbnBtL3dhdmVzdXJmZXIuanNANy9kaXN0L3dhdmVzdXJmZXIuZXNtLmpzJzsKICAgIGltcG9ydCBSZWdpb25zUGx1Z2luIGZyb20gJ2h0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vd2F2ZXN1cmZlci5qc0A3L2Rpc3QvcGx1Z2lucy9yZWdpb25zLmVzbS5qcyc7CiAgICBpbXBvcnQgVGltZWxpbmVQbHVnaW4gZnJvbSAnaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L25wbS93YXZlc3VyZmVyLmpzQDcvZGlzdC9wbHVnaW5zL3RpbWVsaW5lLmVzbS5qcyc7CgogICAgZnVuY3Rpb24gcmVuZGVyKHsgbW9kZWwsIGVsIH0pIHsKICAgICAgY29uc3QgY29udGFpbmVyID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnZGl2Jyk7CiAgICAgIGNvbnRhaW5lci5zdHlsZS53aWR0aCA9ICcxMDAlJzsKICAgICAgY29udGFpbmVyLnN0eWxlLmZvbnRGYW1pbHkgPSAnc2Fucy1zZXJpZic7CgogICAgICBjb25zdCB3YXZlZm9ybURpdiA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpOwogICAgICB3YXZlZm9ybURpdi5pZCA9ICd3YXZlZm9ybS0nICsgTWF0aC5yYW5kb20oKS50b1N0cmluZygzNikuc3Vic3RyKDIsIDkpOwoKICAgICAgY29uc3QgY29udHJvbHMgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTsKICAgICAgY29udHJvbHMuc3R5bGUubWFyZ2luVG9wID0gJzEwcHgnOwogICAgICBjb250cm9scy5zdHlsZS5kaXNwbGF5ID0gJ2ZsZXgnOwogICAgICBjb250cm9scy5zdHlsZS5nYXAgPSAnMTBweCc7CiAgICAgIGNvbnRyb2xzLnN0eWxlLmFsaWduSXRlbXMgPSAnY2VudGVyJzsKCiAgICAgIGNvbnN0IHBsYXlQYXVzZUJ0biA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2J1dHRvbicpOwogICAgICBwbGF5UGF1c2VCdG4udGV4dENvbnRlbnQgPSAn4pa2IFBsYXknOwogICAgICBwbGF5UGF1c2VCdG4uc3R5bGUucGFkZGluZyA9ICc4cHggMTZweCc7CiAgICAgIHBsYXlQYXVzZUJ0bi5zdHlsZS5jdXJzb3IgPSAncG9pbnRlcic7CiAgICAgIHBsYXlQYXVzZUJ0bi5zdHlsZS5mb250U2l6ZSA9ICcxNHB4JzsKCiAgICAgIGNvbnN0IHNwZWVkTGFiZWwgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdzcGFuJyk7CiAgICAgIHNwZWVkTGFiZWwudGV4dENvbnRlbnQgPSAnU3BlZWQ6ICc7CiAgICAgIHNwZWVkTGFiZWwuc3R5bGUuY3NzVGV4dCA9ICdmb250LXNpemU6MTRweDttYXJnaW4tbGVmdDo4cHg7JzsKCiAgICAgIGNvbnN0IHNwZWVkU2VsZWN0ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnc2VsZWN0Jyk7CiAgICAgIHNwZWVkU2VsZWN0LnN0eWxlLmNzc1RleHQgPSAncGFkZGluZzo0cHggOHB4O2N1cnNvcjpwb2ludGVyO2ZvbnQtc2l6ZToxNHB4O2JvcmRlcjoxcHggc29saWQgI2NjYztib3JkZXItcmFkaXVzOjRweDtiYWNrZ3JvdW5kOiNmZmY7JzsKICAgICAgY29uc3Qgc3BlZWRzID0gWzAuNSwgMC43NSwgMS4wLCAxLjI1LCAxLjUsIDEuNzUsIDIuMF07CiAgICAgIHNwZWVkcy5mb3JFYWNoKHNwZWVkID0+IHsKICAgICAgICBjb25zdCBvcHRpb24gPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdvcHRpb24nKTsKICAgICAgICBvcHRpb24udmFsdWUgPSBzcGVlZDsKICAgICAgICBvcHRpb24udGV4dENvbnRlbnQgPSBgJHtzcGVlZH14YDsKICAgICAgICBpZiAoc3BlZWQgPT09IDEuMCkgb3B0aW9uLnNlbGVjdGVkID0gdHJ1ZTsKICAgICAgICBzcGVlZFNlbGVjdC5hcHBlbmRDaGlsZChvcHRpb24pOwogICAgICB9KTsKCiAgICAgIGNvbnN0IHRpbWVEaXNwbGF5ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnc3BhbicpOwogICAgICB0aW1lRGlzcGxheS5zdHlsZS5mb250RmFtaWx5ID0gJ21vbm9zcGFjZSc7CiAgICAgIHRpbWVEaXNwbGF5LnN0eWxlLmZvbnRTaXplID0gJzE0cHgnOwogICAgICB0aW1lRGlzcGxheS50ZXh0Q29udGVudCA9ICcwLjAwMCAvIDAuMDAwJzsKCiAgICAgIGNvbnN0IHJlZ2lvbkluZm8gPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTsKICAgICAgcmVnaW9uSW5mby5zdHlsZS5tYXJnaW5Ub3AgPSAnMTBweCc7CiAgICAgIHJlZ2lvbkluZm8uc3R5bGUucGFkZGluZyA9ICc4cHgnOwogICAgICByZWdpb25JbmZvLnN0eWxlLmJhY2tncm91bmRDb2xvciA9ICcjZjBmMGYwJzsKICAgICAgcmVnaW9uSW5mby5zdHlsZS5ib3JkZXJSYWRpdXMgPSAnNHB4JzsKICAgICAgcmVnaW9uSW5mby5zdHlsZS5mb250U2l6ZSA9ICcxM3B4JzsKICAgICAgcmVnaW9uSW5mby50ZXh0Q29udGVudCA9ICdDbGljayBhIHJlZ2lvbiB0byBzZWxlY3QgaXQnOwoKICAgICAgY29udHJvbHMuYXBwZW5kQ2hpbGQocGxheVBhdXNlQnRuKTsKICAgICAgY29udHJvbHMuYXBwZW5kQ2hpbGQoc3BlZWRMYWJlbCk7CiAgICAgIGNvbnRyb2xzLmFwcGVuZENoaWxkKHNwZWVkU2VsZWN0KTsKICAgICAgY29udHJvbHMuYXBwZW5kQ2hpbGQodGltZURpc3BsYXkpOwogICAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQod2F2ZWZvcm1EaXYpOwogICAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQoY29udHJvbHMpOwogICAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQocmVnaW9uSW5mbyk7CiAgICAgIGVsLmFwcGVuZENoaWxkKGNvbnRhaW5lcik7CgogICAgICBjb25zdCByZWdpb25zUGx1Z2luID0gUmVnaW9uc1BsdWdpbi5jcmVhdGUoKTsKICAgICAgY29uc3QgdGltZWxpbmVQbHVnaW4gPSBUaW1lbGluZVBsdWdpbi5jcmVhdGUoewogICAgICAgIGhlaWdodDogMjAsCiAgICAgICAgdGltZUludGVydmFsOiAwLjUsCiAgICAgICAgcHJpbWFyeUxhYmVsSW50ZXJ2YWw6IDUsCiAgICAgICAgc3R5bGU6IHsgZm9udFNpemU6ICcxMHB4JywgY29sb3I6ICcjNkI3MjgwJyB9LAogICAgICB9KTsKCiAgICAgIGNvbnN0IHdhdmVzdXJmZXIgPSBXYXZlU3VyZmVyLmNyZWF0ZSh7CiAgICAgICAgY29udGFpbmVyOiB3YXZlZm9ybURpdiwKICAgICAgICB3YXZlQ29sb3I6IG1vZGVsLmdldCgnd2F2ZWZvcm1fY29sb3InKSwKICAgICAgICBwcm9ncmVzc0NvbG9yOiBtb2RlbC5nZXQoJ3Byb2dyZXNzX2NvbG9yJyksCiAgICAgICAgaGVpZ2h0OiBtb2RlbC5nZXQoJ2hlaWdodCcpLAogICAgICAgIG5vcm1hbGl6ZTogdHJ1ZSwKICAgICAgICBwbHVnaW5zOiBbcmVnaW9uc1BsdWdpbiwgdGltZWxpbmVQbHVnaW5dLAogICAgICB9KTsKCiAgICAgIGNvbnN0IGF1ZGlvRGF0YSA9IG1vZGVsLmdldCgnYXVkaW9fZGF0YScpOwogICAgICBpZiAoYXVkaW9EYXRhICYmIGF1ZGlvRGF0YS5ieXRlTGVuZ3RoID4gMCkgewogICAgICAgIGNvbnN0IGJsb2IgPSBuZXcgQmxvYihbYXVkaW9EYXRhXSwgeyB0eXBlOiAnYXVkaW8vbXBlZycgfSk7CiAgICAgICAgY29uc3QgdXJsID0gVVJMLmNyZWF0ZU9iamVjdFVSTChibG9iKTsKICAgICAgICB3YXZlc3VyZmVyLmxvYWQodXJsKTsKICAgICAgfQoKICAgICAgd2F2ZXN1cmZlci5vbigncmVhZHknLCAoKSA9PiB7CiAgICAgICAgY29uc3QgZHVyID0gd2F2ZXN1cmZlci5nZXREdXJhdGlvbigpOwogICAgICAgIG1vZGVsLnNldCgnZHVyYXRpb24nLCBkdXIpOwogICAgICAgIG1vZGVsLnNhdmVfY2hhbmdlcygpOwogICAgICAgIHRpbWVEaXNwbGF5LnRleHRDb250ZW50ID0gYDAuMDAwIC8gJHtkdXIudG9GaXhlZCgzKX1gOwoKICAgICAgICAvLyBTZXQgaW5pdGlhbCBwbGF5YmFjayBzcGVlZAogICAgICAgIGNvbnN0IGluaXRpYWxTcGVlZCA9IG1vZGVsLmdldCgncGxheWJhY2tfc3BlZWQnKTsKICAgICAgICBpZiAoaW5pdGlhbFNwZWVkICYmIGluaXRpYWxTcGVlZCAhPT0gMS4wKSB7CiAgICAgICAgICB3YXZlc3VyZmVyLnNldFBsYXliYWNrUmF0ZShpbml0aWFsU3BlZWQpOwogICAgICAgICAgc3BlZWRTZWxlY3QudmFsdWUgPSBpbml0aWFsU3BlZWQ7CiAgICAgICAgfQoKICAgICAgICBjb25zdCByZWdpb25zID0gbW9kZWwuZ2V0KCdyZWdpb25zJykgfHwgW107CiAgICAgICAgcmVnaW9ucy5mb3JFYWNoKChyZWdpb24pID0+IHsKICAgICAgICAgIHJlZ2lvbnNQbHVnaW4uYWRkUmVnaW9uKHsKICAgICAgICAgICAgaWQ6IHJlZ2lvbi5pZCwKICAgICAgICAgICAgc3RhcnQ6IHJlZ2lvbi5zdGFydCwKICAgICAgICAgICAgZW5kOiByZWdpb24uZW5kLAogICAgICAgICAgICBjb2xvcjogcmVnaW9uLmNvbG9yIHx8ICdyZ2JhKDAsIDEyMywgMjU1LCAwLjMpJywKICAgICAgICAgICAgZHJhZzogcmVnaW9uLmRyYWcgIT09IGZhbHNlLAogICAgICAgICAgICByZXNpemU6IHJlZ2lvbi5yZXNpemUgIT09IGZhbHNlLAogICAgICAgICAgICBjb250ZW50OiByZWdpb24ubGFiZWwgfHwgJycsCiAgICAgICAgICB9KTsKICAgICAgICB9KTsKICAgICAgfSk7CgogICAgICB3YXZlc3VyZmVyLm9uKCd0aW1ldXBkYXRlJywgKGN1cnJlbnRUaW1lKSA9PiB7CiAgICAgICAgY29uc3QgZHVyID0gd2F2ZXN1cmZlci5nZXREdXJhdGlvbigpOwogICAgICAgIHRpbWVEaXNwbGF5LnRleHRDb250ZW50ID0gYCR7Y3VycmVudFRpbWUudG9GaXhlZCgzKX0gLyAke2R1ci50b0ZpeGVkKDMpfWA7CiAgICAgIH0pOwoKICAgICAgd2F2ZXN1cmZlci5vbigncGxheScsICgpID0+IHsKICAgICAgICBtb2RlbC5zZXQoJ2lzX3BsYXlpbmcnLCB0cnVlKTsKICAgICAgICBtb2RlbC5zYXZlX2NoYW5nZXMoKTsKICAgICAgICBwbGF5UGF1c2VCdG4udGV4dENvbnRlbnQgPSAn4o+4IFBhdXNlJzsKICAgICAgfSk7CgogICAgICB3YXZlc3VyZmVyLm9uKCdwYXVzZScsICgpID0+IHsKICAgICAgICBtb2RlbC5zZXQoJ2lzX3BsYXlpbmcnLCBmYWxzZSk7CiAgICAgICAgbW9kZWwuc2V0KCdjdXJyZW50X3RpbWUnLCB3YXZlc3VyZmVyLmdldEN1cnJlbnRUaW1lKCkpOwogICAgICAgIG1vZGVsLnNhdmVfY2hhbmdlcygpOwogICAgICAgIHBsYXlQYXVzZUJ0bi50ZXh0Q29udGVudCA9ICfilrYgUGxheSc7CiAgICAgIH0pOwoKICAgICAgcGxheVBhdXNlQnRuLmFkZEV2ZW50TGlzdGVuZXIoJ2NsaWNrJywgKCkgPT4gewogICAgICAgIHdhdmVzdXJmZXIucGxheVBhdXNlKCk7CiAgICAgIH0pOwoKICAgICAgc3BlZWRTZWxlY3QuYWRkRXZlbnRMaXN0ZW5lcignY2hhbmdlJywgKCkgPT4gewogICAgICAgIGNvbnN0IHNwZWVkID0gcGFyc2VGbG9hdChzcGVlZFNlbGVjdC52YWx1ZSk7CiAgICAgICAgd2F2ZXN1cmZlci5zZXRQbGF5YmFja1JhdGUoc3BlZWQpOwogICAgICAgIG1vZGVsLnNldCgncGxheWJhY2tfc3BlZWQnLCBzcGVlZCk7CiAgICAgICAgbW9kZWwuc2F2ZV9jaGFuZ2VzKCk7CiAgICAgIH0pOwoKICAgICAgcmVnaW9uc1BsdWdpbi5vbigncmVnaW9uLXVwZGF0ZWQnLCAocmVnaW9uKSA9PiB7CiAgICAgICAgY29uc3QgcmVnaW9ucyA9IG1vZGVsLmdldCgncmVnaW9ucycpLm1hcCgocikgPT4gewogICAgICAgICAgaWYgKHIuaWQgPT09IHJlZ2lvbi5pZCkgewogICAgICAgICAgICByZXR1cm4geyAuLi5yLCBzdGFydDogcmVnaW9uLnN0YXJ0LCBlbmQ6IHJlZ2lvbi5lbmQgfTsKICAgICAgICAgIH0KICAgICAgICAgIHJldHVybiByOwogICAgICAgIH0pOwogICAgICAgIG1vZGVsLnNldCgncmVnaW9ucycsIHJlZ2lvbnMpOwogICAgICAgIG1vZGVsLnNhdmVfY2hhbmdlcygpOwogICAgICB9KTsKCiAgICAgIHJlZ2lvbnNQbHVnaW4ub24oJ3JlZ2lvbi1jbGlja2VkJywgKHJlZ2lvbiwgZSkgPT4gewogICAgICAgIHJlZ2lvbnNQbHVnaW4uZ2V0UmVnaW9ucygpLmZvckVhY2goKHIpID0+IHsKICAgICAgICAgIHIuZWxlbWVudC5zdHlsZS5vcGFjaXR5ID0gci5pZCA9PT0gcmVnaW9uLmlkID8gJzAuNicgOiAnMC4zJzsKICAgICAgICB9KTsKCiAgICAgICAgbW9kZWwuc2V0KCdzZWxlY3RlZF9yZWdpb25faWQnLCByZWdpb24uaWQpOwogICAgICAgIG1vZGVsLnNhdmVfY2hhbmdlcygpOwoKICAgICAgICByZWdpb25JbmZvLmlubmVySFRNTCA9IGAKICAgICAgICAgIDxzdHJvbmc+U2VsZWN0ZWQ6PC9zdHJvbmc+ICR7cmVnaW9uLmNvbnRlbnQgfHwgcmVnaW9uLmlkfTxicj4KICAgICAgICAgIDxzdHJvbmc+VGltZTo8L3N0cm9uZz4gJHtyZWdpb24uc3RhcnQudG9GaXhlZCgzKX1zIC0gJHtyZWdpb24uZW5kLnRvRml4ZWQoMyl9cwogICAgICAgICAgKGR1cmF0aW9uOiAkeyhyZWdpb24uZW5kIC0gcmVnaW9uLnN0YXJ0KS50b0ZpeGVkKDMpfXMpCiAgICAgICAgYDsKCiAgICAgICAgZS5zdG9wUHJvcGFnYXRpb24oKTsKICAgICAgfSk7CgogICAgICBtb2RlbC5vbignY2hhbmdlOmF1ZGlvX2RhdGEnLCAoKSA9PiB7CiAgICAgICAgY29uc3QgYXVkaW9EYXRhID0gbW9kZWwuZ2V0KCdhdWRpb19kYXRhJyk7CiAgICAgICAgaWYgKGF1ZGlvRGF0YSAmJiBhdWRpb0RhdGEuYnl0ZUxlbmd0aCA+IDApIHsKICAgICAgICAgIGNvbnN0IGJsb2IgPSBuZXcgQmxvYihbYXVkaW9EYXRhXSwgeyB0eXBlOiAnYXVkaW8vbXBlZycgfSk7CiAgICAgICAgICBjb25zdCB1cmwgPSBVUkwuY3JlYXRlT2JqZWN0VVJMKGJsb2IpOwogICAgICAgICAgd2F2ZXN1cmZlci5sb2FkKHVybCk7CiAgICAgICAgfQogICAgICB9KTsKCiAgICAgIG1vZGVsLm9uKCdjaGFuZ2U6cmVnaW9ucycsICgpID0+IHsKICAgICAgICByZWdpb25zUGx1Z2luLmNsZWFyUmVnaW9ucygpOwogICAgICAgIGNvbnN0IHJlZ2lvbnMgPSBtb2RlbC5nZXQoJ3JlZ2lvbnMnKSB8fCBbXTsKICAgICAgICByZWdpb25zLmZvckVhY2goKHJlZ2lvbikgPT4gewogICAgICAgICAgcmVnaW9uc1BsdWdpbi5hZGRSZWdpb24oewogICAgICAgICAgICBpZDogcmVnaW9uLmlkLAogICAgICAgICAgICBzdGFydDogcmVnaW9uLnN0YXJ0LAogICAgICAgICAgICBlbmQ6IHJlZ2lvbi5lbmQsCiAgICAgICAgICAgIGNvbG9yOiByZWdpb24uY29sb3IgfHwgJ3JnYmEoMCwgMTIzLCAyNTUsIDAuMyknLAogICAgICAgICAgICBkcmFnOiByZWdpb24uZHJhZyAhPT0gZmFsc2UsCiAgICAgICAgICAgIHJlc2l6ZTogcmVnaW9uLnJlc2l6ZSAhPT0gZmFsc2UsCiAgICAgICAgICAgIGNvbnRlbnQ6IHJlZ2lvbi5sYWJlbCB8fCAnJywKICAgICAgICAgIH0pOwogICAgICAgIH0pOwogICAgICB9KTsKCiAgICAgIG1vZGVsLm9uKCdjaGFuZ2U6Y3VycmVudF90aW1lJywgKCkgPT4gewogICAgICAgIHdhdmVzdXJmZXIuc2V0VGltZShtb2RlbC5nZXQoJ2N1cnJlbnRfdGltZScpKTsKICAgICAgfSk7CgogICAgICBtb2RlbC5vbignY2hhbmdlOnBsYXliYWNrX3NwZWVkJywgKCkgPT4gewogICAgICAgIGNvbnN0IHNwZWVkID0gbW9kZWwuZ2V0KCdwbGF5YmFja19zcGVlZCcpOwogICAgICAgIHdhdmVzdXJmZXIuc2V0UGxheWJhY2tSYXRlKHNwZWVkKTsKICAgICAgICBzcGVlZFNlbGVjdC52YWx1ZSA9IHNwZWVkOwogICAgICB9KTsKCiAgICAgIHJldHVybiAoKSA9PiB3YXZlc3VyZmVyLmRlc3Ryb3koKTsKICAgIH0KCiAgICBleHBvcnQgZGVmYXVsdCB7IHJlbmRlciB9OwogICAg&quot;' data-js-hash='&quot;de477185544c50d8dc4936d1e129fb1d&quot;'></marimo-anywidget></marimo-ui-element></div><div style='flex: 1'><span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>State</strong></span>\n<ul>\n<li>Time: <code>0.000s / 0.000s</code></li>\n<li>Status: \u23f8\ufe0f Paused</li>\n<li>Selected: <code>(none)</code></li>\n<li>Regions: <code>3</code></li>\n<li>Speed: <code>1.00x</code></li>\n</ul></span></div></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "91d10edd0a504f487b57b949bb4cdb2a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"regions-table\">Regions Table</h2>\n<span class=\"paragraph\">Click a row to jump to that region. Drag boundaries in the waveform above to update the table!</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "04211fc5b80a36c227777e4ed6366a00",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='emfo-0' random-id='eb5dc0eb-30d9-b1e1-592a-5c9983937a65'><marimo-table data-initial-value='[]' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Audio Regions&lt;/span&gt;&lt;/span&gt;&quot;' data-data='&quot;[{&#92;&quot;ID&#92;&quot;:&#92;&quot;intro&#92;&quot;,&#92;&quot;Label&#92;&quot;:&#92;&quot;Intro (A4 - 440Hz)&#92;&quot;,&#92;&quot;Start&#92;&quot;:&#92;&quot;0.000s&#92;&quot;,&#92;&quot;End&#92;&quot;:&#92;&quot;1.000s&#92;&quot;,&#92;&quot;Duration&#92;&quot;:&#92;&quot;1.000s&#92;&quot;},{&#92;&quot;ID&#92;&quot;:&#92;&quot;main&#92;&quot;,&#92;&quot;Label&#92;&quot;:&#92;&quot;Main (C5 - 523Hz)&#92;&quot;,&#92;&quot;Start&#92;&quot;:&#92;&quot;1.000s&#92;&quot;,&#92;&quot;End&#92;&quot;:&#92;&quot;3.500s&#92;&quot;,&#92;&quot;Duration&#92;&quot;:&#92;&quot;2.500s&#92;&quot;},{&#92;&quot;ID&#92;&quot;:&#92;&quot;outro&#92;&quot;,&#92;&quot;Label&#92;&quot;:&#92;&quot;Outro (E5 - 659Hz)&#92;&quot;,&#92;&quot;Start&#92;&quot;:&#92;&quot;3.500s&#92;&quot;,&#92;&quot;End&#92;&quot;:&#92;&quot;5.000s&#92;&quot;,&#92;&quot;Duration&#92;&quot;:&#92;&quot;1.500s&#92;&quot;}]&quot;' data-total-rows='3' data-total-columns='5' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='false' data-page-size='10' data-selection='&quot;single&quot;' data-show-filters='false' data-show-download='false' data-show-column-summaries='false' data-show-data-types='true' data-show-page-size-selector='false' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;table_data&quot;'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "7c5585b26333f755175a3e8509af4b44",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "fb752f05b82439c349c9738ea44e6650",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"export\">Export</h2>\n<span class=\"paragraph\">Save your annotated regions as JSON:</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "iLit",
+      "code_hash": "79e9949dca8d2113e4474c5d858a7800",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='iLit-0' random-id='a01a64a6-5b52-9aff-7ecc-20beaed6440e'><marimo-button data-initial-value='0' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;\ud83d\udce5 Export Regions&lt;/span&gt;&lt;/span&gt;&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "a2bafdb92925f53e40aabb2f68249281",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ROlb",
+      "code_hash": "dfae224d232db2cb417bd9d33455ca95",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><hr />\n<h2 id=\"how-it-works\">How It Works</h2>\n<span class=\"paragraph\">This widget combines:</span>\n<ul>\n<li><strong><a href=\"https://anywidget.dev/\" rel=\"noopener noreferrer\" target=\"_blank\">anywidget</a></strong> - Portable widget framework</li>\n<li><strong><a href=\"https://wavesurfer.xyz/\" rel=\"noopener noreferrer\" target=\"_blank\">wavesurfer.js</a></strong> - Audio visualization (loaded from CDN)</li>\n<li><strong><a href=\"https://marimo.io/\" rel=\"noopener noreferrer\" target=\"_blank\">marimo</a></strong> - Reactive Python notebooks</li>\n</ul>\n<h3 id=\"key-features\">Key Features</h3>\n<ul>\n<li><strong>Bidirectional sync</strong>: Python \u2194 JavaScript state automatically synchronized via traitlets</li>\n<li><strong>Multi-pitch audio</strong>: Generated sample uses 3 musical notes (A4, C5, E5) forming A major chord</li>\n<li><strong>File upload support</strong>: Upload your own audio files (MP3, WAV, OGG, M4A)</li>\n<li><strong>Self-contained</strong>: Works immediately - no build step, no external dependencies</li>\n<li><strong>Interactive</strong>: Drag regions, click table rows, play audio - everything updates reactively</li>\n</ul>\n<h3 id=\"use-cases\">Use Cases</h3>\n<ul>\n<li>Audio transcription and annotation</li>\n<li>Podcast chapter marking</li>\n<li>Music analysis (verse/chorus/bridge)</li>\n<li>Language learning with sentence-level audio</li>\n</ul>\n<hr />\n<span class=\"paragraph\"><strong>Resources</strong>:\n<a href=\"https://wavesurfer.xyz/docs/\" rel=\"noopener noreferrer\" target=\"_blank\">wavesurfer.js docs</a> \u2022\n<a href=\"https://anywidget.dev/en/getting-started/\" rel=\"noopener noreferrer\" target=\"_blank\">anywidget guide</a> \u2022\n<a href=\"https://marimo.io/gallery\" rel=\"noopener noreferrer\" target=\"_blank\">marimo gallery</a></span></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}
