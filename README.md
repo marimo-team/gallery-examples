@@ -29,6 +29,7 @@ uvx marimo edit --sandbox <notebook>
 | Sklearn Classification | Bootstrap models with preprocessing and cross-validation. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/sklearn-clf.py/wasm) |
 | FastAPI + GliNER | Zero-shot entity extraction as webapp, API, or CLI. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/fastapi-gliner.py) |
 | Chemical Space Explorer | Explore chemical space with RDKit fingerprints, t-SNE, and HDBSCAN clustering. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/chemical-space-explorer.py) |
+| Bayesian Regression | Interactive sequential Bayesian linear regression demo. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/bayesian-regression-demo.py) |
 
 ## Research papers
 
