@@ -83,6 +83,7 @@ uvx marimo edit --sandbox <notebook>
 | When Europeans Fly Nest | Dataviz makeover exploring when young Europeans leave home. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/external/when-europeans-fly-nest.py) |
 | Mandelbrot | Cython vs Python Mandelbrot set benchmark. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/external/mandelbrot.py) |
 | Manim Slides | Trigonometric identity proof animated with manim-slides. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/external/manim-slides.py) |
+| dltHub + Hugging Face | Curate Hugging Face datasets with dltHub pipelines and data quality checks. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/external/dlthub-huggingface.py) |
 
 ## Geo
 

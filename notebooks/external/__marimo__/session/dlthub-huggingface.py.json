@@ -1,0 +1,620 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.21.1",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "d14759681da70c4babf49072c7183759",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "3735af2bf802affb9ef0d4dbe2d80f2e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "253ab0dfe0c2f7228f9cbafcef41c1b3",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"curating-data-with-hugging-face-and-dlthub\">Curating data with Hugging Face and dltHub</h1>\n<span class=\"paragraph\">This notebook complements our <a href=\"https://dlthub.com/blog/hugging-face-dlt-ml\" rel=\"noopener noreferrer\" target=\"_blank\">blog post on dltHub's recent integration with Hugging Face</a>.</span>\n<span class=\"paragraph\">We'll walkthrough loading the <a href=\"https://huggingface.co/datasets/lance-format/openvid-lance\" rel=\"noopener noreferrer\" target=\"_blank\">OpenVid Dataset</a> into LanceDB using dltHub and then writing the data back to Hugging Face after data exploration, quality checks, and\nfiltering.</span>\n<span class=\"paragraph\">The pipeline:</span>\n<ol>\n<li>Uses DuckDB's <code>hf://</code> adapter to read parquet files directly from Hugging Face Hub</li>\n<li>Filters out heavy columns (video blobs, embeddings) to keep only metadata</li>\n<li>Streams rows in batches into LanceDB via <code>dlt</code></li>\n<li>Embeds the <code>caption</code> column for vector search</li>\n<li>Runs data quality checks to validate scores, nullability, and categories</li>\n<li>Filters videos by quality thresholds to curate a training-ready subset</li>\n<li>Writes the curated dataset back to Hugging Face via <code>dlt</code></li>\n</ol></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "c3e6028e06a32a190c28275e8e811498",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"define-the-pipeline-and-data-source\">Define the pipeline and data source</h2>\n<span class=\"paragraph\">A <code>dlt.pipeline</code> is the central object that connects a data source to a\ndestination. It manages schema evolution, state tracking, and load metadata.</span>\n<span class=\"paragraph\">A <code>dlt.pipeline</code> connects a data source to a destination and manages schema\nevolution, state, and load metadata. Here we point it at LanceDB so the\nOpenVid metadata we pull from Hugging Face lands in a queryable vector store.</span>\n<div class=\"language-python codehilite\"><pre><span></span><code><span class=\"n\">pipeline</span> <span class=\"o\">=</span> <span class=\"n\">dlt</span><span class=\"o\">.</span><span class=\"n\">pipeline</span><span class=\"p\">(</span>\n    <span class=\"n\">pipeline_name</span><span class=\"o\">=</span><span class=\"s2\">&quot;openvid&quot;</span><span class=\"p\">,</span>\n    <span class=\"n\">destination</span><span class=\"o\">=</span><span class=\"n\">dlt</span><span class=\"o\">.</span><span class=\"n\">destinations</span><span class=\"o\">.</span><span class=\"n\">lancedb</span><span class=\"p\">(</span>\n        <span class=\"n\">lance_uri</span><span class=\"o\">=</span><span class=\"s2\">&quot;/tmp/openvid_lance&quot;</span><span class=\"p\">,</span>\n    <span class=\"p\">),</span>\n    <span class=\"n\">dataset_name</span><span class=\"o\">=</span><span class=\"s2\">&quot;openvid&quot;</span><span class=\"p\">,</span>\n<span class=\"p\">)</span>\n</code></pre></div></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "4da6972157d8b42feed23ee1994b6e4c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='bkHC-0' random-id='31bc29a6-4797-6d56-6d9f-55914e0815f0'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;1c58010de8074074a54b0f7f7d5a3764&quot;}' data-label='null' data-js-url='&quot;data:text/javascript;base64,ZnVuY3Rpb24gcmVuZGVyKHsgbW9kZWwsIGVsIH0pIHsKICBlbC5jbGFzc0xpc3QuYWRkKCJlbnYtY29uZmlnLXdpZGdldCIpOwoKICBjb25zdCBjb250YWluZXIgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCJkaXYiKTsKICBjb250YWluZXIuY2xhc3NOYW1lID0gImVudi1jb25maWctY29udGFpbmVyIjsKCiAgLy8gU3RvcmUgcmVmZXJlbmNlcyB0byB1cGRhdGUgaW4gcGxhY2UgKG5vIERPTSByZWJ1aWxkKQogIGNvbnN0IHJvd3MgPSBbXTsKICBjb25zdCBpbnB1dHMgPSBbXTsKICBjb25zdCBzdGF0dXNFbHMgPSBbXTsKICBsZXQgZm9vdGVyOwoKICBmdW5jdGlvbiBidWlsZEluaXRpYWxET00oKSB7CiAgICBjb25zdCB2YXJpYWJsZXMgPSBtb2RlbC5nZXQoInZhcmlhYmxlcyIpOwoKICAgIHZhcmlhYmxlcy5mb3JFYWNoKCh2YXJpYWJsZSwgaW5kZXgpID0+IHsKICAgICAgY29uc3Qgcm93ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgiZGl2Iik7CiAgICAgIHJvdy5jbGFzc05hbWUgPSAiZW52LWNvbmZpZy1yb3ciOwogICAgICByb3cuZGF0YXNldC5zdGF0dXMgPSB2YXJpYWJsZS5zdGF0dXM7CiAgICAgIHJvd3MucHVzaChyb3cpOwoKICAgICAgLy8gVmFyaWFibGUgbmFtZQogICAgICBjb25zdCBuYW1lRWwgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCJkaXYiKTsKICAgICAgbmFtZUVsLmNsYXNzTmFtZSA9ICJlbnYtdmFyLW5hbWUiOwogICAgICBuYW1lRWwudGV4dENvbnRlbnQgPSB2YXJpYWJsZS5uYW1lOwogICAgICByb3cuYXBwZW5kQ2hpbGQobmFtZUVsKTsKCiAgICAgIC8vIElucHV0IGZpZWxkCiAgICAgIGNvbnN0IGZpZWxkRWwgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCJkaXYiKTsKICAgICAgZmllbGRFbC5jbGFzc05hbWUgPSAiZW52LXZhci1maWVsZCI7CgogICAgICBjb25zdCBpbnB1dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoImlucHV0Iik7CiAgICAgIGlucHV0LnR5cGUgPSAicGFzc3dvcmQiOwogICAgICBpbnB1dC5jbGFzc05hbWUgPSAiZW52LWlucHV0IjsKICAgICAgaW5wdXQuYXV0b2NvbXBsZXRlID0gIm9mZiI7CiAgICAgIGlucHV0cy5wdXNoKGlucHV0KTsKCiAgICAgIC8vIFNldCBpbml0aWFsIHZhbHVlL3BsYWNlaG9sZGVyIC0gc2hvdyB2YWx1ZSBldmVuIGZvciBpbnZhbGlkIHN0YXR1cwogICAgICBpZiAodmFyaWFibGUuc3RhdHVzID09PSAidmFsaWQiIHx8IHZhcmlhYmxlLnN0YXR1cyA9PT0gImludmFsaWQiKSB7CiAgICAgICAgaW5wdXQudmFsdWUgPSB2YXJpYWJsZS52YWx1ZSB8fCAiIjsKICAgICAgfQogICAgICBpZiAodmFyaWFibGUuc3RhdHVzID09PSAibWlzc2luZyIpIHsKICAgICAgICBpbnB1dC5wbGFjZWhvbGRlciA9ICJFbnRlciB2YWx1ZS4uLiI7CiAgICAgIH0KCiAgICAgIC8vIFN1Ym1pdCBvbiBFbnRlciBvbmx5IC0gbGV0IFRhYiB3b3JrIG5hdHVyYWxseQogICAgICBpbnB1dC5hZGRFdmVudExpc3RlbmVyKCJrZXlkb3duIiwgKGUpID0+IHsKICAgICAgICBpZiAoZS5rZXkgPT09ICJFbnRlciIpIHsKICAgICAgICAgIGUucHJldmVudERlZmF1bHQoKTsKICAgICAgICAgIGNvbnN0IHZhbHVlID0gaW5wdXQudmFsdWUudHJpbSgpOwogICAgICAgICAgaWYgKCF2YWx1ZSkgcmV0dXJuOwoKICAgICAgICAgIG1vZGVsLnNldCgiX3BlbmRpbmdfdmFsdWUiLCB7CiAgICAgICAgICAgIG5hbWU6IHZhcmlhYmxlLm5hbWUsCiAgICAgICAgICAgIHZhbHVlOiB2YWx1ZSwKICAgICAgICAgIH0pOwogICAgICAgICAgbW9kZWwuc2F2ZV9jaGFuZ2VzKCk7CiAgICAgICAgfQogICAgICB9KTsKCiAgICAgIGZpZWxkRWwuYXBwZW5kQ2hpbGQoaW5wdXQpOwogICAgICByb3cuYXBwZW5kQ2hpbGQoZmllbGRFbCk7CgogICAgICAvLyBTdGF0dXMgaW5kaWNhdG9yCiAgICAgIGNvbnN0IHN0YXR1c0VsID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgiZGl2Iik7CiAgICAgIHN0YXR1c0VsLmNsYXNzTmFtZSA9ICJlbnYtdmFyLXN0YXR1cyI7CiAgICAgIHN0YXR1c0Vscy5wdXNoKHN0YXR1c0VsKTsKICAgICAgdXBkYXRlU3RhdHVzSWNvbihzdGF0dXNFbCwgdmFyaWFibGUpOwoKICAgICAgcm93LmFwcGVuZENoaWxkKHN0YXR1c0VsKTsKICAgICAgY29udGFpbmVyLmFwcGVuZENoaWxkKHJvdyk7CiAgICB9KTsKCiAgICAvLyBGb290ZXIKICAgIGZvb3RlciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoImRpdiIpOwogICAgdXBkYXRlRm9vdGVyKCk7CiAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQoZm9vdGVyKTsKCiAgICBlbC5hcHBlbmRDaGlsZChjb250YWluZXIpOwogIH0KCiAgZnVuY3Rpb24gdXBkYXRlU3RhdHVzSWNvbihzdGF0dXNFbCwgdmFyaWFibGUpIHsKICAgIGlmICh2YXJpYWJsZS5zdGF0dXMgPT09ICJ2YWxpZCIpIHsKICAgICAgc3RhdHVzRWwuaW5uZXJIVE1MID0gYAogICAgICAgIDxzdmcgY2xhc3M9ImVudi1jaGVjayIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiPgogICAgICAgICAgPHBhdGggZD0iTTkgMTYuMTdMNC44MyAxMmwtMS40MiAxLjQxTDkgMTkgMjEgN2wtMS40MS0xLjQxeiIgZmlsbD0iY3VycmVudENvbG9yIi8+CiAgICAgICAgPC9zdmc+CiAgICAgIGA7CiAgICB9IGVsc2UgaWYgKHZhcmlhYmxlLnN0YXR1cyA9PT0gImludmFsaWQiKSB7CiAgICAgIHN0YXR1c0VsLmlubmVySFRNTCA9IGAKICAgICAgICA8c3BhbiBjbGFzcz0iZW52LWVycm9yLXRleHQiIHRpdGxlPSIke3ZhcmlhYmxlLmVycm9yIHx8ICJJbnZhbGlkIn0iPgogICAgICAgICAgPHN2ZyBjbGFzcz0iZW52LWVycm9yLWljb24iIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjE4Ij4KICAgICAgICAgICAgPHBhdGggZD0iTTEyIDJDNi40OCAyIDIgNi40OCAyIDEyczQuNDggMTAgMTAgMTAgMTAtNC40OCAxMC0xMFMxNy41MiAyIDEyIDJ6bTEgMTVoLTJ2LTJoMnYyem0wLTRoLTJWN2gydjZ6IiBmaWxsPSJjdXJyZW50Q29sb3IiLz4KICAgICAgICAgIDwvc3ZnPgogICAgICAgIDwvc3Bhbj4KICAgICAgYDsKICAgIH0gZWxzZSB7CiAgICAgIHN0YXR1c0VsLmlubmVySFRNTCA9ICIiOwogICAgfQogIH0KCiAgZnVuY3Rpb24gdXBkYXRlRm9vdGVyKCkgewogICAgY29uc3QgYWxsVmFsaWQgPSBtb2RlbC5nZXQoImFsbF92YWxpZCIpOwogICAgZm9vdGVyLmNsYXNzTmFtZSA9ICJlbnYtY29uZmlnLWZvb3RlciI7CiAgICBmb290ZXIudGV4dENvbnRlbnQgPSBhbGxWYWxpZAogICAgICA/ICJBbGwgdmFyaWFibGVzIGNvbmZpZ3VyZWQiCiAgICAgIDogIlByZXNzIEVudGVyIHRvIHNldCBlYWNoIHZhcmlhYmxlIjsKICB9CgogIGZ1bmN0aW9uIHVwZGF0ZUluUGxhY2UoKSB7CiAgICBjb25zdCB2YXJpYWJsZXMgPSBtb2RlbC5nZXQoInZhcmlhYmxlcyIpOwoKICAgIHZhcmlhYmxlcy5mb3JFYWNoKCh2YXJpYWJsZSwgaW5kZXgpID0+IHsKICAgICAgY29uc3Qgcm93ID0gcm93c1tpbmRleF07CiAgICAgIGNvbnN0IGlucHV0ID0gaW5wdXRzW2luZGV4XTsKICAgICAgY29uc3Qgc3RhdHVzRWwgPSBzdGF0dXNFbHNbaW5kZXhdOwoKICAgICAgLy8gVXBkYXRlIHJvdyBzdGF0dXMgKGZvciBiYWNrZ3JvdW5kIGNvbG9yKQogICAgICByb3cuZGF0YXNldC5zdGF0dXMgPSB2YXJpYWJsZS5zdGF0dXM7CgogICAgICAvLyBVcGRhdGUgaW5wdXQgYmFzZWQgb24gc3RhdHVzIC0gc2hvdyB2YWx1ZSBldmVuIGZvciBpbnZhbGlkIHN0YXR1cwogICAgICBpZiAodmFyaWFibGUuc3RhdHVzID09PSAidmFsaWQiIHx8IHZhcmlhYmxlLnN0YXR1cyA9PT0gImludmFsaWQiKSB7CiAgICAgICAgLy8gT25seSB1cGRhdGUgdmFsdWUgaWYgaXQgY2hhbmdlZCAoYXZvaWQgb3ZlcndyaXRpbmcgd2hpbGUgdXNlciB0eXBlcykKICAgICAgICBpZiAoaW5wdXQudmFsdWUgIT09IHZhcmlhYmxlLnZhbHVlKSB7CiAgICAgICAgICBpbnB1dC52YWx1ZSA9IHZhcmlhYmxlLnZhbHVlIHx8ICIiOwogICAgICAgIH0KICAgICAgICBpbnB1dC5wbGFjZWhvbGRlciA9ICIiOwogICAgICB9IGVsc2UgewogICAgICAgIGlucHV0LnBsYWNlaG9sZGVyID0gIkVudGVyIHZhbHVlLi4uIjsKICAgICAgfQoKICAgICAgLy8gVXBkYXRlIHN0YXR1cyBpY29uCiAgICAgIHVwZGF0ZVN0YXR1c0ljb24oc3RhdHVzRWwsIHZhcmlhYmxlKTsKICAgIH0pOwoKICAgIHVwZGF0ZUZvb3RlcigpOwogIH0KCiAgYnVpbGRJbml0aWFsRE9NKCk7CiAgbW9kZWwub24oImNoYW5nZTp2YXJpYWJsZXMiLCB1cGRhdGVJblBsYWNlKTsKfQoKZXhwb3J0IGRlZmF1bHQgeyByZW5kZXIgfTsK&quot;' data-js-hash='&quot;39ca73dc82f163ebbaaa0cc702aab9d5&quot;'></marimo-anywidget></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "e740346caccea545cbbf461b2becb079",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-callout-output data-html='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;&lt;strong&gt;Warning:&lt;/strong&gt; &lt;code&gt;HF_TOKEN&lt;/code&gt; not set. You may hit Hugging Face rate limits (HTTP 429). Get a token at &lt;a href=&#92;&quot;https://huggingface.co/settings/tokens&#92;&quot; rel=&#92;&quot;noopener noreferrer&#92;&quot; target=&#92;&quot;_blank&#92;&quot;&gt;https://huggingface.co/settings/tokens&lt;/a&gt; and set it with &lt;code&gt;export HF_TOKEN=hf_...&lt;/code&gt;&lt;/span&gt;&lt;/span&gt;&quot;' data-kind='&quot;warn&quot;'></marimo-callout-output>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "ac576c08db7cfab5518ac0350ad7a26d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "aa10a5cbeea7288c2b6efc233b358851",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"the-dlt-resource\">The dlt resource</h3>\n<span class=\"paragraph\">A <code>dlt.resource</code> is the core building block for getting data into a pipeline.\nIt's a Python generator that yields batches of data. The\n<code>write_disposition=\"replace\"</code> means each run overwrites the previous data.</span>\n<span class=\"paragraph\">Column discovery and data streaming happen in a single DuckDB connection \u2014\nwe <code>DESCRIBE</code> the remote parquet schema, filter out heavy columns, then\nstream rows in batches.</span>\n<div class=\"language-python codehilite\"><pre><span></span><code><span class=\"n\">HF_PARQUET_URL</span> <span class=\"o\">=</span> <span class=\"s2\">&quot;hf://datasets/lance-format/openvid-lance@~parquet/**/*.parquet&quot;</span>\n<span class=\"c1\"># Native Hugging Face read support coming soon \u2014 no DuckDB needed</span>\n\n<span class=\"nd\">@dlt</span><span class=\"o\">.</span><span class=\"n\">resource</span><span class=\"p\">(</span><span class=\"n\">write_disposition</span><span class=\"o\">=</span><span class=\"s2\">&quot;replace&quot;</span><span class=\"p\">)</span>\n<span class=\"k\">def</span><span class=\"w\"> </span><span class=\"nf\">openvid_videos</span><span class=\"p\">(</span><span class=\"n\">limit</span><span class=\"p\">:</span> <span class=\"nb\">int</span> <span class=\"o\">=</span> <span class=\"mi\">100</span><span class=\"p\">):</span>\n    <span class=\"k\">with</span> <span class=\"n\">duckdb</span><span class=\"o\">.</span><span class=\"n\">connect</span><span class=\"p\">()</span> <span class=\"k\">as</span> <span class=\"n\">conn</span><span class=\"p\">:</span>\n        <span class=\"c1\"># Discover columns, exclude heavy ones, stream in batches</span>\n        <span class=\"o\">...</span>\n        <span class=\"k\">while</span> <span class=\"n\">rows</span> <span class=\"o\">:=</span> <span class=\"n\">result</span><span class=\"o\">.</span><span class=\"n\">fetchmany</span><span class=\"p\">(</span><span class=\"n\">BATCH_SIZE</span><span class=\"p\">):</span>\n            <span class=\"k\">yield</span> <span class=\"p\">[</span><span class=\"nb\">dict</span><span class=\"p\">(</span><span class=\"nb\">zip</span><span class=\"p\">(</span><span class=\"n\">columns</span><span class=\"p\">,</span> <span class=\"n\">row</span><span class=\"p\">))</span> <span class=\"k\">for</span> <span class=\"n\">row</span> <span class=\"ow\">in</span> <span class=\"n\">rows</span><span class=\"p\">]</span>\n</code></pre></div>\n<span class=\"paragraph\"><code>dlt</code> automatically infers and evolves the destination schema as data\nflows through the resource. Use\n<a href=\"https://dlthub.com/docs/general-usage/schema-contracts\" rel=\"noopener noreferrer\" target=\"_blank\">schema contracts</a>\nto control how unexpected changes are handled.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "0c993e3d51f9279fb4b1f0ca9bfd890f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "6c2da4637e8b46b6617634372833e769",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"load-data-into-lancedb\">Load data into LanceDB</h2></span><span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Choose how many rows to fetch from Hugging Face and load into LanceDB. Set to 0 to pause the pipeline.</span></span><marimo-ui-element object-id='BYtC-0' random-id='3badf94a-5bb3-7292-2ec4-99d471abe0f7'><marimo-slider data-initial-value='5' data-label='&quot;&lt;span class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&gt;&lt;span class=&#92;&quot;paragraph&#92;&quot;&gt;Rows to load&lt;/span&gt;&lt;/span&gt;&quot;' data-start='0' data-stop='50' data-step='1' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='true'></marimo-slider></marimo-ui-element></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "717756bf4c08eb77eab70ef92aef208e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "e88930d414cc03c9893eb26be48d6ec1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><div class=\"language-gdscript codehilite\"><pre><span></span><code><span class=\"n\">Pipeline</span><span class=\"w\"> </span><span class=\"n\">openvid</span><span class=\"w\"> </span><span class=\"nb\">load</span><span class=\"w\"> </span><span class=\"n\">step</span><span class=\"w\"> </span><span class=\"n\">completed</span><span class=\"w\"> </span><span class=\"ow\">in</span><span class=\"w\"> </span><span class=\"mf\">0.03</span><span class=\"w\"> </span><span class=\"n\">seconds</span>\n<span class=\"mi\">1</span><span class=\"w\"> </span><span class=\"nb\">load</span><span class=\"w\"> </span><span class=\"n\">package</span><span class=\"p\">(</span><span class=\"n\">s</span><span class=\"p\">)</span><span class=\"w\"> </span><span class=\"n\">were</span><span class=\"w\"> </span><span class=\"n\">loaded</span><span class=\"w\"> </span><span class=\"n\">to</span><span class=\"w\"> </span><span class=\"n\">destination</span><span class=\"w\"> </span><span class=\"n\">lancedb</span><span class=\"w\"> </span><span class=\"ow\">and</span><span class=\"w\"> </span><span class=\"n\">into</span><span class=\"w\"> </span><span class=\"n\">dataset</span><span class=\"w\"> </span><span class=\"n\">openvid</span>\n<span class=\"n\">The</span><span class=\"w\"> </span><span class=\"n\">lancedb</span><span class=\"w\"> </span><span class=\"n\">destination</span><span class=\"w\"> </span><span class=\"n\">used</span><span class=\"w\"> </span><span class=\"o\">&lt;</span><span class=\"n\">dlt</span><span class=\"o\">.</span><span class=\"n\">destinations</span><span class=\"o\">.</span><span class=\"n\">impl</span><span class=\"o\">.</span><span class=\"n\">lancedb</span><span class=\"o\">.</span><span class=\"n\">configuration</span><span class=\"o\">.</span><span class=\"n\">LanceDBCredentials</span><span class=\"w\"> </span><span class=\"n\">object</span><span class=\"w\"> </span><span class=\"n\">at</span><span class=\"w\"> </span><span class=\"mh\">0x115c067b0</span><span class=\"o\">&gt;</span><span class=\"w\"> </span><span class=\"n\">location</span><span class=\"w\"> </span><span class=\"n\">to</span><span class=\"w\"> </span><span class=\"n\">store</span><span class=\"w\"> </span><span class=\"n\">data</span>\n<span class=\"n\">Load</span><span class=\"w\"> </span><span class=\"n\">package</span><span class=\"w\"> </span><span class=\"mf\">1774345554.459338</span><span class=\"w\"> </span><span class=\"k\">is</span><span class=\"w\"> </span><span class=\"n\">LOADED</span><span class=\"w\"> </span><span class=\"ow\">and</span><span class=\"w\"> </span><span class=\"n\">contains</span><span class=\"w\"> </span><span class=\"n\">no</span><span class=\"w\"> </span><span class=\"n\">failed</span><span class=\"w\"> </span><span class=\"n\">jobs</span>\n</code></pre></div></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "fdfdabfb1d6aef4c0293711ef9f1a01f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"embedding-columns-at-load-time\">Embedding columns at load time</h3>\n<span class=\"paragraph\">With the provider configured, wrap your resource with <code>lancedb_adapter</code>\nto specify which columns to embed. Your data arrives in LanceDB ready\nfor vector search.</span>\n<div class=\"language-python codehilite\"><pre><span></span><code><span class=\"kn\">from</span><span class=\"w\"> </span><span class=\"nn\">dlt.destinations.adapters</span><span class=\"w\"> </span><span class=\"kn\">import</span> <span class=\"n\">lancedb_adapter</span>\n\n<span class=\"n\">load_info</span> <span class=\"o\">=</span> <span class=\"n\">pipeline</span><span class=\"o\">.</span><span class=\"n\">run</span><span class=\"p\">(</span>\n    <span class=\"n\">lancedb_adapter</span><span class=\"p\">(</span>\n        <span class=\"n\">openvid_videos</span><span class=\"p\">(</span><span class=\"n\">limit</span><span class=\"o\">=</span><span class=\"mi\">100</span><span class=\"p\">),</span>\n        <span class=\"c1\"># columns to generate vector embeddings for</span>\n        <span class=\"n\">embed</span><span class=\"o\">=</span><span class=\"p\">[</span><span class=\"s2\">&quot;caption&quot;</span><span class=\"p\">],</span>\n    <span class=\"p\">),</span>\n    <span class=\"n\">table_name</span><span class=\"o\">=</span><span class=\"s2\">&quot;videos&quot;</span><span class=\"p\">,</span>\n<span class=\"p\">)</span>\n</code></pre></div></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "2065c8bd51ddc00f24b20c4041628673",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"configuring-embeddings\">Configuring embeddings</h3>\n<span class=\"paragraph\">The dlt adapter for LanceDB can automatically generate vector embeddings\nat load time. Configure your embedding provider in <code>.dlt/config.toml</code> \u2014\nyou can use OpenAI, Cohere, Hugging Face sentence-transformers, or any\nother provider supported by <code>dlt</code>.</span>\n<div class=\"language-toml codehilite\"><pre><span></span><code><span class=\"c1\"># .dlt/config.toml</span>\n<span class=\"k\">[destination.lance]</span>\n<span class=\"n\">destination_type</span><span class=\"o\">=</span><span class=\"s2\">&quot;lancedb&quot;</span>\n<span class=\"n\">embedding_model_provider</span><span class=\"o\">=</span><span class=\"s2\">&quot;openai&quot;</span><span class=\"w\">  </span><span class=\"c1\"># or &quot;cohere&quot;, &quot;sentence-transformers&quot;, etc.</span>\n<span class=\"n\">embedding_model</span><span class=\"o\">=</span><span class=\"s2\">&quot;text-embedding-3-small&quot;</span>\n</code></pre></div></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "677679b893ae6c95b7b77f753407ebdc",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"discover-available-tables\">Discover available tables</h2>\n<span class=\"paragraph\">The pipeline's dataset object exposes a <code>.tables</code> property listing all tables\nthat were loaded. Below we list the available tables \u2014 we expect a <code>videos</code>\ntable containing the OpenVid metadata.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "iLit",
+      "code_hash": "26fbc5af6a42c4320ad278837094fd9e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "application/json": "[\"videos\", \"_dlt_version\", \"_dlt_loads\", \"_dlt_pipeline_state\"]"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "bb969d70da1fe2eb696f3aa7f83350b2",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"inspect-the-schema\">Inspect the schema</h2>\n<span class=\"paragraph\"><code>dlt</code> tracks schema information for every pipeline run. We can render the\nschema as a Mermaid diagram to visualize the table structure, column types,\nand relationships.</span>\n<div class=\"language-python codehilite\"><pre><span></span><code><span class=\"n\">pipeline</span><span class=\"o\">.</span><span class=\"n\">default_schema</span><span class=\"o\">.</span><span class=\"n\">to_mermaid</span><span class=\"p\">()</span>\n</code></pre></div></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ROlb",
+      "code_hash": "efc96f11f30a6a3494dc9cb371117d3f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-mermaid data-diagram='&quot;erDiagram&#92;n    _dlt_version{&#92;n    bigint version&#92;n    bigint engine_version&#92;n    timestamp inserted_at&#92;n    text schema_name&#92;n    text version_hash&#92;n    text schema&#92;n}&#92;n    _dlt_loads{&#92;n    text load_id&#92;n    text schema_name&#92;n    bigint status&#92;n    timestamp inserted_at&#92;n    text schema_version_hash&#92;n}&#92;n    videos{&#92;n    text video_path&#92;n    text caption&#92;n    double aesthetic_score&#92;n    double motion_score&#92;n    double temporal_consistency_score&#92;n    text camera_motion&#92;n    bigint frame&#92;n    double fps&#92;n    double seconds&#92;n    text _dlt_load_id&#92;n    text _dlt_id UK&#92;n}&#92;n    _dlt_pipeline_state{&#92;n    bigint version&#92;n    bigint engine_version&#92;n    text pipeline_name&#92;n    text state&#92;n    timestamp created_at&#92;n    text version_hash&#92;n    text _dlt_load_id&#92;n    text _dlt_id UK&#92;n}&#92;n    videos }|--|| _dlt_loads : &#92;&quot;_dlt_load&#92;&quot;&#92;n    _dlt_pipeline_state }|--|| _dlt_loads : &#92;&quot;_dlt_load&#92;&quot;&#92;n    _dlt_version ||--|{ _dlt_loads : &#92;&quot;_dlt_schema_version&#92;&quot;&#92;n    _dlt_version }|--|{ _dlt_loads : &#92;&quot;_dlt_schema_name&#92;&quot;&#92;n&quot;'></marimo-mermaid>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qnkX",
+      "code_hash": "87df5f383dfaf49c0bf8eace60f617ba",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"preview-the-videos-table\">Preview the videos table</h2>\n<span class=\"paragraph\">Let's look at the raw data that was loaded. The pipeline selected only\nmetadata columns from Hugging Face, excluding heavy binary data like\n<code>video_blob</code> and <code>embedding</code>. In a production deployment, you might\ninclude these columns or even generate additional embeddings.</span>\n<span class=\"paragraph\"><code>dlt</code> datasets support multiple materialization formats \u2014 call\n<code>.arrow()</code> for a PyArrow table, <code>.df()</code> for a Pandas DataFrame, or\niterate the relation directly for row-by-row access:</span>\n<div class=\"language-python codehilite\"><pre><span></span><code><span class=\"n\">pipeline</span><span class=\"o\">.</span><span class=\"n\">dataset</span><span class=\"p\">()</span><span class=\"o\">.</span><span class=\"n\">videos</span><span class=\"o\">.</span><span class=\"n\">df</span><span class=\"p\">()</span>        <span class=\"c1\"># Pandas DataFrame</span>\n<span class=\"n\">pipeline</span><span class=\"o\">.</span><span class=\"n\">dataset</span><span class=\"p\">()</span><span class=\"o\">.</span><span class=\"n\">videos</span><span class=\"o\">.</span><span class=\"n\">arrow</span><span class=\"p\">()</span>     <span class=\"c1\"># PyArrow table</span>\n<span class=\"n\">pipeline</span><span class=\"o\">.</span><span class=\"n\">dataset</span><span class=\"p\">()</span><span class=\"o\">.</span><span class=\"n\">videos</span><span class=\"o\">.</span><span class=\"n\">fetchall</span><span class=\"p\">()</span>  <span class=\"c1\"># List of tuples</span>\n</code></pre></div>\n<span class=\"paragraph\">The columns we have include:</span>\n<ul>\n<li><code>video_path</code> - path to the video file on Hugging Face</li>\n<li><code>caption</code> - text description of the video content</li>\n<li><code>aesthetic_score</code> - visual quality rating (0-10)</li>\n<li><code>motion_score</code> - amount of motion in the video</li>\n<li><code>temporal_consistency_score</code> - frame-to-frame consistency (0-1)</li>\n<li><code>camera_motion</code> - type of camera movement (static, pan, tilt, etc.)</li>\n<li><code>fps</code>, <code>seconds</code>, <code>frame</code> - video duration metadata</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TqIu",
+      "code_hash": "f13e75a33ff59b0486ade8a87a779be7",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='TqIu-0' random-id='d6071c3a-4af0-e9ab-1aaa-a870718754a1'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;video_path&#92;&quot;:&#92;&quot;s3://lancedb-demos/openvid/videos/pixabay_rock_formations_videos_141609_012.mp4&#92;&quot;,&#92;&quot;caption&#92;&quot;:&#92;&quot;a breathtaking view of a mountainous landscape. From a high vantage point, the viewer&#x27;s gaze is drawn to a winding dirt path that meanders through the scene. The path, appearing almost like a ribbon laid across the rugged terrain, leads the eye towards a solitary figure standing on the right side of the frame. This person, clad in a vibrant red jacket, appears small against the vastness of the landscape, adding a touch of human presence to the otherwise untouched wilderness.  The terrain itself is a mix of gray and brown rocks and patches of snow, hinting at the harsh conditions of the environment. The sky overhead is a blanket of overcast clouds, casting a soft, diffused light over the scene. Despite the lack of sunshine, the scene exudes a sense of tranquility and solitude, as if inviting the viewer to step into the frame and embark on a journey along the winding path. The absence of any text or other discernible details in the scene further emphasizes the focus on the natural elements and the lone figure. The relative positions of the objects - the person, the path, and the surrounding landscape - create a harmonious composition that draws the viewer into the scene.&#92;&quot;,&#92;&quot;aesthetic_score&#92;&quot;:5.240138053894043,&#92;&quot;motion_score&#92;&quot;:9.523026466369627,&#92;&quot;temporal_consistency_score&#92;&quot;:0.9967122395833332,&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;zoom_in+tilt_up&#92;&quot;,&#92;&quot;frame&#92;&quot;:64,&#92;&quot;fps&#92;&quot;:24.0,&#92;&quot;seconds&#92;&quot;:2.6666666666666665,&#92;&quot;_dlt_load_id&#92;&quot;:&#92;&quot;1774345554.459338&#92;&quot;,&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;RqN0gCEcs2r/7g&#92;&quot;},{&#92;&quot;video_path&#92;&quot;:&#92;&quot;s3://lancedb-demos/openvid/videos/pixabay_urban_green_spaces_videos_52011_012.mp4&#92;&quot;,&#92;&quot;caption&#92;&quot;:&#92;&quot;a captivating view of the sun, bathed in hues of orange and yellow. The sun, which is the central focus of the scene, radiates a bright light that illuminates the surrounding area. It&#x27;s surrounded by a flurry of small white particles, adding a sense of motion to the scene. These particles appear to be emanating from the sun, suggesting a dynamic interaction between the celestial body and its surroundings. The background of the scene is a gradient of orange and yellow, further emphasizing the sun&#x27;s prominence in the scene. The scene does not contain any discernible text or countable objects. The relative position of the sun and the particles suggests a vast expanse of space, with the sun at the center and the particles scattered around it. The scene does not provide any information that allows for a confident determination of object actions or precise object locations. The scene is devoid of any aesthetic descriptions, focusing solely on the factual representation of the sun and its immediate surroundings.&#92;&quot;,&#92;&quot;aesthetic_score&#92;&quot;:5.240137100219727,&#92;&quot;motion_score&#92;&quot;:0.2318242490291595,&#92;&quot;temporal_consistency_score&#92;&quot;:0.9988606770833334,&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;static&#92;&quot;,&#92;&quot;frame&#92;&quot;:64,&#92;&quot;fps&#92;&quot;:24.0,&#92;&quot;seconds&#92;&quot;:2.6666666666666665,&#92;&quot;_dlt_load_id&#92;&quot;:&#92;&quot;1774345554.459338&#92;&quot;,&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;n8Cy0KImasrA9Q&#92;&quot;},{&#92;&quot;video_path&#92;&quot;:&#92;&quot;s3://lancedb-demos/openvid/videos/pixabay_valleys_videos_81709_005.mp4&#92;&quot;,&#92;&quot;caption&#92;&quot;:&#92;&quot;an expansive aerial view of a rural landscape. Dominating the scene are numerous rectangular fields, meticulously arranged in a grid-like pattern. Each field is a patchwork of various shades of green and brown, indicative of different crops or pastures.   Scattered throughout the landscape are several small buildings, their white walls contrasting with their red roofs. These structures, possibly farmhouses or storage facilities, add a touch of human presence to the otherwise natural scenery.  In the heart of the scene, a large body of water glistens under the sunlight, its surface undulating with gentle ripples. This body of water, possibly a lake or a reservoir, serves as a central feature of the landscape.  The sky above is a clear blue, devoid of any clouds, suggesting a calm, sunny day. The absence of any text or discernible action in the scene gives it a serene and timeless quality. The relative positions of the objects - the fields, buildings, water body, and sky - create a harmonious balance, reflecting the tranquility of rural life.   Overall, the scene captures a moment of stillness in a rural setting, where nature and human activity coexist in harmony. It&#x27;s a snapshot of a place where the rhythm of life is dictated by the changing seasons and the ebb and flow of nature.&#92;&quot;,&#92;&quot;aesthetic_score&#92;&quot;:5.24013614654541,&#92;&quot;motion_score&#92;&quot;:4.11186408996582,&#92;&quot;temporal_consistency_score&#92;&quot;:0.9955729166666668,&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;tilt_up&#92;&quot;,&#92;&quot;frame&#92;&quot;:64,&#92;&quot;fps&#92;&quot;:24.0,&#92;&quot;seconds&#92;&quot;:2.6666666666666665,&#92;&quot;_dlt_load_id&#92;&quot;:&#92;&quot;1774345554.459338&#92;&quot;,&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;bQQ4kXUJAW9mJg&#92;&quot;},{&#92;&quot;video_path&#92;&quot;:&#92;&quot;s3://lancedb-demos/openvid/videos/pexels_landscape_landscape_7141656_002.mp4&#92;&quot;,&#92;&quot;caption&#92;&quot;:&#92;&quot;a vast, open field under a sky filled with fluffy white clouds. The field, which is brown in color, stretches out towards the horizon, creating a sense of depth and infinity. The sky above is a vibrant blue, providing a striking contrast to the earthy tones of the field. The clouds are scattered across the sky, their white forms standing out against the blue backdrop. The perspective of the scene is from a low angle, looking up towards the sky, giving a sense of scale and grandeur to the scene. There are no discernible texts or human-made objects in the scene, and no specific actions taking place. The scene is a simple yet powerful representation of nature&#x27;s beauty.&#92;&quot;,&#92;&quot;aesthetic_score&#92;&quot;:5.24013614654541,&#92;&quot;motion_score&#92;&quot;:4.066412448883057,&#92;&quot;temporal_consistency_score&#92;&quot;:0.998828125,&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;tilt_up&#92;&quot;,&#92;&quot;frame&#92;&quot;:64,&#92;&quot;fps&#92;&quot;:24.0,&#92;&quot;seconds&#92;&quot;:2.6666666666666665,&#92;&quot;_dlt_load_id&#92;&quot;:&#92;&quot;1774345554.459338&#92;&quot;,&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;Q4KaBCI7/EfxfQ&#92;&quot;},{&#92;&quot;video_path&#92;&quot;:&#92;&quot;s3://lancedb-demos/openvid/videos/pixabay_natural_wonders_natural_wonders_14992451_000.mp4&#92;&quot;,&#92;&quot;caption&#92;&quot;:&#92;&quot;a serene moment on a city street bathed in the warm glow of the setting sun. Dominating the foreground is a tree adorned with vibrant pink flowers and contrasting green leaves. The sun&#x27;s rays filter through the foliage, casting a dappled pattern of light and shadow on the pavement below.  In the background, a car is parked by the side of the street, its presence adding a touch of urban life to the otherwise tranquil scene. Further back, a building with a red roof stands tall, its color echoing the hues of the flowers in the foreground, subtly tying the elements of the scene together.  Despite the presence of man-made structures, the scene exudes a sense of peace and natural beauty, as if inviting the viewer to take a moment to appreciate the simple yet profound beauty of everyday scenes. The precise positioning of the objects, their colors, and the interplay of light and shadow all contribute to creating a harmonious composition that is pleasing to the eye. There are no discernible texts or countable objects in the scene. The relative positions of the objects suggest a quiet, possibly early morning or late afternoon, moment on a city street.&#92;&quot;,&#92;&quot;aesthetic_score&#92;&quot;:5.240119934082031,&#92;&quot;motion_score&#92;&quot;:7.249238014221191,&#92;&quot;temporal_consistency_score&#92;&quot;:0.9955078125,&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;zoom_in+tilt_up&#92;&quot;,&#92;&quot;frame&#92;&quot;:64,&#92;&quot;fps&#92;&quot;:24.0,&#92;&quot;seconds&#92;&quot;:2.6666666666666665,&#92;&quot;_dlt_load_id&#92;&quot;:&#92;&quot;1774345554.459338&#92;&quot;,&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;mAXo014wGmfniQ&#92;&quot;}]&quot;' data-total-rows='5' data-total-columns='11' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;video_path&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;caption&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;aesthetic_score&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;motion_score&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;temporal_consistency_score&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;camera_motion&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;frame&quot;,[&quot;integer&quot;,&quot;Int64&quot;]],[&quot;fps&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;seconds&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;_dlt_load_id&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;_dlt_id&quot;,[&quot;string&quot;,&quot;String&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='false' data-show-data-types='true' data-show-page-size-selector='false' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Vxnm",
+      "code_hash": "b0b15fc9e9ad7e04f936d4e9422373f9",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"data-quality-checks\">Data quality checks</h2>\n<span class=\"paragraph\">We use <code>dlthub.data_quality</code> to validate the loaded data. These checks\nverify structural integrity (uniqueness, nullability) and domain constraints\n(score ranges, valid categories).</span>\n<div class=\"language-python codehilite\"><pre><span></span><code><span class=\"kn\">import</span><span class=\"w\"> </span><span class=\"nn\">dlthub.data_quality</span><span class=\"w\"> </span><span class=\"k\">as</span><span class=\"w\"> </span><span class=\"nn\">dq</span>\n\n<span class=\"n\">videos_checks</span> <span class=\"o\">=</span> <span class=\"p\">[</span>\n    <span class=\"n\">dq</span><span class=\"o\">.</span><span class=\"n\">checks</span><span class=\"o\">.</span><span class=\"n\">is_unique</span><span class=\"p\">(</span><span class=\"s2\">&quot;video_path&quot;</span><span class=\"p\">),</span>\n    <span class=\"n\">dq</span><span class=\"o\">.</span><span class=\"n\">checks</span><span class=\"o\">.</span><span class=\"n\">is_not_null</span><span class=\"p\">(</span><span class=\"s2\">&quot;caption&quot;</span><span class=\"p\">),</span>\n    <span class=\"n\">dq</span><span class=\"o\">.</span><span class=\"n\">checks</span><span class=\"o\">.</span><span class=\"n\">case</span><span class=\"p\">(</span><span class=\"s2\">&quot;aesthetic_score BETWEEN 0 AND 10&quot;</span><span class=\"p\">),</span>\n    <span class=\"o\">...</span>\n<span class=\"p\">]</span>\n</code></pre></div></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "DnEU",
+      "code_hash": "6fa95cbcdcb42d8ad6b870a238cb63be",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ulZA",
+      "code_hash": "bb429c907965cde6392fc826771d8b54",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ecfG",
+      "code_hash": "03a0d4df015c00a448b22f84488b2e92",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"table-level-results\">Table-level results</h3>\n<span class=\"paragraph\"><code>dq.prepare_checks()</code> takes a <code>dlt.Relation</code>, a list of checks, and a\ngranularity <code>level</code> (<code>\"row\"</code>, <code>\"table\"</code>, or <code>\"dataset\"</code>). It returns a\n<code>dlt.Relation</code> you can materialize as Arrow or persist with <code>pipeline.run()</code>.</span>\n<span class=\"paragraph\">Running checks at <code>level=\"table\"</code> returns aggregate pass/fail counts for\neach check across the entire table.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Pvdt",
+      "code_hash": "4d9564974148e86479de7631ec0edaab",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='Pvdt-0' random-id='81646ecf-1ca5-22dd-da47-5a5ede18a39d'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;table_name&#92;&quot;:&#92;&quot;videos&#92;&quot;,&#92;&quot;row_count&#92;&quot;:5,&#92;&quot;video_path__is_unique&#92;&quot;:5,&#92;&quot;video_path__is_not_null&#92;&quot;:5,&#92;&quot;caption__is_not_null&#92;&quot;:5,&#92;&quot;aesthetic_score__is_not_null&#92;&quot;:5,&#92;&quot;motion_score__is_not_null&#92;&quot;:5,&#92;&quot;aesthetic_score__case__Between&#92;&quot;:5,&#92;&quot;motion_score__case__GTE&#92;&quot;:5,&#92;&quot;temporal_consistency_score__case__Between&#92;&quot;:5,&#92;&quot;fps__fps__case__And&#92;&quot;:5,&#92;&quot;seconds__case__GT&#92;&quot;:5,&#92;&quot;frame__case__GT&#92;&quot;:5,&#92;&quot;camera_motion__case__In&#92;&quot;:1}]&quot;' data-total-rows='1' data-total-columns='14' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;table_name&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;row_count&quot;,[&quot;integer&quot;,&quot;Int64&quot;]],[&quot;video_path__is_unique&quot;,[&quot;integer&quot;,&quot;Int32&quot;]],[&quot;video_path__is_not_null&quot;,[&quot;integer&quot;,&quot;Int32&quot;]],[&quot;caption__is_not_null&quot;,[&quot;integer&quot;,&quot;Int32&quot;]],[&quot;aesthetic_score__is_not_null&quot;,[&quot;integer&quot;,&quot;Int32&quot;]],[&quot;motion_score__is_not_null&quot;,[&quot;integer&quot;,&quot;Int32&quot;]],[&quot;aesthetic_score__case__Between&quot;,[&quot;integer&quot;,&quot;Int32&quot;]],[&quot;motion_score__case__GTE&quot;,[&quot;integer&quot;,&quot;Int32&quot;]],[&quot;temporal_consistency_score__case__Between&quot;,[&quot;integer&quot;,&quot;Int32&quot;]],[&quot;fps__fps__case__And&quot;,[&quot;integer&quot;,&quot;Int32&quot;]],[&quot;seconds__case__GT&quot;,[&quot;integer&quot;,&quot;Int32&quot;]],[&quot;frame__case__GT&quot;,[&quot;integer&quot;,&quot;Int32&quot;]],[&quot;camera_motion__case__In&quot;,[&quot;integer&quot;,&quot;Int32&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='false' data-show-data-types='true' data-show-page-size-selector='false' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZBYS",
+      "code_hash": "8aa5077e596aded76dc3d3152d5893a0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"row-level-results\">Row-level results</h3>\n<span class=\"paragraph\">Running checks at <code>level=\"row\"</code> returns per-row pass/fail results, so you\ncan see exactly which rows have issues.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "aLJB",
+      "code_hash": "cab52bb92df3a50107fecba3ab1b6a85",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='aLJB-0' random-id='9d10b54e-c1ad-035d-99fb-7cbcbfebb580'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;RqN0gCEcs2r/7g&#92;&quot;,&#92;&quot;video_path__is_unique&#92;&quot;:true,&#92;&quot;video_path__is_not_null&#92;&quot;:true,&#92;&quot;caption__is_not_null&#92;&quot;:true,&#92;&quot;aesthetic_score__is_not_null&#92;&quot;:true,&#92;&quot;motion_score__is_not_null&#92;&quot;:true,&#92;&quot;aesthetic_score__case__Between&#92;&quot;:true,&#92;&quot;motion_score__case__GTE&#92;&quot;:true,&#92;&quot;temporal_consistency_score__case__Between&#92;&quot;:true,&#92;&quot;fps__fps__case__And&#92;&quot;:true,&#92;&quot;seconds__case__GT&#92;&quot;:true,&#92;&quot;frame__case__GT&#92;&quot;:true,&#92;&quot;camera_motion__case__In&#92;&quot;:false},{&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;n8Cy0KImasrA9Q&#92;&quot;,&#92;&quot;video_path__is_unique&#92;&quot;:true,&#92;&quot;video_path__is_not_null&#92;&quot;:true,&#92;&quot;caption__is_not_null&#92;&quot;:true,&#92;&quot;aesthetic_score__is_not_null&#92;&quot;:true,&#92;&quot;motion_score__is_not_null&#92;&quot;:true,&#92;&quot;aesthetic_score__case__Between&#92;&quot;:true,&#92;&quot;motion_score__case__GTE&#92;&quot;:true,&#92;&quot;temporal_consistency_score__case__Between&#92;&quot;:true,&#92;&quot;fps__fps__case__And&#92;&quot;:true,&#92;&quot;seconds__case__GT&#92;&quot;:true,&#92;&quot;frame__case__GT&#92;&quot;:true,&#92;&quot;camera_motion__case__In&#92;&quot;:true},{&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;bQQ4kXUJAW9mJg&#92;&quot;,&#92;&quot;video_path__is_unique&#92;&quot;:true,&#92;&quot;video_path__is_not_null&#92;&quot;:true,&#92;&quot;caption__is_not_null&#92;&quot;:true,&#92;&quot;aesthetic_score__is_not_null&#92;&quot;:true,&#92;&quot;motion_score__is_not_null&#92;&quot;:true,&#92;&quot;aesthetic_score__case__Between&#92;&quot;:true,&#92;&quot;motion_score__case__GTE&#92;&quot;:true,&#92;&quot;temporal_consistency_score__case__Between&#92;&quot;:true,&#92;&quot;fps__fps__case__And&#92;&quot;:true,&#92;&quot;seconds__case__GT&#92;&quot;:true,&#92;&quot;frame__case__GT&#92;&quot;:true,&#92;&quot;camera_motion__case__In&#92;&quot;:false},{&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;Q4KaBCI7/EfxfQ&#92;&quot;,&#92;&quot;video_path__is_unique&#92;&quot;:true,&#92;&quot;video_path__is_not_null&#92;&quot;:true,&#92;&quot;caption__is_not_null&#92;&quot;:true,&#92;&quot;aesthetic_score__is_not_null&#92;&quot;:true,&#92;&quot;motion_score__is_not_null&#92;&quot;:true,&#92;&quot;aesthetic_score__case__Between&#92;&quot;:true,&#92;&quot;motion_score__case__GTE&#92;&quot;:true,&#92;&quot;temporal_consistency_score__case__Between&#92;&quot;:true,&#92;&quot;fps__fps__case__And&#92;&quot;:true,&#92;&quot;seconds__case__GT&#92;&quot;:true,&#92;&quot;frame__case__GT&#92;&quot;:true,&#92;&quot;camera_motion__case__In&#92;&quot;:false},{&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;mAXo014wGmfniQ&#92;&quot;,&#92;&quot;video_path__is_unique&#92;&quot;:true,&#92;&quot;video_path__is_not_null&#92;&quot;:true,&#92;&quot;caption__is_not_null&#92;&quot;:true,&#92;&quot;aesthetic_score__is_not_null&#92;&quot;:true,&#92;&quot;motion_score__is_not_null&#92;&quot;:true,&#92;&quot;aesthetic_score__case__Between&#92;&quot;:true,&#92;&quot;motion_score__case__GTE&#92;&quot;:true,&#92;&quot;temporal_consistency_score__case__Between&#92;&quot;:true,&#92;&quot;fps__fps__case__And&#92;&quot;:true,&#92;&quot;seconds__case__GT&#92;&quot;:true,&#92;&quot;frame__case__GT&#92;&quot;:true,&#92;&quot;camera_motion__case__In&#92;&quot;:false}]&quot;' data-total-rows='5' data-total-columns='13' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;_dlt_id&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;video_path__is_unique&quot;,[&quot;boolean&quot;,&quot;Boolean&quot;]],[&quot;video_path__is_not_null&quot;,[&quot;boolean&quot;,&quot;Boolean&quot;]],[&quot;caption__is_not_null&quot;,[&quot;boolean&quot;,&quot;Boolean&quot;]],[&quot;aesthetic_score__is_not_null&quot;,[&quot;boolean&quot;,&quot;Boolean&quot;]],[&quot;motion_score__is_not_null&quot;,[&quot;boolean&quot;,&quot;Boolean&quot;]],[&quot;aesthetic_score__case__Between&quot;,[&quot;boolean&quot;,&quot;Boolean&quot;]],[&quot;motion_score__case__GTE&quot;,[&quot;boolean&quot;,&quot;Boolean&quot;]],[&quot;temporal_consistency_score__case__Between&quot;,[&quot;boolean&quot;,&quot;Boolean&quot;]],[&quot;fps__fps__case__And&quot;,[&quot;boolean&quot;,&quot;Boolean&quot;]],[&quot;seconds__case__GT&quot;,[&quot;boolean&quot;,&quot;Boolean&quot;]],[&quot;frame__case__GT&quot;,[&quot;boolean&quot;,&quot;Boolean&quot;]],[&quot;camera_motion__case__In&quot;,[&quot;boolean&quot;,&quot;Boolean&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='false' data-show-data-types='true' data-show-page-size-selector='false' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nHfw",
+      "code_hash": "2fdb5d48e305f49592396a01cb86ab81",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"checksuite\">CheckSuite</h3>\n<span class=\"paragraph\">The <code>CheckSuite</code> object can run checks the same way and provides convenience\nmethods to explore check results. It can be instantiated by passing a dataset\nand the check definitions.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "xXTn",
+      "code_hash": "28372d7f169dc9c652712964b0aadff6",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "application/json": "{\"videos\": [\"text/plain:<is_unique(column='video_path')>\", \"text/plain:<is_not_null(column='video_path')>\", \"text/plain:<is_not_null(column='caption')>\", \"text/plain:<is_not_null(column='aesthetic_score')>\", \"text/plain:<is_not_null(column='motion_score')>\", \"text/plain:<case(condition='aesthetic_score BETWEEN 0 AND 10')>\", \"text/plain:<case(condition='motion_score >= 0')>\", \"text/plain:<case(condition='temporal_consistency_score BETWEEN 0 AND 1.001')>\", \"text/plain:<case(condition='fps > 0 AND fps <= 120')>\", \"text/plain:<case(condition='seconds > 0')>\", \"text/plain:<case(condition='frame > 0')>\", \"text/plain:<case(condition=\\\"camera_motion IN ('static', 'pan', 'tilt', 'zoom', 'rotate', 'follow', 'handheld')\\\")>\"]}"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "AjVT",
+      "code_hash": "cbae04e13e63a4707d0cbaa71cf5d324",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"drilling-into-successes-and-failures\">Drilling into successes and failures</h3>\n<span class=\"paragraph\">Using <code>.get_successes()</code> and <code>.get_failures()</code> you can retrieve the actual\nrows that passed or failed specific checks. This is useful for understanding\n<em>which</em> records have data quality issues.</span>\n<span class=\"paragraph\">For example, let's look at the <code>camera_motion</code> check. This check validates\nthat every row's <code>camera_motion</code> value is one of the expected categories:\n<strong>static</strong>, <strong>pan</strong>, <strong>tilt</strong>, <strong>zoom</strong>, <strong>rotate</strong>, <strong>follow</strong>, or\n<strong>handheld</strong>. Rows with unexpected values (typos, nulls, or new categories\nnot in our allow-list) will fail.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "pHFh",
+      "code_hash": "26f64b2279d4271e3c49b507a5e7d709",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Rows with valid <code>camera_motion</code> values</strong></span></span><marimo-ui-element object-id='pHFh-0' random-id='8d1a11ea-c2fa-292b-46ad-7f0e416c6d93'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;video_path&#92;&quot;:&#92;&quot;s3://lancedb-demos/openvid/videos/pixabay_urban_green_spaces_videos_52011_012.mp4&#92;&quot;,&#92;&quot;caption&#92;&quot;:&#92;&quot;a captivating view of the sun, bathed in hues of orange and yellow. The sun, which is the central focus of the scene, radiates a bright light that illuminates the surrounding area. It&#x27;s surrounded by a flurry of small white particles, adding a sense of motion to the scene. These particles appear to be emanating from the sun, suggesting a dynamic interaction between the celestial body and its surroundings. The background of the scene is a gradient of orange and yellow, further emphasizing the sun&#x27;s prominence in the scene. The scene does not contain any discernible text or countable objects. The relative position of the sun and the particles suggests a vast expanse of space, with the sun at the center and the particles scattered around it. The scene does not provide any information that allows for a confident determination of object actions or precise object locations. The scene is devoid of any aesthetic descriptions, focusing solely on the factual representation of the sun and its immediate surroundings.&#92;&quot;,&#92;&quot;aesthetic_score&#92;&quot;:5.240137100219727,&#92;&quot;motion_score&#92;&quot;:0.2318242490291595,&#92;&quot;temporal_consistency_score&#92;&quot;:0.9988606770833334,&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;static&#92;&quot;,&#92;&quot;frame&#92;&quot;:64,&#92;&quot;fps&#92;&quot;:24.0,&#92;&quot;seconds&#92;&quot;:2.6666666666666665,&#92;&quot;_dlt_load_id&#92;&quot;:&#92;&quot;1774345554.459338&#92;&quot;,&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;n8Cy0KImasrA9Q&#92;&quot;}]&quot;' data-total-rows='1' data-total-columns='11' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;video_path&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;caption&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;aesthetic_score&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;motion_score&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;temporal_consistency_score&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;camera_motion&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;frame&quot;,[&quot;integer&quot;,&quot;Int64&quot;]],[&quot;fps&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;seconds&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;_dlt_load_id&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;_dlt_id&quot;,[&quot;string&quot;,&quot;String&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='false' data-show-data-types='true' data-show-page-size-selector='false' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "NCOB",
+      "code_hash": "97108e14ecd96106932a900d376dd9a7",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Rows with unexpected <code>camera_motion</code> values</strong></span></span><marimo-ui-element object-id='NCOB-0' random-id='50aa2ea3-a2fc-73fe-d2b2-c1ed0e16f32e'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;video_path&#92;&quot;:&#92;&quot;s3://lancedb-demos/openvid/videos/pixabay_rock_formations_videos_141609_012.mp4&#92;&quot;,&#92;&quot;caption&#92;&quot;:&#92;&quot;a breathtaking view of a mountainous landscape. From a high vantage point, the viewer&#x27;s gaze is drawn to a winding dirt path that meanders through the scene. The path, appearing almost like a ribbon laid across the rugged terrain, leads the eye towards a solitary figure standing on the right side of the frame. This person, clad in a vibrant red jacket, appears small against the vastness of the landscape, adding a touch of human presence to the otherwise untouched wilderness.  The terrain itself is a mix of gray and brown rocks and patches of snow, hinting at the harsh conditions of the environment. The sky overhead is a blanket of overcast clouds, casting a soft, diffused light over the scene. Despite the lack of sunshine, the scene exudes a sense of tranquility and solitude, as if inviting the viewer to step into the frame and embark on a journey along the winding path. The absence of any text or other discernible details in the scene further emphasizes the focus on the natural elements and the lone figure. The relative positions of the objects - the person, the path, and the surrounding landscape - create a harmonious composition that draws the viewer into the scene.&#92;&quot;,&#92;&quot;aesthetic_score&#92;&quot;:5.240138053894043,&#92;&quot;motion_score&#92;&quot;:9.523026466369627,&#92;&quot;temporal_consistency_score&#92;&quot;:0.9967122395833332,&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;zoom_in+tilt_up&#92;&quot;,&#92;&quot;frame&#92;&quot;:64,&#92;&quot;fps&#92;&quot;:24.0,&#92;&quot;seconds&#92;&quot;:2.6666666666666665,&#92;&quot;_dlt_load_id&#92;&quot;:&#92;&quot;1774345554.459338&#92;&quot;,&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;RqN0gCEcs2r/7g&#92;&quot;},{&#92;&quot;video_path&#92;&quot;:&#92;&quot;s3://lancedb-demos/openvid/videos/pixabay_valleys_videos_81709_005.mp4&#92;&quot;,&#92;&quot;caption&#92;&quot;:&#92;&quot;an expansive aerial view of a rural landscape. Dominating the scene are numerous rectangular fields, meticulously arranged in a grid-like pattern. Each field is a patchwork of various shades of green and brown, indicative of different crops or pastures.   Scattered throughout the landscape are several small buildings, their white walls contrasting with their red roofs. These structures, possibly farmhouses or storage facilities, add a touch of human presence to the otherwise natural scenery.  In the heart of the scene, a large body of water glistens under the sunlight, its surface undulating with gentle ripples. This body of water, possibly a lake or a reservoir, serves as a central feature of the landscape.  The sky above is a clear blue, devoid of any clouds, suggesting a calm, sunny day. The absence of any text or discernible action in the scene gives it a serene and timeless quality. The relative positions of the objects - the fields, buildings, water body, and sky - create a harmonious balance, reflecting the tranquility of rural life.   Overall, the scene captures a moment of stillness in a rural setting, where nature and human activity coexist in harmony. It&#x27;s a snapshot of a place where the rhythm of life is dictated by the changing seasons and the ebb and flow of nature.&#92;&quot;,&#92;&quot;aesthetic_score&#92;&quot;:5.24013614654541,&#92;&quot;motion_score&#92;&quot;:4.11186408996582,&#92;&quot;temporal_consistency_score&#92;&quot;:0.9955729166666668,&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;tilt_up&#92;&quot;,&#92;&quot;frame&#92;&quot;:64,&#92;&quot;fps&#92;&quot;:24.0,&#92;&quot;seconds&#92;&quot;:2.6666666666666665,&#92;&quot;_dlt_load_id&#92;&quot;:&#92;&quot;1774345554.459338&#92;&quot;,&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;bQQ4kXUJAW9mJg&#92;&quot;},{&#92;&quot;video_path&#92;&quot;:&#92;&quot;s3://lancedb-demos/openvid/videos/pexels_landscape_landscape_7141656_002.mp4&#92;&quot;,&#92;&quot;caption&#92;&quot;:&#92;&quot;a vast, open field under a sky filled with fluffy white clouds. The field, which is brown in color, stretches out towards the horizon, creating a sense of depth and infinity. The sky above is a vibrant blue, providing a striking contrast to the earthy tones of the field. The clouds are scattered across the sky, their white forms standing out against the blue backdrop. The perspective of the scene is from a low angle, looking up towards the sky, giving a sense of scale and grandeur to the scene. There are no discernible texts or human-made objects in the scene, and no specific actions taking place. The scene is a simple yet powerful representation of nature&#x27;s beauty.&#92;&quot;,&#92;&quot;aesthetic_score&#92;&quot;:5.24013614654541,&#92;&quot;motion_score&#92;&quot;:4.066412448883057,&#92;&quot;temporal_consistency_score&#92;&quot;:0.998828125,&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;tilt_up&#92;&quot;,&#92;&quot;frame&#92;&quot;:64,&#92;&quot;fps&#92;&quot;:24.0,&#92;&quot;seconds&#92;&quot;:2.6666666666666665,&#92;&quot;_dlt_load_id&#92;&quot;:&#92;&quot;1774345554.459338&#92;&quot;,&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;Q4KaBCI7/EfxfQ&#92;&quot;},{&#92;&quot;video_path&#92;&quot;:&#92;&quot;s3://lancedb-demos/openvid/videos/pixabay_natural_wonders_natural_wonders_14992451_000.mp4&#92;&quot;,&#92;&quot;caption&#92;&quot;:&#92;&quot;a serene moment on a city street bathed in the warm glow of the setting sun. Dominating the foreground is a tree adorned with vibrant pink flowers and contrasting green leaves. The sun&#x27;s rays filter through the foliage, casting a dappled pattern of light and shadow on the pavement below.  In the background, a car is parked by the side of the street, its presence adding a touch of urban life to the otherwise tranquil scene. Further back, a building with a red roof stands tall, its color echoing the hues of the flowers in the foreground, subtly tying the elements of the scene together.  Despite the presence of man-made structures, the scene exudes a sense of peace and natural beauty, as if inviting the viewer to take a moment to appreciate the simple yet profound beauty of everyday scenes. The precise positioning of the objects, their colors, and the interplay of light and shadow all contribute to creating a harmonious composition that is pleasing to the eye. There are no discernible texts or countable objects in the scene. The relative positions of the objects suggest a quiet, possibly early morning or late afternoon, moment on a city street.&#92;&quot;,&#92;&quot;aesthetic_score&#92;&quot;:5.240119934082031,&#92;&quot;motion_score&#92;&quot;:7.249238014221191,&#92;&quot;temporal_consistency_score&#92;&quot;:0.9955078125,&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;zoom_in+tilt_up&#92;&quot;,&#92;&quot;frame&#92;&quot;:64,&#92;&quot;fps&#92;&quot;:24.0,&#92;&quot;seconds&#92;&quot;:2.6666666666666665,&#92;&quot;_dlt_load_id&#92;&quot;:&#92;&quot;1774345554.459338&#92;&quot;,&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;mAXo014wGmfniQ&#92;&quot;}]&quot;' data-total-rows='4' data-total-columns='11' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;video_path&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;caption&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;aesthetic_score&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;motion_score&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;temporal_consistency_score&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;camera_motion&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;frame&quot;,[&quot;integer&quot;,&quot;Int64&quot;]],[&quot;fps&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;seconds&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;_dlt_load_id&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;_dlt_id&quot;,[&quot;string&quot;,&quot;String&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='false' data-show-data-types='true' data-show-page-size-selector='false' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "aqbW",
+      "code_hash": "5f8cfeff2dee6f94d53fea05e9e24b1f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"persisting-check-results\">Persisting check results</h3>\n<span class=\"paragraph\">Since <code>dlthub.data_quality.prepare_checks(...)</code> returns a <code>dlt.Relation</code>, you\ncan pipe check results into any destination. Depending on your use case, decide:</span>\n<ul>\n<li>what check level to save: <code>row</code>, <code>table</code>, or <code>dataset</code></li>\n<li>where to store results: checks are computed where the data lives, but you\n  can store check results in a different location</li>\n<li>what pipeline and dataset to use for storage</li>\n</ul>\n<div class=\"language-python codehilite\"><pre><span></span><code><span class=\"n\">dq_pipeline</span> <span class=\"o\">=</span> <span class=\"n\">dlt</span><span class=\"o\">.</span><span class=\"n\">pipeline</span><span class=\"p\">(</span>\n    <span class=\"n\">pipeline_name</span><span class=\"o\">=</span><span class=\"s2\">&quot;data_quality&quot;</span><span class=\"p\">,</span>\n    <span class=\"n\">destination</span><span class=\"o\">=</span><span class=\"s2\">&quot;motherduck&quot;</span><span class=\"p\">,</span>  <span class=\"c1\"># easily load into a different destination</span>\n    <span class=\"n\">dataset_name</span><span class=\"o\">=</span><span class=\"s2\">&quot;quality_results&quot;</span><span class=\"p\">,</span>\n<span class=\"p\">)</span>\n<span class=\"n\">dq_pipeline</span><span class=\"o\">.</span><span class=\"n\">run</span><span class=\"p\">(</span>\n    <span class=\"p\">[</span><span class=\"n\">dq</span><span class=\"o\">.</span><span class=\"n\">prepare_checks</span><span class=\"p\">(</span><span class=\"n\">some_dataset</span><span class=\"p\">,</span> <span class=\"n\">some_dataset_checks</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"n\">arrow</span><span class=\"p\">()],</span>\n    <span class=\"n\">table_name</span><span class=\"o\">=</span><span class=\"s2\">&quot;dlt_data_quality&quot;</span><span class=\"p\">,</span>\n<span class=\"p\">)</span>\n</code></pre></div></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TRpd",
+      "code_hash": "0133cb35a0b0f6d2b2db76fe53b8b69f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"explore-with-ibis\">Explore with Ibis</h2>\n<span class=\"paragraph\"><code>dlt</code> datasets can be converted to <a href=\"https://ibis-project.org/\" rel=\"noopener noreferrer\" target=\"_blank\">Ibis</a> tables\nfor expressive, lazy analytics. Ibis builds a query plan that only executes\nwhen you materialize results (e.g., <code>.to_pyarrow()</code>).</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TXez",
+      "code_hash": "385feb99a80472ceb511f224f5de5c03",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "dNNg",
+      "code_hash": "e175c7bacd9c042231bec30fe8436250",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "yCnT",
+      "code_hash": "e3a2ed590c0b225fc80c9f837ec3a968",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='yCnT-0' random-id='94905916-b966-199b-dc98-e78db0c53427'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;total&#92;&quot;:5,&#92;&quot;avg_aesthetic&#92;&quot;:5.240133476257324,&#92;&quot;avg_motion&#92;&quot;:5.036473053693771,&#92;&quot;avg_temporal&#92;&quot;:0.9970963541666666,&#92;&quot;avg_fps&#92;&quot;:24.0,&#92;&quot;avg_seconds&#92;&quot;:2.6666666666666665}]&quot;' data-total-rows='1' data-total-columns='6' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;total&quot;,[&quot;integer&quot;,&quot;Int64&quot;]],[&quot;avg_aesthetic&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;avg_motion&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;avg_temporal&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;avg_fps&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;avg_seconds&quot;,[&quot;number&quot;,&quot;Float64&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='false' data-show-data-types='true' data-show-page-size-selector='false' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "wlCL",
+      "code_hash": "d8f62865d244bde16afbe0bf58487075",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"analyzing-score-distributions-by-camera-motion\">Analyzing score distributions by camera motion</h2>\n<span class=\"paragraph\">Understanding the distribution of scores across different camera motion\ntypes helps identify outliers and set sensible filtering thresholds for\ndownstream training.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "kqZH",
+      "code_hash": "d81eb7d6d87afd41d8f81a1ee4014896",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='kqZH-0' random-id='312f42f9-d94a-d203-455a-8f838a7c908b'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;tilt_up&#92;&quot;,&#92;&quot;count&#92;&quot;:2,&#92;&quot;avg_motion&#92;&quot;:4.0891382694244385},{&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;zoom_in+tilt_up&#92;&quot;,&#92;&quot;count&#92;&quot;:2,&#92;&quot;avg_motion&#92;&quot;:8.38613224029541},{&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;static&#92;&quot;,&#92;&quot;count&#92;&quot;:1,&#92;&quot;avg_motion&#92;&quot;:0.2318242490291595}]&quot;' data-total-rows='3' data-total-columns='3' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;camera_motion&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;count&quot;,[&quot;integer&quot;,&quot;Int64&quot;]],[&quot;avg_motion&quot;,[&quot;number&quot;,&quot;Float64&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='false' data-show-data-types='true' data-show-page-size-selector='false' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "wAgl",
+      "code_hash": "53878f1c6d3bc872430ed5ccd8352ec5",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"filter-videos-for-training\">Filter videos for training</h2>\n<span class=\"paragraph\">Set minimum thresholds for video quality metrics to curate a training-ready\nsubset. In edit mode, use the sliders to experiment with thresholds. In run\nmode, the defaults below are applied automatically.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "rEll",
+      "code_hash": "998cfafece1b8b18ec6f783349d6f63e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='rEll-10' random-id='c56a2f00-8325-1351-7637-6a916cc1e450'><marimo-dict data-initial-value='{&quot;aesthetic_score&quot;:5.0,&quot;motion_score&quot;:2.0,&quot;temporal_consistency_score&quot;:0.99,&quot;fps&quot;:24,&quot;seconds&quot;:2.0}' data-label='null' data-element-ids='{&quot;rEll-5&quot;:&quot;aesthetic_score&quot;,&quot;rEll-6&quot;:&quot;motion_score&quot;,&quot;rEll-7&quot;:&quot;temporal_consistency_score&quot;,&quot;rEll-8&quot;:&quot;fps&quot;,&quot;rEll-9&quot;:&quot;seconds&quot;}'><marimo-json-output data-json-data='{&quot;aesthetic_score&quot;:&quot;text/html:&lt;marimo-ui-element object-id=&#x27;rEll-5&#x27; random-id=&#x27;f0baa5bf-ba3d-a0d6-3228-168cf65500de&#x27;&gt;&lt;marimo-slider data-initial-value=&#x27;5.0&#x27; data-label=&#x27;&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;Min aesthetic&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;&#x27; data-start=&#x27;0.0&#x27; data-stop=&#x27;10.0&#x27; data-step=&#x27;0.5&#x27; data-steps=&#x27;[]&#x27; data-debounce=&#x27;false&#x27; data-disabled=&#x27;false&#x27; data-orientation=&#x27;&amp;quot;horizontal&amp;quot;&#x27; data-show-value=&#x27;false&#x27; data-include-input=&#x27;false&#x27; data-full-width=&#x27;false&#x27;&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;&quot;,&quot;motion_score&quot;:&quot;text/html:&lt;marimo-ui-element object-id=&#x27;rEll-6&#x27; random-id=&#x27;c9f86c5c-3f89-7cc3-4c53-392f6c09f8b4&#x27;&gt;&lt;marimo-slider data-initial-value=&#x27;2.0&#x27; data-label=&#x27;&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;Min motion&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;&#x27; data-start=&#x27;0.0&#x27; data-stop=&#x27;100.0&#x27; data-step=&#x27;1.0&#x27; data-steps=&#x27;[]&#x27; data-debounce=&#x27;false&#x27; data-disabled=&#x27;false&#x27; data-orientation=&#x27;&amp;quot;horizontal&amp;quot;&#x27; data-show-value=&#x27;false&#x27; data-include-input=&#x27;false&#x27; data-full-width=&#x27;false&#x27;&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;&quot;,&quot;temporal_consistency_score&quot;:&quot;text/html:&lt;marimo-ui-element object-id=&#x27;rEll-7&#x27; random-id=&#x27;1cc7d3a6-0103-3544-0591-cc853e66a7b2&#x27;&gt;&lt;marimo-slider data-initial-value=&#x27;0.99&#x27; data-label=&#x27;&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;Min temporal&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;&#x27; data-start=&#x27;0.0&#x27; data-stop=&#x27;1.0&#x27; data-step=&#x27;0.01&#x27; data-steps=&#x27;[]&#x27; data-debounce=&#x27;false&#x27; data-disabled=&#x27;false&#x27; data-orientation=&#x27;&amp;quot;horizontal&amp;quot;&#x27; data-show-value=&#x27;false&#x27; data-include-input=&#x27;false&#x27; data-full-width=&#x27;false&#x27;&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;&quot;,&quot;fps&quot;:&quot;text/html:&lt;marimo-ui-element object-id=&#x27;rEll-8&#x27; random-id=&#x27;9f2836de-e6d8-b8ee-3dc4-14f6c38dd2a0&#x27;&gt;&lt;marimo-slider data-initial-value=&#x27;24&#x27; data-label=&#x27;&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;Min FPS&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;&#x27; data-start=&#x27;0&#x27; data-stop=&#x27;120&#x27; data-step=&#x27;1&#x27; data-steps=&#x27;[]&#x27; data-debounce=&#x27;false&#x27; data-disabled=&#x27;false&#x27; data-orientation=&#x27;&amp;quot;horizontal&amp;quot;&#x27; data-show-value=&#x27;false&#x27; data-include-input=&#x27;false&#x27; data-full-width=&#x27;false&#x27;&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;&quot;,&quot;seconds&quot;:&quot;text/html:&lt;marimo-ui-element object-id=&#x27;rEll-9&#x27; random-id=&#x27;d019a49a-8ab4-0609-0fbd-aedae5fa03a0&#x27;&gt;&lt;marimo-slider data-initial-value=&#x27;2.0&#x27; data-label=&#x27;&amp;quot;&amp;lt;span class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;gt;&amp;lt;span class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;gt;Min seconds&amp;lt;/span&amp;gt;&amp;lt;/span&amp;gt;&amp;quot;&#x27; data-start=&#x27;0.0&#x27; data-stop=&#x27;300.0&#x27; data-step=&#x27;1.0&#x27; data-steps=&#x27;[]&#x27; data-debounce=&#x27;false&#x27; data-disabled=&#x27;false&#x27; data-orientation=&#x27;&amp;quot;horizontal&amp;quot;&#x27; data-show-value=&#x27;false&#x27; data-include-input=&#x27;false&#x27; data-full-width=&#x27;false&#x27;&gt;&lt;/marimo-slider&gt;&lt;/marimo-ui-element&gt;&quot;}' data-value-types='&quot;python&quot;' data-name='&quot;dictionary&quot;'></marimo-json-output></marimo-dict></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "dGlV",
+      "code_hash": "4400e46cf838a3a55be58da69523b333",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SdmI",
+      "code_hash": "dfab252ff462d5e9f06d8a89889023e3",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Kept 4 / 5 videos (80.0%)</strong></span></span><marimo-ui-element object-id='SdmI-0' random-id='c3325263-223a-860b-47e2-53c7c38e3c07'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;metric&#92;&quot;:&#92;&quot;count&#92;&quot;,&#92;&quot;before (full)&#92;&quot;:5.0,&#92;&quot;after (filtered)&#92;&quot;:4.0},{&#92;&quot;metric&#92;&quot;:&#92;&quot;avg_aesthetic&#92;&quot;,&#92;&quot;before (full)&#92;&quot;:5.240133476257324,&#92;&quot;after (filtered)&#92;&quot;:5.240132570266724},{&#92;&quot;metric&#92;&quot;:&#92;&quot;avg_motion&#92;&quot;,&#92;&quot;before (full)&#92;&quot;:5.036473053693771,&#92;&quot;after (filtered)&#92;&quot;:6.237635254859924},{&#92;&quot;metric&#92;&quot;:&#92;&quot;avg_temporal&#92;&quot;,&#92;&quot;before (full)&#92;&quot;:0.9970963541666666,&#92;&quot;after (filtered)&#92;&quot;:0.9966552734374999},{&#92;&quot;metric&#92;&quot;:&#92;&quot;avg_fps&#92;&quot;,&#92;&quot;before (full)&#92;&quot;:24.0,&#92;&quot;after (filtered)&#92;&quot;:24.0},{&#92;&quot;metric&#92;&quot;:&#92;&quot;avg_seconds&#92;&quot;,&#92;&quot;before (full)&#92;&quot;:2.6666666666666665,&#92;&quot;after (filtered)&#92;&quot;:2.6666666666666665}]&quot;' data-total-rows='6' data-total-columns='3' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;metric&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;before (full)&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;after (filtered)&quot;,[&quot;number&quot;,&quot;Float64&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='false' data-show-data-types='true' data-show-page-size-selector='true' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lgWD",
+      "code_hash": "c93efc8ea08f25e16ca03c709e1f4d74",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"filtered-dataset-preview\">Filtered dataset preview</h3>\n<span class=\"paragraph\">The table below shows the videos that passed all filter thresholds,\nwith the <code>video_path</code> column removed for readability.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "yOPj",
+      "code_hash": "4ca25ceaad0296591d33c5c7daaef708",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='yOPj-0' random-id='c4325ef5-52e7-8ee4-2930-4d1b98806287'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;caption&#92;&quot;:&#92;&quot;a breathtaking view of a mountainous landscape. From a high vantage point, the viewer&#x27;s gaze is drawn to a winding dirt path that meanders through the scene. The path, appearing almost like a ribbon laid across the rugged terrain, leads the eye towards a solitary figure standing on the right side of the frame. This person, clad in a vibrant red jacket, appears small against the vastness of the landscape, adding a touch of human presence to the otherwise untouched wilderness.  The terrain itself is a mix of gray and brown rocks and patches of snow, hinting at the harsh conditions of the environment. The sky overhead is a blanket of overcast clouds, casting a soft, diffused light over the scene. Despite the lack of sunshine, the scene exudes a sense of tranquility and solitude, as if inviting the viewer to step into the frame and embark on a journey along the winding path. The absence of any text or other discernible details in the scene further emphasizes the focus on the natural elements and the lone figure. The relative positions of the objects - the person, the path, and the surrounding landscape - create a harmonious composition that draws the viewer into the scene.&#92;&quot;,&#92;&quot;aesthetic_score&#92;&quot;:5.240138053894043,&#92;&quot;motion_score&#92;&quot;:9.523026466369627,&#92;&quot;temporal_consistency_score&#92;&quot;:0.9967122395833332,&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;zoom_in+tilt_up&#92;&quot;,&#92;&quot;frame&#92;&quot;:64,&#92;&quot;fps&#92;&quot;:24.0,&#92;&quot;seconds&#92;&quot;:2.6666666666666665,&#92;&quot;_dlt_load_id&#92;&quot;:&#92;&quot;1774345554.459338&#92;&quot;,&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;RqN0gCEcs2r/7g&#92;&quot;},{&#92;&quot;caption&#92;&quot;:&#92;&quot;an expansive aerial view of a rural landscape. Dominating the scene are numerous rectangular fields, meticulously arranged in a grid-like pattern. Each field is a patchwork of various shades of green and brown, indicative of different crops or pastures.   Scattered throughout the landscape are several small buildings, their white walls contrasting with their red roofs. These structures, possibly farmhouses or storage facilities, add a touch of human presence to the otherwise natural scenery.  In the heart of the scene, a large body of water glistens under the sunlight, its surface undulating with gentle ripples. This body of water, possibly a lake or a reservoir, serves as a central feature of the landscape.  The sky above is a clear blue, devoid of any clouds, suggesting a calm, sunny day. The absence of any text or discernible action in the scene gives it a serene and timeless quality. The relative positions of the objects - the fields, buildings, water body, and sky - create a harmonious balance, reflecting the tranquility of rural life.   Overall, the scene captures a moment of stillness in a rural setting, where nature and human activity coexist in harmony. It&#x27;s a snapshot of a place where the rhythm of life is dictated by the changing seasons and the ebb and flow of nature.&#92;&quot;,&#92;&quot;aesthetic_score&#92;&quot;:5.24013614654541,&#92;&quot;motion_score&#92;&quot;:4.11186408996582,&#92;&quot;temporal_consistency_score&#92;&quot;:0.9955729166666668,&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;tilt_up&#92;&quot;,&#92;&quot;frame&#92;&quot;:64,&#92;&quot;fps&#92;&quot;:24.0,&#92;&quot;seconds&#92;&quot;:2.6666666666666665,&#92;&quot;_dlt_load_id&#92;&quot;:&#92;&quot;1774345554.459338&#92;&quot;,&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;bQQ4kXUJAW9mJg&#92;&quot;},{&#92;&quot;caption&#92;&quot;:&#92;&quot;a vast, open field under a sky filled with fluffy white clouds. The field, which is brown in color, stretches out towards the horizon, creating a sense of depth and infinity. The sky above is a vibrant blue, providing a striking contrast to the earthy tones of the field. The clouds are scattered across the sky, their white forms standing out against the blue backdrop. The perspective of the scene is from a low angle, looking up towards the sky, giving a sense of scale and grandeur to the scene. There are no discernible texts or human-made objects in the scene, and no specific actions taking place. The scene is a simple yet powerful representation of nature&#x27;s beauty.&#92;&quot;,&#92;&quot;aesthetic_score&#92;&quot;:5.24013614654541,&#92;&quot;motion_score&#92;&quot;:4.066412448883057,&#92;&quot;temporal_consistency_score&#92;&quot;:0.998828125,&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;tilt_up&#92;&quot;,&#92;&quot;frame&#92;&quot;:64,&#92;&quot;fps&#92;&quot;:24.0,&#92;&quot;seconds&#92;&quot;:2.6666666666666665,&#92;&quot;_dlt_load_id&#92;&quot;:&#92;&quot;1774345554.459338&#92;&quot;,&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;Q4KaBCI7/EfxfQ&#92;&quot;},{&#92;&quot;caption&#92;&quot;:&#92;&quot;a serene moment on a city street bathed in the warm glow of the setting sun. Dominating the foreground is a tree adorned with vibrant pink flowers and contrasting green leaves. The sun&#x27;s rays filter through the foliage, casting a dappled pattern of light and shadow on the pavement below.  In the background, a car is parked by the side of the street, its presence adding a touch of urban life to the otherwise tranquil scene. Further back, a building with a red roof stands tall, its color echoing the hues of the flowers in the foreground, subtly tying the elements of the scene together.  Despite the presence of man-made structures, the scene exudes a sense of peace and natural beauty, as if inviting the viewer to take a moment to appreciate the simple yet profound beauty of everyday scenes. The precise positioning of the objects, their colors, and the interplay of light and shadow all contribute to creating a harmonious composition that is pleasing to the eye. There are no discernible texts or countable objects in the scene. The relative positions of the objects suggest a quiet, possibly early morning or late afternoon, moment on a city street.&#92;&quot;,&#92;&quot;aesthetic_score&#92;&quot;:5.240119934082031,&#92;&quot;motion_score&#92;&quot;:7.249238014221191,&#92;&quot;temporal_consistency_score&#92;&quot;:0.9955078125,&#92;&quot;camera_motion&#92;&quot;:&#92;&quot;zoom_in+tilt_up&#92;&quot;,&#92;&quot;frame&#92;&quot;:64,&#92;&quot;fps&#92;&quot;:24.0,&#92;&quot;seconds&#92;&quot;:2.6666666666666665,&#92;&quot;_dlt_load_id&#92;&quot;:&#92;&quot;1774345554.459338&#92;&quot;,&#92;&quot;_dlt_id&#92;&quot;:&#92;&quot;mAXo014wGmfniQ&#92;&quot;}]&quot;' data-total-rows='4' data-total-columns='10' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='true' data-page-size='10' data-field-types='[[&quot;caption&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;aesthetic_score&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;motion_score&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;temporal_consistency_score&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;camera_motion&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;frame&quot;,[&quot;integer&quot;,&quot;Int64&quot;]],[&quot;fps&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;seconds&quot;,[&quot;number&quot;,&quot;Float64&quot;]],[&quot;_dlt_load_id&quot;,[&quot;string&quot;,&quot;String&quot;]],[&quot;_dlt_id&quot;,[&quot;string&quot;,&quot;String&quot;]]]' data-show-filters='true' data-show-download='true' data-show-column-summaries='false' data-show-data-types='true' data-show-page-size-selector='false' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false' data-download-file-name='&quot;df&quot;'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "fwwy",
+      "code_hash": "8627570ca42791835a2c904335f9254b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"write-back-to-hugging-face\">Write back to Hugging Face</h2>\n<span class=\"paragraph\">Once you're happy with your filtered dataset, you can write it back to\nHugging Face Hub using <code>dlt</code>. This closes the loop \u2014 load from Hugging Face,\nvalidate, filter, and publish the curated dataset back.</span>\n<div class=\"language-python codehilite\"><pre><span></span><code><span class=\"n\">hf_pipeline</span> <span class=\"o\">=</span> <span class=\"n\">dlt</span><span class=\"o\">.</span><span class=\"n\">pipeline</span><span class=\"p\">(</span>\n    <span class=\"n\">pipeline_name</span><span class=\"o\">=</span><span class=\"s2\">&quot;openvid_curated&quot;</span><span class=\"p\">,</span>\n    <span class=\"n\">destination</span><span class=\"o\">=</span><span class=\"s2\">&quot;filesystem&quot;</span><span class=\"p\">,</span>\n    <span class=\"n\">dataset_name</span><span class=\"o\">=</span><span class=\"s2\">&quot;openvid_curated&quot;</span><span class=\"p\">,</span>\n<span class=\"p\">)</span>\n<span class=\"n\">hf_pipeline</span><span class=\"o\">.</span><span class=\"n\">run</span><span class=\"p\">(</span>\n    <span class=\"p\">[</span><span class=\"n\">filtered_arrow</span><span class=\"p\">],</span>\n    <span class=\"n\">table_name</span><span class=\"o\">=</span><span class=\"s2\">&quot;videos&quot;</span><span class=\"p\">,</span>\n    <span class=\"n\">write_disposition</span><span class=\"o\">=</span><span class=\"s2\">&quot;replace&quot;</span><span class=\"p\">,</span>\n<span class=\"p\">)</span>\n</code></pre></div>\n<span class=\"paragraph\">The <code>filesystem</code> destination uses the <code>hf://</code> protocol to push directly to\nHugging Face Hub. Configure the bucket URL and authentication token in\n<code>.dlt/secrets.toml</code>:</span>\n<div class=\"language-toml codehilite\"><pre><span></span><code><span class=\"c1\"># .dlt/secrets.toml</span>\n<span class=\"k\">[destination.filesystem]</span>\n<span class=\"n\">bucket_url</span><span class=\"w\"> </span><span class=\"o\">=</span><span class=\"w\"> </span><span class=\"s2\">&quot;hf://datasets/my-org&quot;</span>\n\n<span class=\"k\">[destination.filesystem.credentials]</span>\n<span class=\"n\">hf_token</span><span class=\"w\"> </span><span class=\"o\">=</span><span class=\"w\"> </span><span class=\"s2\">&quot;hf_...&quot;</span><span class=\"w\">  </span><span class=\"c1\"># Your Hugging Face User Access Token</span>\n</code></pre></div>\n<span class=\"paragraph\"><strong><code>bucket_url</code></strong> \u2014 the <code>hf://datasets/</code> prefix tells <code>dlt</code> to treat the\ndestination as a Hugging Face dataset repo. Replace <code>my-org</code> with your\nHugging Face username or organization. The <code>dataset_name</code> from the pipeline\nbecomes the repo name (e.g. <code>my-org/openvid_curated</code>).</span>\n<span class=\"paragraph\"><strong><code>hf_token</code></strong> \u2014 a <a href=\"https://huggingface.co/settings/tokens\" rel=\"noopener noreferrer\" target=\"_blank\">User Access Token</a>\nwith write permissions. You can also set this via the <code>HF_TOKEN</code> environment\nvariable.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "LJZf",
+      "code_hash": "c002b6df56051c366fbe7ef7e8fe1355",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"whats-next\">What's next?</h2>\n<span class=\"paragraph\">All data files for a table are committed in a single git commit to your Hugging Face dataset repo, and <code>dlt</code> automatically creates and maintains the repo's <code>README.md</code> with proper metadata so the dataset appears in Hugging Face's dataset viewer.</span>\n<span class=\"paragraph\">Everything we've done in this notebook runs locally:</span>\n<ul>\n<li><strong>Loading</strong> data from Hugging Face</li>\n<li><strong>Validating</strong> with data quality checks</li>\n<li><strong>Filtering</strong> by score thresholds</li>\n<li><strong>Exporting</strong> back to Hugging Face</li>\n</ul>\n<span class=\"paragraph\">The key takeaway: curating ML datasets doesn't need to be a manual, error-prone process.</span>\n<span class=\"paragraph\">With <code>dlt</code>, you get a reproducible pipeline that handles schema evolution, incremental loads, and data quality \u2014 all in a notebook you can share with your team.</span>\n<span class=\"paragraph\">When we're ready to move to production, <a href=\"https://dlthub.com/solutions/for-frontier-labs\" rel=\"noopener noreferrer\" target=\"_blank\">dltHub Pro</a> lets us deploy this exact pipeline \u2014 without rewriting a single line of code.\nThis enables one developer to accomplish what previously required an entire platform team.</span>\n<span class=\"paragraph\">To dive deeper, see the <a href=\"https://dlthub.com/blog/hugging-face-dlt-ml\" rel=\"noopener noreferrer\" target=\"_blank\">blog post</a> for a full walkthrough of how and why we built this integration.</span>\n<hr />\n<span class=\"paragraph\">Built <a href=\"https://www.linkedin.com/in/elviskahoro/\" rel=\"noopener noreferrer\" target=\"_blank\">with love</a> in SF by <a href=\"https://dlthub.com\" rel=\"noopener noreferrer\" target=\"_blank\">dltHub</a>.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}
