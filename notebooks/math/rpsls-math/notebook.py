@@ -34,8 +34,8 @@ def _(mo):
     With $n$ elements, each must beat exactly $k = \frac{n - 1}{2}$ others.
     That's only a whole number when $n$ is **odd**.
 
-    Use the slider to explore: odd values produce a perfectly balanced tournament,
-    while even values show why perfect balance is impossible.
+    Use the keyboard shortcuts to explore the widget. Click in the keyboard widget area and use the
+    arrows to see the widget update.
     """)
     return
 
