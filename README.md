@@ -112,6 +112,8 @@ uvx marimo edit --sandbox <notebook>
 | Thermodynamic Linear Algebra | Estimate a matrix inverse via overdamped Langevin dynamics. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/thermodynamic_linear_algebra.py/wasm) |
 | Interactive ODE Solver | Drag to set initial conditions and explore solutions of an ODE with a direction field. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/ode-solver.py) |
 | RPSLS Math | Explore balanced tournament graphs for Rock-Paper-Scissors variants. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/rpsls-math/notebook.py) |
+| ChartPuck Circle | Explore how complex functions transform circles interactively. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/chartpuck-circle.py) |
+| Droste Zoom | Simulate the Droste zoom effect with log-polar transforms. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/zooming.py) |
 
 ## Custom UI elements with Anywidget
 
