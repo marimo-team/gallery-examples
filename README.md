@@ -116,7 +116,7 @@ uvx marimo edit --sandbox <notebook>
 | Droste Zoom | Simulate the Droste zoom effect with log-polar transforms. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/zooming.py) |
 | Graph Laplacian | Spectral clustering with graph Laplacian eigenvectors. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/graph_laplacian.py/wasm) |
 | Spectral Graph Drawing | Draw graphs using Laplacian eigenvectors as node coordinates. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/spectral_graph_drawing.py/wasm) |
-| Graph Signal Denoising | Denoise graph signals by projecting onto smooth Laplacian eigenvectors. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/graph_signal_denoising.py/wasm) |
+| Graph Signal Denoising | Denoise graph signals by projecting onto Laplacian eigenvectors. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/graph_signal_denoising.py/wasm) |
 | Low-Rank Approximation | Interactive image compression with low-rank SVD. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/low_rank_approximation.py) |
 
 ## Custom UI elements with Anywidget
