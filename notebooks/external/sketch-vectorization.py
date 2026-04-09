@@ -1,12 +1,12 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies = [
-#     "marimo>=0.20.1",
-#     "sketchy-svg==0.2.7",
-#     "yarl>=1.9.0",
-#     "scipy>=1.13.0",
-#     "scikit-image>=0.24.0",
-#     "onnxruntime>=1.22.1 ; sys_platform != 'emscripten'",
+#     "marimo",
+#     "sketchy-svg",
+#     "yarl",
+#     "scipy",
+#     "scikit-image",
+#     "onnxruntime ; sys_platform != 'emscripten'",
 # ]
 # ///
 
