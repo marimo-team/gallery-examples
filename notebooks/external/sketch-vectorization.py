@@ -581,7 +581,7 @@ def _(mo):
     - increase or decrease the degree of $V$
     - splitting V into 2 (if it has more than 3 nodes)
     - overlaping V onto U (here, $V$ will become $(y, x, c, d)$)
-    - dissociating V from U (for that, the last edge of V must be in U)
+    - dissociating V from U (for that, the last edge of V must be in U)
     - merging V and U. This is only possible when the T is in the special configuration showed below:
 
     ![](https://raw.githubusercontent.com/rambip/sketch-vectorization/1c5377984b0f3bd207aa636739ac94366708fff9/images/schema_t2.svg)
