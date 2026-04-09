@@ -80,6 +80,7 @@ def _(mo):
     mo.md(r"""
     # From sketch to vector graphics
 
+    *By [Antonin Peronnet (@rambip)](https://github.com/rambip) — adapted from [rambip/sketch-vectorization](https://github.com/rambip/sketch-vectorization).*
 
     You probably have already heard about SVG, or Scalable Vector Graphics. It is a file format that represents images as a collection of curves, instead of pixels. This allows to have very small files, and to scale them without losing quality.
 
