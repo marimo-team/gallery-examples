@@ -85,6 +85,7 @@ uvx marimo edit --sandbox <notebook>
 | Mandelbrot | Cython vs Python Mandelbrot set benchmark. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/external/mandelbrot.py) |
 | Manim Slides | Trigonometric identity proof animated with manim-slides. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/external/manim-slides.py) |
 | dltHub + Hugging Face | Curate Hugging Face datasets with dltHub pipelines and data quality checks. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/external/dlthub-huggingface.py) |
+| Sketch Vectorization | Convert hand-drawn sketches to SVG curves with a CNN and hypergraph optimization. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/external/sketch-vectorization.py) |
 
 ## Geo
 
