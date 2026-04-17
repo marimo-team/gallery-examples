@@ -23,6 +23,12 @@ def _():
 
 @app.cell(hide_code=True)
 def _(mo):
+    mo.outline()
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
     mo.md(r"""
     # Self-Attention
 
@@ -33,7 +39,7 @@ def _(mo):
     This notebook builds up the operator from scratch and offers two complementary
     interpretations:
 
-    - **Soft lookup**: a differentiable relaxation of a key-value store.
+    - **Soft lookup**: a differentiable relaxation of a key-value lookup.
     - **Row-stochastic mixing**: a learned graph over tokens, with entries coming from an exponentiated inner-product kernel.
     """)
     return
@@ -100,7 +106,7 @@ def _(np):
     return (softmax,)
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     z3 = mo.ui.slider(
         start=-3.0, stop=5.0, step=0.1, value=2.0,
@@ -155,6 +161,84 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
+    ### Learned parameters
+
+    The three separate learned matrices $W_Q$, $W_K$, and $W_V$ give attention three degrees of freedom.
+
+    **A task-specific similarity.** The attention logit factors as
+
+    $$
+    q_i^\top k_j \;=\; x_i^\top \,(W_Q W_K^\top)\, x_j,
+    $$
+
+    a bilinear form on $\mathbf{R}^d$ with the learned matrix $W_Q W_K^\top$ in the middle. Setting $W_Q = W_K = I$ would commit to the raw inner product $x_i^\top x_j$; learning $W_Q, W_K$ lets the model choose which directions of the input space count toward similarity and which do not.
+
+    **Selection independent from readout.** Setting $W_V = I$ would make the value $v_j$ equal to the input $x_j,$ so the vector used to decide which tokens to attend to would also be the vector transmitted from them. A distinct $W_V$ decouples the two: $(W_Q, W_K)$ choose which tokens contribute to each output; $W_V$ chooses what is extracted from those tokens once chosen.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ### Permutation equivariance
+
+    Self-attention is **permutation-equivariant** in its input sequence. Let $P \in \{0,1\}^{n \times n}$ be a permutation matrix that reorders the $n$ rows of $X$. Then
+
+    $$
+    \operatorname{Attn}(PX W_Q,\; PX W_K,\; PX W_V) \;=\; P \cdot \operatorname{Attn}(Q, K, V).
+    $$
+
+    The operator uses only inner products between pairs of tokens and never references a position index, so its output depends on the **set** of tokens, not their order.
+
+    Sketch: the attention matrix for the permuted input is
+    $\operatorname{softmax}(PQK^\top P^\top / \sqrt{d}) = P A P^\top$ — softmax commutes with consistent row-and-column permutations. Multiplying by $PV$ then gives $P A P^\top P V = P A V$.
+
+    This is why Transformers applied to ordered data like text add positional encodings to $X$: the equivariance becomes a liability when order matters, and the encoding breaks it deliberately.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    perm_seed = mo.ui.slider(
+        start=0, stop=20, step=1, value=0,
+        label=r"Permutation seed", show_value=True,
+    )
+    perm_seed
+    return (perm_seed,)
+
+
+@app.cell(hide_code=True)
+def _(K, Q, V, attention, mo, np, perm_seed):
+    _rng = np.random.default_rng(perm_seed.value)
+    _perm = _rng.permutation(V.shape[0])
+
+    # Permute inputs first, then run attention
+    _Xp = V[_perm]
+    _Ap = attention(_Xp, _Xp, _Xp, tau=1.0)
+    _out_perm_first = _Ap @ _Xp
+
+    # Run attention first, then permute output rows
+    _out_attn_first = (attention(Q, K, V, tau=1.0) @ V)[_perm]
+
+    _diff = np.max(np.abs(_out_perm_first - _out_attn_first))
+
+    mo.md(rf"""
+    With permutation $P$ corresponding to index order `{_perm.tolist()}`:
+
+    $$
+    \max_{{i,j}} \bigl|\, \operatorname{{Attn}}(PX)_{{ij}} \;-\; \bigl(P \cdot \operatorname{{Attn}}(X)\bigr)_{{ij}} \,\bigr| \;=\; {_diff:.2e}.
+    $$
+
+    The gap is at the level of floating-point rounding; the two outputs are equal as mathematical quantities.
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
     ## Interpretation I: soft lookup
 
     The the $i$-th row of the self-attention output is
@@ -188,10 +272,10 @@ def _(mo):
 
     the value row paired with the key most similar to $q_i$. In this sense, the
     self-attention operator can be interpreted as a differentiable lookup. When
-    several similarities are close, softmax spreads its mass and the
+    several similarities are close, the softmax spreads its mass and the
     output is a soft mix of value rows.
 
-    A temperature $\tau > 0$ scales the similarities,
+    **Temperature.** A temperature $\tau > 0$ scales the similarities,
 
     $$
     \operatorname{softmax}\!\left(\frac{q_i^\top K^\top}{\tau\sqrt{d}}\right),
@@ -302,30 +386,22 @@ def _(mo):
     mo.md(r"""
     ## Interpretation II: row-stochastic mixing
 
-    The attention matrix $A$ is **row-stochastic**: $A_{ij} \geq 0$ and
-    $\sum_j A_{ij} = 1$ for every row. Each row is a discrete probability
-    distribution on token positions, one distribution per query.
+    Every row of $A$ is a probability distribution: the entries $A_{i,1}, \dots, A_{i,n}$ are nonnegative and sum to $1$. Entry $A_{ij}$ is the weight placed on value $v_j$ when forming row $i$ of the output, and is large when the key $k_j$ is similar to the query $q_i$.
 
-    The output $AV$ is a **data-dependent linear combination** of the value
-    vectors. The $i$-th output lives in the convex hull of the value vectors
-    $v_1, \dots, v_n$:
+    Row $i$ of the output is then the probability-weighted average of value rows:
 
     $$
-    \operatorname{Attn}(Q, K, V)_i \;=\; \sum_j A_{ij}\, v_j \;\in\; \operatorname{conv}\{v_1, \dots, v_n\}.
+    \operatorname{Attn}(Q, K, V)_i \;=\; \sum_{j=1}^n A_{ij}\, v_j^\top
+      \;\in\; \operatorname{conv}\{v_1^\top, \dots, v_n^\top\}.
     $$
+
+    Every output lies in the convex hull of the value rows: self-attention rewrites each token as a **data-dependent local average** of the others. Tokens that attend strongly to each other pull each other's representations together.
 
     Two useful reframings:
 
-    - **Graph view.** Treat $A$ as the weighted adjacency matrix of a directed
-      graph on $n$ nodes. Self-attention is one step of a random walk, smoothing
-      the value signal over a graph whose edges are *learned*, softmax-normalized
-      similarities. Contrast with a Laplacian defined on a fixed graph: here the
-      mixing is recomputed at inference from $Q$ and $K$.
+    - **Graph view.** Treat $A$ as the weighted adjacency matrix of a directed graph on the $n$ tokens: an edge from $i$ to $j$ has weight $A_{ij}$. One step of self-attention is one step of a random walk on this graph, smoothing the value signal along edges. Unlike the fixed Laplacian of a pre-specified graph, the edges here are recomputed at inference from $Q$ and $K$.
 
-    - **Kernel view.** The unnormalized entries $\tilde A_{ij} = \exp(q_i^\top k_j / \sqrt{d})$
-      form an **asymmetric exponentiated inner-product kernel**. Row-normalization
-      of $\tilde A$ turns it into a transition matrix, and self-attention convolves
-      $V$ with this kernel along the sequence dimension.
+    - **Kernel view.** The unnormalized entries $\tilde A_{ij} = \exp(q_i^\top k_j / \sqrt{d})$ form an asymmetric exponentiated inner-product kernel. Row-normalization turns it into a transition matrix, and self-attention convolves $V$ with this kernel along the sequence dimension.
     """)
     return
 
@@ -342,7 +418,7 @@ def _(mo):
       models.
     - **Multi-head attention.** Run $h$ independent attention operators in parallel
       with their own $W_Q^{(k)}, W_K^{(k)}, W_V^{(k)}$, concatenate the outputs, and
-      apply a final linear projection. Different heads learn to attend along
+      apply a final linear map. Different heads learn to attend along
       different "directions".
     - **Cross-attention.** Take $Q$ from one sequence and $K, V$ from another.
       Self-attention is the special case where the two sequences coincide.
