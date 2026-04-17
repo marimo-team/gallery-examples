@@ -120,6 +120,7 @@ uvx marimo edit --sandbox <notebook>
 | Graph Signal Denoising | Denoise graph signals by projecting onto Laplacian eigenvectors. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/graph_signal_denoising.py/wasm) |
 | Low-Rank Approximation | Interactive image compression with low-rank SVD. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/low_rank_approximation.py) |
 | Self-Attention | A concise mathematical derivation of self-attention as a soft lookup and as row-stochastic mixing. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/self_attention.py/wasm) |
+| Multi-Head Attention | Block-matrix view of multi-head attention. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/multihead_attention.py/wasm) |
 
 ## Custom UI elements with Anywidget
 
