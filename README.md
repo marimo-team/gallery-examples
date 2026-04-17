@@ -119,6 +119,7 @@ uvx marimo edit --sandbox <notebook>
 | Spectral Graph Drawing | Draw graphs using Laplacian eigenvectors as node coordinates. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/spectral_graph_drawing.py/wasm) |
 | Graph Signal Denoising | Denoise graph signals by projecting onto Laplacian eigenvectors. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/graph_signal_denoising.py/wasm) |
 | Low-Rank Approximation | Interactive image compression with low-rank SVD. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/low_rank_approximation.py) |
+| Self-Attention | A concise mathematical derivation of self-attention as a soft lookup and as row-stochastic mixing. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/self_attention.py/wasm) |
 
 ## Custom UI elements with Anywidget
 
