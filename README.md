@@ -38,6 +38,7 @@ uvx marimo edit --sandbox <notebook>
 | -------- | ----------- | - |
 | GDPO vs GRPO | A comparison of GDPO and GRPO methods. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/alphaxiv/gdpo/notebook.py/wasm) |
 | LLM Unlearning | Explore LLM unlearning by overfitting unwanted data. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/alphaxiv/llm-unlearning.py) |
+| Seed of Thought | Why small LLMs can't pick uniformly at random, and a prompt-based fix from ICLR 2026. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/alphaxiv/seed-of-thought.py) |
 
 ## Analysis
 
