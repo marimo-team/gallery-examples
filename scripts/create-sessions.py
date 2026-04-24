@@ -65,7 +65,9 @@ def run_single(notebook_path: str, cli_args: dict, argv: list[str] | None) -> No
         print("  Warning: notebook had errors during execution")
 
     cell_ids = list(file_manager.app.cell_manager.cell_ids())
-    session_data = serialize_session_view(session_view, cell_ids)
+    session_data = serialize_session_view(
+        session_view, cell_ids, drop_virtual_file_outputs=True
+    )
 
     # Treat ModuleNotFoundError as a hard failure — the session cache
     # would be useless if a dependency is missing.
