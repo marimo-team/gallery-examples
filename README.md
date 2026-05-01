@@ -40,6 +40,9 @@ uvx marimo edit --sandbox <notebook>
 | GDPO vs GRPO | A comparison of GDPO and GRPO methods. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/alphaxiv/gdpo/notebook.py/wasm) |
 | LLM Unlearning | Explore LLM unlearning by overfitting unwanted data. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/alphaxiv/llm-unlearning.py) |
 | Seed of Thought | Why small LLMs can't pick uniformly at random, and a prompt-based fix from ICLR 2026. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/alphaxiv/seed-of-thought.py) |
+| Dead Salmons of Interpretability | Interactive false-positive traps showing how feature attribution, probing, SAEs, and circuits "find" structure in pure noise. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/jam-2026-Q2/dead-salmon.py) |
+| Geometry of Noise | Why diffusion models don't need noise conditioning, derived in closed form on a toy circles dataset. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/jam-2026-Q2/geometry-of-noise.py) |
+| Inscribed Squares from Noise | A diffusion model attacks the 100-year-old inscribed square problem by drawing (CVPR 2026). | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/jam-2026-Q2/inscribed-squares.py) |
 
 ## Analysis
 
