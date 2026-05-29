@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Run create-sessions.py in parallel for marimo notebooks.
+# Run create-sessions.py (a thin wrapper around `marimo export session`) in
+# parallel for marimo notebooks.
 #
 # Usage:
 #   bash scripts/create-sessions-changed.sh              # only git-changed notebooks
@@ -29,10 +30,15 @@ if [ "$ALL" = true ]; then
         changed_files+=("$f")
     done < <(grep -rl "import marimo" --include='*.py' "$REPO_ROOT/notebooks" | sed "s|^$REPO_ROOT/||" | sort)
 else
-    # Collect notebooks with uncommitted changes (staged + unstaged), deduplicated
+    # Collect changed notebooks (staged + unstaged), deduplicated. Scoped to
+    # notebooks/ and filtered to existing marimo notebooks so unrelated changed
+    # .py files (e.g. scripts/) aren't mistaken for notebooks.
     while IFS= read -r f; do
+        case "$f" in *.py) ;; *) continue ;; esac
+        [ -f "$REPO_ROOT/$f" ] || continue
+        grep -q "import marimo" "$REPO_ROOT/$f" || continue
         changed_files+=("$f")
-    done < <({ git diff --name-only -- '*.py'; git diff --cached --name-only -- '*.py'; } | sort -u)
+    done < <({ git diff --name-only -- notebooks; git diff --cached --name-only -- notebooks; } | sort -u)
 fi
 
 if [ ${#changed_files[@]} -eq 0 ]; then

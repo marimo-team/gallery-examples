@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.12"
 # dependencies = [
-#     "marimo",
+#     "marimo>=0.23.8",
 # ]
 # ///
 """Validate session JSON files for marimo notebooks.
@@ -17,14 +17,10 @@ Usage:
 
 from __future__ import annotations
 
-import hashlib
 import json
 import os
 import sys
 from pathlib import Path
-
-from marimo._server.files.directory_scanner import is_marimo_app
-from marimo._utils.files import expand_file_patterns
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -49,12 +45,19 @@ def get_session_path(notebook_path: Path) -> Path:
 
 
 def find_notebooks() -> list[Path]:
-    all_files = expand_file_patterns((str(NOTEBOOKS_DIR),))
-    return [
-        Path(f)
-        for f in all_files
-        if is_marimo_app(str(f))
-    ]
+    """Find marimo notebooks under notebooks/, ignoring generated __marimo__ dirs.
+
+    Uses the same heuristic as the check-notebooks CI workflow: a .py file is a
+    marimo notebook if it imports marimo and constructs an app.
+    """
+    notebooks = []
+    for f in sorted(NOTEBOOKS_DIR.rglob("*.py")):
+        if "__marimo__" in f.parts:
+            continue
+        text = f.read_text(encoding="utf-8", errors="ignore")
+        if "import marimo" in text and "marimo.App" in text:
+            notebooks.append(f)
+    return notebooks
 
 
 def check_session_exists(notebooks: list[Path]) -> bool:
@@ -95,22 +98,20 @@ def check_error_patterns(notebooks: list[Path]) -> bool:
     return ok
 
 
-def hash_code(code: str) -> str:
-    return hashlib.md5(code.encode("utf-8"), usedforsecurity=False).hexdigest()
-
-
 def check_session_freshness(notebooks: list[Path]) -> bool:
     """Check session JSONs are up-to-date with notebook code.
 
-    Matches notebook cells to session cells by code_hash rather than
-    by position or cell ID, since the convert API and marimo runtime
-    may order cells differently.
+    Matches notebook cells to session cells by code_hash rather than by
+    position or cell ID, since cells may be ordered differently. The notebook
+    code hashes are computed via marimo's own session-cache helper (the same
+    one `marimo export session` uses to decide whether a snapshot is stale), so
+    the hashing stays in lockstep with how snapshots are written.
 
     Returns True if all pass.
     """
     from collections import Counter
 
-    from marimo._server.file_router import AppFileRouter
+    from marimo._server.export._session_cache import current_notebook_code_hashes
     from marimo._utils.marimo_path import MarimoPath
 
     print("Checking session JSONs are up-to-date...")
@@ -122,33 +123,23 @@ def check_session_freshness(notebooks: list[Path]) -> bool:
 
         rel_nb = nb.relative_to(REPO_ROOT)
 
-        # Parse the notebook via AppFileRouter to get cell code
+        # Compute the notebook's current per-cell code hashes.
         try:
-            marimo_path = MarimoPath(str(nb))
-            file_router = AppFileRouter.from_filename(marimo_path)
-            file_key = file_router.get_unique_file_key()
-            assert file_key is not None
-            file_manager = file_router.get_file_manager(file_key)
+            notebook_hashes = Counter(
+                current_notebook_code_hashes(MarimoPath(str(nb)))
+            )
         except Exception as e:
             report_error(str(rel_nb), f"Could not parse notebook '{rel_nb}': {e}")
             ok = False
             continue
 
-        cell_manager = file_manager.app.cell_manager
-        notebook_hashes = Counter(
-            hash_code(cell_manager.get_cell_data(cid).code)
-            for cid in cell_manager.cell_ids()
-        )
-
-        # Load session JSON code hashes
-        with open(session_path) as f:
-            session_data = json.load(f)
-
+        # Load the session JSON's stored code hashes.
+        session_data = json.loads(session_path.read_text())
         session_hashes = Counter(
-            c["code_hash"] for c in session_data.get("cells", [])
+            c.get("code_hash") for c in session_data.get("cells", [])
         )
 
-        # Compare as multisets — order doesn't matter
+        # Compare as multisets — order doesn't matter.
         if notebook_hashes != session_hashes:
             only_in_notebook = notebook_hashes - session_hashes
             only_in_session = session_hashes - notebook_hashes
