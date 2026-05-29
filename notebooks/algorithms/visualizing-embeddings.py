@@ -11,7 +11,7 @@
 
 import marimo
 
-__generated_with = "0.20.2"
+__generated_with = "0.23.8"
 app = marimo.App(width="medium")
 
 with app.setup:
@@ -71,13 +71,14 @@ def _():
 
 @app.cell
 def _(constraint, embedding_dimension):
-    embedding = compute_embedding(embedding_dimension, constraint)
+    embedding = compute_embedding(embedding_dimension, constraint).cpu()
     return (embedding,)
 
 
 @app.cell
 def _(embedding):
     ax = pymde.plot(embedding, color_by=mnist.attributes["digits"])
+    plt.tight_layout()
     ax = mo.ui.matplotlib(ax)
     ax
     return (ax,)
