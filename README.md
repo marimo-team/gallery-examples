@@ -127,6 +127,7 @@ uvx marimo edit --sandbox <notebook>
 | Low-Rank Approximation | Interactive image compression with low-rank SVD. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/low_rank_approximation.py) |
 | Self-Attention | A concise mathematical derivation of self-attention as a soft lookup and as row-stochastic mixing. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/self_attention.py/wasm) |
 | Multi-Head Attention | Block-matrix view of multi-head attention. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/multihead_attention.py/wasm) |
+| Julia Sets via Lagrangian Descriptors | Reveal Julia-set fractals as singularities of a Lagrangian-descriptor field lifted onto the Riemann sphere, with an animatable path through the c-plane. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/julia-lagrangian-descriptors.py) |
 
 ## Custom UI elements with Anywidget
 
