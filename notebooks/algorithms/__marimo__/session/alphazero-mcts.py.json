@@ -1,0 +1,360 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.23.9",
+    "script_metadata_hash": "5fe0348d3aacb3e262f211ab36223579"
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "56fc9a521e945e655561636428a30556",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "7ae82aaa94b1630f0ea05559a7316008",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"notebook-setup-instructions\">Notebook Setup Instructions</h1></span><span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">On bottom right control panel, press <iconify-icon icon='lucide:layout-template' inline></iconify-icon> to hide code and enter app mode, and press <iconify-icon icon='lucide:play' inline></iconify-icon> to run everything!</span></span><span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"table-of-contents\">Table of Contents</h1></span><marimo-outline data-label='&quot;&quot;'></marimo-outline></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "f15b16f83f8513574fee7952132ed7ee",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "\n    <style>\n        :root {\n            /* Your chosen background color (e.g., Vanilla Cream) */\n            --background: #faf8f5 !important;\n            --background-darker: #faf8f5 !important;\n\n            /* Make the code cells completely see-through */\n            --card: transparent !important; \n\n            /* Make the borders transparent so there are no boxes around the code */\n            --border: transparent !important;\n\n            /* If the actual typing area (CodeMirror) still has a slight tint, make it transparent too */\n            --input: transparent !important;\n        }\n        /* * TARGET CODEMIRROR DIRECTLY\n         * This forces the actual text editor to drop its white background \n         */\n        .cm-editor, \n        .cm-scroller, \n        .cm-content {\n            background-color: transparent !important;\n        }\n\n        /* Optional: Remove the background from the active line highlight if it looks blocky */\n        .cm-activeLine, \n        .cm-activeLineGutter {\n            background-color: transparent !important;\n        }\n    </style>\n    </style>\n    "
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "5344e664170782c38354de0d4890bbec",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "f5fd7759d2d6a458abae02740263db4c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "51959f4f1e45ac8ca3a0af8353ddedd9",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "812d4546d9b57a5f351bf47ee510100f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "392fdae0b360238645a732f56bb018ab",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "c46dc69061c614e552061807feb5a31e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "075a1cf7ee2b1446c58b3943690f2cf3",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "99ad17bad959c55d54c0c332cbc44aa4",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "f46593668557f6f7c033183f1cc9ccc5",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "aae3420fc85e84e11c34c4cd462e7352",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "972cedb55628b25ed9994b4ded220c9b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"play-connect-4-or-other-k-in-a-line-games-against-the-ai\">Play Connect 4 or other k-in-a-line games against the AI</h1></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "bbbcfccd0b05ff515ba056fd12ee043f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "iLit",
+      "code_hash": "8d1ee659a48082248a74cf5048dd163f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "f295552c478d7b1dd687a5d52333753e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: center;flex-wrap: nowrap;gap: 1rem'><span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"your-turn\">\ud83d\udc64 Your Turn!</h3></span><marimo-ui-element object-id='qnkX-0' random-id='efc89439-e8c8-ab2c-fa86-06d08ea5a0aa'><marimo-slider data-initial-value='0' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003e\ud83d\udd70\ufe0f Game Timeline&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-start='0' data-stop='0' data-step='2' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='true' data-include-input='false' data-full-width='true'></marimo-slider></marimo-ui-element><div style='display: flex;flex: 1;flex-direction: row;justify-content: space-between;align-items: center;flex-wrap: nowrap;gap: 6rem'><div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: center;flex-wrap: nowrap;gap: 1rem'><div class='game-board-wrapper'><div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0rem'><div style='display: flex;flex: 1;flex-direction: row;justify-content: center;align-items: normal;flex-wrap: nowrap;gap: 0rem'><div class='active-btn-wrapper' style='width: 3.5rem; height: 3.5rem; position: relative; display: grid; place-items: center;'><marimo-ui-element object-id='iLit-3' random-id='28a18194-bfde-afd3-ca38-6757e07a6fbc'><marimo-button data-initial-value='0' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003e\u2b07\ufe0f&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element><div style='position: absolute; top: 0.1rem; left: 50%; transform: translateX(-50%); font-size: 0.85rem; font-family: monospace; font-weight: bold; color: #555; pointer-events: none; line-height: 1;'>A0</div></div><div class='active-btn-wrapper' style='width: 3.5rem; height: 3.5rem; position: relative; display: grid; place-items: center;'><marimo-ui-element object-id='iLit-4' random-id='955a7ab1-42eb-7e8c-bfd4-b92a55212d56'><marimo-button data-initial-value='0' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003e\u2b07\ufe0f&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element><div style='position: absolute; top: 0.1rem; left: 50%; transform: translateX(-50%); font-size: 0.85rem; font-family: monospace; font-weight: bold; color: #555; pointer-events: none; line-height: 1;'>A1</div></div><div class='active-btn-wrapper' style='width: 3.5rem; height: 3.5rem; position: relative; display: grid; place-items: center;'><marimo-ui-element object-id='iLit-5' random-id='3a17c95c-b9bf-7f24-b352-357a844cd286'><marimo-button data-initial-value='0' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003e\u2b07\ufe0f&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element><div style='position: absolute; top: 0.1rem; left: 50%; transform: translateX(-50%); font-size: 0.85rem; font-family: monospace; font-weight: bold; color: #555; pointer-events: none; line-height: 1;'>A2</div></div><div class='active-btn-wrapper' style='width: 3.5rem; height: 3.5rem; position: relative; display: grid; place-items: center;'><marimo-ui-element object-id='iLit-6' random-id='024fd2e6-3520-93cb-a6b2-defba5cba742'><marimo-button data-initial-value='0' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003e\u2b07\ufe0f&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element><div style='position: absolute; top: 0.1rem; left: 50%; transform: translateX(-50%); font-size: 0.85rem; font-family: monospace; font-weight: bold; color: #555; pointer-events: none; line-height: 1;'>A3</div></div><div class='active-btn-wrapper' style='width: 3.5rem; height: 3.5rem; position: relative; display: grid; place-items: center;'><marimo-ui-element object-id='iLit-7' random-id='45d13264-3a3f-9c0c-e011-48fce2514046'><marimo-button data-initial-value='0' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003e\u2b07\ufe0f&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element><div style='position: absolute; top: 0.1rem; left: 50%; transform: translateX(-50%); font-size: 0.85rem; font-family: monospace; font-weight: bold; color: #555; pointer-events: none; line-height: 1;'>A4</div></div><div class='active-btn-wrapper' style='width: 3.5rem; height: 3.5rem; position: relative; display: grid; place-items: center;'><marimo-ui-element object-id='iLit-8' random-id='3a77f388-cc8d-8fcc-886e-4fb3b6e33aea'><marimo-button data-initial-value='0' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003e\u2b07\ufe0f&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element><div style='position: absolute; top: 0.1rem; left: 50%; transform: translateX(-50%); font-size: 0.85rem; font-family: monospace; font-weight: bold; color: #555; pointer-events: none; line-height: 1;'>A5</div></div><div class='active-btn-wrapper' style='width: 3.5rem; height: 3.5rem; position: relative; display: grid; place-items: center;'><marimo-ui-element object-id='iLit-9' random-id='12ecda74-3a08-8be1-b366-d11368aa2cf3'><marimo-button data-initial-value='0' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003e\u2b07\ufe0f&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element><div style='position: absolute; top: 0.1rem; left: 50%; transform: translateX(-50%); font-size: 0.85rem; font-family: monospace; font-weight: bold; color: #555; pointer-events: none; line-height: 1;'>A6</div></div></div><div style='display: flex;flex: 1;flex-direction: row;justify-content: center;align-items: normal;flex-wrap: nowrap;gap: 0rem'><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div></div><div style='display: flex;flex: 1;flex-direction: row;justify-content: center;align-items: normal;flex-wrap: nowrap;gap: 0rem'><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div></div><div style='display: flex;flex: 1;flex-direction: row;justify-content: center;align-items: normal;flex-wrap: nowrap;gap: 0rem'><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div></div><div style='display: flex;flex: 1;flex-direction: row;justify-content: center;align-items: normal;flex-wrap: nowrap;gap: 0rem'><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div></div><div style='display: flex;flex: 1;flex-direction: row;justify-content: center;align-items: normal;flex-wrap: nowrap;gap: 0rem'><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div></div><div style='display: flex;flex: 1;flex-direction: row;justify-content: center;align-items: normal;flex-wrap: nowrap;gap: 0rem'><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div><div style='width: 3.5rem; height: 3.5rem; display: grid; place-items: center; font-size: 2.5rem; line-height: 1;'>\u2b1c</div></div></div></div><span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Player 1: \ud83d\udd34 &nbsp;|&nbsp; Player 2: \ud83d\udd35 &nbsp;|&nbsp; Last Move: \u2b55 / \u24c2\ufe0f</span></span><div style='display: flex;flex: 1;flex-direction: row;justify-content: space-between;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><div class='reset-zone'><marimo-ui-element object-id='iLit-2' random-id='b035c879-9dba-b931-9878-c95646b85f22'><marimo-button data-initial-value='0' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003e\ud83d\udd04 Reset Game&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element></div><marimo-ui-element object-id='iLit-0' random-id='1f72eedb-856a-3e31-3fdb-dc1c409677f6'><marimo-dropdown data-initial-value='[&quot;Human&quot;]' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003ePlayer 1 is (Applies on Reset)&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-options='[&quot;Human&quot;,&quot;AI&quot;,&quot;AI vs AI&quot;]' data-allow-select-none='false' data-searchable='false' data-full-width='false' data-disabled='false'></marimo-dropdown></marimo-ui-element></div><marimo-ui-element object-id='iLit-10' random-id='43852e33-a824-5c2c-9d75-d7aef72d011c'><marimo-slider data-initial-value='500' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003e\ud83e\udd16 AI Thinking Budget (Rollouts)&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-start='100' data-stop='10000' data-step='100' data-steps='[]' data-debounce='true' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='true' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><div style='display: flex;flex: 1;flex-direction: row;justify-content: space-between;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><marimo-accordion data-labels='[&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eRandom opening rule&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;]' data-multiple='false'><div><marimo-callout-output data-html='&quot;&#92;u003cdiv style=&#x27;display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem&#x27;&#92;u003e&#92;u003cmarimo-ui-element object-id=&#x27;MJUe-6&#x27; random-id=&#x27;8ef0740f-c0d4-6d62-8d1a-5249d6d2f1ac&#x27;&#92;u003e&#92;u003cmarimo-slider data-initial-value=&#x27;0&#x27; data-label=&#x27;&amp;quot;&amp;#92;u003cspan class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;#92;u003e&amp;#92;u003cdiv data-tooltip=&amp;#92;&amp;quot;Start all games from a random starting position with a number of random moves played. This makes for a more dynamic opennings and/or can out the balance Player 1 advangage&amp;#92;&amp;quot;&amp;#92;u003e Random Start Moves &amp;#92;u003c/div&amp;#92;u003e&amp;#92;u003c/span&amp;#92;u003e&amp;quot;&#x27; data-start=&#x27;0&#x27; data-stop=&#x27;5&#x27; data-steps=&#x27;[]&#x27; data-debounce=&#x27;true&#x27; data-disabled=&#x27;false&#x27; data-orientation=&#x27;&amp;quot;horizontal&amp;quot;&#x27; data-show-value=&#x27;true&#x27; data-include-input=&#x27;false&#x27; data-full-width=&#x27;false&#x27;&#92;u003e&#92;u003c/marimo-slider&#92;u003e&#92;u003c/marimo-ui-element&#92;u003e&#92;u003cdiv style=&#x27;display: flex;flex: 1;flex-direction: row;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem&#x27;&#92;u003e&#92;u003cmarimo-ui-element object-id=&#x27;MJUe-7&#x27; random-id=&#x27;640ea9b0-a6bf-c2bd-cebf-6e83f7759b35&#x27;&#92;u003e&#92;u003cmarimo-checkbox data-initial-value=&#x27;false&#x27; data-label=&#x27;&amp;quot;&amp;#92;u003cspan class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;#92;u003e&amp;#92;u003cdiv data-tooltip=&amp;#92;&amp;quot;Used for random initial turns: The seed tells you the columns of the moves, e.g. 112 means plays in columns 1, 1 and 2 to start&amp;#92;&amp;quot;&amp;#92;u003e Use seed &amp;#92;u003c/div&amp;#92;u003e&amp;#92;u003c/span&amp;#92;u003e&amp;quot;&#x27; data-disabled=&#x27;false&#x27;&#92;u003e&#92;u003c/marimo-checkbox&#92;u003e&#92;u003c/marimo-ui-element&#92;u003e&#92;u003cmarimo-ui-element object-id=&#x27;MJUe-8&#x27; random-id=&#x27;e55ab089-194c-cecf-f6a0-868c46c45d22&#x27;&#92;u003e&#92;u003cmarimo-number data-initial-value=&#x27;0&#x27; data-label=&#x27;&amp;quot;&amp;#92;u003cspan class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;#92;u003e&amp;#92;u003cdiv data-tooltip=&amp;#92;&amp;quot;Enter the seed number for the starting moves here , e.g. 112 means plays in columns 1, 1 and 2 to start&amp;#92;&amp;quot;&amp;#92;u003e Seed&amp;#92;u003c/div&amp;#92;u003e&amp;#92;u003c/span&amp;#92;u003e&amp;quot;&#x27; data-debounce=&#x27;false&#x27; data-full-width=&#x27;false&#x27; data-disabled=&#x27;false&#x27;&#92;u003e&#92;u003c/marimo-number&#92;u003e&#92;u003c/marimo-ui-element&#92;u003e&#92;u003c/div&#92;u003e&#92;u003c/div&#92;u003e&quot;' data-kind='&quot;neutral&quot;'></marimo-callout-output></div></marimo-accordion><marimo-accordion data-labels='[&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eModify game rules&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;]' data-multiple='false'><div><marimo-callout-output data-html='&quot;&#92;u003cdiv style=&#x27;display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem&#x27;&#92;u003e&#92;u003cdiv style=&#x27;display: flex;flex: 1;flex-direction: row;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem&#x27;&#92;u003e&#92;u003cmarimo-ui-element object-id=&#x27;MJUe-3&#x27; random-id=&#x27;cb3b9bb4-7a98-5b53-d9ab-10fe0917f579&#x27;&#92;u003e&#92;u003cmarimo-slider data-initial-value=&#x27;6&#x27; data-label=&#x27;&amp;quot;&amp;#92;u003cspan class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;#92;u003e&amp;#92;u003cspan class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;#92;u003eRows&amp;#92;u003c/span&amp;#92;u003e&amp;#92;u003c/span&amp;#92;u003e&amp;quot;&#x27; data-start=&#x27;3&#x27; data-stop=&#x27;10&#x27; data-steps=&#x27;[]&#x27; data-debounce=&#x27;true&#x27; data-disabled=&#x27;false&#x27; data-orientation=&#x27;&amp;quot;horizontal&amp;quot;&#x27; data-show-value=&#x27;true&#x27; data-include-input=&#x27;false&#x27; data-full-width=&#x27;false&#x27;&#92;u003e&#92;u003c/marimo-slider&#92;u003e&#92;u003c/marimo-ui-element&#92;u003e&#92;u003cmarimo-ui-element object-id=&#x27;MJUe-4&#x27; random-id=&#x27;7e97e162-e5be-77c5-e2a3-1d7d776a8a60&#x27;&#92;u003e&#92;u003cmarimo-slider data-initial-value=&#x27;7&#x27; data-label=&#x27;&amp;quot;&amp;#92;u003cspan class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;#92;u003e&amp;#92;u003cspan class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;#92;u003eColumns&amp;#92;u003c/span&amp;#92;u003e&amp;#92;u003c/span&amp;#92;u003e&amp;quot;&#x27; data-start=&#x27;3&#x27; data-stop=&#x27;10&#x27; data-steps=&#x27;[]&#x27; data-debounce=&#x27;true&#x27; data-disabled=&#x27;false&#x27; data-orientation=&#x27;&amp;quot;horizontal&amp;quot;&#x27; data-show-value=&#x27;true&#x27; data-include-input=&#x27;false&#x27; data-full-width=&#x27;false&#x27;&#92;u003e&#92;u003c/marimo-slider&#92;u003e&#92;u003c/marimo-ui-element&#92;u003e&#92;u003c/div&#92;u003e&#92;u003cmarimo-ui-element object-id=&#x27;MJUe-5&#x27; random-id=&#x27;5c8a1696-c1d6-fbd3-cf28-6bd56791a212&#x27;&#92;u003e&#92;u003cmarimo-slider data-initial-value=&#x27;4&#x27; data-label=&#x27;&amp;quot;&amp;#92;u003cspan class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;#92;u003e&amp;#92;u003cspan class=&amp;#92;&amp;quot;paragraph&amp;#92;&amp;quot;&amp;#92;u003eNumber in a line needed to win&amp;#92;u003c/span&amp;#92;u003e&amp;#92;u003c/span&amp;#92;u003e&amp;quot;&#x27; data-start=&#x27;3&#x27; data-stop=&#x27;5&#x27; data-steps=&#x27;[]&#x27; data-debounce=&#x27;true&#x27; data-disabled=&#x27;false&#x27; data-orientation=&#x27;&amp;quot;horizontal&amp;quot;&#x27; data-show-value=&#x27;true&#x27; data-include-input=&#x27;false&#x27; data-full-width=&#x27;false&#x27;&#92;u003e&#92;u003c/marimo-slider&#92;u003e&#92;u003c/marimo-ui-element&#92;u003e&#92;u003cdiv style=&#x27;display: flex;flex: 1;flex-direction: row;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem&#x27;&#92;u003e&#92;u003cmarimo-ui-element object-id=&#x27;MJUe-2&#x27; random-id=&#x27;215c8129-d5ba-c203-0414-956cf60d601f&#x27;&#92;u003e&#92;u003cmarimo-checkbox data-initial-value=&#x27;true&#x27; data-label=&#x27;&amp;quot;&amp;#92;u003cspan class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;#92;u003e&amp;#92;u003cdiv data-tooltip=&amp;#92;&amp;quot;If enabled, then diagonals count for getting k in a row. Otherwise, they must be either up/down or left/right&amp;#92;&amp;quot;&amp;#92;u003e Diagonals count &amp;#92;u003c/div&amp;#92;u003e&amp;#92;u003c/span&amp;#92;u003e&amp;quot;&#x27; data-disabled=&#x27;false&#x27;&#92;u003e&#92;u003c/marimo-checkbox&#92;u003e&#92;u003c/marimo-ui-element&#92;u003e&#92;u003cmarimo-ui-element object-id=&#x27;MJUe-1&#x27; random-id=&#x27;6ebd3445-700f-edb5-6a7c-31bbd8f22252&#x27;&#92;u003e&#92;u003cmarimo-checkbox data-initial-value=&#x27;true&#x27; data-label=&#x27;&amp;quot;&amp;#92;u003cspan class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;#92;u003e&amp;#92;u003cdiv data-tooltip=&amp;#92;&amp;quot;If enabled, then pieces fall down to the bottom (like in Connect4)&amp;#92;&amp;quot;&amp;#92;u003e Gravity &amp;#92;u003c/div&amp;#92;u003e&amp;#92;u003c/span&amp;#92;u003e&amp;quot;&#x27; data-disabled=&#x27;false&#x27;&#92;u003e&#92;u003c/marimo-checkbox&#92;u003e&#92;u003c/marimo-ui-element&#92;u003e&#92;u003cmarimo-ui-element object-id=&#x27;MJUe-0&#x27; random-id=&#x27;6210b523-128d-eac6-99c7-f2c7fc2c5d4a&#x27;&#92;u003e&#92;u003cmarimo-checkbox data-initial-value=&#x27;true&#x27; data-label=&#x27;&amp;quot;&amp;#92;u003cspan class=&amp;#92;&amp;quot;markdown prose dark:prose-invert contents&amp;#92;&amp;quot;&amp;#92;u003e&amp;#92;u003cdiv data-tooltip=&amp;#92;&amp;quot;Forces taking immediate wins and blocking opponent wins (like check rule in chess). Greatly improves rollout quality!&amp;#92;&amp;quot;&amp;#92;u003e Forced Move Rule &amp;#92;u003c/div&amp;#92;u003e&amp;#92;u003c/span&amp;#92;u003e&amp;quot;&#x27; data-disabled=&#x27;false&#x27;&#92;u003e&#92;u003c/marimo-checkbox&#92;u003e&#92;u003c/marimo-ui-element&#92;u003e&#92;u003c/div&#92;u003e&#92;u003c/div&#92;u003e&quot;' data-kind='&quot;neutral&quot;'></marimo-callout-output></div></marimo-accordion></div>\n<style>\n    .game-board-wrapper .active-btn-wrapper marimo-ui-element { width: 100% !important; height: 100% !important; display: grid !important; place-items: center !important; }\n    .game-board-wrapper .active-btn-wrapper button { width: 100% !important; height: 100% !important; margin: 0 !important; padding: 0 !important; font-size: inherit !important; line-height: 1 !important; background: transparent !important; border: none !important; box-shadow: none !important; display: grid !important; place-items: center !important; text-align: center !important; cursor: pointer !important; transition: transform 0.1s ease-in-out !important; }\n    .game-board-wrapper .active-btn-wrapper button:hover { transform: scale(1.15) !important; }\n    .reset-zone button { aspect-ratio: auto !important; height: auto !important; width: auto !important; font-size: 1rem !important; padding: 0.5rem 1rem !important; display: flex !important; }\n</style>\n</div><div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><marimo-ui-element object-id='iLit-1' random-id='37fad577-8241-1016-7250-b54ff7e87794'><marimo-checkbox data-initial-value='true' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eShow average win values (&#92;u003cem&#92;u003eP1 wins=+1, P2 wins=-1, Tie=0&#92;u003c/em&#92;u003e)&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-disabled='false'></marimo-checkbox></marimo-ui-element><marimo-mime-renderer data-mime='&quot;application/vnd.marimo+mimebundle&quot;' data-data='&quot;{&#92;&quot;image/png&#92;&quot;: &#92;&quot;data:image/png;base64,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EAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEACCcAAB+LDNOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAhBMAwI9lxgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAIJwAAH4sM04AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAAOEEAPBjmXECAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCASDgBAETCCQAgEk4AAJFwAgCIhBMAQCScAAAi4QQAEAknAIBIOAEARMIJACASTgAAkXACAIiEEwBAJJwAACLhBAAQCScAgEg4AQBEwgkAIBJOAACRcAIAiIQTAEAknAAAIuEEABAJJwCAXfN/sY/yb1+C+SgAAAAASUVORK5CYII=&#92;&quot;, &#92;&quot;__metadata__&#92;&quot;: {&#92;&quot;image/png&#92;&quot;: {&#92;&quot;width&#92;&quot;: 590, &#92;&quot;height&#92;&quot;: 790}}}&quot;'></marimo-mime-renderer></div></div></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ROlb",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qnkX",
+      "code_hash": "4dc56455f015ccf1184e4dfcc8cd7d19",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TqIu",
+      "code_hash": "a0f8516a490402cde3cf182ceab62256",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Vxnm",
+      "code_hash": "b62caa9087fd2eb9cfd17a33bf9eae5c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 1rem'><marimo-ui-element object-id='TqIu-9' random-id='e1b20ae9-3d04-558f-97b9-3fe0de75e44e'><marimo-checkbox data-initial-value='false' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003e\ud83c\udf32 Show MCTS Tree Visualization&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-disabled='false'></marimo-checkbox></marimo-ui-element><span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><em>Check the box above to render the AI's search tree that it did most recently.</em></span></span></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "DnEU",
+      "code_hash": "381f69b7712bd8ffe0575a679850f9b3",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ulZA",
+      "code_hash": "7291ec475da40ff4885114faa9b122cf",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ecfG",
+      "code_hash": "e1a17e24797e82a355a0546da3f8ada9",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Pvdt",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZBYS",
+      "code_hash": "a794c8e846814d67b9bace09ab48f108",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "aLJB",
+      "code_hash": null,
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

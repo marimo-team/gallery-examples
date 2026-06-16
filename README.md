@@ -32,6 +32,7 @@ uvx marimo edit --sandbox <notebook>
 | Chemical Space Explorer | Explore chemical space with RDKit fingerprints, t-SNE, and HDBSCAN clustering. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/chemical-space-explorer.py) |
 | Bayesian Regression | Interactive sequential Bayesian linear regression demo. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/bayesian-regression-demo.py) |
 | Nested Clusters with EVoC | Explore Fashion MNIST with EVoC hierarchical clusters, parallel coordinates, and a treemap. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/evoc-fashion.py) |
+| AlphaZero MCTS | Learn Monte Carlo Tree Search by playing Connect 4 and other k-in-a-line games against an AI. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/alphazero-mcts.py) |
 
 ## Research papers
 
