@@ -11,7 +11,7 @@
 
 import marimo
 
-__generated_with = "0.20.4"
+__generated_with = "0.23.15"
 app = marimo.App(width="medium")
 
 
@@ -77,6 +77,7 @@ def _(ChartPuck, np, ode_rhs, plt, solve_ivp):
             cmap="coolwarm",
             alpha=0.45,
             scale=30,
+            angles="xy",
             width=0.003,
             headwidth=3.5,
             headlength=4,
