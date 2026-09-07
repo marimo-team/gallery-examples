@@ -1,0 +1,126 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.24.0",
+    "script_metadata_hash": "20513d62c22ff0befc9f260f10bd4fda"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "88744cfa1d2f9476f172ef2261821930",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"arnolds-cat-map\">\ud83d\udc31 Arnold's cat map</h1>\n<span class=\"paragraph\">Take an <marimo-tex class=\"arithmatex\">||(N\\times N||)</marimo-tex> grid and move the tile at <marimo-tex class=\"arithmatex\">||((x, y)||)</marimo-tex> to</span>\n<marimo-tex class=\"arithmatex\">||[\\begin{pmatrix} x' \\\\ y' \\end{pmatrix} = \\begin{pmatrix} 2 &amp; 1 \\\\ 1 &amp; 1 \\end{pmatrix}\\begin{pmatrix} x \\\\ y \\end{pmatrix} \\pmod{N}.||]</marimo-tex><span class=\"paragraph\">This operation has a fun twist: if you keep applying it the tiles must\neventually return home.That recurrence <strong>period depends only on <marimo-tex class=\"arithmatex\">||(N||)</marimo-tex></strong>,\nnot on the picture.</span>\n<span class=\"paragraph\">Fun aside: <marimo-tex class=\"arithmatex\">||(\\begin{pmatrix} 2 &amp; 1 \\\\ 1 &amp; 1\n\\end{pmatrix} = \\begin{pmatrix} 1 &amp; 1 \\\\ 1 &amp; 0 \\end{pmatrix}^2||)</marimo-tex> and there are many (!) matrices that you can come up with that have this recurrence pattern.</span>\n<span class=\"paragraph\">Hit <strong>play</strong> and watch the rainbow scramble \u2014 then snap back. Feel free to play around with your own matrices too!</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "ec00d3337f4aa23a66ce9cbf370edec6",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "9f4a6209e7358703948c306f45ef7972",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "4094db4cbfe4ad319899fd9b8a3cb920",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "b32edc8aad07a58a73d1906c5c092f44",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: row;justify-content: flex-start;align-items: center;flex-wrap: nowrap;gap: 2rem'><marimo-ui-element object-id='lEQa-3' random-id='46ef3711-44ae-ec5a-fab0-91e5099ae058'><marimo-matrix data-initial-value='[[2,1],[1,1]]' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003ematrix A&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-min-value='[[-6,-6],[-6,-6]]' data-max-value='[[6,6],[6,6]]' data-step='[[1,1],[1,1]]' data-precision='0' data-symmetric='false' data-debounce='false' data-scientific='false' data-disabled='[[false,false],[false,false]]'></marimo-matrix></marimo-ui-element><div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><marimo-ui-element object-id='lEQa-0' random-id='9478de9b-0e43-1d39-9d64-38ee13ad957c'><marimo-slider data-initial-value='29' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003egrid size N (= modulus)&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-start='5' data-stop='45' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><marimo-ui-element object-id='lEQa-1' random-id='e9e36205-c9b2-e2eb-f867-786e0235a75a'><marimo-slider data-initial-value='1.5' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003esteps / sec&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-start='0.25' data-stop='6' data-step='0.25' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><marimo-ui-element object-id='lEQa-2' random-id='f533f284-25b2-c755-1f7b-7f72bbd2de93'><marimo-switch data-initial-value='true' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eplay&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-disabled='false'></marimo-switch></marimo-ui-element></div></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "b24c45d9fb1c8a9e45366b45e8110054",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "b8be05f9208fc2cd9bf1a5c32bdd8b84",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='SFPL-0' random-id='885ebdf7-ed9b-c3d1-4f66-3dec41ac5469'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;8a77112b4c044c85aedfe3eab05f0757&quot;}' data-label='null' data-model-id='&quot;8a77112b4c044c85aedfe3eab05f0757&quot;'></marimo-anywidget></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "16b224dc5e52b50e4390158f568b64e0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

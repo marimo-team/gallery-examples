@@ -1,0 +1,178 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.24.0",
+    "script_metadata_hash": "a3de404a08c5cc7c3dc29fa533042892"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "f04a8bfcc7fa214e41df9b0050b0ad4d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "9fa75b310bdb93bc1e4467ece91303e7",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"the-elastic-net-method-for-the-travelling-salesman-problem\">The Elastic Net Method for the Travelling Salesman Problem</h1>\n<span class=\"paragraph\">Durbin &amp; Willshaw, <em>Nature</em> 326 (1987): <a href=\"https://ena-tsp.mathieularose.com/durbin1987.pdf\" rel=\"noopener noreferrer\" target=\"_blank\">An analogue approach to the\ntravelling salesman problem using an elastic net\nmethod</a>.</span>\n<span class=\"paragraph\">The travelling salesman problem (TSP) asks for the shortest closed tour\nthat visits every city exactly once. Durbin &amp; Willshaw's <strong>elastic net</strong>\nsolves it with a physical metaphor: imagine a rubber band laid out as a\nsmall circle near the centroid of the cities. Every point on the band is\npulled towards nearby cities, while the band's own elasticity keeps it\nsmooth and short. As the \"pull radius\" is slowly shrunk, the band\nstretches out, unfurls, and settles into a tour that passes near every\ncity.</span>\n<span class=\"paragraph\">Below, draw a set of cities, run the algorithm, and then <strong>play</strong> through\nits iterations to watch the band unfurl into a tour.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "c58c29a0394eb26aeb492f92d884f6a0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"the-method\">The method</h2>\n<span class=\"paragraph\">Let <marimo-tex class=\"arithmatex\">||(x_i||)</marimo-tex> be the position of city <marimo-tex class=\"arithmatex\">||(i||)</marimo-tex>, and <marimo-tex class=\"arithmatex\">||(y_j||)</marimo-tex> the position of point\n<marimo-tex class=\"arithmatex\">||(j||)</marimo-tex> on the elastic band (the \"path\"), with <marimo-tex class=\"arithmatex\">||(M||)</marimo-tex> points forming a closed\nloop. <strong>The <marimo-tex class=\"arithmatex\">||(y_j||)</marimo-tex> are the free variables</strong> \u2014 the <marimo-tex class=\"arithmatex\">||(2M||)</marimo-tex> coordinates of the\npath points are what the algorithm adjusts. The cities <marimo-tex class=\"arithmatex\">||(x_i||)</marimo-tex> are fixed\ndata; they never move.</span>\n<span class=\"paragraph\">Everything follows from a single energy function of the <marimo-tex class=\"arithmatex\">||(y_j||)</marimo-tex>'s:</span>\n<marimo-tex class=\"arithmatex\">||[E(y_1, \\dots, y_M) = -\\alpha K \\sum_i \\ln \\sum_j \\phi(|x_i - y_j|, K) \\;+\\; \\beta \\sum_j |y_{j+1} - y_j|^2||]</marimo-tex><span class=\"paragraph\">The first term is small when every city sits close to <em>some</em> path point\n(pulls the band towards cities); the second is small when the band is\nshort and smooth (elasticity). Each iteration nudges every path point\ndownhill on <marimo-tex class=\"arithmatex\">||(E||)</marimo-tex>:</span>\n<marimo-tex class=\"arithmatex\">||[\\Delta y_j = -K \\frac{\\partial E}{\\partial y_j} = \\alpha \\sum_i w_{ij}(x_i - y_j) + \\beta K (y_{j+1} - 2y_j + y_{j-1}) \\qquad (1)||]</marimo-tex><span class=\"paragraph\">The weight <marimo-tex class=\"arithmatex\">||(w_{ij}||)</marimo-tex> \u2014 how much city <marimo-tex class=\"arithmatex\">||(i||)</marimo-tex> pulls on point <marimo-tex class=\"arithmatex\">||(j||)</marimo-tex> \u2014 falls\nstraight out of differentiating the log-sum-exp term above; it isn't a\nseparate design choice. It's a normalized, distance-based responsibility:</span>\n<marimo-tex class=\"arithmatex\">||[w_{ij} = \\frac{\\phi(|x_i - y_j|, K)}{\\sum_k \\phi(|x_i - y_k|, K)}, \\qquad \\phi(d, K) = \\exp\\left(-\\frac{d^2}{2K^2}\\right) \\qquad (2)||]</marimo-tex><table>\n<thead>\n<tr>\n<th>Symbol</th>\n<th>Meaning</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(x_i||)</marimo-tex></td>\n<td>position of city <marimo-tex class=\"arithmatex\">||(i||)</marimo-tex> (fixed data)</td>\n</tr>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(y_j||)</marimo-tex></td>\n<td>position of path point <marimo-tex class=\"arithmatex\">||(j||)</marimo-tex> (the free variable)</td>\n</tr>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(K||)</marimo-tex></td>\n<td>\"radius of influence\" of a city over the path</td>\n</tr>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(\\alpha||)</marimo-tex></td>\n<td>strength of the pull towards cities</td>\n</tr>\n<tr>\n<td><marimo-tex class=\"arithmatex\">||(\\beta||)</marimo-tex></td>\n<td>strength of the path's own elasticity</td>\n</tr>\n</tbody>\n</table>\n<span class=\"paragraph\"><marimo-tex class=\"arithmatex\">||(K||)</marimo-tex> starts large (<marimo-tex class=\"arithmatex\">||(K=0.2||)</marimo-tex> on the unit square) so every city pulls on\nevery path point roughly equally, keeping the band a smooth, near-circular\nloop. Every <marimo-tex class=\"arithmatex\">||(n=25||)</marimo-tex> iterations <marimo-tex class=\"arithmatex\">||(K||)</marimo-tex> is reduced by 1%, so cities become\nprogressively more selective about which point they pull on \u2014 this\ngradual sharpening is what unfurls the loop into a tour. This plays the\nsame role as lowering the temperature in simulated annealing.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "96e38aa462ed5400b59d7ff644f6edba",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"draw-some-cities\">Draw some cities</h2>\n<span class=\"paragraph\">Click and drag on the canvas below to place a handful of \"cities\" (a\nsingle color is enough \u2014 color isn't meaningful here, only position).</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "301482199f6a94c98b6f5324d5b9db0d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='lEQa-0' random-id='85dce2a8-f687-0b13-84fb-196a8aa9d31a'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;a76e95526cbc46a09595d6704be77809&quot;}' data-label='null' data-model-id='&quot;a76e95526cbc46a09595d6704be77809&quot;'></marimo-anywidget></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "270cad65cc3a2f108f684c0485e5e07a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: row;justify-content: space-between;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><marimo-ui-element object-id='PKri-0' random-id='08710e03-0e92-c9f8-3e14-ce68a71ee0db'><marimo-slider data-initial-value='0.2' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003e\u03b1 (pull to cities)&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-start='0.05' data-stop='0.5' data-step='0.05' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><marimo-ui-element object-id='PKri-1' random-id='e6e897cf-77ad-e5d9-5920-98bde803ce69'><marimo-slider data-initial-value='2.0' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003e\u03b2 (path elasticity)&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-start='0.5' data-stop='4.0' data-step='0.1' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='false' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><marimo-ui-element object-id='PKri-2' random-id='1dca4051-fdde-f687-6309-4c5aae34f288'><marimo-button data-initial-value='0' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eRun elastic net&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "91262c6460f0f0d68024292e8dca045c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><em>Draw at least 3 cities above to get started.</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "2585f0ad574da5e520d5980b07394afe",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "b25fbac80e6aea270844c683616cdfa7",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "eb81197ecac58b88a4f8a9bfb7e3c8ff",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "f3fa94efe4505c6e67d8c34403d3f256",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"from-path-to-tour\">From path to tour</h2>\n<span class=\"paragraph\">Once the band has settled, each city is closest to exactly one point on\nit. Reading off cities in the order their closest path point appears\nalong the loop gives a discrete tour.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "f124f464facc0af26af4d3dd744ea72e",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "574ffad08304376ca6ba0b602e9a4e63",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"takeaways\">Takeaways</h2>\n<ul>\n<li>The elastic net turns a discrete combinatorial problem (which order to\n  visit cities) into a continuous one (where to place points on a loop),\n  solved by gradient descent on an energy function.</li>\n<li><marimo-tex class=\"arithmatex\">||(K||)</marimo-tex>-annealing is the key trick: a soft, ambiguous assignment of cities\n  to path points early on avoids bad local minima, and sharpening it\n  gradually locks in a tour.</li>\n<li>The method is cheap per iteration (<marimo-tex class=\"arithmatex\">||(O(NM)||)</marimo-tex>) and fully parallel across\n  path points \u2014 Durbin &amp; Willshaw were originally motivated by biological\n  neural mappings, not optimization, which is why the algorithm looks so\n  different from typical local-search TSP heuristics (2-opt, simulated\n  annealing).</li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

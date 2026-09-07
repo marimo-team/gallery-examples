@@ -111,7 +111,11 @@ def check_session_freshness(notebooks: list[Path]) -> bool:
     """
     from collections import Counter
 
-    from marimo._server.export._session_cache import current_notebook_code_hashes
+    try:
+        # marimo >= 0.24 moved this helper out of the server package.
+        from marimo._export._session_cache import current_notebook_code_hashes
+    except ModuleNotFoundError:
+        from marimo._server.export._session_cache import current_notebook_code_hashes
     from marimo._utils.marimo_path import MarimoPath
 
     print("Checking session JSONs are up-to-date...")
