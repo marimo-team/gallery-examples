@@ -1,0 +1,139 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.24.0",
+    "script_metadata_hash": "5e9c4dd126222dd1319cc639766330ae"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "e973071c9eb1036c73f276b5a5e3cb3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "205ee8ebb0fa9f9964cbce67f332d45a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"circle-genetic-art\">Circle Genetic Art</h1>\n<span class=\"paragraph\">Reconstruct an image out of <strong>translucent shapes</strong> with a <strong>hill climber</strong>,\nand always compare two strategies side by side:</span>\n<ul>\n<li><strong>All at once</strong> \u2014 fit every shape together.</li>\n<li><strong>Waves</strong> \u2014 fit a batch, freeze it, then fit the next batch on top.</li>\n</ul>\n<span class=\"paragraph\">Each has its <strong>own iteration budget</strong> (equal steps \u2260 equal time \u2014 a wave step\nis much cheaper since it renders onto a cached base), so compare on the\n<strong>convergence vs time</strong> chart. Each shape is <code>(x, y, size, R, G, B)</code> \u2014\n<strong>circles or squares</strong> (toggle) \u2014 seeded with the target's color at its center;\neach step nudges a few shapes and keeps the change only if the pixel MSE drops.\nBoth panels update live. Defaults to the <strong>Mona Lisa</strong> \u2014 or upload your own.\nChanging a setting only recomputes the strategy it affects.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "66273c0adee782007a6a8c0f3daf17b1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "1b6596d156723ec459e9d0c967516122",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><marimo-ui-element object-id='vblA-0' random-id='1037992e-9e98-fc8d-431b-658b26d3d2fa'><marimo-file data-initial-value='[]' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eUpload image&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-filetypes='[&quot;.png&quot;,&quot;.jpg&quot;,&quot;.jpeg&quot;]' data-multiple='false' data-kind='&quot;button&quot;' data-max_size='100000000'></marimo-file></marimo-ui-element><marimo-ui-element object-id='vblA-1' random-id='d0504f46-08c9-a57d-2e37-86a9d4ff66d7'><marimo-slider data-initial-value='0.5' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eShape opacity&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-start='0.05' data-stop='1.0' data-step='0.05' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='true' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><marimo-ui-element object-id='vblA-2' random-id='7a116c38-886e-2667-c9e4-b7290faf90ed'><marimo-slider data-initial-value='150' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eCircles&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-start='50' data-stop='250' data-step='10' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='true' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><marimo-ui-element object-id='vblA-3' random-id='c223021a-1d20-58e3-bc71-583c2a9e3300'><marimo-slider data-initial-value='6000' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eAll-at-once iterations&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-start='1000' data-stop='25000' data-step='1000' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='true' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><marimo-ui-element object-id='vblA-4' random-id='0dc93c92-7a5d-c277-c123-67cb7edef571'><marimo-slider data-initial-value='2' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eNumber of waves&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-start='2' data-stop='20' data-step='1' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='true' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><marimo-ui-element object-id='vblA-5' random-id='3955c5f5-c2dc-d9c4-b153-accdaf7b7af9'><marimo-slider data-initial-value='6000' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eWaves iterations (total)&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-start='1000' data-stop='25000' data-step='1000' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='true' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><marimo-ui-element object-id='vblA-6' random-id='804d6ab2-1c20-b346-ee2e-f0683b1ab673'><marimo-switch data-initial-value='false' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eUse squares instead of circles&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-disabled='false'></marimo-switch></marimo-ui-element><marimo-ui-element object-id='vblA-7' random-id='4caec887-f522-39e4-7b17-f50fa1f82a3f'><marimo-button data-initial-value='0' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eEvolve&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "40cd878a552949e4850d164f3507e1a5",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "0ac0fd1644d74f7112a45dda29ebc489",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "0e3fc9376e39aa1cd2f05089b357b85e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "ad67da0cc16fa830f09e8c124ac91115",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "4b699c8d38422aa739bd093e8849bbdd",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "da3f0b5cf12b77a62525a2247ffeb878",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Press <strong>Evolve</strong> to compare <em>all at once</em> vs <em>waves</em>.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

@@ -33,6 +33,9 @@ uvx marimo edit --sandbox <notebook>
 | Bayesian Regression | Interactive sequential Bayesian linear regression demo. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/bayesian-regression-demo.py) |
 | Nested Clusters with EVoC | Explore Fashion MNIST with EVoC hierarchical clusters, parallel coordinates, and a treemap. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/evoc-fashion.py) |
 | AlphaZero MCTS | Learn Monte Carlo Tree Search by playing Connect 4 and other k-in-a-line games against an AI. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/alphazero-mcts.py) |
+| Elastic Net for the TSP | Draw cities and watch Durbin & Willshaw's elastic net unfurl a tour through them. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/elastic-net-tsp.py/wasm) |
+| Circle Genetic Art | Rebuild an image from translucent circles or squares with a hill climber. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/circle-genetic-art.py/wasm) |
+| 2D Character Embeddings | Train a tiny next-character predictor and watch a 2D embedding form for each letter. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/algorithms/char-embeddings-2d.py) |
 
 ## Research papers
 
@@ -69,6 +72,7 @@ uvx marimo edit --sandbox <notebook>
 | Lego Price Explorer | Explore Lego price-per-piece patterns. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/lego/notebook.py/wasm) |
 | Movies Dashboard | Explore movie data with a dashboard. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/movies.py/wasm) |
 | Portfolio Calculator | An interactive tool for portfolio analysis. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/portfolio.py) |
+| Country ETF vs FTSE All-World | Blend single-country ETFs and compare returns against the FTSE All-World benchmark. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/etf-compare.py) |
 | World of Warcraft Bot Detection | Detect bots in WoW using session length analysis. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/dashboard/world-of-warcraft.py/wasm) |
 | Altair Reactive Plots | Altair charts with brush selection and reactive filtering. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/altair-demo.py/wasm) |
 | Matplotlib Selection | Select data points on a matplotlib plot with `mo.ui.matplotlib`. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/library/matplotlib_selection.py/wasm) |
@@ -130,6 +134,9 @@ uvx marimo edit --sandbox <notebook>
 | Multi-Head Attention | Block-matrix view of multi-head attention. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/multihead_attention.py/wasm) |
 | Julia Sets via Lagrangian Descriptors | Reveal Julia-set fractals as singularities of a Lagrangian-descriptor field lifted onto the Riemann sphere, with an animatable path through the c-plane. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/julia-lagrangian-descriptors.py) |
 | SymPy Gamma | A SymPy-Gamma-style entrypoint: type an expression and get its simplified and factored forms, roots, derivative, integral, series, and a plot. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/sympy-gamma.py/wasm) |
+| Arnold's Cat Map | Scramble and reassemble a rainbow grid under Arnold's cat map, with editable matrices. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/arnold-cat-map.py/wasm) |
+| Recursive Images | Draw a shape, place copies of it as a rule, and render the recursive fractal. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/recursive-images.py/wasm) |
+| The Winner's Curse | Simulate the winner's curse in a common-value auction and find the bid discount that removes it. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/math/winners-curse.py/wasm) |
 
 ## Custom UI elements with Anywidget
 

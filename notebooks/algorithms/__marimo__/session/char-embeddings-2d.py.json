@@ -1,0 +1,113 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.24.0",
+    "script_metadata_hash": "60d7ee5e265674a282c20c583420cd79"
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "c84d09defb9ff952b6b3f893bb9f4b43",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"watching-letters-find-their-place\">\ud83d\udd24 Watching letters find their place</h1>\n<span class=\"paragraph\">We learn a <strong>2-dimensional embedding for each character</strong> by training a tiny\nnext-character predictor on ABC News headlines. Because the embedding is only\n2D, <em>the embedding itself is the plot</em> \u2014 no projection needed.</span>\n<span class=\"paragraph\">Each letter <code>x</code> is looked up as a 2D point <code>E[x]</code>, a linear layer turns that\npoint into a score for every possible <em>next</em> character, and we train it to\npredict the character that actually follows. As training proceeds, letters\nthat behave similarly drift together. Hit <strong>play</strong> at the bottom to watch them\nmove.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "f2c44f77fb027d950af73425fb95035b",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "48ef30be8d3d99667877f0aa1cb3745d",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Fetched <strong>5,000</strong> headlines. Example: <em>aba decides against community broadcasting licence</em></span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "a70b26493c916d50993038a5e9bf783e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Vocab size <strong>27</strong>, <strong>204,509</strong> character pairs to learn from.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "3892e20e33695e8dde52bbd62b8a3087",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Trained a 2-layer model. Captured <strong>201</strong> frames. Loss 3.293 \u2192 2.528.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "d63897ffd1691022d8f4d06e97e7d877",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Rendered <strong>201</strong> frames.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "98b1b8299518b279391a0365bd768d01",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='SFPL-0' random-id='cb473990-7640-4abf-0113-2abee66af710'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;b4ec850e5f7e4a1ca6024d0daffef9bf&quot;}' data-label='null' data-model-id='&quot;b4ec850e5f7e4a1ca6024d0daffef9bf&quot;'></marimo-anywidget></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}
