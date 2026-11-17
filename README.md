@@ -97,6 +97,7 @@ uvx marimo edit --sandbox <notebook>
 | dltHub + Hugging Face | Curate Hugging Face datasets with dltHub pipelines and data quality checks. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/external/dlthub-huggingface.py) |
 | Sketch Vectorization | Convert hand-drawn sketches to SVG curves with a CNN and hypergraph optimization. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/external/sketch-vectorization.py) |
 | OpenRouter Image Bake-off | Compare three OpenRouter image models side-by-side, then refine the winner with sketch annotations. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/external/openrouter-image-bakeoff.py) |
+| YouTube Monetization Signals by Country | How much of a 50-country ranking survives small samples and unclassified channels. | [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/marimo-team/gallery-examples/blob/main/notebooks/external/youtube-monetization-by-country.py) |
 
 ## Geo
 
