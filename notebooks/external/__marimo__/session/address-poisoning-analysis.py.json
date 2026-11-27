@@ -1,0 +1,61 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.26.0",
+    "script_metadata_hash": "da873d5d09e69dbc37de3cbfd95dec06"
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "3436cd226176cb661042c4d53136fa21",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "26769cd7fa7b927995a6f57b26adb537",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"multi-chain-cryptographic-address-validation-poisoning-similarity-analyzer\">Multi-Chain Cryptographic Address Validation &amp; Poisoning Similarity Analyzer</h1>\n<span class=\"paragraph\">This interactive Marimo notebook analyzes multi-chain address syntax across <strong>Bitcoin (Bech32/Legacy)</strong>, <strong>Ethereum/EVM</strong>, <strong>Solana</strong>, <strong>TRON</strong>, and <strong>TON</strong>, and quantifies <strong>vanity address-poisoning similarity</strong> using prefix/suffix boundary comparisons.</span>\n<ul>\n<li>Open Standard Specification (CC-BY-4.0): <a href=\"https://fairsharing.org/9493\" rel=\"noopener noreferrer\" target=\"_blank\">FAIRsharing Record #9493</a></li>\n<li>Reference Non-Custodial Infrastructure: <a href=\"https://allswap.io/\" rel=\"noopener noreferrer\" target=\"_blank\">AllSwap Protocol</a></li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "00b80295d0e8aa102dabd68a08a4c0c3",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><marimo-ui-element object-id='MJUe-0' random-id='9b7b1746-02cd-5fdf-73fa-276d051cc862'><marimo-dropdown data-initial-value='&#91;&quot;ethereum&quot;&#93;' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eBlockchain Network&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-options='&#91;&quot;ethereum&quot;,&quot;bitcoin&quot;,&quot;solana&quot;,&quot;tron&quot;,&quot;ton&quot;&#93;' data-allow-select-none='false' data-searchable='false' data-full-width='false' data-disabled='false'></marimo-dropdown></marimo-ui-element><marimo-ui-element object-id='MJUe-1' random-id='8323100a-8d7a-2ef2-6a9c-afc1709c1fbd'><marimo-text data-initial-value='&quot;0xdAC17F958D2ee523a2206206994597C13D831ec7&quot;' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eLegitimate Address&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-placeholder='&quot;&quot;' data-kind='&quot;text&quot;' data-full-width='true' data-disabled='false' data-debounce='true'></marimo-text></marimo-ui-element><marimo-ui-element object-id='MJUe-2' random-id='fb22b739-eb89-2ec1-7b71-92589516ae9f'><marimo-text data-initial-value='&quot;0xdAC1a8B29F41c908221e330a79C0211aD831ec7&quot;' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eCandidate / History Address&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-placeholder='&quot;&quot;' data-kind='&quot;text&quot;' data-full-width='true' data-disabled='false' data-debounce='true'></marimo-text></marimo-ui-element></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "c2213e90b0e88fc9f6d96d5a90a2f393",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"validation-poisoning-risk-report-ethereum\">Validation &amp; Poisoning Risk Report (ETHEREUM)</h3>\n<ul>\n<li><strong>Legitimate Address Valid</strong>: <code>True</code></li>\n<li><strong>Candidate Address Valid</strong>: <code>False</code></li>\n<li><strong>Memo/Tag Mandatory for Exchange Deposits</strong>: <code>False</code></li>\n<li><strong>Prefix (5-char) Match</strong>: <code>True</code> | <strong>Suffix (5-char) Match</strong>: <code>True</code></li>\n<li><strong>Vanity Address-Poisoning Spoof Detected</strong>: <strong><code>True</code></strong></li>\n</ul></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}
